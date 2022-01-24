@@ -1,0 +1,34 @@
+注意:要先创建数据库,执行根目录下的SQL脚本
+
+这里继承了anyboot-start-mvc-mysql(包含了spring-mvc与mysql的相关依赖)
+为了测试依赖了javax.servlet(在实际开发中项目容器中会提供javax.servlet,所以一般不再需要单独依赖javax.servlet)
+
+
+
+1.查询
+访问
+http://127.0.0.1/start/l
+测试效果
+
+可以加不同的参数参数
+部门1和部门2 & 姓名以王开头  & 入职日期在2000-01-01之后的
+http://127.0.0.1:8080/start/l?dept=1&dept=2&nm=王&fr=2000-01-01
+
+DataSet set = service.querys()表示查询多行返回的是一个集合
+DataRow row = service.query() 表示查询一行返回的是一个对象
+
+
+
+2.insert或update
+如果不输入id的值，则执行insert
+http://127.0.0.1:8080/start/s?nm=张三
+
+如果输入id的值，则执行update
+http://127.0.0.1:8080/start/s?id=1&nm=张三
+
+
+3.删除
+http://127.0.0.1:8080/start/d?id=1
+
+注意这里的ID前面的++前缀，表示如果没有输入ID参数值，则不执行查询，也就是query返回null
+DataRow row = service.query("HR_EMPLOYEE", condition("++ID:id"));

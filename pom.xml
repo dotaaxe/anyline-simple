@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.anylie</groupId>
+    <artifactId>anyline-simple</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <description>示例</description>
+    <modules>
+        <!--基础依赖-->
+        <module>anyline-simple-dependency</module>
+
+        <!--简单的数据库操作-->
+        <module>anyline-simple-start</module>
+
+        <!--多数据源库操作-->
+        <module>anyline-simple-ds</module>
+
+        <!--对结果集的操作-->
+        <module>anyline-simple-result</module>
+
+        <!--word excel操作-->
+        <module>anyline-simple-office</module>
+
+        <!--pdf操作-->
+        <module>anyline-simple-pdf</module>
+
+
+    </modules>
+</project>
