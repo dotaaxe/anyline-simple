@@ -1,11 +1,11 @@
-这里演示了多数据源的操作以及动态注册数据源<br/>
-注意需要在启动类上添加注解<br/>
+这里演示了多数据源的操作以及动态注册数据源  
+注意需要在启动类上添加注解  
 ```
 import org.anyboot.jdbc.ds.DynamicDataSourceRegister;
 @Import(DynamicDataSourceRegister.class)
 ```
 
-注意需要在配置文件在配置数据源或动态注册数据源才能切换成功<br/>
+注意需要在配置文件在配置数据源或动态注册数据源才能切换成功  
 动态注册一个数据源
 ```
 import org.anyline.jdbc.ds.DataSourceHolder;
@@ -16,13 +16,13 @@ DataSourceHolder.reg("sso", "com.zaxxer.hikari.HikariDataSource", "com.mysql.cj.
 
 
 
-默认数据源是指配置文件中spring.datasource指定的数据源<br/>
+默认数据源是指配置文件中spring.datasource指定的数据源  
 
 
 
-两种方式切换数据源<br/>
-1.DataSourceHolder.setDataSource("crm");<br/>
-2.查询时在表前 加前缀 <数据源>表<br/>
+两种方式切换数据源  
+1.DataSourceHolder.setDataSource("crm");  
+2.查询时在表前 加前缀 <数据源>表  
 ```
 //设置固定数据源，在这之后执行的查询都是查询的crm数据源
 DataSourceHolder.setDataSource("crm");

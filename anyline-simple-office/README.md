@@ -1,5 +1,5 @@
-关于word/excel读写操作<br/>
-可以参考 http://office.anyline.org<br/>
+关于word/excel读写操作  
+可以参考 http://office.anyline.org  
 
 主要演示两类操作  
 1.html(css)内容转换成word片段  
