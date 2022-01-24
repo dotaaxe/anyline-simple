@@ -1,4 +1,4 @@
-对结果集(DataSet,DataRow)的操作
+对结果集(DataSet,DataRow)的操作  
 包括DataSet 分组、去重、行转列、排序等
 
 为了演示效果，添加了jsp显示
@@ -6,4 +6,5 @@
 
 
 在src/webapp下有jsp文件，需要部署，否则找不到JSP文件
+
 也可以直接作为一个项目打开(而不是一个模块)
