@@ -114,8 +114,6 @@ public class ExcelApplication extends SpringBootServletInitializer {
 		//返回的是一个二维数组
 		//为了操作方便可以把返回值转换成DataSet,DataSet中的条目(DataRow)以excel列下标作为属性key
 		DataSet set = DataSet.build(list);
-		System.out.println(set.size());
-		System.out.println(set.getRow(0));
 	}
 
 	/**
