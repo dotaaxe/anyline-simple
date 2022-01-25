@@ -4,6 +4,7 @@ package org.anyline.simple.office;
 import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
 import org.anyline.entity.html.TableBuilder;
+import org.anyline.net.HttpUtil;
 import org.anyline.office.docx.entity.WDocument;
 import org.anyline.office.docx.entity.Wtable;
 import org.anyline.office.docx.entity.Wtr;
@@ -41,7 +42,7 @@ public class WordApplication extends SpringBootServletInitializer {
 		//service = (AnylineService)context.getBean("anyline.service");
 
 		//简单替换书签、关键字
-		//start();
+		start();
 
 		//html/css 转word
 		//html();
@@ -429,6 +430,13 @@ public class WordApplication extends SpringBootServletInitializer {
 		doc.replace("customer","中国石油");
 		doc.replace("type","噪音检测报告");
 		doc.replace("ymd", DateUtil.format("yyyy-MM-dd"));
+		//网络图片
+		String logo = "http://img.baidu.com/img/logo-80px.gif";
+		doc.replace("img_http","<img src='"+logo+"' style='width:100px;height:50px;'/>");
+		//本地图片
+		File localImg = new File(dir,"result/baidu.gif");
+		HttpUtil.download(logo, localImg);
+		doc.replace("img_local","<img src='"+localImg.getAbsolutePath()+"' style='width:100px;height:50px;'/>");
 		doc.save();
 	}
 
