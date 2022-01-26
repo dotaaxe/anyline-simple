@@ -42,7 +42,7 @@ public class WordApplication extends SpringBootServletInitializer {
 		//service = (AnylineService)context.getBean("anyline.service");
 
 		//简单替换书签、关键字
-		start();
+		//start();
 
 		//html/css 转word
 		//html();
@@ -72,9 +72,50 @@ public class WordApplication extends SpringBootServletInitializer {
 		//在原生表格上插入行或列
 		//主要演示复制模版行样式
 		//insert();
+
+		//签章等浮动图片
+		floatImg();
 		System.exit(0);
 	}
+	public static void floatImg(){
 
+		/*
+		position:			:定位方式
+			fixed			:相对页面左上定位
+			relative		:相对其他元素定位(需要设置relative-x,relative-y)
+
+		offset-x			:水平偏移量
+		offset-y			:垂直偏移量
+
+		relative-x			:水平偏移参照
+			character		:相对于锚点在运行内容中的位置
+			column			:相对于包含锚的列的范围
+			insideMargin	:相对于奇数页的左边距，偶数页的右边距
+			leftMargin		:相对于左边距
+			margin			:相对于页边距
+			outsideMargin	:相对于奇数页的右边距，偶数页的左边距
+			page			:相对于页面边缘
+			rightMargin		:相对于右边距
+
+		relative-y			:垂直偏移参照
+			bottomMargin	:相对于底部边距
+			insideMargin	:相对于当前页面的内边距
+			line			:相对于包含锚字符的行
+			margin			:相对于页边距
+			outsideMargin	:相对于当前页面的外边距
+			page			:相对于页面边缘
+			paragraph		:相对于包含锚的段落
+			topMargin		:相对于上边距
+		z-index				:如果有多个元素重叠可以设置顺序
+		*/
+		//以右边距为参照 向左偏移150px
+		//以书签所在行为参照 向上偏移100px 注意这里经常需要根据所在行为参照,当前行被其他内容挤下去的时候签章应该跟随
+		WDocument doc = doc("float");
+		doc.replace("img_sign","<img src='D:\\sign.png' style='width:200px;height:200px;position:relative;offset-x:-160px;offset-y:-100px;relative-x:rightMargin;relative-y:line;'/>");
+		doc.replace("ymd_sign", DateUtil.format("yyyy-MM-dd"));
+		doc.save();
+
+	}
 	public static void insert(){
 		WDocument doc = doc("insert");
 		Wtable table = doc.getTable("src_tc");
