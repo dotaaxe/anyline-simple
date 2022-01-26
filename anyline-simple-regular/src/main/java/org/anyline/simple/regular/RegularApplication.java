@@ -1,8 +1,10 @@
 package org.anyline.simple.regular;
 
+import ch.qos.logback.core.pattern.util.RegularEscapeUtil;
 import org.anyline.net.HttpResult;
 import org.anyline.net.HttpUtil;
 import org.anyline.util.DateUtil;
+import org.anyline.util.regular.Regular;
 import org.anyline.util.regular.RegularUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,10 +21,13 @@ public class RegularApplication {
 
         //如果不熟悉正则可能通过更简单的方式
         //截取String
-        cut();
+        //cut();
 
         //如果有许多相同的内容需要提取，如果商品列表中需要提取所有商品url
         //cuts();
+
+        //针对html标签的匹配
+        html();
     }
     public static void start() throws Exception{
 
@@ -106,6 +111,88 @@ public class RegularApplication {
         List<String> urls = RegularUtil.cuts(html, "href","'","'");
         for(String url:urls){
             log.warn("url:{}",url);
+        }
+    }
+    public static void html() throws Exception{
+        String url = "http://doc.anyline.org/";
+        //请求一个地址
+        HttpResult result = HttpUtil.get(url);
+        //响应状态
+        int status = result.getStatus();
+        //200代表成功
+        if(status != 200){
+            return;
+        }
+        //读取html源码
+        String html = result.getText();
+        //提取其中的一个url
+        url = RegularUtil.fetchUrl(html);
+        log.warn("提取单个url:{}", url);
+        //提取全部url
+        List<String> urls = RegularUtil.fetchUrls(html);
+        for(String item:urls){
+            log.warn("提取url:{}", item);
+        }
+
+        //抽取所有单标签
+        //提取单标签 如<img> <br/>
+        // 如果传入div等带有结束标签的参数 则只取出开始标签 <div> 不区分大小写 0:全文 1::标签name
+        List<List<String>> tags = RegularUtil.fetchSingleTag(html,"img","br");
+        for(List<String> tag:tags){
+            log.warn("提取单标签:{},标签名:{}", tag.get(0), tag.get(1));
+        }
+        //提取双标签 如<div>content<div>
+        // 依次取出p,table,div中的内容
+        // 有嵌套时只取外层 只能提取同时有 开始结束标签的内容，不能提取单标签内容如<img> <br/>
+        // 支持不同标签嵌套，但不支持相同标签嵌套
+        // 不区分大小写
+        // 0:全文 1:开始标签 2:标签name 3:标签体 4:结束标签
+        tags = RegularUtil.fetchPairedTag(html,"a");
+        for(List<String> tag:tags){
+            log.warn("提取双标签:{},标签名:{}", tag.get(0), tag.get(2));
+        }
+	    //提取单标签+双标签
+        //不区分大小写
+        //0:全文 1:开始标签 2:标签name 3:标签体 (单标签时null) 4:结束标签 (单标签时null)
+
+        tags = RegularUtil.fetchAllTag(html, "a","b","div");
+        for(List<String> tag:tags){
+            log.warn("提取单标签+双标签:{},标签名:{}", tag.get(0), tag.get(2));
+        }
+
+        //清除所有标签，只保留标签体
+        String txt = RegularUtil.removeAllTag(html);
+        log.warn("text:{}", txt);
+
+        /*
+         * 获取所有 包含attribute属性 的标签与标签体,不支持相同标签嵌套
+         * [
+         * 	[0:整个标签含标签体,1:开始标签,2:结束标签,3:标签体,4:标签名称],
+         * 	[整个标签含标签体,开始标签,结束标签，标签体，标签名称]
+         * ]
+         */
+        //所有包含href属性的标签
+        tags = RegularUtil.getAllTagAndBodyWithAttribute(html, "href");
+        for(List<String> tag:tags){
+            log.warn("所有包含href属性的标签:{},标签名:{}", tag.get(0), tag.get(4));
+        }
+
+        //提取一个属性值
+        html  = "<a href='a.html' class='item-a'>word</a>";
+        String value = RegularUtil.fetchAttributeValue(html,"class");
+        log.warn("属性class值:{}", value);
+
+        //如果有多个相同的标签可以取出一个集合
+        //提取class属性   0全文 1:属性name 2:引号('|") 3:属性值
+        List<String> atr = RegularUtil.fetchAttribute(html,"class");
+        log.warn("全文:{},属性key:{},属性value:{}", atr.get(0), atr.get(1), atr.get(3));
+
+        html  = "<a href='a.html' class='item-a'>word</a><a href='b.html' class='item-b'>excel</a>";
+        //取出所有属性值
+        // 0全文  1:属性name 2:引号('|") 3:属性值
+        List<List<String>> atrs = RegularUtil.fetchAttributeList(html,"class");
+        for(List<String> item:atrs){
+            log.warn("全文:{},属性key:{},属性value:{}", item.get(0), item.get(1), item.get(3));
         }
     }
 
