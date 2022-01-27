@@ -40,14 +40,18 @@ public class StartController extends TemplateController {
         //2. 在form体中提交
         //2. 在body体中以json格式提交
         DataRow row = entity("ID:id","NM:nm");
-
+        log.warn(row.toJSON());
         //如果列太多可以根据表结构接收
         //如果前端提交的KEY是小驼峰格式，数据库中列是以下划线分隔，可以通过anyline-config.xml中配置参数实现自动转换
         //<property key="HTTP_PARAM_KEYS_CASE">camel</property>
         row = entity("{HR_EMPLOYEE}");
 
-
+        //save会根据主键是否存在来确认执行insert 或update
         service.save("HR_EMPLOYEE", row);
+        //在执行了save（insert）之后 DataRow中的主键就有值了
+        log.warn("id:{}",row.getId());
+
+
         return success(row.getId());
     }
 

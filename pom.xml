@@ -29,6 +29,10 @@
 
         <!--正则表达式 主要用来抽取标签 拆分字符串 比如从一段html中抽取所有超链接-->
         <module>anyline-simple-regular</module>
+        <module>anyline-simple-query</module> 
+        <module>anyline-simple-net</module> 
+        <module>anyline-simple-office-excel</module>
+        <module>anyline-simple-office-word</module>
 
 
     </modules>

@@ -1,10 +1,8 @@
 package org.anyline.simple.regular;
 
-import ch.qos.logback.core.pattern.util.RegularEscapeUtil;
 import org.anyline.net.HttpResult;
 import org.anyline.net.HttpUtil;
 import org.anyline.util.DateUtil;
-import org.anyline.util.regular.Regular;
 import org.anyline.util.regular.RegularUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -5,6 +5,7 @@ import org.anyline.entity.html.Table;
 import org.anyline.entity.html.TableBuilder;
 import org.anyline.poi.excel.ExcelUtil;
 import org.anyline.service.AnylineService;
+import org.anyline.util.ConfigTable;
 import org.anyline.util.DateUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -33,7 +34,7 @@ public class ExcelApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {
 
-		String path = ExcelApplication.class.getResource("/").getPath();
+		String path = ConfigTable.class.getResource("").getPath();
 		dir = new File(path.substring(0,path.indexOf("target")),"/src/main/template");
 		SpringApplication application = new SpringApplication(ExcelApplication.class);
 		ConfigurableApplicationContext context = application.run(args);

@@ -34,7 +34,7 @@ public class WordApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {
 
-		String path = WordApplication.class.getResource("/").getPath();
+		String path = WordApplication.class.getResource("").getPath();
 		dir = new File(path.substring(0,path.indexOf("target")),"/src/main/template");
 
 		//SpringApplication application = new SpringApplication(WordApplication.class);
@@ -111,7 +111,8 @@ public class WordApplication extends SpringBootServletInitializer {
 		//以右边距为参照 向左偏移150px
 		//以书签所在行为参照 向上偏移100px 注意这里经常需要根据所在行为参照,当前行被其他内容挤下去的时候签章应该跟随
 		WDocument doc = doc("float");
-		doc.replace("img_sign","<img src='D:\\sign.png' style='width:200px;height:200px;position:relative;offset-x:-160px;offset-y:-100px;relative-x:rightMargin;relative-y:line;'/>");
+		File sign = new File(dir,"sign.png");
+		doc.replace("img_sign","<img src='"+sign.getAbsolutePath()+"' style='width:163px;height:128px;position:relative;offset-x:-200px;offset-y:-80px;relative-x:rightMargin;relative-y:line;'/>");
 		doc.replace("ymd_sign", DateUtil.format("yyyy-MM-dd"));
 		doc.save();
 

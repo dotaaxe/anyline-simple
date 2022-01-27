@@ -8,16 +8,16 @@
         <groupId>org.anyline</groupId>
         <artifactId>anyline-simple-dependency</artifactId>
         <version>1.0-SNAPSHOT</version>
-        <relativePath></relativePath>
     </parent>
-    <artifactId>anyline-simple-office</artifactId>
-    <packaging>jar</packaging>
-    <description>word/excel读写操作</description>
+    <artifactId>anyline-simple-office-excel</artifactId>
+    <packaging>war</packaging>
+    <description>excel读写操作</description>
 
     <dependencies>
         <dependency>
             <groupId>org.anyline</groupId>
             <artifactId>anyline-poi</artifactId>
+            <version>8.5.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
