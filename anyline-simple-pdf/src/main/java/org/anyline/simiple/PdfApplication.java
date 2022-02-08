@@ -20,9 +20,9 @@ public class PdfApplication extends SpringBootServletInitializer {
 	}
 
 	public static void main(String[] args) throws Exception {
-		File file = new File("");
+		File file = new File("D:\\a.pdf");
 		String text = PDFUtil.read(file);
-
+		System.out.println(text);
 	}
 
 }

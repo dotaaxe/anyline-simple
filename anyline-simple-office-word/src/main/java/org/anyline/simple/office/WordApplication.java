@@ -3,6 +3,7 @@ package org.anyline.simple.office;
 
 import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
+import org.anyline.entity.MetaData;
 import org.anyline.entity.html.TableBuilder;
 import org.anyline.net.HttpUtil;
 import org.anyline.office.docx.entity.WDocument;
@@ -11,13 +12,16 @@ import org.anyline.office.docx.entity.Wtr;
 import org.anyline.service.AnylineService;
 import org.anyline.util.DateUtil;
 import org.anyline.util.FileUtil;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -37,10 +41,11 @@ public class WordApplication extends SpringBootServletInitializer {
 		String path = WordApplication.class.getResource("").getPath();
 		dir = new File(path.substring(0,path.indexOf("target")),"/src/main/template");
 
-		//SpringApplication application = new SpringApplication(WordApplication.class);
-		//ConfigurableApplicationContext context = application.run(args);
-		//service = (AnylineService)context.getBean("anyline.service");
-
+		SpringApplication application = new SpringApplication(WordApplication.class);
+		ConfigurableApplicationContext context = application.run(args);
+		service = (AnylineService)context.getBean("anyline.service");
+		List<MetaData> list = service.metadatas("hr_employee");
+		System.exit(0);
 		//简单替换书签、关键字
 		//start();
 

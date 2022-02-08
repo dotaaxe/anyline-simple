@@ -4,9 +4,12 @@ import org.anyline.entity.DataSet;
 import org.anyline.entity.html.Table;
 import org.anyline.entity.html.TableBuilder;
 import org.anyline.poi.excel.ExcelUtil;
+import org.anyline.poi.excel.io.ExcelReader;
 import org.anyline.service.AnylineService;
 import org.anyline.util.ConfigTable;
 import org.anyline.util.DateUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -21,7 +24,7 @@ import java.util.List;
 @SpringBootApplication
 @ComponentScan(basePackages = {"org.anyline","org.anyboot"})
 public class ExcelApplication extends SpringBootServletInitializer {
-
+	private static Logger log = LoggerFactory.getLogger(ExcelApplication.class);
 	private static AnylineService service;
 	private static File dir = null;
 	private static Table table = null;
@@ -34,22 +37,39 @@ public class ExcelApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {
 
-		String path = ConfigTable.class.getResource("").getPath();
+		String path = ExcelApplication.class.getResource("/").getPath();
 		dir = new File(path.substring(0,path.indexOf("target")),"/src/main/template");
 		SpringApplication application = new SpringApplication(ExcelApplication.class);
 		ConfigurableApplicationContext context = application.run(args);
 		service = (AnylineService)context.getBean("anyline.service");
 		//导出简单的excel
-		exportList();
+		//exportList();
+
 		//先生成tabel再导出,包括单元格合并、样式设置
 		exportTable();
+
 		//操作多个sheet
-		exportSheet();
+		//exportSheet();
+
 		//读取excel返回二维数组
-		read();
+		//read();
+
+		//读取带表头的excel
+		//header();
 		System.exit(0);
 	}
-
+	public static void header(){
+		File file = new File(dir,"template_102.xlsx");
+		ExcelReader reader = ExcelReader.init()
+				.setFile(file)	//文件位置
+				.setSheet(1)	//读取第1个sheet(下标从0开始)
+				.setHead(0)		//表头在第0行,如果没有表头，结果集以下标作为key
+				.setData(1)		//数据从第1行开始
+				.setFoot(-1)	//到第几行结束(如果负数表示 表尾有多少行不需要读取)
+				;
+		DataSet set = reader.read();
+		log.warn(set.toJSON());
+	}
 	/**
 	 * 导出excel
 	 */
@@ -72,6 +92,7 @@ public class ExcelApplication extends SpringBootServletInitializer {
 	public static void exportTable(){
 		//导出复杂的表格需要借助TableBuilder先生成Table，再将Table导出到excel中
 		DataSet set = service.querys("V_HR_SALARY","YYYY:"+ (DateUtil.year()-1), "ORDER BY EMPLOYEE_ID, YM");
+		String footer = "<tr><td colspan='4' style='text-align:right;'>合计:</td><td>123</td></tr>";
 		TableBuilder builder = TableBuilder.init()
 				.setDatas(set)									//设置数据源
 				.setFields(										//需要导出的列
@@ -96,6 +117,7 @@ public class ExcelApplication extends SpringBootServletInitializer {
 				.setVerticalAlign("middle")						//设置所有数据单元格 垂直对齐方式
 				.setLineHeight("50px")							//设置数据区域行高
 				.setWidth("YM","200px")				//设置月份列 宽度
+				.setFooter(footer)
 				;
 		table = builder.build();
 		File file = new File(dir, "result/export_table.xlsx");
