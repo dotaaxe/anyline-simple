@@ -11,7 +11,7 @@
         <relativePath></relativePath>
     </parent>
     <artifactId>anyline-simple-office-word</artifactId>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
     <description>word读写操作</description>
 
     <dependencies>

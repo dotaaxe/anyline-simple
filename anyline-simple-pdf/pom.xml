@@ -7,10 +7,10 @@
         <groupId>org.anyline</groupId>
         <artifactId>anyline-simple-dependency</artifactId>
         <version>1.0-SNAPSHOT</version>
-        <relativePath></relativePath>
     </parent>
     <artifactId>anyline-simple-pdf</artifactId>
     <packaging>jar</packaging>
+    <version>1.0-SNAPSHOT</version>
     <description>pdf读写</description>
 
     <dependencies>
