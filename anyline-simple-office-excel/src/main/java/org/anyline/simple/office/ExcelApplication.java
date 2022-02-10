@@ -98,12 +98,13 @@ public class ExcelApplication extends SpringBootServletInitializer {
 				.setFields(										//需要导出的列
 						"{num}(EMPLOYEE_NM)"					//{num}表示序号,(DEPARTMENT_NM)表示根据哪一列计算序号，这里部门名称需要分组合并，所以num不是按行计算
 						,"DEPARTMENT_NM"
+						,"{DEPARTMENT_ID}-{DEPARTMENT_NM}"
 						,"EMPLOYEE_NM"
 						,"YM"
 						,"BASE_PRICE")
 				.addUnion(										//需要合并的列
-						"DEPARTMENT_NM"							//如果部门名称相同则合并
-						,"EMPLOYEE_NM(DEPARTMENT_NM)"
+						"DEPARTMENT_NM"
+						,"EMPLOYEE_NM(DEPARTMENT_NM)"			//如果部门名称相同则合并()中参考的列必须从setFields参数中选一个或多个如({DEPARTMENT_ID}-{DEPARTMENT_NM})，如果多个用，分隔如({DEPARTMENT_ID}-{DEPARTMENT_NM},YM)
 						,"YM(DEPARTMENT_NM)"					//如果月份相同则合并，前提是部门已经合并
 				)
 				.setReplaceEmpty("/")							//如果值为空则以/代替
