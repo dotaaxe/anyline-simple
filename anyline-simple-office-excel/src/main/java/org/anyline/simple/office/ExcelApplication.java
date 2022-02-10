@@ -123,8 +123,7 @@ public class ExcelApplication extends SpringBootServletInitializer {
 				.setLineHeight("50px")							//设置数据区域行高
 				.setWidth("YM","200px")				//设置月份列 宽度
 				.setFooter(footer)
-				.addOption("DATA_STATUS","1","正常")
-				.addOption("DATA_STATUS","0","异常")
+				.addOption("DATA_STATUS","1","正常","0","异常")
 				;
 
 		Map<String,String> options = new HashMap<>();
