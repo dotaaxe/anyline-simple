@@ -1,5 +1,6 @@
 package org.anyline.simple.office;
 
+import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
 import org.anyline.entity.html.Table;
 import org.anyline.entity.html.TableBuilder;
@@ -18,7 +19,9 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @SpringBootApplication
@@ -36,8 +39,7 @@ public class ExcelApplication extends SpringBootServletInitializer {
 	}
 
 	public static void main(String[] args) {
-
-		String path = ExcelApplication.class.getResource("/").getPath();
+		String path = ExcelApplication.class.getResource("").getPath();
 		dir = new File(path.substring(0,path.indexOf("target")),"/src/main/template");
 		SpringApplication application = new SpringApplication(ExcelApplication.class);
 		ConfigurableApplicationContext context = application.run(args);
@@ -101,7 +103,9 @@ public class ExcelApplication extends SpringBootServletInitializer {
 						,"{DEPARTMENT_ID}-{DEPARTMENT_NM}"
 						,"EMPLOYEE_NM"
 						,"YM"
-						,"BASE_PRICE")
+						,"BASE_PRICE"
+						,"DATA_STATUS"
+				)
 				.addUnion(										//需要合并的列
 						"DEPARTMENT_NM"
 						,"EMPLOYEE_NM(DEPARTMENT_NM)"			//如果部门名称相同则合并()中参考的列必须从setFields参数中选一个或多个如({DEPARTMENT_ID}-{DEPARTMENT_NM})，如果多个用，分隔如({DEPARTMENT_ID}-{DEPARTMENT_NM},YM)
@@ -119,7 +123,23 @@ public class ExcelApplication extends SpringBootServletInitializer {
 				.setLineHeight("50px")							//设置数据区域行高
 				.setWidth("YM","200px")				//设置月份列 宽度
 				.setFooter(footer)
+				.addOption("DATA_STATUS","1","正常")
+				.addOption("DATA_STATUS","0","异常")
 				;
+
+		Map<String,String> options = new HashMap<>();
+		options.put("1","正常");
+		options.put("0","异常");
+		builder.setOptions("DATA_STATUS", options);
+
+		//一般从数据库中查
+		DataSet setOptions = new DataSet();
+		DataRow setOption = new DataRow();
+		setOption.put("ID","1");
+		setOption.put("NAME","正常");
+		builder.setOptions("DATA_STATUS", setOptions, "ID","NAME");
+
+
 		table = builder.build();
 		File file = new File(dir, "result/export_table.xlsx");
 		ExcelUtil.export(file, table);
