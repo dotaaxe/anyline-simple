@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configs>
+	<config key="default">
+		<!-- 第一页 -->
+		<property key="STYLE_BUTTON_FIRST">第一页</property>
+		<!-- 上一页 -->
+		<property key="STYLE_BUTTON_PREV">上一页</property>
+		<!-- 下一页 -->
+		<property key="STYLE_BUTTON_NEXT">下一页</property>
+		<!-- 最后页 -->
+		<property key="STYLE_BUTTON_LAST">最后页</property>
+
+		<!-- 是否允许前端设置每页多少条 -->
+		<property key="VAR_CLIENT_SET_VOL_ENABLE">true</property>
+		<property key="VAR_PAGE_MAX_VOL">1000</property>
+		<!-- 生成select的option -->
+		<property key="VAR_PAGE_VOL_NUMBERS">50,100,200,500,1000</property>
+		<!-- 统计样式 -->
+		<property key="STYLE_STAT_FORMAT">&lt;div class='navi-summary'&gt;共&lt;span class='navi-total-row'&gt;{totalRow}&lt;/span&gt;条 第&lt;span class='navi-cur-page'&gt;{curPage}&lt;/span&gt;/&lt;span class='navi-total-page'&gt;{totalPage}&lt;/span&gt;页&lt;/div&gt;</property>
+		<!--每页多少条-->
+		<property key="VAR_PAGE_DEFAULT_VOL">10</property>
+
+		<!-- 下标数量 -->
+		<property key="VAR_PAGE_RANGE">10</property>
+		<!-- 显示上一页下一页 -->
+		<property key="VAR_SHOW_BUTTON">true</property>
+		<!-- 显示下标 -->
+		<property key="VAR_SHOW_INDEX">true</property>
+		<!-- 显示数据统计 -->
+		<property key="VAR_SHOW_STAT">true</property>
+		<!-- 跳转到 -->
+		<property key="VAR_SHOW_JUMP">false</property>
+		<!-- 加载更多格式 -->
+		<property key="STYLE_LOAD_MORE_FORMAT">None More Data</property>
+		<property key="STYLE_FILE_PATH">/style/navi.css</property>
+		<property key="SCRIPT_FILE_PATH">/script/navi.js</property>
+	</config>
+</configs>
