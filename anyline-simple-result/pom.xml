@@ -10,7 +10,7 @@
         <relativePath></relativePath>
     </parent>
     <artifactId>anyline-simple-result</artifactId>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
     <description>对结果集(DataSet,DataRow)的操作</description>
     <dependencies>
         <dependency>

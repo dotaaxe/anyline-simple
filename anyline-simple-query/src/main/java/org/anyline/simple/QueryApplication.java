@@ -18,8 +18,6 @@ import java.util.List;
 @SpringBootApplication
 @ComponentScan(basePackages = {"org.anyline","org.anyboot"})
 public class QueryApplication extends SpringBootServletInitializer {
-	private static Logger log = LoggerFactory.getLogger(QueryApplication.class);
-	private static AnylineService service;
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 

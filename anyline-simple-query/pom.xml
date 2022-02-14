@@ -10,7 +10,7 @@
         <relativePath></relativePath>
     </parent>
     <artifactId>anyline-simple-query</artifactId>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
     <description>查询操作</description>
     <dependencies>
         <dependency>
