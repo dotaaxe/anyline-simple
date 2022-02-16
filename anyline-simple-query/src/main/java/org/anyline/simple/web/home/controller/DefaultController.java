@@ -21,8 +21,8 @@ public class DefaultController extends BasicController {
     }
 
     /**
-     * PARAM:like?nm=燕
-     * SQL:NM LIKE '%燕%'
+     * URL:/like?nm=燕
+     * WHERE:NM LIKE '%燕%'
      * @return json
      */
     @RequestMapping("like")
@@ -32,14 +32,14 @@ public class DefaultController extends BasicController {
         return success(set);
     }
     /**
-     * PARAM:like1?code=1&cd=2
-     * SQL:CODE LIKE '%1%'
+     * URL:/like1?code=1&cd=2
+     * WHERE:CODE LIKE '%1%'
      *
-     * PARAM:like1?cd=2
-     * SQL:CODE LIKE '%2%'
+     * URL:/like1?cd=2
+     * WHERE:CODE LIKE '%2%'
      *
-     * PARAM:like1
-     * SQL:CODE LIKE '%9%'
+     * URL:/like1
+     * WHERE:CODE LIKE '%9%'
      *
      * @return json
      */
@@ -50,8 +50,8 @@ public class DefaultController extends BasicController {
         return success(set);
     }
     /**
-     * PARAM:in?dept=1&dept=2
-     * SQL:DEPARTMENT_ID IN(1,2)
+     * URL:/in?dept=1&dept=2
+     * WHERE:DEPARTMENT_ID IN(1,2)
      * @return json
      */
     @RequestMapping("in")
@@ -61,14 +61,14 @@ public class DefaultController extends BasicController {
         return success(set);
     }
     /**
-     * PARAM:in1?id=1&id=2
-     * SQL:ID IN(1,2)
+     * URL:/in1?id=1&id=2
+     * WHERE:ID IN(1,2)
      *
-     * PARAM:in1?cd=11&cd=12
-     * SQL:ID IN(11,12)
+     * URL:/in1?cd=11&cd=12
+     * WHERE:ID IN(11,12)
      *
-     * PARAM:in1
-     * SQL:ID IN(6,7,8)
+     * URL:/in1
+     * WHERE:ID IN(6,7,8)
      * @return json
      */
     @RequestMapping("in1")
@@ -78,37 +78,59 @@ public class DefaultController extends BasicController {
         return success(set);
     }
     /**
-     * PARAM:or?dept=1&sex=0
-     * SQL:DEPARTMENT_ID = 1 OR SEX = 0
+     * URL:/or?dept=1&sex=0
+     * WHERE:DEPARTMENT_ID = 1 OR SEX = 0
      * @return json
      */
     @RequestMapping("or")
     @ResponseBody
     public String or() {
-        DataSet set = service.querys("HR_EMPLOYEE", condition("DEPARTMENT_ID:dept|SEX:sex"));
+        DataSet set = service.querys("HR_EMPLOYEE", condition("DEPARTMENT_ID:dept|SEX:sex:s:{1}"));
         return success(set);
     }
 
     /**
-     * PARAM:or1?d1=1&d2=2
-     * SQL:DEPARTMENT_ID = 1 OR DEPARTMENT_ID = 2
+     * URL:/or1?d1=1&d2=2
+     * WHERE:DEPARTMENT_ID = 1 OR DEPARTMENT_ID = 2
+     *
+     * URL:/or1?d2=2
+     * WHERE:
+     *
      * @return json
      */
     @RequestMapping("or1")
     @ResponseBody
     public String or1() {
-        DataSet set = service.querys("HR_EMPLOYEE", condition("DEPARTMENT_ID:d1|d2"));
+        //只有d1取值成功 当前条件才生效
+        //如果需要d1,d2不相干 condition("DEPARTMENT_ID:d1|DEPARTMENT_ID:d2")
+        DataSet set = service.querys("HR_EMPLOYEE",
+                condition("DEPARTMENT_ID:d1|d2"));
         return success(set);
     }
-    /**
-     * PARAM:or2?d1=1&d2=2
-     * SQL:DEPARTMENT_ID = 1 OR DEPARTMENT_ID = 2
-     * @return json
-     */
     @RequestMapping("or2")
     @ResponseBody
     public String or2() {
-        DataSet set = service.querys("HR_EMPLOYEE", condition("DEPARTMENT_ID:d1|d2"));
+        //只有d1取值成功 当前条件才生效
+        DataSet set = service.querys("HR_EMPLOYEE",
+                condition("DEPARTMENT_ID:d1|{9}"));
+        return success(set);
+    }
+    /**
+     * URL:/or9?d1=1
+     * WHERE:DEPARTMENT_ID = 1
+     *
+     * URL:/or9?d2=2
+     * WHERE:DEPARTMENT_ID = 2
+     *
+     * URL:/or9
+     * WHERE:DEPARTMENT_ID = 9
+     * @return json
+     */
+    @RequestMapping("or9")
+    @ResponseBody
+    public String or9() {
+        //依次取d1,d2的值，如果d1取值成功则忽略d2,如果都失败则取默认值9
+        DataSet set = service.querys("HR_EMPLOYEE", condition("DEPARTMENT_ID:d1:d2:{9}"));
         return success(set);
     }
 
