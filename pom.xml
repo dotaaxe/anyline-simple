@@ -21,14 +21,18 @@
         <!--对结果集的操作-->
         <module>anyline-simple-result</module>
 
-
         <!--pdf操作-->
         <module>anyline-simple-pdf</module>
 
         <!--正则表达式 主要用来抽取标签 拆分字符串 比如从一段html中抽取所有超链接-->
         <module>anyline-simple-regular</module>
-        <module>anyline-simple-query</module> 
+
+        <!--各种场景的查询-->
+        <module>anyline-simple-query</module>
+
+        <!--网络操作-->
         <module>anyline-simple-net</module>
+
         <!--word excel操作 重点实现word excel中的表格操作以及html/css转word标签-->
         <module>anyline-simple-office-excel</module>
         <module>anyline-simple-office-word</module>
