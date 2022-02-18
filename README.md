@@ -12,14 +12,13 @@ simple_sso
 http://qa.anyline.org/art/v?id=lv0182c99f6acebf1d2d680783bf1168e8f99eced8e0136a4ec1
 
     <!--
-        简单的数据库操作
         为了操作数据库，需要一个AnylineService，大部分操作通过这个service来完成
 
         可以在Controller中注入service
         @Qualifier("anyline.service") 
         private AnylineService service;
 
-        但通过是继承这个TemplateController
+        但通常是继承这个TemplateController
         org.anyboot.mvc.controller.impl.TemplateController
 
         接下来大部分操作通过这个service来完成，如
