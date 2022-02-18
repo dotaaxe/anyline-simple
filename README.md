@@ -11,7 +11,21 @@ simple_sso
 可以参考  
 http://qa.anyline.org/art/v?id=lv0182c99f6acebf1d2d680783bf1168e8f99eced8e0136a4ec1
 
-    <!--简单的数据库操作-->
+    <!--
+        简单的数据库操作
+        为了操作数据库，需要一个AnylineService，大部分操作通过这个service来完成
+
+        可以在Controller中注入service
+        @Qualifier("anyline.service") 
+        private AnylineService service;
+
+        但通过是继承这个TemplateController
+        org.anyboot.mvc.controller.impl.TemplateController
+
+        接下来大部分操作通过这个service来完成，如
+        DataSet set = service.querys("HR_USER");
+        返回的DataSet中自带了常用的数学计算函数 如排序，求和，截取，清除空值，按列去重，最大最小值，交集合集差集，分组，行列转换，类SQL筛选
+    -->
     <module>anyline-simple-start</module>
     
     <!--多数据源库操作-->
