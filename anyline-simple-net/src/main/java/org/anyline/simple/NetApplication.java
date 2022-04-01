@@ -48,26 +48,35 @@ public class NetApplication extends SpringBootServletInitializer {
 		//参数
 		Map<String,Object> params = new HashMap<>();
 		params.put("id","1");
-		result = HttpUtil.get(url, params);
+		result = HttpUtil.get(url,"UTF-8", params);
 		log.warn("status:{}", result.getStatus());
 
-		//提交header
-		result = HttpUtil.get(headers, url, "utf-8");
-		log.warn("status:{}", result.getStatus());
+		//检测http状态
+		int status = HttpUtil.status(url);
+		log.warn("status:{}", status);
 
+		//对于一些参数比较复杂的请求可以通过 HttpBuilder
+		result = HttpBuilder.init()
+				.setUrl(url)
+				.setHeaders(headers)
+				.setParams(params)
+				.setEncode("UTF-8")
+				.build().post();
 
-		//如果要保持会话需要使用固定的client
-		//每次调用使用相同的client
-		CloseableHttpClient client = HttpUtil.createClient();
-		result = HttpUtil.get(client, url, "utf-8");
-		log.warn("status:{}", result.getStatus());
-		result = HttpUtil.get(client, url, "utf-8");
-		log.warn("status:{}", result.getStatus());
+		//包括文件上传下载
+		Map<String,File> files = new HashMap<>();
+		files.put("idcard", new File(""));
+		HttpBuilder.init()
+				.setUrl(url)
+				.setUploadFiles(files)
+				.setParams(params)
+				.build().upload();
+
 
 
 	}
 	public static void download(){
-		//下载文件
+		//简单下载文件
 		String url = "https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png";
 		File file = new File("D:\\baidu.png");
 		HttpUtil.download(url, file);
@@ -116,5 +125,12 @@ public class NetApplication extends SpringBootServletInitializer {
 		downloader.add(task);
 		downloader.add(task);
 		downloader.start(10);	//开启10个下载线程
+	}
+	//文件上传
+	public static void upload(){
+		String url = "";
+		Map<String,File> files = new HashMap<>();
+		files.put("idcard", new File(""));
+		HttpUtil.upload(url, files);
 	}
 }
