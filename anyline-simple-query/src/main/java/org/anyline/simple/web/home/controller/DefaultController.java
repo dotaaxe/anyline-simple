@@ -135,4 +135,13 @@ public class DefaultController extends BasicController {
         return success(set);
     }
 
+    @RequestMapping("ors")
+    @ResponseBody
+    public String ors() {
+        //(SORT=1 AND AGE = 18) OR (SORT = 0 AND SEX IN (0,1))
+        DataSet set = service.querys("HR_EMPLOYEE", condition("DEPARTMENT_ID:dept:{1}","SEX:sex:{1}").ors("DEPARTMENT_ID","2").and("SEX","2"));
+        set.toLowerKey().camel();
+        return success(set);
+    }
+
 }
