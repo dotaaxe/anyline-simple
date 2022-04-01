@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.anyboot</groupId>
         <artifactId>anyboot-start-mvc-mysql</artifactId>
-        <version>8.5.1.2117-SNAPSHOT</version>
+        <version>8.5.2.2117-SNAPSHOT</version>
     </parent>
 
     <groupId>org.anyline</groupId>
