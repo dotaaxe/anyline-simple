@@ -94,7 +94,7 @@ public class ResultApplication extends SpringBootServletInitializer {
 		log.warn("size:{}", items.size());
 
 		//指定佛为空的集合(任何一列不为空的都不返回)
-		items = set.select.isEmpty("EMPLOYEE_NM","EMPLOYEE_ID");
+		items = set.select.empty("EMPLOYEE_NM","EMPLOYEE_ID");
 		log.warn("size:{}", items.size());
 
 		items = set.select.lessEqual("BASE_PRICE",10000);
