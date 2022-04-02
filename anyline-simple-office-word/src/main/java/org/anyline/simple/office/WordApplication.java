@@ -125,8 +125,9 @@ public class WordApplication extends SpringBootServletInitializer {
 	public static void insert(){
 		WDocument doc = doc("insert");
 		Wtable table = doc.getTable("src_tc");
-		//同样的可以获取一个tr,也可以通过下标获取
+		//同样的可以获取一个tr,也可以通过书签或下标获取
 		Wtr template = table.getTr("src_tc");
+		//template = table.getTr(1);
 
 		//追加2行 追加的行将复制上一行的样式(如背景色字体等)
 		table.addRows(2);
@@ -159,7 +160,16 @@ public class WordApplication extends SpringBootServletInitializer {
 		row.put("PURPOSE","参考");
 		set.add(row);
 
-		table.insert(1,template,set,"VERSION","YMD","DEPARTMENT","PURPOSE");
+
+		//在下标1插入1行,并复制template样式，行内数据来自对象row,依次从row中取"VERSION","YMD","DEPARTMENT","PURPOSE"几个属性的值
+		table.insert(1,template, row,"VERSION","YMD","DEPARTMENT","PURPOSE");
+		//如果需要插入多行,可以提供一个集合,插入行数=set.size()
+		table.insert(1,template, set,"VERSION","YMD","DEPARTMENT","PURPOSE");
+
+
+		//如果不需要模板可以插入空白样式
+		table.insert(1, row,"VERSION","YMD","DEPARTMENT","PURPOSE");
+		table.insert(1, set,"VERSION","YMD","DEPARTMENT","PURPOSE");
 
 		//没有下标球追加到最后一行
 		row.put("VERSION","V1.1");
