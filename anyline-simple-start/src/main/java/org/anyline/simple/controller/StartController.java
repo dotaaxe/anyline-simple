@@ -3,8 +3,12 @@ package org.anyline.simple.controller;
 import org.anyboot.mvc.controller.impl.TemplateController;
 import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
+import org.anyline.entity.PageNavi;
+import org.anyline.simple.entity.Employee;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 
 @RestController("StartController")
@@ -23,6 +27,12 @@ public class StartController extends TemplateController {
                 )
                 ,"DATA_STATUS:1"           //只果DATA_STATUS=1的
         );
+
+        //这里的DataSet 如果需要转成Bean的话可以调用
+        //注意set中有一个分页信息在List中是没有保存的需要单独取出来处理
+        PageNavi navi = set.getNavi();
+        List<Employee> list = set.entity(Employee.class);
+        System.out.println(list);
         return success(set);
     }
 
