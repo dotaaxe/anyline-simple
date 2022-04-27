@@ -323,7 +323,7 @@ public class WordApplication extends SpringBootServletInitializer {
 						,"EMPLOYEE_NM"
 						,"YM"
 						,"BASE_PRICE")
-				.addUnion(										//需要合并的列
+				.addUnions(										//需要合并的列
 						"DEPARTMENT_NM"							//如果部门名称相同则合并
 						,"EMPLOYEE_NM(DEPARTMENT_NM)"
 						,"YM(DEPARTMENT_NM)"					//如果月份相同则合并，前提是部门已经合并
