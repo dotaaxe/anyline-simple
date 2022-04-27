@@ -81,7 +81,7 @@ public class EmployeeController extends BasicController{
                         ,"入职日期:{JOIN_YMD},工号:{CODE}"
                 )
                 //设置需要合并的列
-                .addUnion(
+                .addUnions(
                         "DEPARTMENT_NM"
                         ,"JOIN_YMD(DEPARTMENT_NM)"      //只有部门合并的情况下，入职日期相同的才合并
                 )
