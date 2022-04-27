@@ -106,7 +106,7 @@ public class ExcelApplication extends SpringBootServletInitializer {
 						,"BASE_PRICE"
 						,"DATA_STATUS"
 				)
-				.addUnion(										//需要合并的列
+				.addUnions(										//需要合并的列
 						"DEPARTMENT_NM"
 						,"EMPLOYEE_NM(DEPARTMENT_NM)"			//如果部门名称相同则合并()中参考的列必须从setFields参数中选一个或多个如({DEPARTMENT_ID}-{DEPARTMENT_NM})，如果多个用，分隔如({DEPARTMENT_ID}-{DEPARTMENT_NM},YM)
 						,"YM(DEPARTMENT_NM)"					//如果月份相同则合并，前提是部门已经合并
