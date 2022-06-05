@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configs>
+	<config key="default">
+		<property key="ACCESS_KEY">aHENiF4aebppM3Yo</property>
+		<property key="ACCESS_SECRET">OSu9aU9OldcXTrVSdMUKnGSchZXRRjee</property>
+		<property key="ENDPOINT">http://192.168.220.101:9000/</property>
+		<property key="PART_SIZE">0</property>
+		<property key="BUCKET">alcdn</property>
+		<!-- 生成的密钥多长时间有效  -->
+		<property key="EXPIRE_SECOND">300</property>
+		<!-- 默认文件目录 -->
+		<property key="DIR"></property>
+	</config>
+</configs>
