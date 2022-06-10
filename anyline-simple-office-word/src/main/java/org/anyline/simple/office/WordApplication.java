@@ -301,7 +301,6 @@ public class WordApplication extends SpringBootServletInitializer {
 		//设置所有单元格边框(不含对角线)
 		table.setCellBorder();
 
-
 		//对角线拆分单元格
 		table.setTl2brBorder(0,1,"右上","左下");
 		doc.save();
