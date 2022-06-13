@@ -10,6 +10,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.net.URLEncoder;
 
 @Controller("web.home.hr.DepartmentController")
 @RequestMapping("/web/home/hr/dept")
@@ -39,9 +41,19 @@ public class DepartmentController extends BasicController{
         return mv;
     }
     @RequestMapping("a")
-    public ModelAndView add() {
+    public ModelAndView add(HttpServletRequest request, HttpServletResponse response) {
         ModelAndView mv = template("info.jsp");
         return mv;
+    }
+
+    /**
+     * 微信中打开自动调起浏览器下载文件
+     * @param request
+     * @param response
+     */
+    @RequestMapping("d")
+    public void download(HttpServletRequest request, HttpServletResponse response) {
+        WebUtil.download(request, response, new File("D:\\a.txt"));
     }
 
 }
