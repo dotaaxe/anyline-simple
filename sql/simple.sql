@@ -227,3 +227,33 @@ INSERT INTO HR_EMPLOYEE(CODE,NM,BIRTHDAY,SEX,JOIN_YMD,DEPARTMENT_ID)VALUES('1018
 INSERT INTO HR_EMPLOYEE(CODE,NM,BIRTHDAY,SEX,JOIN_YMD,DEPARTMENT_ID)VALUES('1019','张无忌','1902-01-01',1,'2000-07-01',3);
 INSERT INTO HR_EMPLOYEE(CODE,NM,BIRTHDAY,SEX,JOIN_YMD,DEPARTMENT_ID)VALUES('1020','小龙女','1901-01-01',0,'2000-08-01',3);
 
+drop table if exists bs_datasource;
+
+/*==============================================================*/
+/* Table: bs_datasource                                         */
+/*==============================================================*/
+create table bs_datasource
+(
+    ID                   bigint not null auto_increment comment '主键',
+    CODE                 varchar(50) comment 'CODE',
+    TITLE                varchar(50) comment '标题',
+    DRIVER               varchar(200) comment '驱动',
+    URL                  varchar(200) comment 'URL',
+    ACCOUNT              varchar(20) comment '帐号',
+    PASSWORD             varchar(32) comment '密码',
+    IDX                  varchar(10) comment '排序',
+    REMARK               varchar(500) comment '备注',
+    REG_ID               varchar(50) comment '注册人',
+    REG_IP               varchar(20) comment '注册IP',
+    REG_TIME             datetime default CURRENT_TIMESTAMP comment '注册时间',
+    REG_CLIENT_ID        varchar(50) comment '注冊端ID',
+    UPT_ID               varchar(50) comment '修改人',
+    UPT_IP               varchar(20) comment '修改人IP',
+    UPT_TIME             datetime default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP comment '修改时间',
+    UPT_CLIENT_ID        varchar(50) comment '修改端ID',
+    DATA_STATUS          int default 1 comment '活动状态',
+    TENANT_CODE          varchar(50) default '0' comment '租户CODE',
+    ORG_CODE             varchar(50) comment '组织CODE',
+    DATA_VERSION         varchar(50) default '0' comment '数据版本',
+    primary key (ID)
+);
