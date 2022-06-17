@@ -21,7 +21,8 @@ public class ScheduleTask {
 
     @Scheduled(cron="0 * * * * ?")
     private synchronized void scan(){
-
+        //每分钟检测一次
+        log.warn("scan....");
 
         //检测数据源
         DataSourceHolder.setDefaultDataSource();
