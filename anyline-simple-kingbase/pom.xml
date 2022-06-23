@@ -19,6 +19,10 @@
             <groupId>org.anyboot</groupId>
             <artifactId>anyboot-jdbc</artifactId>
         </dependency>
+        <!--注意 这里根据数据库的兼容模式
+        anyline-jdbc-kingbase-prostgresql(兼容prostgresql)
+        anyline-jdbc-kingbase(兼容oracle)
+        -->
         <dependency>
             <groupId>org.anyline</groupId>
             <artifactId>anyline-jdbc-kingbase-prostgresql</artifactId>
@@ -31,17 +35,4 @@
             <systemPath>${project.basedir}/src/main/lib/kingbase8-8.6.0.jar</systemPath>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <includeSystemScope>true</includeSystemScope>
-                    <mainClass>org.anyline.simiple.noweb.SimpleApplication</mainClass>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 </project>
