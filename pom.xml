@@ -36,6 +36,12 @@
         <!--word excel操作 重点实现word excel中的表格操作以及html/css转word标签-->
         <module>anyline-simple-office-excel</module>
         <module>anyline-simple-office-word</module>
+        <module>anyline-simple-rabbitmq</module>
+        <module>anyline-simple-oracle2dm</module>
+        <module>anyline-simple-minio</module>
+        <module>anyline-simple-noweb</module>
+        <module>anyline-simple-kingbase</module>
+        <module>anyline-simple-oracle</module>
 
 
     </modules>
