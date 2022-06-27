@@ -24,8 +24,10 @@ public class NetApplication extends SpringBootServletInitializer {
 	}
 
 	public static void main(String[] args) throws Exception {
+		String txt = HttpUtil.get("http://zhannei.baidu.com/cse/site?q=%E4%B8%AA%E4%BA%BA%E6%89%80%E5%BE%97&p=1&cc=www.ushui.net").getText();
+		System.out.println(txt);
 		//http();
-		download();
+		//download();
 	}
 	public static void http(){
 	    String url = "http://www.baidu.com";
