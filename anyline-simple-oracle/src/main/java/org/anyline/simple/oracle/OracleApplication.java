@@ -4,6 +4,7 @@ import org.anyboot.jdbc.ds.DynamicDataSourceRegister;
 import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
 import org.anyline.service.AnylineService;
+import org.anyline.util.BasicUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -20,12 +21,18 @@ public class OracleApplication {
         SpringApplication application = new SpringApplication(OracleApplication.class);
         ConfigurableApplicationContext context = application.run(args);
        AnylineService service = (AnylineService) context.getBean("anyline.service");
-        DataSet set = service.querys("ORG_DS");
-        DataRow row = service.query("ORG_DS");
+        DataSet set = service.querys("PRE_CASE_INFO");
+        DataRow row = service.query("PRE_CASE_INFO");
+
         row.remove("ROW_NUMBER");
         set.remove("ROW_NUMBER");
+        set.setPrimaryKey("SID");
+        service.delete(set);
         System.out.println(set);
-        service.insert("ORG_DS", set);
+        for(DataRow r:set) {
+            r.put("SID", BasicUtil.getRandomNumberString(10));
+        }
+        service.insert("PRE_CASE_INFO", set);
 
     }
 }
