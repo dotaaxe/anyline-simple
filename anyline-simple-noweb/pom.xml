@@ -12,7 +12,7 @@
 
     <artifactId>anyline-simple-nowweb</artifactId>
     <packaging>jar</packaging>
-    <description>oracle</description>
+    <description>nowweb</description>
 
 
     <dependencies>
