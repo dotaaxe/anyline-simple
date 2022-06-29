@@ -42,6 +42,7 @@
         <module>anyline-simple-noweb</module>
         <module>anyline-simple-kingbase</module>
         <module>anyline-simple-oracle</module>
+        <module>anyline-simple-sms</module>
 
 
     </modules>
