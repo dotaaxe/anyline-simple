@@ -38,8 +38,11 @@ public class SMSApplication {
 
         DataRow row = new DataRow();
         row.put("code", "111111");
+        row.put("userNmae","张三");
+        row.put("userAge","20");
+        //验证码:${code},姓名:${name},年龄:${age}
         //这里会根据 属性列表到指定对象中提取属性值 生成模板参数
-        result = util.send("签名","SMS_88550009","15800000000", row, "code");
+        result = util.send("签名","SMS_88550009","15800000000", row, "code","name:userNmae","age:userAge");
         System.out.println(BeanUtil.object2json(result));
 
         //查询发送状态
@@ -66,5 +69,9 @@ public class SMSApplication {
 
         //删除模板
         util.template.delete("SMS_000000");
+
+        //根据编号查询模板信息，主要查询审核状态
+        SMSTemplate template = util.template.info("SMS_120405942");
+
     }
 }
