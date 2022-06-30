@@ -65,6 +65,6 @@ public class SMSApplication {
         System.out.println(BeanUtil.object2json(templates));
 
         //删除模板
-        util.template.delete("SMS_244410108");
+        util.template.delete("SMS_000000");
     }
 }
