@@ -10,9 +10,9 @@
         <relativePath></relativePath>
     </parent>
 
-    <artifactId>anyline-simple-oracle</artifactId>
+    <artifactId>anyline-simple-entity</artifactId>
     <packaging>jar</packaging>
-    <description>oracle</description>
+    <description>entity</description>
 
 
     <dependencies>
@@ -22,14 +22,20 @@
         </dependency>
         <dependency>
             <groupId>org.anyline</groupId>
-            <artifactId>anyline-jdbc-oracle</artifactId>
+            <artifactId>anyline-jdbc-mysql</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.oracle.database.jdbc</groupId>
-            <artifactId>ojdbc8</artifactId>
-            <version>21.3.0.0</version>
-        </dependency>
-
     </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <includeSystemScope>true</includeSystemScope>
+                    <mainClass>org.anyline.simiple.entity.EntityApplication</mainClass>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

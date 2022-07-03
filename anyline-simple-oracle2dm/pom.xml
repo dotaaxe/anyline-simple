@@ -16,17 +16,17 @@
         <dependency>
             <groupId>org.anyline</groupId>
             <artifactId>anyline-jdbc-dm</artifactId>
-            <version>8.5.3-SNAPSHOT</version>
+            <version>8.5.5-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.anyline</groupId>
             <artifactId>anyline-jdbc-mysql</artifactId>
-            <version>8.5.3-SNAPSHOT</version>
+            <version>8.5.5-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.anyline</groupId>
             <artifactId>anyline-jdbc-oracle</artifactId>
-            <version>8.5.3-SNAPSHOT</version>
+            <version>8.5.5-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>dm.jdbc</groupId>

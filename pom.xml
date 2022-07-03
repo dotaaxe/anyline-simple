@@ -43,6 +43,7 @@
         <module>anyline-simple-kingbase</module>
         <module>anyline-simple-oracle</module>
         <module>anyline-simple-sms</module>
+        <module>anyline-simple-entity</module>
 
 
     </modules>
