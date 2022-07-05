@@ -44,6 +44,7 @@
         <module>anyline-simple-oracle</module>
         <module>anyline-simple-sms</module>
         <module>anyline-simple-entity</module>
+        <module>anyline-simple-helloworld</module>
 
 
     </modules>
