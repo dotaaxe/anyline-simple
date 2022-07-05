@@ -12,9 +12,9 @@ simple_sso
 http://qa.anyline.org/art/v?id=lv0182c99f6acebf1d2d680783bf1168e8f99eced8e0136a4ec1
 
     <!--
-        入门请先看  anyline-simple-nowweb(没有web环境 只操作数据库)
+        入门请先看  anyline-simple-hello(没有web环境 只操作数据库)
 
-        SpringApplication application = new SpringApplication(SimpleApplication.class);
+        SpringApplication application = new SpringApplication(HelloApplication.class);
         ConfigurableApplicationContext ctx = application.run(args);
         AnylineService service = (AnylineService) ctx.getBean("anyline.service");
         DataSet set = service.querys("BS_VALUE");

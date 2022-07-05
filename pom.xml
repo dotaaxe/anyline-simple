@@ -9,6 +9,9 @@
     <packaging>pom</packaging>
     <description>示例</description>
     <modules>
+
+        <module>anyline-simple-hello</module>
+
         <!--基础依赖-->
         <module>anyline-simple-dependency</module>
 
@@ -44,7 +47,6 @@
         <module>anyline-simple-oracle</module>
         <module>anyline-simple-sms</module>
         <module>anyline-simple-entity</module>
-        <module>anyline-simple-helloworld</module>
 
 
     </modules>
