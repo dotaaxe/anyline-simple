@@ -48,6 +48,7 @@
         <module>anyline-simple-sms</module>
         <module>anyline-simple-entity</module>
         <module>anyline-simple-postgresql</module>
+        <module>anyline-simple-clickhouse</module>
 
 
     </modules>
