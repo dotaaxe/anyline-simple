@@ -1,6 +1,8 @@
 package org.anyline.simple;
 
 import org.anyline.net.*;
+import org.anyline.util.BeanUtil;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,10 +26,24 @@ public class NetApplication extends SpringBootServletInitializer {
 	}
 
 	public static void main(String[] args) throws Exception {
-		String txt = HttpUtil.get("http://zhannei.baidu.com/cse/site?q=%E4%B8%AA%E4%BA%BA%E6%89%80%E5%BE%97&p=1&cc=www.ushui.net").getText();
-		System.out.println(txt);
+		//String txt = HttpUtil.get("http://zhannei.baidu.com/cse/site?q=%E4%B8%AA%E4%BA%BA%E6%89%80%E5%BE%97&p=1&cc=www.ushui.net").getText();
+		//System.out.println(txt);
 		//http();
 		//download();
+		mqtt();
+	}
+	public static void mqtt(){
+		//curl -v -X POST -d "{\"temperature\": 22.5,"lat":36.089957,"lng":120.373291}" http://192.168.220.102:8080/api/v1/usn4azQ07kyajb6uDIZI/telemetry --header "Content-Type:application/json"
+
+		String url = "http://192.168.220.102:8080/api/v1/usn4azQ07kyajb6uDIZI/telemetry";
+
+		 HttpBuilder.init().setUrl(url)
+				 .addHeader("Content-Type","application/json")
+				 .setEntity(BeanUtil.array2map("temperature","22.5","lat","36.089957","lng","120.373291"))
+			.build()
+			.post();
+
+
 	}
 	public static void http(){
 	    String url = "http://www.baidu.com";
