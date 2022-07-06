@@ -317,7 +317,7 @@ public class WordApplication extends SpringBootServletInitializer {
 		TableBuilder builder = TableBuilder.init()
 				.setDatas(set)									//设置数据源
 				.setFields(										//需要导出的列
-						"{num}(EMPLOYEE_NM)"					//{num}表示序号,(DEPARTMENT_NM)表示根据哪一列计算序号，这里部门名称需要分组合并，所以num不是按行计算
+						"${num}(EMPLOYEE_NM)"					//{num}表示序号,(DEPARTMENT_NM)表示根据哪一列计算序号，这里部门名称需要分组合并，所以num不是按行计算
 						,"DEPARTMENT_NM"
 						,"EMPLOYEE_NM"
 						,"YM"
