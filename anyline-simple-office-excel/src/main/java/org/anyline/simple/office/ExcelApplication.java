@@ -88,7 +88,7 @@ public class ExcelApplication extends SpringBootServletInitializer {
 		File template = new File(dir,"template_102.xlsx");//这里是一个模板文件
 		//根据模板导出时就不需要指定表头了，只要对应好顺序，并计算好从哪一行开始写入
 		if(template.exists()) {
-			ExcelUtil.export(template, file, 2, set, "{num}", "DEPARTMENT_NM", "EMPLOYEE_NM", "YM", "{BASE_PRICE}+{REWARD_PRICE}");
+			ExcelUtil.export(template, file, 2, set, "${num}", "DEPARTMENT_NM", "EMPLOYEE_NM", "YM", "${BASE_PRICE}+${REWARD_PRICE}");
 		}
 	}
 	public static void exportTable(){
@@ -98,9 +98,9 @@ public class ExcelApplication extends SpringBootServletInitializer {
 		TableBuilder builder = TableBuilder.init()
 				.setDatas(set)									//设置数据源
 				.setFields(										//需要导出的列
-						"{num}(EMPLOYEE_NM)"					//{num}表示序号,(DEPARTMENT_NM)表示根据哪一列计算序号，这里部门名称需要分组合并，所以num不是按行计算
+						"${num}(EMPLOYEE_NM)"					//{num}表示序号,(DEPARTMENT_NM)表示根据哪一列计算序号，这里部门名称需要分组合并，所以num不是按行计算
 						,"DEPARTMENT_NM"
-						,"{DEPARTMENT_ID}-{DEPARTMENT_NM}"
+						,"${DEPARTMENT_ID}-${DEPARTMENT_NM}"
 						,"EMPLOYEE_NM"
 						,"YM"
 						,"BASE_PRICE"
