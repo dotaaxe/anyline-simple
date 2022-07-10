@@ -47,7 +47,7 @@ public class DefaultController extends BasicController {
     @RequestMapping("like1")
     @ResponseBody
     public String like1() {
-        DataSet set = service.querys("HR_EMPLOYEE", condition("CODE:%code:cd:{9}%"));
+        DataSet set = service.querys("HR_EMPLOYEE", condition("CODE:%code:cd:${9}%"));
         return success(set);
     }
     /**
@@ -75,7 +75,8 @@ public class DefaultController extends BasicController {
     @RequestMapping("in1")
     @ResponseBody
     public String in1() {
-        DataSet set = service.querys("HR_EMPLOYEE", condition("ID:[id:cd:{6,7,8}]"));
+        DataSet set = service.querys("HR_EMPLOYEE", condition("ID:[id:cd:${6,7,8}]"));
+        set = service.querys("HR_EMPLOYEE", condition("ID:[id:cd:${[6,7,8]}]"));
         return success(set);
     }
     /**
@@ -86,7 +87,7 @@ public class DefaultController extends BasicController {
     @RequestMapping("or")
     @ResponseBody
     public String or() {
-        DataSet set = service.querys("HR_EMPLOYEE", condition("DEPARTMENT_ID:dept|SEX:sex:s:{1}"));
+        DataSet set = service.querys("HR_EMPLOYEE", condition("DEPARTMENT_ID:dept|SEX:sex:s:${1}"));
         return success(set);
     }
 
@@ -113,7 +114,7 @@ public class DefaultController extends BasicController {
     public String or2() {
         //只有d1取值成功 当前条件才生效
         DataSet set = service.querys("HR_EMPLOYEE",
-                condition("DEPARTMENT_ID:d1|{9}"));
+                condition("DEPARTMENT_ID:d1|${9}"));
         return success(set);
     }
     /**
@@ -131,7 +132,7 @@ public class DefaultController extends BasicController {
     @ResponseBody
     public String or9() {
         //依次取d1,d2的值，如果d1取值成功则忽略d2,如果都失败则取默认值9
-        DataSet set = service.querys("HR_EMPLOYEE", condition("DEPARTMENT_ID:d1:d2:{9}"));
+        DataSet set = service.querys("HR_EMPLOYEE", condition("DEPARTMENT_ID:d1:d2:${9}"));
         return success(set);
     }
 
@@ -139,7 +140,7 @@ public class DefaultController extends BasicController {
     @ResponseBody
     public String ors() {
         //(SORT=1 AND AGE = 18) OR (SORT = 0 AND SEX IN (0,1))
-        DataSet set = service.querys("HR_EMPLOYEE", condition("DEPARTMENT_ID:dept:{1}","SEX:sex:{1}").ors("DEPARTMENT_ID","2").and("SEX","2"));
+        DataSet set = service.querys("HR_EMPLOYEE", condition("DEPARTMENT_ID:dept:${1}","SEX:sex:${1}").ors("DEPARTMENT_ID","2").and("SEX","2"));
         set.toLowerKey().camel();
         return success(set);
     }
