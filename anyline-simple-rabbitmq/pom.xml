@@ -16,8 +16,7 @@
         <version>8.5.5.2512-SNAPSHOT</version>
         <relativePath></relativePath>
     </parent>-->
-    <groupId>com.traffic</groupId>
-    <artifactId>traffic-mq</artifactId>
+    <artifactId>anyline-simple-rabbitmq</artifactId>
     <version>1.0</version>
     <packaging>jar</packaging>
     <properties>

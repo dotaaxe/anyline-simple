@@ -46,6 +46,8 @@
         <module>anyline-simple-jdbc/anyline-simple-jdbc-oracle</module>
         <module>anyline-simple-jdbc/anyline-simple-jdbc-postgresql</module>
         <module>anyline-simple-jdbc/anyline-simple-jdbc-clickhouse</module>
+        <module>anyline-simple-jdbc/anyline-simple-jdbc-kingbase</module>
+        <module>anyline-simple-jdbc/anyline-simple-jdbc-sqlite</module>
         <module>anyline-simple-sms</module>
         <module>anyline-simple-entity</module>
         <module>anyline-simple-thingsboard</module>
