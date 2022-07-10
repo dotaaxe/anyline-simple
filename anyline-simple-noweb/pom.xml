@@ -10,7 +10,7 @@
         <relativePath></relativePath>
     </parent>
 
-    <artifactId>anyline-simple-nowweb</artifactId>
+    <artifactId>anyline-simple-noweb</artifactId>
     <packaging>jar</packaging>
     <description>nowweb</description>
 
