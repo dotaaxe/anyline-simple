@@ -51,6 +51,7 @@
         <module>anyline-simple-sms</module>
         <module>anyline-simple-entity</module>
         <module>anyline-simple-thingsboard</module>
+        <module>anyline-simple-jdbc/anyline-simple-jdbc-derby</module>
 
 
     </modules>
