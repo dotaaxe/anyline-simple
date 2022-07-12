@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
 import java.util.HashMap;
@@ -24,10 +25,33 @@ public class NetApplication extends SpringBootServletInitializer {
 	}
 
 	public static void main(String[] args) throws Exception {
-		//String txt = HttpUtil.get("http://zhannei.baidu.com/cse/site?q=%E4%B8%AA%E4%BA%BA%E6%89%80%E5%BE%97&p=1&cc=www.ushui.net").getText();
-		//System.out.println(txt);
+		String txt = HttpUtil.get("http://zhannei.baidu.com/cse/site?q=%E4%B8%AA%E4%BA%BA%E6%89%80%E5%BE%97&p=1&cc=www.ushui.net").getText();
+		System.out.println(txt);
 		//http();
 		//download();
+		jtt808();
+	}
+	public static void jtt808(){
+
+		String clientId = "1111111111"; //终端ID
+		//断电
+		String url = "http://xxx.com/terminal/control";
+		Map<String,Object> map = new HashMap<>();
+		map.put("clientId",clientId);
+		map.put("command","100");
+		HttpResult result = HttpUtil.post(url,"UTF-8", map);
+		System.out.println(result.getStatus());
+		System.out.println(result.getText());
+		//通电
+		map.put("command","101");
+		result = HttpUtil.post(url,"UTF-8", map);
+		System.out.println(result.getStatus());
+		System.out.println(result.getText());
+
+		url = "http://xxx.com/terminal/location?clientId="+clientId;
+		result = HttpUtil.get(url);
+		System.out.println(result.getStatus());
+		System.out.println(result.getText());
 	}
 	public static void http(){
 	    String url = "http://www.baidu.com";
