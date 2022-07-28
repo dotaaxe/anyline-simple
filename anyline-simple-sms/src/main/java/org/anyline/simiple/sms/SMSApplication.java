@@ -1,10 +1,10 @@
 package org.anyline.simiple.sms;
 
 import org.anyline.aliyun.sms.util.SMSConfig;
-import org.anyline.aliyun.sms.util.SMSResult;
 import org.anyline.aliyun.sms.util.SMSTemplate;
 import org.anyline.aliyun.sms.util.SMSUtil;
 import org.anyline.entity.DataRow;
+import org.anyline.sms.entity.SMSResult;
 import org.anyline.util.BeanUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -28,9 +28,11 @@ public class SMSApplication {
         SMSConfig.register("default", "ACCESS_KEY","ACCESS_SECRET");
         SMSUtil util = SMSUtil.getInstance();
 
+        /* ************************* [发送短信] ******************************* */
+
         //模板参数 根据模板内容设置,如:您的验证码${code},5分钟内有效
         Map<String,String> params = new HashMap<>();
-        params.put("code","000000");
+        params.put("code", "123456");
 
         SMSResult result = util.send("签名","SMS_88550009","15800000000", params);
         System.out.println(BeanUtil.object2json(result));
@@ -48,6 +50,9 @@ public class SMSApplication {
         //查询发送状态
         result = util.status("15800000000");
         System.out.println(BeanUtil.object2json(result));
+
+
+        /* ************************* [模板相关] ******************************* */
 
         //申请模板 type(0:验证码 1:通知短信 2:推广短信)
         String code = util.template.request("退款申请",1, "订单${order}已申请退款,金额:${price}", "退款申请的短信,请审核通过");
@@ -72,6 +77,7 @@ public class SMSApplication {
 
         //根据编号查询模板信息，主要查询审核状态
         SMSTemplate template = util.template.info("SMS_120405942");
+        System.out.println(BeanUtil.object2json(template));
 
     }
 }
