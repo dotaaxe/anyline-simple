@@ -7,6 +7,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 
 @ComponentScan(basePackages = {"org.anyline"})
 @SpringBootApplication
@@ -17,5 +21,6 @@ public class HelloApplication {
         AnylineService service = (AnylineService) ctx.getBean("anyline.service");
         DataSet set = service.querys("BS_VALUE");
         System.out.println(set.size());
+
     }
 }
