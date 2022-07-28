@@ -42,7 +42,7 @@
         <module>anyline-simple-rabbitmq</module>
         <module>anyline-simple-minio</module>
         <module>anyline-simple-noweb</module>
-        <module>anyline-simple-jdbc/anyline-simple-jdbc-oracle2dm</module>
+        <module>anyline-simple-jdbc/anyline-simple-jdbc-dm</module>
         <module>anyline-simple-jdbc/anyline-simple-jdbc-oracle</module>
         <module>anyline-simple-jdbc/anyline-simple-jdbc-postgresql</module>
         <module>anyline-simple-jdbc/anyline-simple-jdbc-clickhouse</module>

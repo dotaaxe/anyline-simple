@@ -8,23 +8,13 @@
         <artifactId>anyline-simple-jdbc</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <artifactId>anyline-simple-jdbc-oracle2dm</artifactId>
+    <artifactId>anyline-simple-jdbc-dm</artifactId>
     <packaging>jar</packaging>
-    <description>多数据源操作</description>
+    <description>达梦</description>
     <dependencies>
         <dependency>
             <groupId>org.anyline</groupId>
             <artifactId>anyline-jdbc-dm</artifactId>
-            <version>8.5.5-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>org.anyline</groupId>
-            <artifactId>anyline-jdbc-mysql</artifactId>
-            <version>8.5.5-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>org.anyline</groupId>
-            <artifactId>anyline-jdbc-oracle</artifactId>
             <version>8.5.5-SNAPSHOT</version>
         </dependency>
         <dependency>
@@ -33,13 +23,6 @@
             <version>18</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/src/main/lib/DmJdbcDriver18.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>com.oracle.ojdbc</groupId>
-            <artifactId>ojdbc8</artifactId>
-            <version>19.3.0.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/src/main/lib/ojdbc8.jar</systemPath>
         </dependency>
 
     </dependencies>

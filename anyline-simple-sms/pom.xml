@@ -19,6 +19,7 @@
         <dependency>
             <groupId>org.anyline</groupId>
             <artifactId>anyline-aliyun-sms</artifactId>
+            <version>8.5.5-SNAPSHOT</version>
         </dependency>
     </dependencies>
 

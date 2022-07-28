@@ -15,12 +15,13 @@
 
     <dependencies>
         <!--注意 这里根据数据库的兼容模式
-        anyline-jdbc-kingbase-prostgresql(兼容prostgresql)
+        anyline-jdbc-kingbase-postgresql(兼容postgresql)
         anyline-jdbc-kingbase(兼容oracle)
         -->
         <dependency>
             <groupId>org.anyline</groupId>
-            <artifactId>anyline-jdbc-kingbase-prostgresql</artifactId>
+            <artifactId>anyline-jdbc-kingbase-postgresql</artifactId>
+            <version>8.5.5-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.kingbase</groupId>
