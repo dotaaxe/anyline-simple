@@ -112,7 +112,7 @@ public class ExcelApplication extends SpringBootServletInitializer {
 						,"YM(DEPARTMENT_NM)"					//如果月份相同则合并，前提是部门已经合并
 				)
 				.setReplaceEmpty("/")							//如果值为空则以/代替
-				.addIgnoreUnionValue("/")						//不参与合并的值
+				.addIgnoreUnionValue("/")				//不参与合并的值
 				.setCellBorder(true)							//设置默认边框
 				.setMergeCellHorizontalAlign("center")			//设置合并的列 水平对齐方式
 				.setMergeCellVerticalAlign("top")				//设置合并的列 垂直对齐方式
