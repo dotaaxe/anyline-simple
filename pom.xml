@@ -42,16 +42,20 @@
         <module>anyline-simple-rabbitmq</module>
         <module>anyline-simple-minio</module>
         <module>anyline-simple-noweb</module>
+        <module>anyline-simple-jdbc</module>
         <module>anyline-simple-jdbc/anyline-simple-jdbc-dm</module>
         <module>anyline-simple-jdbc/anyline-simple-jdbc-oracle</module>
         <module>anyline-simple-jdbc/anyline-simple-jdbc-postgresql</module>
         <module>anyline-simple-jdbc/anyline-simple-jdbc-clickhouse</module>
         <module>anyline-simple-jdbc/anyline-simple-jdbc-kingbase</module>
         <module>anyline-simple-jdbc/anyline-simple-jdbc-sqlite</module>
+        <module>anyline-simple-jdbc/anyline-simple-jdbc-derby</module>
         <module>anyline-simple-sms</module>
         <module>anyline-simple-entity</module>
         <module>anyline-simple-thingsboard</module>
-        <module>anyline-simple-jdbc/anyline-simple-jdbc-derby</module>
+        <module>anyline-simple-map</module>
+        <module>anyline-simple-baidu-map</module>
+        <module>anyline-simple-qq-map</module>
 
 
     </modules>
