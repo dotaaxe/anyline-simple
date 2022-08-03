@@ -58,7 +58,7 @@ public class DefaultController extends BasicController {
     @RequestMapping("in")
     @ResponseBody
     public String in() {
-        DataSet set = service.querys("HR_EMPLOYEE", condition("DEPARTMENT_ID:[dept]"));
+        DataSet set = service.querys("HR_EMPLOYEE", condition("DEPARTMENT_ID:[split(dept)]"));
         return success(set);
     }
     /**
