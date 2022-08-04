@@ -4,12 +4,6 @@ import org.anyline.entity.MapPoint;
 import org.anyline.qq.map.util.QQMapConfig;
 import org.anyline.qq.map.util.QQMapUtil;
 import org.anyline.util.BeanUtil;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.ComponentScan;
 
 
 public class QQMapApplication  {
