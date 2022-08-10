@@ -17,8 +17,6 @@ public class EntityApplication {
     private static AnylineService service;
     public static void main(String[] args) {
         SpringApplication application = new SpringApplication(EntityApplication.class);
-        application.run(args);
-
         ConfigurableApplicationContext context = application.run(args);
         service = (AnylineService)context.getBean("anyline.service");
         run();
