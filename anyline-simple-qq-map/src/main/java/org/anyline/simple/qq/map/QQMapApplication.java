@@ -15,6 +15,12 @@ public class QQMapApplication  {
 		//逆地址解析
 		MapPoint point = util.regeo("120.3801102573153","36.204793643413055");
 		System.out.println(BeanUtil.object2json(point));
+
+		//IP物理地址解析
+		String ip = "150.158.106.189";
+		point = util.ip(ip);
+		System.out.println(BeanUtil.object2json(point));
+
 	}
 
 }
