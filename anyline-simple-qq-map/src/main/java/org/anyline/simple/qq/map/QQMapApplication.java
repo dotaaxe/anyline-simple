@@ -12,6 +12,7 @@ public class QQMapApplication  {
 		//在这申请 https://lbs.qq.com/dev/console/application/mine-
 		QQMapConfig.register("XTWBZ-XEHKD-*****-*****-CQEBF-PYFGN","gKq8Ol3UM********YW7KNXXfdC");
 		QQMapUtil util =   QQMapUtil.getInstance();
+		//逆地址解析
 		MapPoint point = util.regeo("120.3801102573153","36.204793643413055");
 		System.out.println(BeanUtil.object2json(point));
 	}
