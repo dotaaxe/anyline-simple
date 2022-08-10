@@ -1,6 +1,6 @@
 package org.anyline.simple.regular;
 
-import org.anyline.net.HttpResult;
+import org.anyline.net.HttpResponse;
 import org.anyline.net.HttpUtil;
 import org.anyline.util.DateUtil;
 import org.anyline.util.regular.RegularUtil;
@@ -31,7 +31,7 @@ public class RegularApplication {
 
         String url = "http://doc.anyline.org/";
         //请求一个地址
-        HttpResult result = HttpUtil.get(url);
+        HttpResponse result = HttpUtil.get(url);
         //响应状态
         int status = result.getStatus();
         //200代表成功
@@ -114,7 +114,7 @@ public class RegularApplication {
     public static void html() throws Exception{
         String url = "http://doc.anyline.org/";
         //请求一个地址
-        HttpResult result = HttpUtil.get(url);
+        HttpResponse result = HttpUtil.get(url);
         //响应状态
         int status = result.getStatus();
         //200代表成功
