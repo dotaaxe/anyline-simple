@@ -37,8 +37,10 @@ public class ExcelApplication extends SpringBootServletInitializer {
 
 		return application.sources(ExcelApplication.class);
 	}
-
 	public static void main(String[] args) {
+
+
+
 		String path = ExcelApplication.class.getResource("").getPath();
 		dir = new File(path.substring(0,path.indexOf("target")),"/src/main/template");
 		SpringApplication application = new SpringApplication(ExcelApplication.class);
@@ -62,6 +64,8 @@ public class ExcelApplication extends SpringBootServletInitializer {
 	}
 	public static void header(){
 		File file = new File(dir,"template_102.xlsx");
+		//根据内容定位单元格坐标
+		int[] position = ExcelUtil.position(file,"序号.*");
 		ExcelReader reader = ExcelReader.init()
 				.setFile(file)	//文件位置
 				.setSheet(1)	//读取第1个sheet(下标从0开始)
@@ -71,6 +75,7 @@ public class ExcelApplication extends SpringBootServletInitializer {
 				;
 		DataSet set = reader.read();
 		log.warn(set.toJSON());
+
 	}
 	/**
 	 * 导出excel
