@@ -6,6 +6,7 @@ import org.anyline.net.*;
 import org.anyline.thingsboard.util.ThingsBoardClient;
 import org.anyline.util.BasicUtil;
 import org.anyline.util.BeanUtil;
+import org.anyline.util.ConfigTable;
 import org.anyline.util.DateUtil;
 import org.thingsboard.server.common.data.Device;
 import org.thingsboard.server.common.data.EntityType;
@@ -20,6 +21,7 @@ import java.util.Map;
 
 
 public class ThingsboardApplication{
+
     public static void main(String[] args) {
         System.out.println(System.currentTimeMillis());
         String token = BasicUtil.getRandomString(16);
@@ -48,12 +50,12 @@ public class ThingsboardApplication{
         //curl -v -X POST -d "{\"temperature\": 22.5,"lat":36.089957,"lng":120.373291}" http://192.168.220.102:8080/api/v1/wituEKzWypavSPDcpM0r/telemetry --header "Content-Type:application/json"
         //根据token上传遥测数据
         String url = "http://192.168.220.101:8080/api/v1/"+token+"/telemetry";
-        HttpResult body = HttpBuilder.init().setUrl(url)
+        HttpResponse response = HttpBuilder.init().setUrl(url)
                 .addHeader("Content-Type","application/json")
                 .setEntity(BeanUtil.array2map("temperature","122.5","lat","136.089957","lng","1120.373291"))
                 .build()
                 .post();
-        System.out.println("[HTTP添加遥测数据][status:"+body.getStatus()+"]");
+        System.out.println("[HTTP添加遥测数据][status:"+response.getStatus()+"]");
 
         //添加遥测数据
         Map<String,Object> row = new HashMap();
