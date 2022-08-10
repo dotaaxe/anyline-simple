@@ -39,7 +39,7 @@ public class NetApplication extends SpringBootServletInitializer {
 		Map<String,Object> map = new HashMap<>();
 		map.put("clientId",clientId);
 		map.put("command","100");
-		HttpResult result = HttpUtil.post(url,"UTF-8", map);
+		HttpResponse result = HttpUtil.post(url,"UTF-8", map);
 		System.out.println(result.getStatus());
 		System.out.println(result.getText());
 		//通电
@@ -56,7 +56,7 @@ public class NetApplication extends SpringBootServletInitializer {
 	public static void http(){
 	    String url = "http://www.baidu.com";
 	    //读取html
-		HttpResult result = HttpUtil.get(url);
+		HttpResponse result = HttpUtil.get(url);
 		log.warn("status:{}",result.getStatus());
 		log.warn("html:{}", result.getText().length());
 
