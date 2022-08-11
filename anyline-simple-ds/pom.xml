@@ -12,4 +12,10 @@
     <artifactId>anyline-simple-ds</artifactId>
     <packaging>jar</packaging>
     <description>多数据源操作</description>
+    <dependencies>
+        <dependency>
+            <groupId>org.anyline</groupId>
+            <artifactId>anyline-jdbc-dm</artifactId>
+        </dependency>
+    </dependencies>
 </project>

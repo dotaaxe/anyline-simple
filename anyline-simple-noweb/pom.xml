@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.anyboot</groupId>
-        <artifactId>anyboot-start</artifactId>
+        <artifactId>anyboot-start-mysql</artifactId>
         <version>8.5.6.2512-SNAPSHOT</version>
         <relativePath></relativePath>
     </parent>
@@ -15,27 +15,4 @@
     <description>nowweb</description>
 
 
-    <dependencies>
-        <dependency>
-            <groupId>org.anyboot</groupId>
-            <artifactId>anyboot-jdbc</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.anyline</groupId>
-            <artifactId>anyline-jdbc-mysql</artifactId>
-        </dependency>
-    </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <includeSystemScope>true</includeSystemScope>
-                    <mainClass>org.anyline.simiple.noweb.SimpleApplication</mainClass>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 </project>
