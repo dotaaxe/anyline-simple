@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.util.ClassUtil;
 
 import javax.persistence.Column;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -15,8 +16,11 @@ public class Employee {
     private Long id;
     @Column(name = "NM")
     private String name;
+    @Transient
     private int age;
 
+    //@Column(name = "JOIN_YMD")
+    private String joinYmd;
 
     public Long getId() {
         return id;
@@ -40,5 +44,13 @@ public class Employee {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public String getJoinYmd() {
+        return joinYmd;
+    }
+
+    public void setJoinYmd(String joinYmd) {
+        this.joinYmd = joinYmd;
     }
 }
