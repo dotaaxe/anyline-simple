@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @ComponentScan(basePackages = {"org.anyline","org.anyboot"})
@@ -36,6 +37,29 @@ public class EntityApplication {
         employee.setJoinYmd(DateUtil.format("yyyy-MM-dd"));
         service.save(employee);
         System.out.println(BeanUtil.object2json(employee));
+
+        list = new ArrayList<>();
+        for(int i=0; i<3;i++) {
+            employee = new Employee();
+            employee.setName("test-"+i);
+            employee.setJoinYmd(DateUtil.format("yyyy-MM-dd"));
+            list.add(employee);
+        }
+        service.save(list);
+        System.out.println(BeanUtil.object2json(list));
+
+        service.save(list);
+        System.out.println(BeanUtil.object2json(list));
+
+        list = new ArrayList<>();
+        for(int i=0; i<3;i++) {
+            employee = new Employee();
+            employee.setName("test-"+i);
+            employee.setJoinYmd(DateUtil.format("yyyy-MM-dd"));
+            list.add(employee);
+        }
+        service.insert(list);
+        System.out.println(BeanUtil.object2json(list));
     }
 
 }
