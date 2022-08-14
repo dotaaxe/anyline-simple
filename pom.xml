@@ -55,6 +55,7 @@
         <module>anyline-simple-thingsboard</module>
         <module>anyline-simple-baidu-map</module>
         <module>anyline-simple-qq-map</module>
+        <module>anyline-simple-spider</module>
 
 
     </modules>

@@ -16,7 +16,7 @@
         <dependency>
             <groupId>org.anyline</groupId>
             <artifactId>anyline-jdbc-postgresql</artifactId>
-            <version>8.5.6-SNAPSHOT</version>
+            <version>8.5.7-SNAPSHOT</version>
         </dependency>
     </dependencies>
 </project>
