@@ -25,9 +25,9 @@ public class EntityApplication {
         System.exit(0);
     }
     public static void run(){
-        DataSet set = service.querys("HR_EMPLOYEE");
+        DataSet set = service.querys("HR_EMPLOYEE",0,9);
         System.out.println(set.toJSON());
-        List<Employee> list = service.querys(Employee.class);
+        List<Employee> list = service.querys(Employee.class,"ORDER BY ID DESC");
         System.out.println(BeanUtil.object2json(list));
         Employee employee = list.get(0);
         employee.setAge(100);
@@ -50,6 +50,10 @@ public class EntityApplication {
 
         service.save(list);
         System.out.println(BeanUtil.object2json(list));
+
+        employee.setId(123L);
+        service.delete(employee);
+        service.delete(list);
 
         list = new ArrayList<>();
         for(int i=0; i<3;i++) {
