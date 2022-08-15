@@ -1,11 +1,13 @@
-事务支持  
-启动后调用  
-http://127.0.0.1:8080/emp/a   
+多数据源事务支持  
+启动后分别调用  
+http://127.0.0.1:8080/emp/a         //默认数据源  
+http://127.0.0.1:8080/sso/a         //运行时注册数据源  
+http://127.0.0.1:8080/cust/a        //配置文件数据源  
 
 如果不回滚  
 启动类上有没有开启  
 org.springframework.transaction.annotation.EnableTransactionManagement;  
-检查一下有没有依赖  
+检查一下有没有依赖
 ``` 
  <groupId>org.springframework</groupId>  
  <artifactId>spring-tx</artifactId>  
