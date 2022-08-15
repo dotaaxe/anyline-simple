@@ -56,6 +56,7 @@
         <module>anyline-simple-baidu-map</module>
         <module>anyline-simple-qq-map</module>
         <module>anyline-simple-spider</module>
+        <module>anyline-simple-transaction</module>
 
 
     </modules>
