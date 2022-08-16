@@ -62,5 +62,16 @@ public class DatasourceApplication extends SpringBootServletInitializer {
 		//切换回默认数据源
 		DataSourceHolder.setDefaultDataSource();
 		service.query("HR_DEPARTMENT");
+
+
+		//覆盖一个数据源
+		try {
+			String url = "jdbc:mysql://127.0.0.1:36902/simple_crm?useUnicode=true&characterEncoding=UTF8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true";
+			DataSourceHolder.reg("sso", "com.zaxxer.hikari.HikariDataSource", "com.mysql.cj.jdbc.Driver", url, "root", "root");
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		//注意这里的sso实际已经指向了crm数据库了
+		service.query("<sso>crm_customer");
 	}
 }
