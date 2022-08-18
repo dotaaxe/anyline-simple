@@ -2,6 +2,9 @@ package org.anyline.simple.entity;
 
 
 import org.anyline.entity.DataSet;
+import org.anyline.entity.EntitySet;
+import org.anyline.entity.PageNavi;
+import org.anyline.entity.PageNaviImpl;
 import org.anyline.service.AnylineService;
 import org.anyline.util.BeanUtil;
 import org.anyline.util.DateUtil;
@@ -27,8 +30,13 @@ public class EntityApplication {
     public static void run(){
         DataSet set = service.querys("HR_EMPLOYEE",0,9);
         System.out.println(set.toJSON());
-        List<Employee> list = service.querys(Employee.class,"ORDER BY ID DESC");
+
+        PageNavi navi = new PageNaviImpl();
+        navi.setPageRows(10);
+        EntitySet<Employee> list = service.querys(Employee.class, navi,"ORDER BY ID DESC");
         System.out.println(BeanUtil.object2json(list));
+        System.out.println(BeanUtil.object2json(list.getNavi()));
+
         Employee employee = list.get(0);
         employee.setAge(100);
         service.save(employee);
@@ -38,7 +46,7 @@ public class EntityApplication {
         service.save(employee);
         System.out.println(BeanUtil.object2json(employee));
 
-        list = new ArrayList<>();
+        list = new EntitySet<>();
         for(int i=0; i<3;i++) {
             employee = new Employee();
             employee.setName("test-"+i);
@@ -55,7 +63,7 @@ public class EntityApplication {
         service.delete(employee);
         service.delete(list);
 
-        list = new ArrayList<>();
+        list = new EntitySet<>();
         for(int i=0; i<3;i++) {
             employee = new Employee();
             employee.setName("test-"+i);
