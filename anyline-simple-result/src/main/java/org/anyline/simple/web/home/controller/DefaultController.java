@@ -10,11 +10,11 @@ import javax.servlet.http.HttpServletResponse;
 @Controller("web.home.DefaultController")
 @RequestMapping("/")
 public class DefaultController extends BasicController {
+
     @RequestMapping({"","index"})
     public ModelAndView index(HttpServletRequest request, HttpServletResponse response) {
 
         ModelAndView mv = template("index.jsp");
-
         return mv;
     }
 

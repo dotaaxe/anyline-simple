@@ -5,6 +5,7 @@ import org.anyline.entity.DataSet;
 import org.anyline.jdbc.config.ConfigStore;
 import org.anyline.jdbc.config.impl.ConfigStoreImpl;
 import org.anyline.service.AnylineService;
+import org.anyline.util.ConfigTable;
 import org.anyline.util.GISUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,6 +24,7 @@ import java.util.List;
 @SpringBootApplication
 public class HelloApplication {
     public static void main(String[] args) {
+        ConfigTable.IS_SQL_DELIMITER_OPEN = true;
         SpringApplication application = new SpringApplication(HelloApplication.class);
         ConfigurableApplicationContext ctx = application.run(args);
         //关于几个 空值 的查询条件

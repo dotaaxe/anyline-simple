@@ -1,16 +1,8 @@
 package org.anyline.simple.entity;
 
-import com.fasterxml.jackson.databind.util.ClassUtil;
-
 import javax.persistence.Column;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
-
 @Table(name="hr_employee")
 public class Employee {
     private Long id;
