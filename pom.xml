@@ -58,6 +58,7 @@
         <module>anyline-simple-spider</module>
         <module>anyline-simple-transaction</module>
         <module>anyline-simple-ds-transaction</module>
+        <module>anyline-simple-jdbc/ayline-simple-jdbc-h2</module>
 
 
     </modules>
