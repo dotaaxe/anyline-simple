@@ -50,6 +50,8 @@
         <module>anyline-simple-jdbc/anyline-simple-jdbc-kingbase</module>
         <module>anyline-simple-jdbc/anyline-simple-jdbc-sqlite</module>
         <module>anyline-simple-jdbc/anyline-simple-jdbc-derby</module>
+        <module>anyline-simple-jdbc/anyline-simple-jdbc-h2</module>
+        <module>anyline-simple-jdbc/anyline-simple-jdbc-hsqldb</module>
         <module>anyline-simple-sms</module>
         <module>anyline-simple-entity</module>
         <module>anyline-simple-thingsboard</module>
@@ -58,7 +60,6 @@
         <module>anyline-simple-spider</module>
         <module>anyline-simple-transaction</module>
         <module>anyline-simple-ds-transaction</module>
-        <module>anyline-simple-jdbc/ayline-simple-jdbc-h2</module>
 
 
     </modules>
