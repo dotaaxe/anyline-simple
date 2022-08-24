@@ -41,6 +41,7 @@
         <module>anyline-simple-office-word</module>
         <module>anyline-simple-rabbitmq</module>
         <module>anyline-simple-minio</module>
+        <!--没有web环境-->
         <module>anyline-simple-noweb</module>
         <module>anyline-simple-jdbc</module>
         <module>anyline-simple-jdbc/anyline-simple-jdbc-dm</module>
@@ -53,13 +54,17 @@
         <module>anyline-simple-jdbc/anyline-simple-jdbc-h2</module>
         <module>anyline-simple-jdbc/anyline-simple-jdbc-hsqldb</module>
         <module>anyline-simple-sms</module>
+        <!--针对Entity的操作-->
         <module>anyline-simple-entity</module>
         <module>anyline-simple-thingsboard</module>
         <module>anyline-simple-baidu-map</module>
         <module>anyline-simple-qq-map</module>
+        <!--模拟浏览器执行js-->
         <module>anyline-simple-spider</module>
         <module>anyline-simple-transaction</module>
         <module>anyline-simple-ds-transaction</module>
+        <!--适配 高德、百度、腾讯地图接口 超限额后自动切换平台-->
+        <module>anyline-simple-map</module>
 
 
     </modules>
