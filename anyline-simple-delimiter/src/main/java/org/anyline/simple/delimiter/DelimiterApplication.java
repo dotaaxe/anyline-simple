@@ -29,14 +29,9 @@ public class DelimiterApplication extends SpringBootServletInitializer {
 
 		ConfigurableApplicationContext context = application.run(args);
 
-		//测试切换数据源
 		AnylineService service = (AnylineService)context.getBean("anyline.service");
+		ds(service); //开启前SQL中不加界定符
 		ConfigTable.IS_SQL_DELIMITER_OPEN = true;
-		ConfigTable.IS_SQL_DELIMITER_PLACEHOLDER_OPEN = true;
-		ConfigTable.SQL_DELIMITER_PLACEHOLDER = "[]";
-
-		service.query("<crm>crm_customer");
-		service.query("SELECT [ID] AS CD FROM HR_DEPARTMENT");
 		ds(service);
 		System.exit(0);
 
