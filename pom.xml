@@ -53,20 +53,29 @@
         <module>anyline-simple-jdbc/anyline-simple-jdbc-derby</module>
         <module>anyline-simple-jdbc/anyline-simple-jdbc-h2</module>
         <module>anyline-simple-jdbc/anyline-simple-jdbc-hsqldb</module>
+        <!--短信-->
         <module>anyline-simple-sms</module>
         <!--针对Entity的操作-->
         <module>anyline-simple-entity</module>
+        <!--ThingsBoard-->
         <module>anyline-simple-thingsboard</module>
+        <!--百度地图-->
         <module>anyline-simple-baidu-map</module>
+        <!--腾讯地图-->
         <module>anyline-simple-qq-map</module>
         <!--模拟浏览器执行js-->
         <module>anyline-simple-spider</module>
+        <!--事务回滚-->
         <module>anyline-simple-transaction</module>
+        <!--动态数据源事务回滚-->
         <module>anyline-simple-ds-transaction</module>
         <!--适配 高德、百度、腾讯地图接口 超限额后自动切换平台-->
         <module>anyline-simple-map</module>
+        <!--多表操作-->
         <module>anyline-simple-tables</module>
+        <!--界定符-->
         <module>anyline-simple-delimiter</module>
+        <!--界定符 占位-->
         <module>anyline-simple-placeholder</module>
 
 
