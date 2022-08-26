@@ -65,6 +65,9 @@
         <module>anyline-simple-ds-transaction</module>
         <!--适配 高德、百度、腾讯地图接口 超限额后自动切换平台-->
         <module>anyline-simple-map</module>
+        <module>anyline-simple-tables</module>
+        <module>anyline-simple-delimiter</module>
+        <module>anyline-simple-placeholder</module>
 
 
     </modules>
