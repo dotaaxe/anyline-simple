@@ -4,9 +4,10 @@ http://127.0.0.1:8080/emp/a
 
 如果不回滚  
 启动类上有没有开启  
-org.springframework.transaction.annotation.EnableTransactionManagement;  
+org.springframework.transaction.annotation.EnableTransactionManagement;(这个在较新版本中是自动开启的)  
 检查一下有没有依赖  
 ``` 
+这个在spring-jdbc中有依赖 
  <groupId>org.springframework</groupId>  
  <artifactId>spring-tx</artifactId>  
 ```     
