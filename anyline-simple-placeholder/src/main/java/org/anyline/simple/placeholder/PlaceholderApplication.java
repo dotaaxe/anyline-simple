@@ -26,11 +26,13 @@ public class PlaceholderApplication extends SpringBootServletInitializer {
 
 		service.query("SELECT [ID] AS CD FROM HR_DEPARTMENT"); //未开启占位符配置，执行SQL时不会替换[]
 		ConfigTable.IS_SQL_DELIMITER_PLACEHOLDER_OPEN = true;
+		ConfigTable.IS_SQL_DELIMITER_OPEN = true;
 		//默认的占位符用 `
 		service.query("SELECT `ID` AS CD FROM HR_DEPARTMENT");
 
 		ConfigTable.SQL_DELIMITER_PLACEHOLDER = "[]";
 		service.query("SELECT [ID] AS CD FROM HR_DEPARTMENT");
+		service.query("[HR_DEPARTMENT]");
 		System.exit(0);
 
 	}
