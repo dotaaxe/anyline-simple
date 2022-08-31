@@ -53,6 +53,8 @@
         <module>anyline-simple-jdbc/anyline-simple-jdbc-derby</module>
         <module>anyline-simple-jdbc/anyline-simple-jdbc-h2</module>
         <module>anyline-simple-jdbc/anyline-simple-jdbc-hsqldb</module>
+        <module>anyline-simple-jdbc/anyline-simple-jdbc-tdengine</module>
+
         <!--短信-->
         <module>anyline-simple-sms</module>
         <!--针对Entity的操作-->
@@ -77,6 +79,8 @@
         <module>anyline-simple-delimiter</module>
         <!--界定符 占位-->
         <module>anyline-simple-placeholder</module>
+        <module>anyline-simple-metadata</module>
+        <module>anyline-simple-special</module>
 
 
     </modules>
