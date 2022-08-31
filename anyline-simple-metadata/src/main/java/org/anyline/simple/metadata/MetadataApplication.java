@@ -25,6 +25,7 @@ public class MetadataApplication extends SpringBootServletInitializer {
 
 		AnylineService service = (AnylineService)context.getBean("anyline.service");
 
+		ConfigTable.IS_SQL_DELIMITER_OPEN = true;
 		DataRow row = new DataRow();
 		row.put("NM","TEST");
 		row.put("AGE","20");
