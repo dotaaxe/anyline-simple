@@ -39,6 +39,8 @@ public class SpecialApplication {
 		DataRow row = new DataRow();
 		row.put("ID","1");
 		row.put("NM", "ZH");
+		row.put("-REMARK","不更新");	//添加到row中 但不参与插入(更新)
+		row.put("CODE", null);		//默认情况这值不参与插入(更新)， +表示强制参与插入(更新)
 		service.delete("hr_empoyee", row, "ID","NM");
 
 
@@ -53,6 +55,14 @@ public class SpecialApplication {
 		store.addCondition("+VAL", new String[]{});            // VAL IS NULL
 		DataSet set = service.querys("BS_VALUE(ID,GROUP_CODE,CODE,NM,VAL)", store);
 
+
+
+		//只更新CODE REMARK
+		service.update("BS_VALUE",row, "CODE", "REMARK");
+		//CODE强制更新 其他按默认情况
+		service.update("BS_VALUE",row,"+CODE");
+		//只更新值有变化的列
+		service.update("BS_VALUE",row);
 
 		System.exit(0);
 
