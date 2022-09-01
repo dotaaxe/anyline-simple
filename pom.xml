@@ -45,16 +45,16 @@
         <!--没有web环境-->
         <module>anyline-simple-noweb</module>
         <module>anyline-simple-jdbc-dialect</module>
-        <module>anyline-simple-jdbc/anyline-simple-jdbc-dm</module>
-        <module>anyline-simple-jdbc/anyline-simple-jdbc-oracle</module>
-        <module>anyline-simple-jdbc/anyline-simple-jdbc-postgresql</module>
-        <module>anyline-simple-jdbc/anyline-simple-jdbc-clickhouse</module>
-        <module>anyline-simple-jdbc/anyline-simple-jdbc-kingbase</module>
-        <module>anyline-simple-jdbc/anyline-simple-jdbc-sqlite</module>
-        <module>anyline-simple-jdbc/anyline-simple-jdbc-derby</module>
-        <module>anyline-simple-jdbc/anyline-simple-jdbc-h2</module>
-        <module>anyline-simple-jdbc/anyline-simple-jdbc-hsqldb</module>
-        <module>anyline-simple-jdbc/anyline-simple-jdbc-tdengine</module>
+        <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-dm</module>
+        <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-oracle</module>
+        <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-postgresql</module>
+        <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-clickhouse</module>
+        <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-kingbase</module>
+        <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-sqlite</module>
+        <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-derby</module>
+        <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-h2</module>
+        <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-hsqldb</module>
+        <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-tdengine</module>
 
         <!--短信-->
         <module>anyline-simple-sms</module>

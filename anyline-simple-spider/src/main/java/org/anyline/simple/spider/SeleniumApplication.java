@@ -7,7 +7,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import java.util.concurrent.TimeUnit;
 
 public class SeleniumApplication {
-    public static void main(String[] args) throws InterruptedException { //谷歌浏览器的本地驱动
+    public static void main1(String[] args) throws InterruptedException { //谷歌浏览器的本地驱动
 
         WebDriver driver;
         String baseurl;

@@ -20,6 +20,14 @@
             <groupId>org.anyline</groupId>
             <artifactId>anyline-spider</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>selenium</groupId>
+            <artifactId>selenium</artifactId>
+            <version>4.4.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/lib/selenium-server-4.4.0.jar</systemPath>
+        </dependency>
     </dependencies>
 
 </project>
