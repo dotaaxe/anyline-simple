@@ -22,5 +22,10 @@
             <artifactId>javax.servlet-api</artifactId>
         </dependency>
     </dependencies>
-
+    <repositories>
+        <repository>
+            <id>anyline</id>
+            <url>http://maven.anyline.org/repository/maven-snapshots/</url>
+        </repository>
+    </repositories>
 </project>
