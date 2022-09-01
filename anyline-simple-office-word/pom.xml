@@ -12,7 +12,6 @@
         <relativePath>../anyline-simple-dependency-mysql</relativePath>
     </parent>
     <artifactId>anyline-simple-office-word</artifactId>
-    <packaging>war</packaging>
     <description>word读写操作</description>
 
     <dependencies>

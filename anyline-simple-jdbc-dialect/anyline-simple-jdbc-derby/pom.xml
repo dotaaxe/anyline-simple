@@ -4,27 +4,19 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
+        <artifactId>anyline-simple-jdbc-dialect</artifactId>
         <groupId>org.anyline</groupId>
-        <artifactId>anyline-simple-jdbc</artifactId>
         <version>1.0-SNAPSHOT</version>
-        <relativePath></relativePath>
     </parent>
 
-    <artifactId>anyline-simple-jdbc-oracle</artifactId>
-    <packaging>jar</packaging>
+    <artifactId>anyline-simple-jdbc-derby</artifactId>
+
 
     <dependencies>
         <dependency>
             <groupId>org.anyline</groupId>
-            <artifactId>anyline-jdbc-oracle</artifactId>
+            <artifactId>anyline-jdbc-derby</artifactId>
             <version>8.5.7-SNAPSHOT</version>
         </dependency>
-        <dependency>
-            <groupId>com.oracle.database.jdbc</groupId>
-            <artifactId>ojdbc8</artifactId>
-            <version>21.3.0.0</version>
-        </dependency>
-
     </dependencies>
-
 </project>

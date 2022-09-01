@@ -44,7 +44,7 @@
         <module>anyline-simple-minio</module>
         <!--没有web环境-->
         <module>anyline-simple-noweb</module>
-        <module>anyline-simple-jdbc</module>
+        <module>anyline-simple-jdbc-dialect</module>
         <module>anyline-simple-jdbc/anyline-simple-jdbc-dm</module>
         <module>anyline-simple-jdbc/anyline-simple-jdbc-oracle</module>
         <module>anyline-simple-jdbc/anyline-simple-jdbc-postgresql</module>

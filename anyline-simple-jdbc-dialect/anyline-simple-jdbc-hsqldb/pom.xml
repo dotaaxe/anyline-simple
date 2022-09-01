@@ -4,23 +4,23 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <artifactId>anyline-simple-jdbc</artifactId>
+        <artifactId>anyline-simple-jdbc-dialect</artifactId>
         <groupId>org.anyline</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>anyline-simple-jdbc-h2</artifactId>
+    <artifactId>anyline-simple-jdbc-hsqldb</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>org.anyline</groupId>
-            <artifactId>anyline-jdbc-h2</artifactId>
+            <artifactId>anyline-jdbc-hsqldb</artifactId>
             <version>8.5.7-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <version>2.1.212</version>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>2.5.0</version>
         </dependency>
     </dependencies>
 
