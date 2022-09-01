@@ -82,6 +82,15 @@ public class PostgreApplication {
         //只更新值有变化的列
         service.update("tb_user",user);
         //System.out.println(BeanUtil.object2json(service.metadatas("tb_user")));
+
+
+        List<String> tables = service.tables();
+        System.out.println(tables);
+        tables = service.tables("TABLE");
+        System.out.println(tables);
+        tables = service.tables("ts_%","TABLE");
+        System.out.println(tables);
+
         System.exit(0);
     }
 }
