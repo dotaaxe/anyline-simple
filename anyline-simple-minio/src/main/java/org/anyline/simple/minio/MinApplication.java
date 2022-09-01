@@ -2,7 +2,6 @@ package org.anyline.simple.minio;
 
 import io.minio.messages.Bucket;
 import org.anyline.mimio.util.MinioUtil;
-import org.anyline.service.AnylineService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -14,7 +13,7 @@ import java.io.FileInputStream;
 import java.util.List;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"org.anyline","org.anyboot"})
+@ComponentScan(basePackages = {"org.anyline"})
 public class MinApplication {
 
     public static void main(String[] args) {
