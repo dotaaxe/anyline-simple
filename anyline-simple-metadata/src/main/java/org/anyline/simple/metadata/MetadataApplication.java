@@ -29,17 +29,25 @@ public class MetadataApplication extends SpringBootServletInitializer {
 		DataRow row = new DataRow();
 		row.put("NM","TEST");
 		row.put("AGE","20");
+
+		try {
+			//AGE 属性在表中不存在,直接插入会SQL异常
+			service.insert("HR_DEPARTMENT", row);
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+
 		ConfigTable.IS_AUTO_CHECK_METADATA = true;
 		//开启检测后，会先检测表结构，将不表中未出现的列过滤
+		row.remove("ID");
 		service.insert("HR_DEPARTMENT", row);
 		row.remove("ID");
 		//相同的表结构会有一段时间缓存，不会每次都读取物理表
 		service.insert("HR_DEPARTMENT", row);
 
-		ConfigTable.IS_AUTO_CHECK_METADATA = false;
-		row.remove("ID");
-		//AGE 属性在表中不存在,直接插入会SQL异常
-		service.insert("HR_DEPARTMENT", row);
+		row.put("REG_TIME","");	//类型转换失败会按null处理
+		row.put("DATA_STATUS","");
+		service.save("HR_DEPARTMENT", row);
 
 		System.exit(0);
 
