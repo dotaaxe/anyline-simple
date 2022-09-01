@@ -25,18 +25,13 @@ import java.util.Map;
 
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"org.anyline","org.anyboot"})
-public class ExcelApplication extends SpringBootServletInitializer {
+@ComponentScan(basePackages = {"org.anyline"})
+public class ExcelApplication{
 	private static Logger log = LoggerFactory.getLogger(ExcelApplication.class);
 	private static AnylineService service;
 	private static File dir = null;
 	private static Table table = null;
 
-	@Override
-	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-
-		return application.sources(ExcelApplication.class);
-	}
 	public static void main(String[] args) {
 
 

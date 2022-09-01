@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.anyboot</groupId>
-        <artifactId>anyboot-start-mvc-mysql</artifactId>
+        <artifactId>anyboot-start</artifactId>
         <version>8.5.7.2512-SNAPSHOT</version>
         <relativePath></relativePath>
     </parent>
@@ -18,8 +18,19 @@
 
     <dependencies>
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.11</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.10.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>2.10.0</version>
         </dependency>
     </dependencies>
     <repositories>

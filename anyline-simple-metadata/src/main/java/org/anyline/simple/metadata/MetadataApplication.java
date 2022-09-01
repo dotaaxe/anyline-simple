@@ -11,6 +11,8 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 
+import java.util.List;
+
 @SpringBootApplication
 @ComponentScan(basePackages = {"org.anyline","org.anyboot"})
 @Import(DynamicDataSourceRegister.class)
@@ -49,7 +51,14 @@ public class MetadataApplication extends SpringBootServletInitializer {
 		row.put("DATA_STATUS","");
 		service.save("HR_DEPARTMENT", row);
 
-		System.exit(0);
+		List<String> tables = service.tables();
+		System.out.println(tables);
+		tables = service.tables("TABLE");
+		System.out.println(tables);
+		tables = service.tables("bs_%","TABLE");
+		System.out.println(tables);
+		tables = service.tables("root","bs_%","TABLE");
+		System.out.println(tables);
 
 	}
 }

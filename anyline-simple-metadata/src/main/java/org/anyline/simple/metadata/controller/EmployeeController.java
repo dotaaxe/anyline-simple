@@ -1,4 +1,4 @@
-package org.anyline.simple.json.home.controller.hr;
+package org.anyline.simple.metadata.controller;
 
 import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
@@ -8,9 +8,21 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
-@Controller("js.home.hr.EmployeeController")
-@RequestMapping("/js/home/hr/emp")
+@Controller("js.EmployeeController")
+@RequestMapping("/js/emp")
 public class EmployeeController extends BasicController {
+
+
+    @RequestMapping("l")
+    @ResponseBody
+    public String list() {
+        //这里需要配置 ConfigTable.HTTP_PARAM_KEY_CASE = "camel";
+        //camel:小驼峰 Camel:大驼峰 lower:小写 upper:大写
+        //更复杂的情况需要实现 EntityAdapter
+        List<String> params = service.metadata2param("hr_employee");
+        DataSet set = service.querys("hr_employee(ID,CODE,NM)", condition(true, params,"CODE:code"),"ID>0" );
+        return success(set);
+    }
 
     @RequestMapping("s")
     @ResponseBody

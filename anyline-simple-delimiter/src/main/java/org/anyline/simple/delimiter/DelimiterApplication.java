@@ -1,13 +1,10 @@
 package org.anyline.simple.delimiter;
 
 import org.anyboot.jdbc.ds.DynamicDataSourceRegister;
-import org.anyline.jdbc.ds.DataSourceHolder;
 import org.anyline.service.AnylineService;
 import org.anyline.util.ConfigTable;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
@@ -15,13 +12,7 @@ import org.springframework.context.annotation.Import;
 @SpringBootApplication
 @ComponentScan(basePackages = {"org.anyline","org.anyboot"})
 @Import(DynamicDataSourceRegister.class)
-public class DelimiterApplication extends SpringBootServletInitializer {
-
-	@Override
-	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-
-		return application.sources(DelimiterApplication.class);
-	}
+public class DelimiterApplication {
 
 	public static void main(String[] args) {
 

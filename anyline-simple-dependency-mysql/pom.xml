@@ -11,15 +11,27 @@
         <relativePath>../anyline-simple-dependency</relativePath>
     </parent>
 
-    <groupId>org.anylie</groupId>
-    <artifactId>anyline-simple-map</artifactId>
+    <groupId>org.anyline</groupId>
+    <artifactId>anyline-simple-dependency-mysql</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
 
     <dependencies>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.anyline</groupId>
-            <artifactId>anyline-map</artifactId>
+            <artifactId>anyline-jdbc-mysql</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.anyboot</groupId>
+            <artifactId>anyboot-jdbc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
         </dependency>
     </dependencies>
 </project>

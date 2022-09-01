@@ -19,7 +19,7 @@ import java.util.List;
 @SpringBootApplication
 @ComponentScan(basePackages = {"org.anyline","org.anyboot"})
 @Import(DynamicDataSourceRegister.class)
-public class PlaceholderApplication extends SpringBootServletInitializer {
+public class PlaceholderApplication {
 
 
 	public static void main(String[] args) {

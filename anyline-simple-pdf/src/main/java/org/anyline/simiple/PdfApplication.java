@@ -10,14 +10,9 @@ import java.io.File;
 
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"org.anyline","org.anyboot"})
-public class PdfApplication extends SpringBootServletInitializer {
+@ComponentScan(basePackages = {"org.anyline"})
+public class PdfApplication  {
 
-	@Override
-	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-
-		return application.sources(PdfApplication.class);
-	}
 
 	public static void main(String[] args) throws Exception {
 		File file = new File("D:\\a.pdf");

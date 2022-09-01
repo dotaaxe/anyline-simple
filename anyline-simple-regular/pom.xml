@@ -7,11 +7,16 @@
         <groupId>org.anyline</groupId>
         <artifactId>anyline-simple-dependency</artifactId>
         <version>1.0-SNAPSHOT</version>
-        <relativePath></relativePath>
+        <relativePath>../anyline-simple-dependency</relativePath>
     </parent>
     <artifactId>anyline-simple-regular</artifactId>
     <packaging>jar</packaging>
     <description>正则</description>
-
+    <dependencies>
+        <dependency>
+            <groupId>org.anyline</groupId>
+            <artifactId>anyline-web</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>

@@ -13,7 +13,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"org.anyline","org.anyboot"})
+@ComponentScan(basePackages = {"org.anyline"})
 public class TablesApplication {
 
 	public static void main(String[] args) {

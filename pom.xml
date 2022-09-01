@@ -14,6 +14,7 @@
 
         <!--基础依赖-->
         <module>anyline-simple-dependency</module>
+        <module>anyline-simple-dependency-web</module>
 
         <!--简单的数据库操作-->
         <module>anyline-simple-start</module>
@@ -81,6 +82,7 @@
         <module>anyline-simple-placeholder</module>
         <module>anyline-simple-metadata</module>
         <module>anyline-simple-special</module>
+        <module>anyline-simple-dependency-mysql</module>
 
 
     </modules>

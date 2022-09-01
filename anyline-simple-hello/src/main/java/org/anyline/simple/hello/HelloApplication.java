@@ -57,6 +57,10 @@ public class HelloApplication {
         row.put("DATA_STATUS","1");
         service.save("BS_VALUE", row);
 
+        System.out.println(BeanUtil.object2json(service.metadatas("test")));
+
+        set = service.querys("SELECT * FROM BS_VALUE where id > 1 limit 10");
+        System.out.println(set);
     }
 
 }

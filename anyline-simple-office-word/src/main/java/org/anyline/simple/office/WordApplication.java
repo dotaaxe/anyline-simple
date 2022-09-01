@@ -26,16 +26,11 @@ import java.util.Map;
 
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"org.anyline","org.anyboot"})
-public class WordApplication extends SpringBootServletInitializer {
+@ComponentScan(basePackages = {"org.anyline"})
+public class WordApplication {
 
 	private static AnylineService service;
 	private static File dir = null;
-	@Override
-	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-		return application.sources(WordApplication.class);
-	}
-
 	public static void main(String[] args) {
 
 		String path = WordApplication.class.getResource("").getPath();

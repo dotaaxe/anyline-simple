@@ -1,9 +1,20 @@
-先创建数据库:
+
 ```
+示例中用了私服上的快照版本需要在本地mavent_home/conf/settings.xml中配置
+在<mirrors>下添加
+<mirror>
+  <id>anyline</id>   
+  <mirrorOf>*</mirrorOf>   
+  <url>http://maven.anyline.org/repository/maven-snapshots/</url>   
+</mirror>  
+
+先创建数据库(脚本在/sql/中):
 simple
 simple_crm
 simple_erp
 simple_sso
+
+
 ```
 在每个数据库中执行sql目录下对应的SQL脚本  
 注意示例中的数据库端口用了36902  
