@@ -39,6 +39,17 @@ public class PostgreApplication {
         user.put("t4", new Date())      ; //timestamptz
         user.put("t5", new Date())      ; //timetz
         user.put("t6", new Date())      ; //text 会执行 DateUtil.format(date);
+
+        //日期类型会转换失败会换成null
+        user.put("t1", "")              ; //date
+        user.put("t2", "")              ; //timestamp
+        user.put("t3", "")              ; //time
+        user.put("t4", "")              ; //timestamptz
+        user.put("t5", "")              ; //timetz
+        //string类型不变
+        user.put("t6", "")              ; //text 会执行 DateUtil.format(date);
+
+
         user.put("+t7", "100")          ; //numeric 如果传入“”会转换成null
         user.put("t8", "{\"a\":1}")     ; //json
         String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><config></config>";
