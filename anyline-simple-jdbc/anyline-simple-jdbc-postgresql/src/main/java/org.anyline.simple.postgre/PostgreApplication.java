@@ -90,6 +90,9 @@ public class PostgreApplication {
         System.out.println(tables);
         tables = service.tables("ts_%","TABLE");
         System.out.println(tables);
+        tables = service.tables("public","ts_%","TABLE");
+        System.out.println(tables);
+
 
         System.exit(0);
     }
