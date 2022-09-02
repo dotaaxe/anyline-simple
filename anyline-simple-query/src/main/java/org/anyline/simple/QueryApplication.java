@@ -6,6 +6,7 @@ import org.anyline.service.AnylineService;
 import org.anyline.util.DateUtil;
 import org.anyline.util.FileUtil;
 import org.anyline.util.MD5Util;
+import org.anyline.web.util.WebUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -30,7 +31,6 @@ public class QueryApplication extends SpringBootServletInitializer {
 	}
 
 	public static void main(String[] args) {
-
 		SpringApplication application = new SpringApplication(QueryApplication.class);
 
 		ConfigurableApplicationContext context = application.run(args);

@@ -22,7 +22,7 @@
             <artifactId>dmjdbc</artifactId>
             <version>18</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/src/main/lib/DmJdbcDriver18.jar</systemPath>
+            <systemPath>${pom.basedir}/src/main/lib/DmJdbcDriver18.jar</systemPath>
         </dependency>
 
     </dependencies>

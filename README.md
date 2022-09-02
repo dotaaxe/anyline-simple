@@ -1,12 +1,41 @@
 
 ```
-示例中用了私服上的快照版本需要在本地mavent_home/conf/settings.xml中配置
-在<mirrors>下添加
+刚pull下来的项目
+先install anyline-simple-dependenc(用来设置基础依赖)
+再install anyline-simple(编译到前项目下所有的module)
+
+
+注意anyline-simple-dependency中添加了如下的repositorie:
+<repositories>
+    <repository>
+        <id>aliyun</id>
+        <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+    </repository>
+    <repository>
+        <id>anyline</id>
+        <url>http://maven.anyline.org/repository/maven-snapshots/</url>
+    </repository>
+</repositories>
+
+这里的repository.id对应mavent setteing.xml的mirror.id
+<repository><id>aliyun</id></repository>对应mavent setting.xml的<mirror><id>aliyun</id></mirror>
+<repository><id>anyline</id></repository>对应mavent setting.xml的<mirror><id>anyline</id></mirror> 
+
+所以需要在本地%mavent_home%/conf/settings.xml中配置,在<mirrors>下添加:
 <mirror>
+    <id>aliyun</id>
+    <name>aliyun maven</name>
+    <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+    <mirrorOf>central</mirrorOf>
+</mirror> 
+ <mirror>
   <id>anyline</id>   
+    <name>anyline maven</name>
   <mirrorOf>*</mirrorOf>   
   <url>http://maven.anyline.org/repository/maven-snapshots/</url>   
 </mirror>  
+
+
 
 先创建数据库(脚本在/sql/中):
 simple

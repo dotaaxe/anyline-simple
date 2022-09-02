@@ -11,7 +11,7 @@
         <relativePath>../anyline-simple-dependency</relativePath>
     </parent>
 
-    <groupId>org.anylie</groupId>
+    <groupId>org.anyline</groupId>
     <artifactId>anyline-simple-map</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>

@@ -9,7 +9,7 @@
         <artifactId>anyline-simple-jdbc-dialect</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <groupId>org.anylie</groupId>
+    <groupId>org.anyline</groupId>
     <artifactId>anyline-simple-jdbc-postgresql</artifactId>
     <version>1.0-SNAPSHOT</version>
     <dependencies>

@@ -1,4 +1,4 @@
-package org.anylie.simple.tables;
+package org.anyline.simple.tables;
 
 import org.anyline.entity.DataSet;
 import org.anyline.jdbc.config.TableBuilder;
