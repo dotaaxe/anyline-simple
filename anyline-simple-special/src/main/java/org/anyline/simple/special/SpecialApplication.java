@@ -31,6 +31,7 @@ public class SpecialApplication {
 
 		//根据 ID 删除多行
 		//DELETE FROM HR_EMPLOYEE WHERE ID IN(100,200)
+		service.deletes("HR_EMPLOYEE", "ID", "100");
 		service.deletes("HR_EMPLOYEE", "ID", "100","200");
 
 		//根据多列条件删除
