@@ -48,7 +48,7 @@ public class MetadataApplication extends SpringBootServletInitializer {
 		service.insert("HR_DEPARTMENT", row);
 
 		row.put("REG_TIME","");	//类型转换失败会按null处理
-		row.put("DATA_STATUS","");
+		row.put("DATA_STATUS","1");//类型转换成int
 		service.save("HR_DEPARTMENT", row);
 
 		List<String> tables = service.tables();
@@ -59,6 +59,7 @@ public class MetadataApplication extends SpringBootServletInitializer {
 		System.out.println(tables);
 		tables = service.tables("root","bs_%","TABLE");
 		System.out.println(tables);
+
 
 	}
 }
