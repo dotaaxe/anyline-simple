@@ -19,7 +19,7 @@ public class EmployeeController extends BasicController {
         //这里需要配置 ConfigTable.HTTP_PARAM_KEY_CASE = "camel";
         //camel:小驼峰 Camel:大驼峰 lower:小写 upper:大写
         //更复杂的情况需要实现 EntityAdapter
-        List<String> params = service.metadata2param("hr_employee");
+        List<String> params = service.column2param("hr_employee");
         DataSet set = service.querys("hr_employee(ID,CODE,NM)", condition(true, params,"CODE:code"),"ID>0" );
         return success(set);
     }
@@ -36,7 +36,7 @@ public class EmployeeController extends BasicController {
 
         //接收全部属性
         DataRow row = entity();
-        List<String> cols = service.metadata("hr_employee");
+        List<String> cols = service.columns("hr_employee");
         //只更新或插入一部分属性
         service.save("hr_employee", row, cols);
         return success();
