@@ -2,7 +2,8 @@ package org.anyline.simple.postgre;
 
 import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
-import org.anyline.entity.MetaData;
+import org.anyline.jdbc.entity.Column;
+import org.anyline.jdbc.entity.Table;
 import org.anyline.service.AnylineService;
 import org.anyline.util.BasicUtil;
 import org.anyline.util.BeanUtil;
@@ -12,7 +13,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -26,7 +26,7 @@ public class PostgreApplication {
         ConfigurableApplicationContext ctx = application.run(args);
         AnylineService service = (AnylineService) ctx.getBean("anyline.service");
 
-        List<MetaData> mts = service.metadatas("tb_user");
+        List<Column> mts = service.columns("tb_user");
         System.out.println(BeanUtil.object2json(mts));
         DataSet set = service.querys("tb_user(email)",0,1);
         System.out.println(set);
@@ -85,7 +85,7 @@ public class PostgreApplication {
         //System.out.println(BeanUtil.object2json(service.metadatas("tb_user")));
 
 
-        List<String> tables = service.tables();
+        List<Table> tables = service.tables();
         System.out.println(tables);
         tables = service.tables("TABLE");
         System.out.println(tables);

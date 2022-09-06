@@ -3,7 +3,6 @@ package org.anyline.simple.office;
 
 import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
-import org.anyline.entity.MetaData;
 import org.anyline.entity.html.TableBuilder;
 import org.anyline.net.HttpUtil;
 import org.anyline.office.docx.entity.WDocument;

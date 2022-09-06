@@ -2,6 +2,7 @@ package org.anyline.simple.metadata;
 
 import org.anyboot.jdbc.ds.DynamicDataSourceRegister;
 import org.anyline.entity.DataRow;
+import org.anyline.jdbc.entity.Table;
 import org.anyline.service.AnylineService;
 import org.anyline.util.ConfigTable;
 import org.springframework.boot.SpringApplication;
@@ -51,7 +52,7 @@ public class MetadataApplication extends SpringBootServletInitializer {
 		row.put("DATA_STATUS","1");//类型转换成int
 		service.save("HR_DEPARTMENT", row);
 
-		List<String> tables = service.tables();
+		List<Table> tables = service.tables();
 		System.out.println(tables);
 		tables = service.tables("TABLE");
 		System.out.println(tables);

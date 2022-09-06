@@ -2,6 +2,7 @@ package org.anyline.simple.metadata.controller;
 
 import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
+import org.anyline.jdbc.entity.Column;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -36,7 +37,7 @@ public class EmployeeController extends BasicController {
 
         //接收全部属性
         DataRow row = entity();
-        List<String> cols = service.columns("hr_employee");
+        List<Column> cols = service.columns("hr_employee");
         //只更新或插入一部分属性
         service.save("hr_employee", row, cols);
         return success();
