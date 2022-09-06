@@ -37,7 +37,7 @@ public class EmployeeController extends BasicController {
 
         //接收全部属性
         DataRow row = entity();
-        List<Column> cols = service.columns("hr_employee");
+        List<String> cols = service.columns("hr_employee");
         //只更新或插入一部分属性
         service.save("hr_employee", row, cols);
         return success();

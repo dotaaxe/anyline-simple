@@ -26,7 +26,7 @@ public class PostgreApplication {
         ConfigurableApplicationContext ctx = application.run(args);
         AnylineService service = (AnylineService) ctx.getBean("anyline.service");
 
-        List<Column> mts = service.columns("tb_user");
+        List<String> mts = service.columns("tb_user");
         System.out.println(BeanUtil.object2json(mts));
         DataSet set = service.querys("tb_user(email)",0,1);
         System.out.println(set);
@@ -85,7 +85,7 @@ public class PostgreApplication {
         //System.out.println(BeanUtil.object2json(service.metadatas("tb_user")));
 
 
-        List<Table> tables = service.tables();
+        List<String> tables = service.tables();
         System.out.println(tables);
         tables = service.tables("TABLE");
         System.out.println(tables);
