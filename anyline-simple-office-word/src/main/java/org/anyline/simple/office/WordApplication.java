@@ -38,7 +38,6 @@ public class WordApplication {
 		SpringApplication application = new SpringApplication(WordApplication.class);
 		ConfigurableApplicationContext context = application.run(args);
 		service = (AnylineService)context.getBean("anyline.service");
-		List<MetaData> list = service.metadatas("hr_employee");
 		System.exit(0);
 		//简单替换书签、关键字
 		//start();

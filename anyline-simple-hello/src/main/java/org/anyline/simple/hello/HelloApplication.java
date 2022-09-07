@@ -1,11 +1,13 @@
 package org.anyline.simple.hello;
 
+import org.anyline.dao.AnylineDao;
 import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
 import org.anyline.entity.PageNavi;
 import org.anyline.entity.PageNaviImpl;
 import org.anyline.jdbc.config.ConfigStore;
 import org.anyline.jdbc.config.impl.ConfigStoreImpl;
+import org.anyline.jdbc.entity.Column;
 import org.anyline.service.AnylineService;
 import org.anyline.util.BeanUtil;
 import org.anyline.util.ConfigTable;
@@ -17,7 +19,9 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Condition;
 import org.springframework.context.annotation.ConditionContext;
 import org.springframework.core.type.AnnotatedTypeMetadata;
+import org.springframework.jdbc.core.JdbcTemplate;
 
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -57,7 +61,7 @@ public class HelloApplication {
         row.put("DATA_STATUS","1");
         service.save("BS_VALUE", row);
 
-        System.out.println(BeanUtil.object2json(service.metadatas("test")));
+        System.out.println(BeanUtil.object2json(service.columns("test")));
 
         set = service.querys("SELECT * FROM BS_VALUE where id > 1 limit 10");
         System.out.println(set);

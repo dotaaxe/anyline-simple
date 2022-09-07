@@ -23,9 +23,13 @@ import java.util.Map;
 public class ThingsboardApplication{
 
     public static void main(String[] args) {
-        System.out.println(System.currentTimeMillis());
         String token = BasicUtil.getRandomString(16);
         ThingsBoardClient client = ThingsBoardClient.getInstance();
+
+
+        String tb = "94feb9b0-1d0f-11ed-bf09-99a2641427be";
+        DataSet traces = client.getDeviceTimeseries(tb,"lng,lat", System.currentTimeMillis()-100000000, System.currentTimeMillis(), 100);
+
         //创建设备
         Device device = new Device();
         device.setName("测试设备("+ DateUtil.format() +")");
