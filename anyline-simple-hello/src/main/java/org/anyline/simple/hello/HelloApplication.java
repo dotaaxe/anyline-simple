@@ -1,41 +1,29 @@
 package org.anyline.simple.hello;
 
-import org.anyline.dao.AnylineDao;
 import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
 import org.anyline.entity.PageNavi;
 import org.anyline.entity.PageNaviImpl;
-import org.anyline.jdbc.config.ConfigStore;
 import org.anyline.jdbc.config.impl.ConfigStoreImpl;
-import org.anyline.jdbc.entity.Column;
 import org.anyline.service.AnylineService;
 import org.anyline.util.BeanUtil;
 import org.anyline.util.ConfigTable;
-import org.anyline.util.GISUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Condition;
-import org.springframework.context.annotation.ConditionContext;
-import org.springframework.core.type.AnnotatedTypeMetadata;
-import org.springframework.jdbc.core.JdbcTemplate;
-
-import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 
 @ComponentScan(basePackages = {"org.anyline"})
 @SpringBootApplication
 public class HelloApplication {
     public static void main(String[] args) {
+
+
         ConfigTable.IS_SQL_DELIMITER_OPEN = true;
         SpringApplication application = new SpringApplication(HelloApplication.class);
         ConfigurableApplicationContext ctx = application.run(args);
         AnylineService service = (AnylineService) ctx.getBean("anyline.service");
-
 
 
         DataSet set = service.querys("BS_VALUE");
