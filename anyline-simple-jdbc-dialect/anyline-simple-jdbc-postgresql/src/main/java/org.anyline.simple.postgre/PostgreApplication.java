@@ -2,8 +2,6 @@ package org.anyline.simple.postgre;
 
 import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
-import org.anyline.jdbc.entity.Column;
-import org.anyline.jdbc.entity.Table;
 import org.anyline.service.AnylineService;
 import org.anyline.util.BasicUtil;
 import org.anyline.util.BeanUtil;
@@ -25,7 +23,6 @@ public class PostgreApplication {
         SpringApplication application = new SpringApplication(PostgreApplication.class);
         ConfigurableApplicationContext ctx = application.run(args);
         AnylineService service = (AnylineService) ctx.getBean("anyline.service");
-
         List<String> mts = service.columns("tb_user");
         System.out.println(BeanUtil.object2json(mts));
         DataSet set = service.querys("tb_user(email)",0,1);
