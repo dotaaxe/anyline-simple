@@ -83,6 +83,7 @@
         <module>anyline-simple-metadata</module>
         <module>anyline-simple-special</module>
         <module>anyline-simple-dependency-mysql</module>
+        <module>anyline-simple-ddl</module>
 
 
     </modules>
