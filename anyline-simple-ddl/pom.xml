@@ -19,6 +19,6 @@
         <dependency>
             <groupId>org.anyline</groupId>
             <artifactId>anyline-jdbc-mssql</artifactId>
-        </dependency> 
+        </dependency>
     </dependencies>
 </project>
