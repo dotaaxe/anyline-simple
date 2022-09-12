@@ -84,6 +84,7 @@
         <module>anyline-simple-special</module>
         <module>anyline-simple-dependency-mysql</module>
         <module>anyline-simple-ddl</module>
+        <module>anyline-simple-help</module>
 
 
     </modules>
