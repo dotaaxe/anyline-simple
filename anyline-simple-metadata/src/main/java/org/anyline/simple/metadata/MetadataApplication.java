@@ -51,7 +51,7 @@ public class MetadataApplication extends SpringBootServletInitializer {
 			//AGE 属性在表中不存在,直接插入会SQL异常
 			service.insert("HR_DEPARTMENT", row);
 		}catch (Exception e){
-			e.printStackTrace();
+			System.out.println("AGE 属性在表中不存在,直接插入会SQL异常:"+e.getMessage());
 		}
 
 		ConfigTable.IS_AUTO_CHECK_METADATA = true;
