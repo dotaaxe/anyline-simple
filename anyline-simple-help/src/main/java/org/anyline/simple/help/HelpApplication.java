@@ -1,6 +1,7 @@
 package org.anyline.simple.help;
 
 import org.anyboot.jdbc.ds.DynamicDataSourceRegister;
+import org.anyline.jdbc.ds.DataSourceHolder;
 import org.anyline.jdbc.entity.Table;
 import org.anyline.service.AnylineService;
 import org.anyline.util.BasicUtil;
@@ -34,7 +35,7 @@ public class HelpApplication {
 
 		service = context.getBean(AnylineService.class);
 		jdbc = context.getBean(JdbcTemplate.class);
-		//DataSourceHolder.setDataSource("pg");
+		DataSourceHolder.setDataSource("ms");
 		tables();
 		tables(null, null, "A_TEST_AAAA","TABLE" );
 	}
@@ -45,7 +46,7 @@ public class HelpApplication {
 			ds = jdbc.getDataSource();
 			con = DataSourceUtils.getConnection(ds);
 
-			ResultSet rs = con.getMetaData().getTables(con.getCatalog(), con.getSchema(), "A_TEST_AAAA", "TABLE".split(","));
+			ResultSet rs = con.getMetaData().getTables(con.getCatalog(), con.getSchema(), "A_TEST", "TABLE".split(","));
 			ResultSetMetaData md = rs.getMetaData();
 			while (rs.next()) {
 				for (int i = 1; i < md.getColumnCount(); i++) {
@@ -76,6 +77,11 @@ public class HelpApplication {
 				tps = types.toUpperCase().trim().split(",");
 			}
 			ResultSet rs = con.getMetaData().getTables(catalog, schema, name, tps );
+			ResultSetMetaData rsmd = rs.getMetaData();
+			List<String> keys = new ArrayList<>();
+			for(int i=1; i<rsmd.getColumnCount(); i++){
+				keys.add(rsmd.getColumnName(i).toUpperCase());
+			}
 			while(rs.next()) {
 				String tableName = rs.getString("TABLE_NAME");
 				if(BasicUtil.isEmpty(tableName)){

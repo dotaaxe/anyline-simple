@@ -8,6 +8,8 @@ import org.anyline.jdbc.entity.Table;
 import org.anyline.service.AnylineService;
 import org.anyline.util.BasicUtil;
 import org.anyline.util.DateUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -20,6 +22,7 @@ import org.springframework.context.annotation.Import;
 public class DDLApplication {
 
 	private static AnylineService service;
+	private static Logger log = LoggerFactory.getLogger(DDLApplication.class);
 	public static void main(String[] args) throws Exception{
 
 		SpringApplication application = new SpringApplication(DDLApplication.class);
@@ -27,12 +30,17 @@ public class DDLApplication {
 		ConfigurableApplicationContext context = application.run(args);
 
 		service = context.getBean(AnylineService.class);
-		table();
-		column();
-		//执行异常监听
-		exception();
-		System.out.println("\n============================= PG ==========================================\n");
-		DataSourceHolder.setDataSource("pg");
+
+		test(null, "MySQL");
+		test("pg", "PostgreSQL");
+		test("ms", "SQL Server");
+
+	}
+	public static void test(String ds, String title) throws Exception{
+		System.out.println("\n============================= " + title + " ==========================================\n");
+		if(null != ds) {
+			DataSourceHolder.setDataSource(ds);
+		}
 		table();
 		column();
 		exception();
@@ -43,6 +51,7 @@ public class DDLApplication {
 		table.addColumn("ID", "int").setPrimaryKey(true).setAutoIncrement(true).setComment("commnet");
 		table.addColumn("NAME","varchar(50)");
 		table.addColumn("A_CHAR","varchar(50)");
+		service.ddl().drop(table);
 		service.ddl().save(table);
 	}
 	public static void column() throws Exception{
@@ -52,7 +61,7 @@ public class DDLApplication {
 		column.setName("A_CHAR");
 		column.setTypeName("int");
 		column.setDefaultValue("1");
-		//添加 新列
+		//添加新列
 		service.ddl().save(column);
 
 		//修改列
@@ -92,11 +101,22 @@ public class DDLApplication {
 
 		//表中有数据的情况下
 		DataRow row = new DataRow();
-		row.put("ID", BasicUtil.getRandomNumber(0,100000));
-		row.put("A_CHAR","123A");
-		row.setIsNew(true);
-		service.save("A_TEST", row);
-
+		//自增列有可能引起异常
+		try {
+			row.put("ID", BasicUtil.getRandomNumber(0, 100000));
+			row.put("A_CHAR", "123A");
+			row.setIsNew(true);
+			service.save("A_TEST", row);
+		}catch (Exception e){
+			log.error(e.getMessage());
+		}
+		try {
+			row = new DataRow();
+			row.put("A_CHAR", "123A");
+			service.save("A_TEST", row);
+		}catch (Exception e){
+			log.error(e.getMessage());
+		}
 		column = new Column();
 		column.setTable("A_TEST");
 		column.setName("A_CHAR");
