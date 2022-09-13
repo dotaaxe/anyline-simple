@@ -34,6 +34,7 @@ public class DDLApplication {
 		test(null, "MySQL");
 		test("pg", "PostgreSQL");
 		test("ms", "SQL Server");
+		test("orcl", "Oracle 11G");
 
 	}
 	public static void test(String ds, String title) throws Exception{
@@ -46,20 +47,25 @@ public class DDLApplication {
 		exception();
 	}
 	public static void table() throws Exception{
-		Table table = new Table();
+		System.out.println("---------------------------table-----------------------------");
+		Table table = service.metadata().table("A_TEST");
+		if(null != table){
+			service.ddl().drop(table);
+		}
+		table = new Table();
 		table.setName("A_TEST");
 		table.addColumn("ID", "int").setPrimaryKey(true).setAutoIncrement(true).setComment("commnet");
 		table.addColumn("NAME","varchar(50)");
 		table.addColumn("A_CHAR","varchar(50)");
-		service.ddl().drop(table);
 		service.ddl().save(table);
 	}
 	public static void column() throws Exception{
 
+		System.out.println("---------------------------column-----------------------------");
 		Column column = new Column();
 		column.setTable("a_test");
 		column.setName("A_CHAR");
-		column.setTypeName("int");
+		column.setTypeName("int");	//没有数据的情况下修改数据类型
 		column.setDefaultValue("1");
 		//添加新列
 		service.ddl().save(column);
@@ -91,7 +97,7 @@ public class DDLApplication {
 		// 1:直接修正
 		// n:行数<n时执行修正  >n时触发另一个监听(默认返回false)
 
-
+		System.out.println("---------------------------exception-----------------------------");
 		Column column = new Column();
 		column.setTable("A_TEST");
 		column.setName("A_CHAR");
