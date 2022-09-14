@@ -14,12 +14,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.DataSourceUtils;
 
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -37,8 +32,7 @@ public class MetadataApplication extends SpringBootServletInitializer {
 
 		AnylineService service = (AnylineService)context.getBean("anyline.service");
 
-		//JdbcTemplate jdbc = context.getBean(JdbcTemplate.class);
-		//test(jdbc);
+		JdbcTemplate jdbc = context.getBean(JdbcTemplate.class);
 
 
 
@@ -103,32 +97,4 @@ public class MetadataApplication extends SpringBootServletInitializer {
 		}
 	}
 
-	public static void test(JdbcTemplate jdbc){
-		try {
-			Connection con = DataSourceUtils.getConnection(jdbc.getDataSource());
-			DatabaseMetaData metaData = con.getMetaData();
-
-			ResultSet rs = metaData.getColumns(con.getCatalog(), con.getSchema(), "HR_DEPARTMENT", null);
-			ResultSetMetaData rsm = rs.getMetaData();
-			while (rs.next()) {
-				for (int i = 1; i < rsm.getColumnCount(); i++) {
-					System.out.println(rsm.getColumnName(i) + "=" + rs.getObject(i));
-				}
-				System.out.println("==================");
-			}
-			rs = metaData.getIndexInfo(con.getCatalog(), con.getSchema(), "HR_DEPARTMENT",false, false);
-
-			ResultSetMetaData md = rs.getMetaData();
-			LinkedHashMap<String, Column> cols = null;
-			System.out.println("========PK==========");
-			while (rs.next()) {
-				for(int i=1; i<md.getColumnCount(); i++){
-					System.out.println(md.getColumnName(i)+"="+rs.getObject(i));
-				}
-
-			}
-		}catch (Exception e){
-			e.printStackTrace();
-		}
-	}
 }
