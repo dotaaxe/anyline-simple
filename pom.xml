@@ -55,6 +55,7 @@
         <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-h2</module>
         <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-hsqldb</module>
         <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-tdengine</module>
+        <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-mssql</module>
 
         <!--短信-->
         <module>anyline-simple-sms</module>

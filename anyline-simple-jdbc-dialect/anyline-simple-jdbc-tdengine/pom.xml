@@ -11,9 +11,16 @@
 
     <artifactId>anyline-simple-jdbc-tdengine</artifactId>
 
-    <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-    </properties>
+<dependencies>
+    <dependency>
+        <groupId>org.anyline</groupId>
+        <artifactId>anyline-jdbc-tdengine</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>com.taosdata.jdbc</groupId>
+        <artifactId>taos-jdbcdriver</artifactId>
+        <version>3.0.0</version>
+    </dependency>
+</dependencies>
 
 </project>
