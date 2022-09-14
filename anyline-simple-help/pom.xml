@@ -26,6 +26,15 @@
             <groupId>org.anyboot</groupId>
             <artifactId>anyboot-jdbc</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.anyline</groupId>
+            <artifactId>anyline-jdbc-tdengine</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.taosdata.jdbc</groupId>
+            <artifactId>taos-jdbcdriver</artifactId>
+            <version>3.0.0</version>
+        </dependency>
     </dependencies>
 
 </project>

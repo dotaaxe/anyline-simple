@@ -1,6 +1,8 @@
 package org.anyline.simple.help;
 
 import org.anyboot.jdbc.ds.DynamicDataSourceRegister;
+import org.anyline.entity.DataRow;
+import org.anyline.entity.DataSet;
 import org.anyline.jdbc.ds.DataSourceHolder;
 import org.anyline.jdbc.entity.Column;
 import org.anyline.jdbc.entity.Table;
@@ -15,13 +17,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {"org.anyline","org.anyboot"})
@@ -38,10 +38,41 @@ public class HelpApplication {
 
 		service = context.getBean(AnylineService.class);
 		jdbc = context.getBean(JdbcTemplate.class);
-		DataSourceHolder.setDataSource("ms");
-		columns("A_TEST");
-		tables(null);
-		tables(null, null, "A_TEST_AAAA","TABLE" );
+		DataSourceHolder.setDataSource("td");
+		td();
+	}
+	public static void td() throws Exception{
+		String sql = "SHOW STABLES";
+
+		jdbc.execute("CREATE STABLE IF NOT EXISTS stable_abc(ID TIMESTAMP, CODE INT ) TAGS(TAG1 INT, TAG2 INT)");
+		List<Map<String,Object>> list = jdbc.queryForList(sql);
+		DataSet set = new DataSet();
+		for(Map<String,Object> map:list){
+			DataRow row = new DataRow(map);
+			set.add(row);
+		}
+		System.out.println(set);
+
+		DataSource ds = null;
+		Connection con = null;
+		ds = jdbc.getDataSource();
+		con = DataSourceUtils.getConnection(ds);
+
+		ResultSet rs = con.getMetaData().getTables(con.getCatalog(), con.getSchema(), null, "STABLE".split(","));
+		ResultSetMetaData md = rs.getMetaData();
+		while (rs.next()) {
+			for (int i = 1; i < md.getColumnCount(); i++) {
+				System.out.println(md.getColumnName(i) + "=" + rs.getObject(i));
+
+			}
+			System.out.println("----------------------------");
+		}
+		sql = "INSERT INTO s_table_user_2(ID,CODE,AGE) VALUES (?,?,?)";
+		PreparedStatement ps = con.prepareStatement(sql);
+		ps.setObject(1, System.currentTimeMillis());
+		ps.setObject(2, "c1");
+		ps.setObject(3,10);
+		ps.execute();
 	}
 	public static void tables(String table) throws Exception{
 		DataSource ds = null;
@@ -64,7 +95,6 @@ public class HelpApplication {
 		}
 	}
 	public static void columns(String table){
-
 		try {
 			Connection con = DataSourceUtils.getConnection(jdbc.getDataSource());
 			DatabaseMetaData metaData = con.getMetaData();
