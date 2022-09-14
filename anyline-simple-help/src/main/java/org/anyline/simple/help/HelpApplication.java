@@ -2,6 +2,7 @@ package org.anyline.simple.help;
 
 import org.anyboot.jdbc.ds.DynamicDataSourceRegister;
 import org.anyline.jdbc.ds.DataSourceHolder;
+import org.anyline.jdbc.entity.Column;
 import org.anyline.jdbc.entity.Table;
 import org.anyline.service.AnylineService;
 import org.anyline.util.BasicUtil;
@@ -15,9 +16,11 @@ import org.springframework.jdbc.datasource.DataSourceUtils;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 @SpringBootApplication
@@ -36,17 +39,18 @@ public class HelpApplication {
 		service = context.getBean(AnylineService.class);
 		jdbc = context.getBean(JdbcTemplate.class);
 		DataSourceHolder.setDataSource("ms");
-		tables();
+		columns("A_TEST");
+		tables(null);
 		tables(null, null, "A_TEST_AAAA","TABLE" );
 	}
-	public static void tables() throws Exception{
+	public static void tables(String table) throws Exception{
 		DataSource ds = null;
 		Connection con = null;
 		try {
 			ds = jdbc.getDataSource();
 			con = DataSourceUtils.getConnection(ds);
 
-			ResultSet rs = con.getMetaData().getTables(con.getCatalog(), con.getSchema(), "A_TEST", "TABLE".split(","));
+			ResultSet rs = con.getMetaData().getTables(con.getCatalog(), con.getSchema(), table, "TABLE".split(","));
 			ResultSetMetaData md = rs.getMetaData();
 			while (rs.next()) {
 				for (int i = 1; i < md.getColumnCount(); i++) {
@@ -57,6 +61,36 @@ public class HelpApplication {
 			if(!DataSourceUtils.isConnectionTransactional(con, ds)){
 				DataSourceUtils.releaseConnection(con, ds);
 			}
+		}
+	}
+	public static void columns(String table){
+
+		try {
+			Connection con = DataSourceUtils.getConnection(jdbc.getDataSource());
+			DatabaseMetaData metaData = con.getMetaData();
+
+			ResultSet rs = metaData.getColumns(con.getCatalog(), con.getSchema(), table, null);
+			ResultSetMetaData rsm = rs.getMetaData();
+			while (rs.next()) {
+				System.out.println("========column==========");
+				for (int i = 1; i < rsm.getColumnCount(); i++) {
+					System.out.println(rsm.getColumnName(i) + "=" + rs.getObject(i));
+				}
+				System.out.println("========end column==========");
+			}
+			rs = metaData.getIndexInfo(con.getCatalog(), con.getSchema(), "HR_DEPARTMENT",false, false);
+
+			ResultSetMetaData md = rs.getMetaData();
+			LinkedHashMap<String, Column> cols = null;
+			System.out.println("========PK==========");
+			while (rs.next()) {
+				for(int i=1; i<md.getColumnCount(); i++){
+					System.out.println(md.getColumnName(i)+"="+rs.getObject(i));
+				}
+			}
+			System.out.println("========end PK==========");
+		}catch (Exception e){
+			e.printStackTrace();
 		}
 	}
 	public static List<Table> tables(String catalog, String schema, String name, String types){
