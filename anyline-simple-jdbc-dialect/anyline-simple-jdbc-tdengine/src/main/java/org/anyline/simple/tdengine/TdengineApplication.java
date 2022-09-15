@@ -7,7 +7,9 @@ import org.anyline.entity.PageNavi;
 import org.anyline.entity.PageNaviImpl;
 import org.anyline.jdbc.entity.STable;
 import org.anyline.jdbc.entity.Table;
+import org.anyline.jdbc.entity.Tag;
 import org.anyline.service.AnylineService;
+import org.anyline.util.BeanUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -25,7 +27,12 @@ public class TdengineApplication {
         ConfigurableApplicationContext context = application.run(args);
         service = context.getBean(AnylineService.class);
         //start();
-        stable();
+        //stable();
+        tags();
+    }
+    public static void tags() throws Exception{
+        List<Tag> tags = service.metadata().tags("a_test");
+        System.out.println(BeanUtil.object2json(tags));
     }
     public static void stable() throws Exception{
         STable table = new STable();
