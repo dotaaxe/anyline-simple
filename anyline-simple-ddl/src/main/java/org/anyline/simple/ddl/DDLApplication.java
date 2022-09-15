@@ -63,9 +63,11 @@ public class DDLApplication {
 
 		System.out.println("---------------------------column-----------------------------");
 		Column column = new Column();
-		column.setTable("a_test");
+		column.setTable("A_TEST");
 		column.setName("A_CHAR");
 		column.setTypeName("int");	//没有数据的情况下修改数据类型
+		column.setPrecision(0);
+		column.setScale(0);
 		column.setDefaultValue("1");
 		//添加新列
 		service.ddl().save(column);
@@ -131,6 +133,7 @@ public class DDLApplication {
 		//如果afterAlterException返回true，会再执行一次alter column如果还失败就会抛出异常
 		//如果不用默认listener可以column.setListener
 		column.setTypeName("int");
+		column.setPrecision(0);
 		service.ddl().save(column);
 	}
 }

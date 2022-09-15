@@ -48,8 +48,7 @@ simple_sso
 
 
 ```
-在每个数据库中执行sql目录下对应的SQL脚本  
-注意示例中的数据库端口用了36902  
+在每个数据库中执行sql目录下对应的SQL脚本
 注意安装数据库时,设置表名不区分大小写
 可以参考  
 http://qa.anyline.org/art/v?id=lv0182c99f6acebf1d2d680783bf1168e8f99eced8e0136a4ec1
