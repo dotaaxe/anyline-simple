@@ -70,9 +70,10 @@ http://qa.anyline.org/art/v?id=lv0182c99f6acebf1d2d680783bf1168e8f99eced8e0136a4
         <artifactId>anyline-jdbc-mysql(mssql|oracle|clickhouse...)</artifactId>
 
         如果本地有源码 就用本地的版本号
-        如果没有可以用中央库的版本(如果你配置了阿里云的私服不要用最近日期的，可能还没同步过去) https://mvnrepository.com/artifact/org.anyline/anyline-core
-        最新的版本可以通过anyline私服
-        releases <url>http://maven.anyline.org/repository/maven-releases/</url>
+        如果没有可以用中央库的版本(如果你配置了阿里云的私服不要用最近日期的，可能还没同步过去)
+        版本号参考
+        https://mvnrepository.com/artifact/org.anyline/anyline-core
+        测试环境可以用私服上的快照版本
         snapshots <url>http://maven.anyline.org/repository/maven-snapshots/</url>
 
         为了操作数据库，需要一个AnylineService，大部分操作通过这个service来完成
@@ -82,9 +83,6 @@ http://qa.anyline.org/art/v?id=lv0182c99f6acebf1d2d680783bf1168e8f99eced8e0136a4
         private AnylineService service;
 
         
-
-
-
         但通常是继承这个TemplateController,里面已经默认注入了service
         org.anyboot.mvc.controller.impl.TemplateController
 
@@ -94,31 +92,99 @@ http://qa.anyline.org/art/v?id=lv0182c99f6acebf1d2d680783bf1168e8f99eced8e0136a4
     -->
 
 
-    <!--没有web环境 只操作数据库-->
-    <module>anyline-simple-nowweb</module>
+        <!--基础依赖-->
+        <module>anyline-simple-dependency</module>
+        <module>anyline-simple-dependency-web</module>
+        <module>anyline-simple-dependency-mysql</module>
 
-    <module>anyline-simple-start</module>
-    
-    <!--多数据源库操作-->
-    <module>anyline-simple-ds</module>
-    
-    <!--对结果集的操作-->
-    <module>anyline-simple-result</module>
-    
-    <!--pdf操作-->
-    <module>anyline-simple-pdf</module>
-    
-    <!--正则表达式 主要用来抽取标签 拆分字符串 比如从一段html中抽取所有超链接-->
-    <module>anyline-simple-regular</module>
-    
-    <!--各种场景的查询-->
-    <module>anyline-simple-query</module>
-    
-    <!--网络操作-->
-    <module>anyline-simple-net</module>
-    
-    <!--word excel操作 重点实现word excel中的表格操作以及html/css转word标签-->
-    <module>anyline-simple-office-excel</module>
-    <module>anyline-simple-office-word</module>
+        <!--简单的数据库操作-->
+        <module>anyline-simple-start</module>
+
+        <!--多数据源库操作-->
+        <module>anyline-simple-ds</module>
+
+        <!--对结果集的操作-->
+        <module>anyline-simple-result</module>
+
+        <!--pdf操作-->
+        <module>anyline-simple-pdf</module>
+
+        <!--正则表达式 主要用来抽取标签 拆分字符串 比如从一段html中抽取所有超链接-->
+        <module>anyline-simple-regular</module>
+
+        <!--各种场景的查询-->
+        <module>anyline-simple-query</module>
+
+        <!--网络操作-->
+        <module>anyline-simple-net</module>
+
+        <!--word excel操作 重点实现word excel中的表格操作以及html/css转word标签-->
+        <module>anyline-simple-office-excel</module>
+        <module>anyline-simple-office-word</module>
+        <module>anyline-simple-rabbitmq</module>
+        <module>anyline-simple-minio</module>
+        <!--没有web环境-->
+        <module>anyline-simple-noweb</module>
+
+        <!--各种数据库操作示例-->
+        <module>anyline-simple-jdbc-dialect</module>
+        <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-dm</module>
+        <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-oracle</module>
+        <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-postgresql</module>
+        <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-clickhouse</module>
+        <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-kingbase</module>
+        <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-sqlite</module>
+        <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-derby</module>
+        <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-h2</module>
+        <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-hsqldb</module>
+        <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-tdengine</module>
+        <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-mssql</module>
+
+        <!--短信-->
+        <module>anyline-simple-sms</module>
+
+        <!--针对Entity的操作-->
+        <module>anyline-simple-entity</module>
+
+        <!--ThingsBoard-->
+        <module>anyline-simple-thingsboard</module>
+
+        <!--百度地图-->
+        <module>anyline-simple-baidu-map</module>
+
+        <!--腾讯地图-->
+        <module>anyline-simple-qq-map</module>
+
+        <!--模拟浏览器执行js-->
+        <module>anyline-simple-spider</module>
+
+        <!--事务回滚-->
+        <module>anyline-simple-transaction</module>
+
+        <!--动态数据源事务回滚-->
+        <module>anyline-simple-ds-transaction</module>
+
+        <!--适配 高德、百度、腾讯地图接口 超限额后自动切换平台-->
+        <module>anyline-simple-map</module>
+
+        <!--多表操作-->
+        <module>anyline-simple-tables</module>
+
+        <!--界定符-->
+        <module>anyline-simple-delimiter</module>
+
+        <!--界定符 占位-->
+        <module>anyline-simple-placeholder</module>
+
+        <!--数据库结构 表、列明细-->
+        <module>anyline-simple-metadata</module>
+
+        <!--部分不常用的操作-->
+        <module>anyline-simple-special</module>
+
+        <!--DDL相关操作  创建修改表列数据类型 以及超表子表-->
+        <module>anyline-simple-ddl</module>
+
+        <module>anyline-simple-help</module>
 
 每个目录下有read说明了实现的示例、测试方式和注意事项
