@@ -107,6 +107,7 @@
         <module>anyline-simple-ddl</module>
 
         <module>anyline-simple-help</module>
+        <module>anyline-simple-dml</module>
 
 
     </modules>
