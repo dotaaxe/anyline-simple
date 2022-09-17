@@ -52,11 +52,6 @@ public class DDLApplication {
 		exception();
 		System.out.println("\n=============================== END " + title + "=========================================\n");
 	}
-	public static void index() throws Exception{
-		System.out.println("\n-------------------------------- start index  --------------------------------------------\n");
-		System.out.println("\n-------------------------------- end index  ----------------------------------------------\n");
-	}
-
 	public static void table() throws Exception{
 		System.out.println("\n-------------------------------- start table  --------------------------------------------\n");
 
@@ -174,4 +169,9 @@ public class DDLApplication {
 		service.ddl().save(column);
 		System.out.println("\n-------------------------------- end  exception  -----------------------------------------\n");
 	}
+	public static void index() throws Exception{
+		System.out.println("\n-------------------------------- start index  --------------------------------------------\n");
+		System.out.println("\n-------------------------------- end index  ----------------------------------------------\n");
+	}
+
 }

@@ -32,17 +32,37 @@ public class TdengineApplication {
         ConfigurableApplicationContext context = application.run(args);
         service = context.getBean(AnylineService.class);
         ConfigTable.IS_DDL_AUTO_DROP_COLUMN = true;
-        //table();
+
+        STable table = service.metadata().stable("s_table_user");
+        System.out.println(table.getColumns().size());
+        System.out.println(table.getTags().size());
+       // table();
         stable();
-       //tags();
+       // column();
+       // tags();
+    }
+    public static void column() throws Exception{
+        System.out.println("\n-------------------------------- start column  --------------------------------------------\n");
+        //columns中包含tag
+        LinkedHashMap<String, Column> columns = service.metadata().columns("s_table_user");
+        log.warn(LogUtil.format("查看壗超表结构(不含Tag)",36));
+        for(Column col:columns.values()){
+            log.warn(LogUtil.format(col.toString(),36));
+        }
+        columns = service.metadata().columns("s_table_user_0");
+        log.warn(LogUtil.format("查看子表结构",36));
+        for(Column col:columns.values()){
+            log.warn(LogUtil.format(col.toString(),36));
+        }
+        System.out.println("\n-------------------------------- end column  --------------------------------------------\n");
     }
     public static void tags() throws Exception{
         //columns中包含tag
         LinkedHashMap<String, Column> columns = service.metadata().columns("s_table_user_0");
+        log.warn(LogUtil.format("查看子表结构",36));
         for(Column col:columns.values()){
-            System.out.println(col.getClass().getSimpleName()+":"+col.getName()+" " + col.getTypeName() + ":" + col.getComment());
+            log.warn(LogUtil.format(col.toString(),36));
         }
-        System.out.println("===========================");
         LinkedHashMap<String, Tag> tags = service.metadata().tags("s_table_user_0");
         for(Tag tag:tags.values()){
             System.out.println("TAG:"+tag.getName()+" " + tag.getTypeName() + ":" + tag.getComment());
@@ -66,15 +86,18 @@ public class TdengineApplication {
 
         STable table = service.metadata().stable("s_table_user");
         if(null != table){
-            log.warn("LogUtil.format(查询表结构:"+table.getName(),36);
+            log.warn(LogUtil.format("查询表结构:"+table.getName(),36));
             LinkedHashMap<String,Column> columns = table.getColumns();
             for(Column column:columns.values()){
                 log.warn("列:"+column.toString());
             }
             log.warn(LogUtil.format("删除表",36));
             service.ddl().drop(table);
-        }
+        }else{
+            table = new STable("s_table_user");
 
+        }
+        //table.setComment("表备注");
         table.addColumn("ID", "TIMESTAMP");
         table.addColumn("CODE","NCHAR(10)").setComment("编号");
 

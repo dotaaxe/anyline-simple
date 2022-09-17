@@ -60,6 +60,7 @@ public class HelpApplication {
 		String sql = null;
 
 
+		System.out.println("----------  getMetaData().getTables ------------------");
 		ResultSet rs = con.getMetaData().getTables(con.getCatalog(), con.getSchema(), null, "STABLE".split(","));
 		ResultSetMetaData md = rs.getMetaData();
 		while (rs.next()) {
