@@ -34,9 +34,10 @@ public class DDLApplication {
 		service = context.getBean(AnylineService.class);
 
 		check(null, "MySQL");
-		check("pg", "PostgreSQL");
-		check("ms", "SQL Server");
-		check("oracle", "Oracle 11G");
+		///check("pg", "PostgreSQL");
+		//check("ms", "SQL Server");
+		//check("oracle", "Oracle 11G");
+		//check("db2", "DB2");
 
 	}
 
@@ -67,12 +68,14 @@ public class DDLApplication {
 
 
 		Table table = service.metadata().table("a_test");
-		log.warn("查询表结构:"+table.getName());
-		LinkedHashMap<String,Column> columns = table.getColumns();
-		for(Column column:columns.values()){
-			log.warn("列:"+column.toString());
-		}
+		if(null != table) {
+			log.warn("查询表结构:" + table.getName());
+			LinkedHashMap<String, Column> columns = table.getColumns();
+			for (Column column : columns.values()) {
+				log.warn("列:" + column.toString());
+			}
 
+		}
 		if(null != table){
 			log.warn("删除表:"+table.getName());
 			service.ddl().drop(table);

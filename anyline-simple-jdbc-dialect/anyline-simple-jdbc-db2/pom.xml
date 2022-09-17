@@ -16,7 +16,6 @@
         <dependency>
             <groupId>org.anyline</groupId>
             <artifactId>anyline-jdbc-db2</artifactId>
-            <version>8.5.7-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
