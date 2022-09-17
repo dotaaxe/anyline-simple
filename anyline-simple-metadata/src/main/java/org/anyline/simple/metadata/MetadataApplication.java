@@ -2,6 +2,7 @@ package org.anyline.simple.metadata;
 
 import org.anyboot.jdbc.ds.DynamicDataSourceRegister;
 import org.anyline.entity.DataRow;
+import org.anyline.jdbc.ds.DataSourceHolder;
 import org.anyline.jdbc.entity.Column;
 import org.anyline.jdbc.entity.Index;
 import org.anyline.jdbc.entity.Table;
@@ -13,7 +14,6 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
-import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -23,18 +23,38 @@ import java.util.List;
 @Import(DynamicDataSourceRegister.class)
 public class MetadataApplication extends SpringBootServletInitializer {
 
+	private static AnylineService service = null;
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception{
 
 		SpringApplication application = new SpringApplication(MetadataApplication.class);
-
 		ConfigurableApplicationContext context = application.run(args);
 
-		AnylineService service = (AnylineService)context.getBean("anyline.service");
+		service = context.getBean(AnylineService.class);
 
-		JdbcTemplate jdbc = context.getBean(JdbcTemplate.class);
+		//check(null, "MySQL");
+		//check("pg", "PostgreSQL");
+		//check("ms", "SQL Server");
+		check("oracle", "Oracle 11G");
+		check("td", "TDengine");
 
+	}
 
+	public static void check(String ds, String title) throws Exception{
+		System.out.println("=============================== START " + title + "=========================================");
+		if(null != ds) {
+			DataSourceHolder.setDataSource(ds);
+		}
+		table();
+		stable();
+		column();
+		tag();
+		index();
+		exception();
+		System.out.println("=============================== END " + title + "=========================================");
+	}
+	public static void stable() throws Exception{
+		System.out.println("-------------------------------- start  stable  ------------------------------------------");
 
 		ConfigTable.IS_SQL_DELIMITER_OPEN = true;
 		DataRow row = new DataRow();
@@ -72,7 +92,7 @@ public class MetadataApplication extends SpringBootServletInitializer {
 		System.out.println(tables);
 
 		//所有表(不包含列、索引等结构)
-		List<Table> tbls = service.metadata().tables();
+		LinkedHashMap<String, Table> tbls = service.metadata().tables();
 		//表结构(不包含列、索引等结构)
 		Table table = service.metadata().table("HR_DEPARTMENT");
 		LinkedHashMap<String, Column> columns = table.getColumns();
@@ -80,7 +100,7 @@ public class MetadataApplication extends SpringBootServletInitializer {
 		for(Column column:columns.values()){
 			System.out.println("\t"+column.toString());
 		}
-		List<Column> pks = table.getPrimaryKeys();
+		List<Column> pks = table.primarys();
 
 		System.out.println(table.getName()+" 主键:");
 		for(Column column:pks){
@@ -95,6 +115,30 @@ public class MetadataApplication extends SpringBootServletInitializer {
 				System.out.println("\t"+column.toString());
 			}
 		}
+		System.out.println("-------------------------------- end  stable  --------------------------------------------");
 	}
+	public static void tag() throws Exception{
+		System.out.println("-------------------------------- start tag  ----------------------------------------------");
+		System.out.println("-------------------------------- end tag  ------------------------------------------------");
+	}
+	public static void index() throws Exception{
+		System.out.println("-------------------------------- start index  --------------------------------------------");
+		System.out.println("-------------------------------- end index  ---------------------------------------------");
+	}
+
+	public static void table() throws Exception{
+		System.out.println("-------------------------------- start table  --------------------------------------------");
+		System.out.println("-------------------------------- end table  ----------------------------------------------");
+	}
+	public static void column() throws Exception{
+		System.out.println("-------------------------------- start column  -------------------------------------------");
+		System.out.println("-------------------------------- end column  --------------------------------------------");
+	}
+	public static void exception() throws Exception{
+		System.out.println("-------------------------------- start exception  ----------------------------------------");
+		System.out.println("-------------------------------- end  exception  -----------------------------------------");
+	}
+
+
 
 }
