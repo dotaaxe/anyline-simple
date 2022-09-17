@@ -2,7 +2,6 @@ package org.anyline.simple.help;
 
 import org.anyboot.jdbc.ds.DynamicDataSourceRegister;
 import org.anyline.entity.DataRow;
-import org.anyline.entity.DataSet;
 import org.anyline.jdbc.ds.DataSourceHolder;
 import org.anyline.jdbc.entity.Column;
 import org.anyline.jdbc.entity.Table;
@@ -17,7 +16,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 
 import javax.sql.DataSource;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -30,6 +32,8 @@ public class HelpApplication {
 
 	private static AnylineService service;
 	private static JdbcTemplate jdbc;
+	private static DataSource ds = null;
+	private static Connection con = null;
 	public static void main(String[] args) throws Exception{
 
 		SpringApplication application = new SpringApplication(HelpApplication.class);
@@ -39,24 +43,22 @@ public class HelpApplication {
 		service = context.getBean(AnylineService.class);
 		jdbc = context.getBean(JdbcTemplate.class);
 		DataSourceHolder.setDataSource("td");
-		td();
-	}
-	public static void td() throws Exception{
-		String sql = "SHOW STABLES";
-
-		jdbc.execute("CREATE STABLE IF NOT EXISTS stable_abc(ID TIMESTAMP, CODE INT ) TAGS(TAG1 INT, TAG2 INT)");
-		List<Map<String,Object>> list = jdbc.queryForList(sql);
-		DataSet set = new DataSet();
-		for(Map<String,Object> map:list){
-			DataRow row = new DataRow(map);
-			set.add(row);
-		}
-		System.out.println(set);
-
-		DataSource ds = null;
-		Connection con = null;
 		ds = jdbc.getDataSource();
 		con = DataSourceUtils.getConnection(ds);
+		td();
+		//tdtags();
+	}
+	public static void tdtags() throws Exception{
+		String sql = "DESCRIBE s_table_user";
+		List<Map<String,Object>> list = jdbc.queryForList(sql);
+		for(Map<String,Object> map:list){
+			DataRow row = new DataRow(map);
+			System.out.println(row);
+		}
+	}
+	public static void td() throws Exception{
+		String sql = null;
+
 
 		ResultSet rs = con.getMetaData().getTables(con.getCatalog(), con.getSchema(), null, "STABLE".split(","));
 		ResultSetMetaData md = rs.getMetaData();
@@ -67,12 +69,17 @@ public class HelpApplication {
 			}
 			System.out.println("----------------------------");
 		}
-		sql = "INSERT INTO s_table_user_2(ID,CODE,AGE) VALUES (?,?,?)";
-		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setObject(1, System.currentTimeMillis());
-		ps.setObject(2, "c1");
-		ps.setObject(3,10);
-		ps.execute();
+
+		System.out.println("----------  getMetaData().getColumns ------------------");
+		rs = con.getMetaData().getColumns(con.getCatalog(),con.getSchema(), "s_table_user",null);
+		md = rs.getMetaData();
+		while (rs.next()) {
+			for (int i = 1; i < md.getColumnCount(); i++) {
+				System.out.println(md.getColumnName(i) + "=" + rs.getObject(i));
+
+			}
+			System.out.println("----------------------------");
+		}
 	}
 	public static void tables(String table) throws Exception{
 		DataSource ds = null;
