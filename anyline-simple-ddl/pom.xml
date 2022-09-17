@@ -29,5 +29,14 @@
             <artifactId>ojdbc8</artifactId>
             <version>21.3.0.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.anyline</groupId>
+            <artifactId>anyline-jdbc-tdengine</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.taosdata.jdbc</groupId>
+            <artifactId>taos-jdbcdriver</artifactId>
+            <version>3.0.0</version>
+        </dependency>
     </dependencies>
 </project>
