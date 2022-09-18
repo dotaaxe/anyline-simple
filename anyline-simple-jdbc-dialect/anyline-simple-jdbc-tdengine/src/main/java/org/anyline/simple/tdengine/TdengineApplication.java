@@ -42,7 +42,7 @@ public class TdengineApplication {
             e.printStackTrace();
         }
         data();
-      //  clear();
+        clear();
     }
     public static void data(){
 
