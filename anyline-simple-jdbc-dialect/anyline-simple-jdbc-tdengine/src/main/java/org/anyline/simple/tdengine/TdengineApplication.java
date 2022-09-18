@@ -221,7 +221,7 @@ public class TdengineApplication {
         LinkedHashMap<String,Table> items = service.metadata().tables(table);
         log.warn(LogUtil.format("根据主表查询子表",34));
         for(Table item:items.values()){
-            log.warn("子表:"+table.getName());
+            log.warn("子表:"+item.getName());
         }
         System.out.println("\n-------------------------------- end stable  --------------------------------------------\n");
     }
