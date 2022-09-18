@@ -82,6 +82,13 @@ public class TdengineApplication {
         tag.setTable("s_table_user");
         log.warn(LogUtil.format("超表添加tag:"+tag.toString(),34));
         service.ddl().save(tag);
+
+        log.warn(LogUtil.format("超表修改tag名:"+tag.toString(),34));
+        tag.update().setName("RENAME_TAG");
+        service.ddl().save(tag);
+
+        log.warn(LogUtil.format("超表删除tag:"+tag.toString(),34));
+        service.ddl().drop(tag);
         System.out.println("\n-------------------------------- end tag  --------------------------------------------\n");
     }
     public static void stable() throws Exception{
