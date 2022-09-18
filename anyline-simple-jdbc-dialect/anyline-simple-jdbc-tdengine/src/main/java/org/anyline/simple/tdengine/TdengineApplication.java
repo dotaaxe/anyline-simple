@@ -33,52 +33,62 @@ public class TdengineApplication {
         service = context.getBean(AnylineService.class);
         ConfigTable.IS_DDL_AUTO_DROP_COLUMN = true;
 
-        STable table = service.metadata().stable("s_table_user");
-        System.out.println(table.getColumns().size());
-        System.out.println(table.getTags().size());
-       // table();
+        table();
         stable();
-       // column();
-       // tags();
+        column();
+        tag();
+        clear();
+    }
+    public static void clear() throws Exception{
+        service.ddl().drop(new Table("s_table_user"));
     }
     public static void column() throws Exception{
         System.out.println("\n-------------------------------- start column  --------------------------------------------\n");
         //columns中包含tag
         LinkedHashMap<String, Column> columns = service.metadata().columns("s_table_user");
-        log.warn(LogUtil.format("查看壗超表结构(不含Tag)",36));
+        log.warn(LogUtil.format("查看壗超表Column(不含Tag)",34));
         for(Column col:columns.values()){
-            log.warn(LogUtil.format(col.toString(),36));
+            log.warn(LogUtil.format(col.toString(),34));
         }
         columns = service.metadata().columns("s_table_user_0");
-        log.warn(LogUtil.format("查看子表结构",36));
+        log.warn(LogUtil.format("查看壗子表Column(不含Tag)",34));
         for(Column col:columns.values()){
-            log.warn(LogUtil.format(col.toString(),36));
+            log.warn(LogUtil.format(col.toString(),34));
         }
+        Column column = new Column();
+        column.setName("NC");
+        column.setTypeName("int");
+        column.setTable("s_table_user");
+        log.warn(LogUtil.format("超表添加Column:"+column.toString(),34));
+        service.ddl().save(column);
         System.out.println("\n-------------------------------- end column  --------------------------------------------\n");
     }
-    public static void tags() throws Exception{
+    public static void tag() throws Exception{
+        System.out.println("\n-------------------------------- start tag  --------------------------------------------\n");
         //columns中包含tag
-        LinkedHashMap<String, Column> columns = service.metadata().columns("s_table_user_0");
-        log.warn(LogUtil.format("查看子表结构",36));
-        for(Column col:columns.values()){
-            log.warn(LogUtil.format(col.toString(),36));
-        }
-        LinkedHashMap<String, Tag> tags = service.metadata().tags("s_table_user_0");
+        LinkedHashMap<String, Tag> tags = service.metadata().tags("s_table_user");
+        log.warn(LogUtil.format("查看超表TAG",34));
         for(Tag tag:tags.values()){
-            System.out.println("TAG:"+tag.getName()+" " + tag.getTypeName() + ":" + tag.getComment());
+            log.warn(LogUtil.format(tag.toString(),34));
         }
-        System.out.println("===========================");
-        tags = service.metadata().tags(new STable("s_table_user"));
+        tags = service.metadata().tags("s_table_user_0");
+        log.warn(LogUtil.format("查看子表TAG",34));
         for(Tag tag:tags.values()){
-            System.out.println("TAG:"+tag.getName()+" " + tag.getTypeName() + ":" + tag.getComment());
+            log.warn(LogUtil.format(tag.toString(),34));
         }
         Tag tag = new Tag();
+        tag.setName("NTAGS");
+        tag.setTypeName("int");
+        tag.setTable("s_table_user");
+        log.warn(LogUtil.format("超表添加tag:"+tag.toString(),34));
+        service.ddl().save(tag);
+        System.out.println("\n-------------------------------- end tag  --------------------------------------------\n");
     }
     public static void stable() throws Exception{
         System.out.println("\n-------------------------------- start stable  --------------------------------------------\n");
 
         LinkedHashMap<String,STable> tables = service.metadata().stables();
-        log.warn(LogUtil.format("检索超表数量:"+tables.size(),36));
+        log.warn(LogUtil.format("检索超表数量:"+tables.size(),34));
         for(Table table:tables.values()){
             log.warn("表:"+table.getName());
         }
@@ -86,12 +96,12 @@ public class TdengineApplication {
 
         STable table = service.metadata().stable("s_table_user");
         if(null != table){
-            log.warn(LogUtil.format("查询表结构:"+table.getName(),36));
+            log.warn(LogUtil.format("查询表结构:"+table.getName(),34));
             LinkedHashMap<String,Column> columns = table.getColumns();
             for(Column column:columns.values()){
                 log.warn("列:"+column.toString());
             }
-            log.warn(LogUtil.format("删除表",36));
+            log.warn(LogUtil.format("删除表",34));
             service.ddl().drop(table);
         }else{
             table = new STable("s_table_user");
@@ -106,13 +116,13 @@ public class TdengineApplication {
         table.addTag("S", "nchar(10)");
         table.setName("s_table_user");
 
-        log.warn(LogUtil.format("创建超表",36));
+        log.warn(LogUtil.format("创建超表",34));
         service.ddl().save(table);
 
         table.addColumn("age","int");
         table.addColumn("NAME","NCHAR(10)");
         table.addTag("NT", "int");
-        log.warn(LogUtil.format("超表添加列与标签",36));
+        log.warn(LogUtil.format("超表添加列与标签",34));
         service.ddl().save(table);
         //创建子表
         for(int i=0;i < 10;i++){
@@ -122,9 +132,9 @@ public class TdengineApplication {
             item.addTag("I", null,i);
             item.addTag("D", null, 10);
             item.addTag("S", null, "S"+i);
-            log.warn(LogUtil.format("删除子表",36));
+            log.warn(LogUtil.format("删除子表",34));
             service.ddl().drop(item);
-            log.warn(LogUtil.format("创建子表",36));
+            log.warn(LogUtil.format("创建子表",34));
             service.ddl().create(item);
         }
 
@@ -136,9 +146,9 @@ public class TdengineApplication {
             row.put("AGE", (i+1)*10);
             set.add(row);
         }
-        log.warn(LogUtil.format("子表直接插入数量",36));
+        log.warn(LogUtil.format("子表直接插入数量",34));
         service.insert("s_table_user_1", set);
-        log.warn(LogUtil.format("通过超表向子表插入数量",36));
+        log.warn(LogUtil.format("通过超表向子表插入数量",34));
 
         System.out.println("\n-------------------------------- end stable  --------------------------------------------\n");
     }
@@ -146,7 +156,7 @@ public class TdengineApplication {
         System.out.println("\n-------------------------------- start table  --------------------------------------------\n");
 
         LinkedHashMap<String,Table> tables = service.metadata().tables();
-        log.warn(LogUtil.format("检索表数量:"+tables.size(),36));
+        log.warn(LogUtil.format("检索表数量:"+tables.size(),34));
         for(Table table:tables.values()){
             log.warn("表:"+table.getName());
         }
@@ -154,15 +164,15 @@ public class TdengineApplication {
 
         Table table = service.metadata().table("a_test");
         if(null != table){
-            log.warn(LogUtil.format("查询表结构:"+table.getName(),36));
+            log.warn(LogUtil.format("查询表结构:"+table.getName(),34));
             LinkedHashMap<String,Column> columns = table.getColumns();
             for(Column column:columns.values()){
                 log.warn("列:"+column.toString());
             }
-            log.warn(LogUtil.format("删除表",36));
+            log.warn(LogUtil.format("删除表",34));
             service.ddl().drop(table);
         }
-        log.warn(LogUtil.format("创建表,第一个字段必须是 TIMESTAMP，并且系统自动将其设为主键",36));
+        log.warn(LogUtil.format("创建表,第一个字段必须是 TIMESTAMP，并且系统自动将其设为主键",34));
         table = new Table("a_test");
         //第一个字段必须是 TIMESTAMP，并且系统自动将其设为主键
         table.addColumn("ID", "TIMESTAMP");
@@ -179,17 +189,17 @@ public class TdengineApplication {
             row.put("age", ""+i*10);
             set.add(row);
         }
-        log.warn(LogUtil.format("批量插入数据",36));
+        log.warn(LogUtil.format("批量插入数据",34));
         service.insert("a_test", set);
 
         int total = service.count("a_test");
-        log.warn(LogUtil.format("统计数量:"+total,36));
+        log.warn(LogUtil.format("统计数量:"+total,34));
         PageNavi navi = new PageNaviImpl();
         navi.setTotalRow(total);
         navi.setCurPage(2);
         navi.setPageRows(3);
         set = service.querys("a_test",navi);
-        log.warn(LogUtil.format("分页查询",36));
+        log.warn(LogUtil.format("分页查询",34));
         System.out.println(set);
         System.out.println("\n-------------------------------- end table  --------------------------------------------\n");
     }
