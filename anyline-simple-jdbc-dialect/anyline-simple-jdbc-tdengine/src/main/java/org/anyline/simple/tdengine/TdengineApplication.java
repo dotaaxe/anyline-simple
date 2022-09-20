@@ -5,10 +5,7 @@ import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
 import org.anyline.entity.PageNavi;
 import org.anyline.entity.PageNaviImpl;
-import org.anyline.jdbc.entity.Column;
-import org.anyline.jdbc.entity.STable;
-import org.anyline.jdbc.entity.Table;
-import org.anyline.jdbc.entity.Tag;
+import org.anyline.jdbc.entity.*;
 import org.anyline.service.AnylineService;
 import org.anyline.util.ConfigTable;
 import org.anyline.util.LogUtil;
@@ -34,15 +31,15 @@ public class TdengineApplication {
         ConfigTable.IS_DDL_AUTO_DROP_COLUMN = true;
         try {
             table();
-            stable();
+            mtable();
             column();
-            scolumn();
+            mcolumn();
             tag();
         }catch (Exception e){
             e.printStackTrace();
         }
         data();
-        clear();
+       // clear();
     }
     public static void data(){
 
@@ -69,7 +66,7 @@ public class TdengineApplication {
         }
         service.ddl().drop(new Table("a_test"));
 
-        STable stable = service.metadata().stable("s_table_user");
+        MasterTable stable = service.metadata().mtable("s_table_user");
         log.warn(LogUtil.format("查看超表Column(不含Tag)",34));
         for(Column col:stable.getColumns().values()){
             log.warn(LogUtil.format(col.toString(),34));
@@ -78,10 +75,10 @@ public class TdengineApplication {
         for(Tag tag:stable.getTags().values()){
             log.warn(LogUtil.format(tag.toString(),34));
         }
-        service.ddl().drop(new STable("s_table_user"));
+        service.ddl().drop(new MasterTable("s_table_user"));
     }
-    public static void scolumn() throws Exception{
-        System.out.println("\n-------------------------------- start scolumn  --------------------------------------------\n");
+    public static void mcolumn() throws Exception{
+        System.out.println("\n-------------------------------- start master table column  --------------------------------------------\n");
 
         LinkedHashMap<String, Column> columns = service.metadata().columns("s_table_user");
         log.warn(LogUtil.format("查看超表Column(不含Tag)",34));
@@ -111,7 +108,7 @@ public class TdengineApplication {
 
         log.warn(LogUtil.format("超表删除column:"+column.toString(),34));
         service.ddl().drop(column);
-        System.out.println("\n-------------------------------- end scolumn  --------------------------------------------\n");
+        System.out.println("\n-------------------------------- end master table column  --------------------------------------------\n");
     }
     public static void column() throws Exception{
         System.out.println("\n-------------------------------- start column  --------------------------------------------\n");
@@ -164,17 +161,17 @@ public class TdengineApplication {
        // service.ddl().drop(tag);
         System.out.println("\n-------------------------------- end tag  --------------------------------------------\n");
     }
-    public static void stable() throws Exception{
+    public static void mtable() throws Exception{
         System.out.println("\n-------------------------------- start stable  --------------------------------------------\n");
 
-        LinkedHashMap<String,STable> tables = service.metadata().stables();
+        LinkedHashMap<String,MasterTable> tables = service.metadata().mtables();
         log.warn(LogUtil.format("检索超表数量:"+tables.size(),34));
         for(Table table:tables.values()){
             log.warn("表:"+table.getName());
         }
 
 
-        STable table = service.metadata().stable("s_table_user");
+        MasterTable table = service.metadata().mtable("s_table_user");
         if(null != table){
             log.warn(LogUtil.format("查询表结构:"+table.getName(),34));
             LinkedHashMap<String,Column> columns = table.getColumns();
@@ -184,7 +181,7 @@ public class TdengineApplication {
             log.warn(LogUtil.format("删除表",34));
             service.ddl().drop(table);
         }else{
-            table = new STable("s_table_user");
+            table = new MasterTable("s_table_user");
 
         }
         //table.setComment("表备注");
@@ -206,9 +203,9 @@ public class TdengineApplication {
         service.ddl().save(table);
         //创建子表
         for(int i=0;i < 10;i++){
-            Table item = new Table();
+            PartitionTable item = new PartitionTable();
             item.setName("s_table_user_"+i);
-            item.setStableName("s_table_user");
+            item.setMasterName("s_table_user");
             item.addTag("I", null,i);
             item.addTag("D", null, 10);
             item.addTag("S", null, "S"+i);
@@ -218,7 +215,7 @@ public class TdengineApplication {
             service.ddl().create(item);
         }
 
-        LinkedHashMap<String,Table> items = service.metadata().tables(table);
+        LinkedHashMap<String,PartitionTable> items = service.metadata().ptables(table);
         log.warn(LogUtil.format("根据主表查询子表",34));
         for(Table item:items.values()){
             log.warn("子表:"+item.getName());

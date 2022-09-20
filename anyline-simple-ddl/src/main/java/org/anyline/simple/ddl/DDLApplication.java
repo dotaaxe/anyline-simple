@@ -33,11 +33,11 @@ public class DDLApplication {
 
 		service = context.getBean(AnylineService.class);
 
-		check(null, "MySQL");
-		///check("pg", "PostgreSQL");
+		//check(null, "MySQL");
+		//check("pg", "PostgreSQL");
 		//check("ms", "SQL Server");
 		//check("oracle", "Oracle 11G");
-		//check("db2", "DB2");
+		check("db2", "DB2");
 
 	}
 
@@ -78,7 +78,7 @@ public class DDLApplication {
 		log.warn("创建表");
 		table = new Table();
 		table.setName("A_TEST");
-		table.addColumn("ID", "int").setPrimaryKey(true).setAutoIncrement(true).setComment("主键说明");
+		table.addColumn("ID", "int").setAutoIncrement(true).setComment("主键说明");
 
 		table.addColumn("NAME","varchar(50)");
 		table.addColumn("A_CHAR","varchar(50)");
