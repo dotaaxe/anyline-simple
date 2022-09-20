@@ -16,7 +16,7 @@ create table MM_MATERIAL
     REG_CLIENT_ID        varchar(50),
     UPT_ID               varchar(50),
     UPT_IP               varchar(20),
-   UPT_TIME         datetime(0) default NULL ON UPDATE CURRENT_TIMESTAMP comment '修改时间',
+    UPT_TIME             datetime(0) default NULL ON UPDATE CURRENT_TIMESTAMP comment '修改时间',
     UPT_CLIENT_ID        varchar(50),
     DATA_STATUS          int default 1,
     primary key (ID)
