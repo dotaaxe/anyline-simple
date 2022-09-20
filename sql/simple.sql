@@ -24,6 +24,9 @@ CREATE TABLE bs_dict  (
    UPT_TIME         datetime(0) default NULL ON UPDATE CURRENT_TIMESTAMP comment '修改时间',
    UPT_CLIENT_ID    varchar(50) ,
    DATA_STATUS      int(0) NULL DEFAULT 1,
+   TENANT_CODE      varchar(50) default '0' comment '租户CODE',
+   ORG_CODE         varchar(50) comment '组织CODE',
+   DATA_VERSION     varchar(50) default '0' comment '数据版本',
                            PRIMARY KEY (ID) USING BTREE
 );
 INSERT INTO bs_dict VALUES (1, 'BASE', 'SALARY_PRICE_TYPE', '薪资金额类别', NULL, NULL, '底薪', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-12-08 13:43:54', NULL, NULL, NULL, '2021-12-08 13:43:54', NULL, 1);
@@ -53,6 +56,9 @@ create table HR_DEPARTMENT
    UPT_TIME         datetime(0) default NULL ON UPDATE CURRENT_TIMESTAMP comment '修改时间',
     UPT_CLIENT_ID        varchar(50),
     DATA_STATUS          int default 1,
+    TENANT_CODE      varchar(50) default '0' comment '租户CODE',
+    ORG_CODE         varchar(50) comment '组织CODE',
+    DATA_VERSION     varchar(50) default '0' comment '数据版本',
     primary key (ID)
 );
 
@@ -81,6 +87,9 @@ create table HR_EMPLOYEE
    UPT_TIME         datetime(0) default NULL ON UPDATE CURRENT_TIMESTAMP comment '修改时间',
     UPT_CLIENT_ID        varchar(50),
     DATA_STATUS          int default 1,
+    TENANT_CODE      varchar(50) default '0' comment '租户CODE',
+    ORG_CODE         varchar(50) comment '组织CODE',
+    DATA_VERSION     varchar(50) default '0' comment '数据版本',
     primary key (ID)
 );
 
@@ -110,6 +119,9 @@ create table HR_SALARY
    UPT_TIME         datetime(0) default NULL ON UPDATE CURRENT_TIMESTAMP comment '修改时间',
     UPT_CLIENT_ID        varchar(50),
     DATA_STATUS          int default 1,
+    TENANT_CODE      varchar(50) default '0' comment '租户CODE',
+    ORG_CODE         varchar(50) comment '组织CODE',
+    DATA_VERSION     varchar(50) default '0' comment '数据版本',
     primary key (ID)
 );
 
@@ -178,6 +190,9 @@ create table HR_SALARY_TYPE
    UPT_TIME         datetime(0) default NULL ON UPDATE CURRENT_TIMESTAMP comment '修改时间',
     UPT_CLIENT_ID        varchar(50) comment '修改端ID',
     DATA_STATUS          int default 1 comment '活动状态',
+    TENANT_CODE      varchar(50) default '0' comment '租户CODE',
+    ORG_CODE         varchar(50) comment '组织CODE',
+    DATA_VERSION     varchar(50) default '0' comment '数据版本',
     primary key (ID)
 );
 DROP VIEW IF EXISTS V_HR_SALARY_TYPE;

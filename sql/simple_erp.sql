@@ -19,6 +19,9 @@ create table MM_MATERIAL
     UPT_TIME             datetime(0) default NULL ON UPDATE CURRENT_TIMESTAMP comment '修改时间',
     UPT_CLIENT_ID        varchar(50),
     DATA_STATUS          int default 1,
+    TENANT_CODE          varchar(50) default '0' comment '租户CODE',
+    ORG_CODE             varchar(50) comment '组织CODE',
+    DATA_VERSION         varchar(50) default '0' comment '数据版本',
     primary key (ID)
 );
 INSERT INTO MM_MATERIAL(CODE,NM)VALUES('1001','合成丝雪纺A2');
