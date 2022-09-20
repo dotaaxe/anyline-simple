@@ -26,6 +26,7 @@ public class DatasourceApplication extends SpringBootServletInitializer {
                 项目运行下 先创建数据库执行SQL
 	 			sql目录下的下的sql脚本都执行一下，文件名对应数据库名主要用到simple,其他的(simple_sso,simple_crm,simple_erp是用来测试切换数据库的)
                 插入基础测试数据(部门，职员数据)
+                有没有切换成功参考dao输出的日志[SQL:*][thread:*][ds:crm]
      *********************************************************************************************************************************************************/
 
 	public static void main(String[] args) {
@@ -59,9 +60,16 @@ public class DatasourceApplication extends SpringBootServletInitializer {
 		//固定数据源
 		DataSourceHolder.setDataSource("crm");
 		service.query("crm_customer"); //这一行执行完成后，数据源还是crm
+
+		DataSourceHolder.setDataSource("sso", true);	//true表示SQL执行成功后就切换回上一次的数据源(不是默认数据源)
+		service.query("sso_user"); //这一行执行完成后，数据源切换回crm
+		service.query("crm_customer");
+
 		//切换回默认数据源
 		DataSourceHolder.setDefaultDataSource();
 		service.query("HR_DEPARTMENT");
+
+
 
 
 		//覆盖一个数据源
@@ -71,7 +79,7 @@ public class DatasourceApplication extends SpringBootServletInitializer {
 		}catch (Exception e){
 			e.printStackTrace();
 		}
-		//注意这里的sso实际已经指向了crm数据库了
+		//注意这里的sso实际已经指向了simple_crm数据库了
 		service.query("<sso>crm_customer");
 	}
 }

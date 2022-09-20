@@ -40,7 +40,6 @@ public class DDLApplication {
 		check("db2", "DB2");
 
 	}
-
 	public static void check(String ds, String title) throws Exception{
 		System.out.println("\n=============================== START " + title + "=========================================\n");
 		if(null != ds) {
@@ -54,6 +53,7 @@ public class DDLApplication {
 	}
 	public static void table() throws Exception{
 		System.out.println("\n-------------------------------- start table  --------------------------------------------\n");
+		clear();
 
 		LinkedHashMap<String,Table> tables = service.metadata().tables();
 		log.warn("检索表数量:"+tables.size());
@@ -87,6 +87,7 @@ public class DDLApplication {
 	}
 	public static void column() throws Exception{
 		System.out.println("\n-------------------------------- start column  -------------------------------------------\n");
+		clear();
 		Column column = new Column();
 		column.setTable("A_TEST");
 		column.setName("A_CHAR");
@@ -126,6 +127,7 @@ public class DDLApplication {
 	}
 	public static void exception() throws Exception{
 		System.out.println("\n-------------------------------- start exception  ----------------------------------------\n");
+		clear();
 		//ConfigTable.AFTER_ALTER_COLUMN_EXCEPTION_ACTION
 		// 0:中断执行
 		// 1:直接修正
@@ -171,7 +173,12 @@ public class DDLApplication {
 	}
 	public static void index() throws Exception{
 		System.out.println("\n-------------------------------- start index  --------------------------------------------\n");
+		clear();
 		System.out.println("\n-------------------------------- end index  ----------------------------------------------\n");
 	}
 
+	public static void clear(){
+		System.out.println("\n=============================== START clear =========================================\n");
+		System.out.println("\n=============================== START clear =========================================\n");
+	}
 }

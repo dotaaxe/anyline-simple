@@ -72,7 +72,7 @@ public class SalaryController extends BasicController{
     public ModelAndView pivotSet() {
         ModelAndView mv = template("pivots.jsp");
         //查询工资列表
-        DataSet types = service.querys("BS_VALUE","GROUP_CODE:SALARY_PRICE_TYPE");
+        DataSet types = service.querys("bs_dict","GROUP_CODE:SALARY_PRICE_TYPE");
         int yyyy = BasicUtil.parseInt(DateUtil.format("yyyy"),0)-1;
         long fr = System.currentTimeMillis();
         DataSet set = service.querys("V_HR_SALARY_TYPE(EMPLOYEE_CODE,EMPLOYEE_NM,YM,TYPE_CODE,TYPE_NM,PRICE)","YYYY:"+ yyyy);
@@ -94,7 +94,7 @@ public class SalaryController extends BasicController{
     public ModelAndView pivotMap() {
         ModelAndView mv = template("pivotm.jsp");
         //查询工资列表
-        DataSet types = service.querys("BS_VALUE","GROUP_CODE:SALARY_PRICE_TYPE");
+        DataSet types = service.querys("bs_dict","GROUP_CODE:SALARY_PRICE_TYPE");
         int yyyy = BasicUtil.parseInt(DateUtil.format("yyyy"),0)-1;
         long fr = System.currentTimeMillis();
         List<Map<String,Object>> maps = service.maps("V_HR_SALARY_TYPE(EMPLOYEE_CODE,EMPLOYEE_NM,YM,TYPE_CODE,TYPE_NM,PRICE)","YYYY:"+ yyyy);

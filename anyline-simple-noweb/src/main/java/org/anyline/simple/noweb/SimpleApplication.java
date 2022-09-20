@@ -17,7 +17,7 @@ public class SimpleApplication {
         SpringApplication application = new SpringApplication(SimpleApplication.class);
         ConfigurableApplicationContext ctx = application.run(args);
         AnylineService service = (AnylineService) ctx.getBean("anyline.service");
-        DataSet set = service.querys("BS_VALUE");
+        DataSet set = service.querys("bs_dict");
         System.out.println(set.toJSON());
     }
 }

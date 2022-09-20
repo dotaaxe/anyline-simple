@@ -51,18 +51,18 @@ public class SpecialApplication {
 		store.addCondition("+IDX", "".split(","));      // IDX = ''
 		store.addCondition("+CODE", new ArrayList<>());       // CODE IS NULL
 		store.addCondition("+VAL", new String[]{});            // VAL IS NULL
-		DataSet set = service.querys("BS_VALUE(ID,GROUP_CODE,CODE,NM,VAL)", store);
+		DataSet set = service.querys("bs_dict(ID,GROUP_CODE,CODE,NM,VAL)", store);
 
 
 		row.put("-REMARK","不更新,不插入");	//添加到row中 但不参与插入(更新)
 		row.put("+CODE", null);				//默认情况这值不参与插入(更新)， +表示强制参与插入(更新)
-		service.update("BS_VALUE", row);
+		service.update("bs_dict", row);
 		//只更新CODE REMARK
-		service.update("BS_VALUE",row, "CODE", "REMARK");
+		service.update("bs_dict",row, "CODE", "REMARK");
 		//CODE强制更新 其他按默认情况(但不包括已忽略的列)
-		service.update("BS_VALUE",row,"+CODE");
+		service.update("bs_dict",row,"+CODE");
 		//只更新值有变化的列(但不包括已忽略的列)
-		service.update("BS_VALUE",row);
+		service.update("bs_dict",row);
 
 		System.exit(0);
 

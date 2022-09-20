@@ -15,7 +15,7 @@ public class KingBaseApplication {
         SpringApplication application = new SpringApplication(KingBaseApplication.class);
         ConfigurableApplicationContext context = application.run(args);
         AnylineService service = (AnylineService) context.getBean("anyline.service");
-        DataSet set = service.querys("bs_value",1,1);
+        DataSet set = service.querys("bs_dict",1,1);
         System.out.println(set);
     }
 }
