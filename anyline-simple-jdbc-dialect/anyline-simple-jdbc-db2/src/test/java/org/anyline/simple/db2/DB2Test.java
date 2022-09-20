@@ -2,9 +2,13 @@ package org.anyline.simple.db2;
 
 import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
+import org.anyline.entity.PageNavi;
+import org.anyline.entity.PageNaviImpl;
 import org.anyline.jdbc.config.db.SQLAdapter;
 import org.anyline.jdbc.entity.Table;
 import org.anyline.service.AnylineService;
+import org.anyline.util.BasicUtil;
+import org.anyline.util.ConfigTable;
 import org.anyline.util.LogUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -30,21 +34,8 @@ public class DB2Test {
 
 
     @Test
-    public void help() throws Exception{
-        ResultSet set = jdbc.getDataSource().getConnection().getMetaData().getTables(null, null, table, "TABLE".split(","));
-        ResultSetMetaData md = set.getMetaData();
-        while (set.next()) {
-            System.out.println("--------------------------------------");
-            for (int i = 1; i <= md.getColumnCount(); i++) {
-                String column = md.getColumnName(i);
-                System.out.print(column + "=");
-                Object value = set.getObject(i);
-                System.out.println(value);
-            }
-        }
-    }
-    @Test
     public void ddl() throws Exception{
+        ConfigTable.IS_THROW_SQL_EXCEPTION = true; //遇到SQL异常直接
         //检测表结构
         Table table = service.metadata().table(catalog, schema, this.table);
         //如果存在则删除
@@ -121,20 +112,51 @@ public class DB2Test {
         service.save(row);
         row.put("NAME", "UPDATE NAME");
 
+        //分页查询
+        //注意这里的page一般不手工创建，而是通过AnylineController中的condition自动构造
+        //每页3行,当前第2页(下标从1开始)
+        PageNavi page = new PageNaviImpl(2, 3);
+
+        //无论是否分页 都返回相同结构的DataSet
+        set = service.querys(table, page);
+        log.warn(LogUtil.format("[分页查询][共{}行 第{}/{}页]", 36), page.getTotalRow(), page.getCurPage(), page.getTotalPage());
+        log.warn(set.toJSON());
+        Assertions.assertEquals(page.getTotalPage() , 4);
+        Assertions.assertEquals(page.getTotalRow() , 10);
+
         service.update(row,"NAME");
+        //根据主键删除
+        service.delete(row);
 
-/*
-        row.remove("ROW_NUMBER");
-        set.remove("ROW_NUMBER");
-        set.setPrimaryKey("ID");
-        service.delete(set);
-        System.out.println(set);
+        qty = service.count(table);
+        log.warn(LogUtil.format("[总数统计][count:{}]", 36), qty);
+        Assertions.assertEquals(qty , 9);
+    }
 
-        row = service.query("a_test");
-        row.remove("ROW_NUMBER");
-        set.remove("ROW_NUMBER");
-        set.setPrimaryKey("ID");
-        service.delete(set);
-        System.out.println(set);*/
+    @Test
+    public void help() throws Exception{
+        ResultSet set = jdbc.getDataSource().getConnection().getMetaData().getTables(null, null, table, "TABLE".split(","));
+        ResultSetMetaData md = set.getMetaData();
+        if (set.next()) {
+            System.out.println("\n--------------[table metadata]------------------------");
+            for (int i = 1; i <= md.getColumnCount(); i++) {
+                String column = md.getColumnName(i);
+                System.out.print(BasicUtil.fillRChar(column, " ",20) + " = ");
+                Object value = set.getObject(i);
+                System.out.println(value);
+            }
+        }
+        set = jdbc.getDataSource().getConnection().getMetaData().getColumns(null, null, null, null);
+        md = set.getMetaData();
+        if (set.next()) {
+            System.out.println("\n--------------[column metadata]------------------------");
+            for (int i = 1; i <= md.getColumnCount(); i++) {
+                String column = md.getColumnName(i);
+                System.out.print(BasicUtil.fillRChar(column, " ",35) + " = ");
+                Object value = set.getObject(i);
+                System.out.println(value);
+            }
+        }
+
     }
 }
