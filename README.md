@@ -1,11 +1,11 @@
 
 ```
-¸ÕpullÏÂÀ´µÄÏîÄ¿
-ÏÈinstall anyline-simple-dependenc(ÓÃÀ´ÉèÖÃ»ù´¡ÒÀÀµ)
-ÔÙinstall anyline-simple(±àÒëµ½Ç°ÏîÄ¿ÏÂËùÓĞµÄmodule)
+åˆšpullä¸‹æ¥çš„é¡¹ç›®
+å…ˆinstall anyline-simple-dependency(ç”¨æ¥è®¾ç½®åŸºç¡€ä¾èµ–)
+å†install anyline-simple(ç¼–è¯‘åˆ°å‰é¡¹ç›®ä¸‹æ‰€æœ‰çš„module)
 
 
-×¢Òâanyline-simple-dependencyÖĞÌí¼ÓÁËÈçÏÂµÄrepositorie:
+æ³¨æ„anyline-simple-dependencyä¸­æ·»åŠ äº†å¦‚ä¸‹çš„repositorie:
 <repositories>
     <repository>
         <id>aliyun</id>
@@ -17,11 +17,11 @@
     </repository>
 </repositories>
 
-ÕâÀïµÄrepository.id¶ÔÓ¦mavent setteing.xmlµÄmirror.id
-<repository><id>aliyun</id></repository>¶ÔÓ¦mavent setting.xmlµÄ<mirror><id>aliyun</id></mirror>
-<repository><id>anyline</id></repository>¶ÔÓ¦mavent setting.xmlµÄ<mirror><id>anyline</id></mirror> 
+è¿™é‡Œçš„repository.idå¯¹åº”mavent setteing.xmlçš„mirror.id
+<repository><id>aliyun</id></repository>å¯¹åº”mavent setting.xmlçš„<mirror><id>aliyun</id></mirror>
+<repository><id>anyline</id></repository>å¯¹åº”mavent setting.xmlçš„<mirror><id>anyline</id></mirror> 
 
-ËùÒÔĞèÒªÔÚ±¾µØ%mavent_home%/conf/settings.xmlÖĞÅäÖÃ,ÔÚ<mirrors>ÏÂÌí¼Ó:
+æ‰€ä»¥éœ€è¦åœ¨æœ¬åœ°%mavent_home%/conf/settings.xmlä¸­é…ç½®,åœ¨<mirrors>ä¸‹æ·»åŠ :
 <mirror>
     <id>aliyun</id>
     <name>aliyun maven</name>
@@ -35,12 +35,15 @@
   <url>http://maven.anyline.org/repository/maven-snapshots/</url>   
 </mirror>  
 
-Èç¹û»¹ÊÇÈ±ÉÙÒÀÀµµÄ»° ÇëÁªÏµQQÈº(86020680)µÄ¹ÜÀíÔ±
-»òÕßÖ±½ÓpullÔ´Âë https://gitee.com/anyline/anyline
-Ò²ÊÇÏÈinstall anyline-dependency
-ÔÙinstall anyline
+å¦‚æœè¿˜æ˜¯ç¼ºå°‘ä¾èµ–çš„è¯ è¯·è”ç³»QQç¾¤(86020680)çš„ç®¡ç†å‘˜
+æˆ–è€…ç›´æ¥pullæºç  https://gitee.com/anyline/anyline
+ä¹Ÿæ˜¯å…ˆinstall anyline-dependency
+å†install anyline
 
-ÏÈ´´½¨Êı¾İ¿â(½Å±¾ÔÚ/sql/ÖĞ):
+
+å…ˆåˆ›å»ºæ•°æ®åº“
+è¿è¡Œanyline-simple-alpha-initä¸­çš„InitTest(åˆ›å»ºä»¥ä¸‹å‡ ä¸ªæ•°æ®åº“ä»¥åŠè¡¨ä»¥åŠinsertæµ‹è¯•æ•°æ®)(å…ˆé…ç½®å¥½æ•°æ®åº“çš„å¸å·å¯†ç )
+æˆ–è€…æ‰‹å·¥è¿è¡Œè„šæœ¬(åœ¨/sql/ä¸­)
 simple
 simple_crm
 simple_erp
@@ -48,13 +51,13 @@ simple_sso
 
 
 ```
-ÔÚÃ¿¸öÊı¾İ¿âÖĞÖ´ĞĞsqlÄ¿Â¼ÏÂ¶ÔÓ¦µÄSQL½Å±¾
-×¢Òâ°²×°Êı¾İ¿âÊ±,ÉèÖÃ±íÃû²»Çø·Ö´óĞ¡Ğ´
-¿ÉÒÔ²Î¿¼  
+åœ¨æ¯ä¸ªæ•°æ®åº“ä¸­æ‰§è¡Œsqlç›®å½•ä¸‹å¯¹åº”çš„SQLè„šæœ¬
+æ³¨æ„å®‰è£…æ•°æ®åº“æ—¶,è®¾ç½®è¡¨åä¸åŒºåˆ†å¤§å°å†™
+å¯ä»¥å‚è€ƒ  
 http://qa.anyline.org/art/v?id=lv0182c99f6acebf1d2d680783bf1168e8f99eced8e0136a4ec1
 
     <!--
-        ÈëÃÅÇëÏÈ¿´  anyline-simple-hello(Ã»ÓĞweb»·¾³ Ö»²Ù×÷Êı¾İ¿â)
+        å…¥é—¨è¯·å…ˆçœ‹  anyline-simple-hello(æ²¡æœ‰webç¯å¢ƒ åªæ“ä½œæ•°æ®åº“)
 
         SpringApplication application = new SpringApplication(HelloApplication.class);
         ConfigurableApplicationContext ctx = application.run(args);
@@ -63,70 +66,70 @@ http://qa.anyline.org/art/v?id=lv0182c99f6acebf1d2d680783bf1168e8f99eced8e0136a4
         System.out.println(set.size());
 
 
-        ÆäËûÊ¾ÀıÖĞÌí¼Óweb»·¾³µÄÒÀÀµ
-        Êµ¼ÊÉÏ²Ù×÷Êı¾İ¿âÖ»ĞèÒªÒÀÀµanyline-jdbc-*ÒÔ¼°ÏàÓ¦Êı¾İ¿âµÄÇı¶¯
+        å…¶ä»–ç¤ºä¾‹ä¸­æ·»åŠ webç¯å¢ƒçš„ä¾èµ–
+        å®é™…ä¸Šæ“ä½œæ•°æ®åº“åªéœ€è¦ä¾èµ–anyline-jdbc-*ä»¥åŠç›¸åº”æ•°æ®åº“çš„é©±åŠ¨
  
         <groupId>org.anyline</groupId>
         <artifactId>anyline-jdbc-mysql(mssql|oracle|clickhouse...)</artifactId>
 
-        Èç¹û±¾µØÓĞÔ´Âë ¾ÍÓÃ±¾µØµÄ°æ±¾ºÅ
-        Èç¹ûÃ»ÓĞ¿ÉÒÔÓÃÖĞÑë¿âµÄ°æ±¾(Èç¹ûÄãÅäÖÃÁË°¢ÀïÔÆµÄË½·ş²»ÒªÓÃ×î½üÈÕÆÚµÄ£¬¿ÉÄÜ»¹Ã»Í¬²½¹ıÈ¥)
-        °æ±¾ºÅ²Î¿¼
+        å¦‚æœæœ¬åœ°æœ‰æºç  å°±ç”¨æœ¬åœ°çš„ç‰ˆæœ¬å·
+        å¦‚æœæ²¡æœ‰å¯ä»¥ç”¨ä¸­å¤®åº“çš„ç‰ˆæœ¬(å¦‚æœä½ é…ç½®äº†é˜¿é‡Œäº‘çš„ç§æœä¸è¦ç”¨æœ€è¿‘æ—¥æœŸçš„ï¼Œå¯èƒ½è¿˜æ²¡åŒæ­¥è¿‡å»)
+        ç‰ˆæœ¬å·å‚è€ƒ
         https://mvnrepository.com/artifact/org.anyline/anyline-core
-        ²âÊÔ»·¾³¿ÉÒÔÓÃË½·şÉÏµÄ¿ìÕÕ°æ±¾
+        æµ‹è¯•ç¯å¢ƒå¯ä»¥ç”¨ç§æœä¸Šçš„å¿«ç…§ç‰ˆæœ¬
         snapshots <url>http://maven.anyline.org/repository/maven-snapshots/</url>
 
-        ÎªÁË²Ù×÷Êı¾İ¿â£¬ĞèÒªÒ»¸öAnylineService£¬´ó²¿·Ö²Ù×÷Í¨¹ıÕâ¸öserviceÀ´Íê³É
+        ä¸ºäº†æ“ä½œæ•°æ®åº“ï¼Œéœ€è¦ä¸€ä¸ªAnylineServiceï¼Œå¤§éƒ¨åˆ†æ“ä½œé€šè¿‡è¿™ä¸ªserviceæ¥å®Œæˆ
 
-        ¿ÉÒÔÔÚControllerÖĞ×¢Èëservice
+        å¯ä»¥åœ¨Controllerä¸­æ³¨å…¥service
         @Qualifier("anyline.service") 
         private AnylineService service;
 
         
-        µ«Í¨³£ÊÇ¼Ì³ĞÕâ¸öTemplateController,ÀïÃæÒÑ¾­Ä¬ÈÏ×¢ÈëÁËservice
+        ä½†é€šå¸¸æ˜¯ç»§æ‰¿è¿™ä¸ªTemplateController,é‡Œé¢å·²ç»é»˜è®¤æ³¨å…¥äº†service
         org.anyboot.mvc.controller.impl.TemplateController
 
-        ½ÓÏÂÀ´´ó²¿·Ö²Ù×÷Í¨¹ıÕâ¸öserviceÀ´Íê³É£¬Èç
+        æ¥ä¸‹æ¥å¤§éƒ¨åˆ†æ“ä½œé€šè¿‡è¿™ä¸ªserviceæ¥å®Œæˆï¼Œå¦‚
         DataSet set = service.querys("HR_USER");
-        ·µ»ØµÄDataSetÖĞ×Ô´øÁË³£ÓÃµÄÊıÑ§¼ÆËãº¯Êı ÈçÅÅĞò£¬ÇóºÍ£¬½ØÈ¡£¬Çå³ı¿ÕÖµ£¬°´ÁĞÈ¥ÖØ£¬×î´ó×îĞ¡Öµ£¬½»¼¯ºÏ¼¯²î¼¯£¬·Ö×é£¬ĞĞÁĞ×ª»»£¬ÀàSQLÉ¸Ñ¡
+        è¿”å›çš„DataSetä¸­è‡ªå¸¦äº†å¸¸ç”¨çš„æ•°å­¦è®¡ç®—å‡½æ•° å¦‚æ’åºï¼Œæ±‚å’Œï¼Œæˆªå–ï¼Œæ¸…é™¤ç©ºå€¼ï¼ŒæŒ‰åˆ—å»é‡ï¼Œæœ€å¤§æœ€å°å€¼ï¼Œäº¤é›†åˆé›†å·®é›†ï¼Œåˆ†ç»„ï¼Œè¡Œåˆ—è½¬æ¢ï¼Œç±»SQLç­›é€‰
     -->
 
 
-        <!--»ù´¡ÒÀÀµ-->
+        <!--åŸºç¡€ä¾èµ–-->
         <module>anyline-simple-dependency</module>
         <module>anyline-simple-dependency-web</module>
         <module>anyline-simple-dependency-mysql</module>
 
-        <!--¼òµ¥µÄÊı¾İ¿â²Ù×÷-->
+        <!--ç®€å•çš„æ•°æ®åº“æ“ä½œ-->
         <module>anyline-simple-start</module>
 
-        <!--¶àÊı¾İÔ´¿â²Ù×÷-->
+        <!--å¤šæ•°æ®æºåº“æ“ä½œ-->
         <module>anyline-simple-ds</module>
 
-        <!--¶Ô½á¹û¼¯µÄ²Ù×÷-->
+        <!--å¯¹ç»“æœé›†çš„æ“ä½œ-->
         <module>anyline-simple-result</module>
 
-        <!--pdf²Ù×÷-->
+        <!--pdfæ“ä½œ-->
         <module>anyline-simple-pdf</module>
 
-        <!--ÕıÔò±í´ïÊ½ Ö÷ÒªÓÃÀ´³éÈ¡±êÇ© ²ğ·Ö×Ö·û´® ±ÈÈç´ÓÒ»¶ÎhtmlÖĞ³éÈ¡ËùÓĞ³¬Á´½Ó-->
+        <!--æ­£åˆ™è¡¨è¾¾å¼ ä¸»è¦ç”¨æ¥æŠ½å–æ ‡ç­¾ æ‹†åˆ†å­—ç¬¦ä¸² æ¯”å¦‚ä»ä¸€æ®µhtmlä¸­æŠ½å–æ‰€æœ‰è¶…é“¾æ¥-->
         <module>anyline-simple-regular</module>
 
-        <!--¸÷ÖÖ³¡¾°µÄ²éÑ¯-->
+        <!--å„ç§åœºæ™¯çš„æŸ¥è¯¢-->
         <module>anyline-simple-query</module>
 
-        <!--ÍøÂç²Ù×÷-->
+        <!--ç½‘ç»œæ“ä½œ-->
         <module>anyline-simple-net</module>
 
-        <!--word excel²Ù×÷ ÖØµãÊµÏÖword excelÖĞµÄ±í¸ñ²Ù×÷ÒÔ¼°html/css×ªword±êÇ©-->
+        <!--word excelæ“ä½œ é‡ç‚¹å®ç°word excelä¸­çš„è¡¨æ ¼æ“ä½œä»¥åŠhtml/cssè½¬wordæ ‡ç­¾-->
         <module>anyline-simple-office-excel</module>
         <module>anyline-simple-office-word</module>
         <module>anyline-simple-rabbitmq</module>
         <module>anyline-simple-minio</module>
-        <!--Ã»ÓĞweb»·¾³-->
+        <!--æ²¡æœ‰webç¯å¢ƒ-->
         <module>anyline-simple-noweb</module>
 
-        <!--¸÷ÖÖÊı¾İ¿â²Ù×÷Ê¾Àı-->
+        <!--å„ç§æ•°æ®åº“æ“ä½œç¤ºä¾‹-->
         <module>anyline-simple-jdbc-dialect</module>
         <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-dm</module>
         <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-oracle</module>
@@ -140,51 +143,51 @@ http://qa.anyline.org/art/v?id=lv0182c99f6acebf1d2d680783bf1168e8f99eced8e0136a4
         <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-tdengine</module>
         <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-mssql</module>
 
-        <!--¶ÌĞÅ-->
+        <!--çŸ­ä¿¡-->
         <module>anyline-simple-sms</module>
 
-        <!--Õë¶ÔEntityµÄ²Ù×÷-->
+        <!--é’ˆå¯¹Entityçš„æ“ä½œ-->
         <module>anyline-simple-entity</module>
 
         <!--ThingsBoard-->
         <module>anyline-simple-thingsboard</module>
 
-        <!--°Ù¶ÈµØÍ¼-->
+        <!--ç™¾åº¦åœ°å›¾-->
         <module>anyline-simple-baidu-map</module>
 
-        <!--ÌÚÑ¶µØÍ¼-->
+        <!--è…¾è®¯åœ°å›¾-->
         <module>anyline-simple-qq-map</module>
 
-        <!--Ä£Äâä¯ÀÀÆ÷Ö´ĞĞjs-->
+        <!--æ¨¡æ‹Ÿæµè§ˆå™¨æ‰§è¡Œjs-->
         <module>anyline-simple-spider</module>
 
-        <!--ÊÂÎñ»Ø¹ö-->
+        <!--äº‹åŠ¡å›æ»š-->
         <module>anyline-simple-transaction</module>
 
-        <!--¶¯Ì¬Êı¾İÔ´ÊÂÎñ»Ø¹ö-->
+        <!--åŠ¨æ€æ•°æ®æºäº‹åŠ¡å›æ»š-->
         <module>anyline-simple-ds-transaction</module>
 
-        <!--ÊÊÅä ¸ßµÂ¡¢°Ù¶È¡¢ÌÚÑ¶µØÍ¼½Ó¿Ú ³¬ÏŞ¶îºó×Ô¶¯ÇĞ»»Æ½Ì¨-->
+        <!--é€‚é… é«˜å¾·ã€ç™¾åº¦ã€è…¾è®¯åœ°å›¾æ¥å£ è¶…é™é¢åè‡ªåŠ¨åˆ‡æ¢å¹³å°-->
         <module>anyline-simple-map</module>
 
-        <!--¶à±í²Ù×÷-->
+        <!--å¤šè¡¨æ“ä½œ-->
         <module>anyline-simple-tables</module>
 
-        <!--½ç¶¨·û-->
+        <!--ç•Œå®šç¬¦-->
         <module>anyline-simple-delimiter</module>
 
-        <!--½ç¶¨·û Õ¼Î»-->
+        <!--ç•Œå®šç¬¦ å ä½-->
         <module>anyline-simple-placeholder</module>
 
-        <!--Êı¾İ¿â½á¹¹ ±í¡¢ÁĞÃ÷Ï¸-->
+        <!--æ•°æ®åº“ç»“æ„ è¡¨ã€åˆ—æ˜ç»†-->
         <module>anyline-simple-metadata</module>
 
-        <!--²¿·Ö²»³£ÓÃµÄ²Ù×÷-->
+        <!--éƒ¨åˆ†ä¸å¸¸ç”¨çš„æ“ä½œ-->
         <module>anyline-simple-special</module>
 
-        <!--DDLÏà¹Ø²Ù×÷  ´´½¨ĞŞ¸Ä±íÁĞÊı¾İÀàĞÍ ÒÔ¼°³¬±í×Ó±í-->
+        <!--DDLç›¸å…³æ“ä½œ  åˆ›å»ºä¿®æ”¹è¡¨åˆ—æ•°æ®ç±»å‹ ä»¥åŠè¶…è¡¨å­è¡¨-->
         <module>anyline-simple-ddl</module>
 
         <module>anyline-simple-help</module>
 
-Ã¿¸öÄ¿Â¼ÏÂÓĞreadËµÃ÷ÁËÊµÏÖµÄÊ¾Àı¡¢²âÊÔ·½Ê½ºÍ×¢ÒâÊÂÏî
+æ¯ä¸ªç›®å½•ä¸‹æœ‰readè¯´æ˜äº†å®ç°çš„ç¤ºä¾‹ã€æµ‹è¯•æ–¹å¼å’Œæ³¨æ„äº‹é¡¹
