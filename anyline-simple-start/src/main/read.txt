@@ -1,4 +1,4 @@
-注意:要先创建数据库,执行根目录下的SQL脚本
+注意:要先创建数据库（执行根目录下的SQL脚本或者运行anyline-simple-alpha-init)
 
 这里继承了anyboot-start-mvc-mysql(包含了spring-mvc与mysql的相关依赖)
 为了测试依赖了javax.servlet(在实际开发中项目容器中会提供javax.servlet,所以一般不再需要单独依赖javax.servlet)
