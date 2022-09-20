@@ -42,7 +42,7 @@ public class MSSQLTest {
         if(null != table){
             service.ddl().drop(table);
         }
-        //也可以直接删除
+        //也可以直接删除(需要数据库支持 IF EXISTS)
         service.ddl().drop(new Table(catalog, schema, this.table));
 
         //再查询一次
