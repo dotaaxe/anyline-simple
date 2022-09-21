@@ -14,8 +14,7 @@
     <dependencies>
         <dependency>
             <groupId>org.anyline</groupId>
-            <artifactId>anyline-jdbc-sqlite</artifactId>
-            <version>8.5.7-SNAPSHOT</version>
+            <artifactId>anyline-jdbc-sqlite</artifactId> 
         </dependency>
     </dependencies>
 
