@@ -28,8 +28,8 @@ public class SQLiteTest {
     private AnylineService service          ;
     @Autowired
     private JdbcTemplate jdbc               ;
-    private String catalog  = null          ; // DB2不支持
-    private String schema   = null          ; // 如 DB2INST1
+    private String catalog  = null          ; //
+    private String schema   = null          ; //
     private String table    = "CRM_USER"    ; // 表名
 
 
