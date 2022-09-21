@@ -20,6 +20,10 @@ public class Neo4jApplication {
         ConfigurableApplicationContext context = application.run(args);
         AnylineService service = context.getBean(AnylineService.class);
         DataRow.DEFAULT_KEY_KASE = KeyAdapter.KEY_CASE.SRC;
+
+        //当前版本(8.5.7)只支持原生CQL执行，不支持占位符
+        //基本上只会用到execute与querys
+        //分页请自己查询总数
         service.execute("create (d:Dept{name:'财务部', leader:'张三'})");
         DataSet set = service.querys("match (s:Dept) return s,s.name limit 100 ");
         for(DataRow row:set){
