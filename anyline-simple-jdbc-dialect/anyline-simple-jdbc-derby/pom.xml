@@ -11,12 +11,10 @@
 
     <artifactId>anyline-simple-jdbc-derby</artifactId>
 
-
     <dependencies>
         <dependency>
             <groupId>org.anyline</groupId>
             <artifactId>anyline-jdbc-derby</artifactId>
-            <version>8.5.7-SNAPSHOT</version>
         </dependency>
     </dependencies>
 </project>
