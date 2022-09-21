@@ -35,7 +35,7 @@ public class DB2Test {
 
     @Test
     public void ddl() throws Exception{
-        ConfigTable.IS_THROW_SQL_EXCEPTION = true; //遇到SQL异常直接
+        ConfigTable.IS_THROW_SQL_EXCEPTION = true; //遇到SQL异常直接抛出
         //检测表结构
         Table table = service.metadata().table(catalog, schema, this.table);
         //如果存在则删除
