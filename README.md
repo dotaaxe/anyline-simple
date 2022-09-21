@@ -1,4 +1,5 @@
 
+## 环境配置
 ```
 刚pull下来的项目
 先install anyline-simple-dependency(用来设置基础依赖)
@@ -48,17 +49,17 @@ simple
 simple_crm
 simple_erp
 simple_sso
-
-
-```
-在每个数据库中执行sql目录下对应的SQL脚本
 注意安装数据库时,设置表名不区分大小写
 可以参考  
 http://qa.anyline.org/art/v?id=lv0182c99f6acebf1d2d680783bf1168e8f99eced8e0136a4ec1
 
-    <!--
-        入门请先看  anyline-simple-hello(没有web环境 只操作数据库)
+```
+## 示例代码
 
+
+   ```
+        入门请先看  anyline-simple-hello(没有web环境 只操作数据库)
+        
         SpringApplication application = new SpringApplication(HelloApplication.class);
         ConfigurableApplicationContext ctx = application.run(args);
         AnylineService service = (AnylineService) ctx.getBean("anyline.service");
@@ -66,8 +67,7 @@ http://qa.anyline.org/art/v?id=lv0182c99f6acebf1d2d680783bf1168e8f99eced8e0136a4
         System.out.println(set.size());
 
 
-        其他示例中添加web环境的依赖
-        实际上操作数据库只需要依赖anyline-jdbc-*以及相应数据库的驱动
+        项目中操作数据库只需要依赖anyline-jdbc-*以及相应数据库的驱动
  
         <groupId>org.anyline</groupId>
         <artifactId>anyline-jdbc-mysql(mssql|oracle|clickhouse...)</artifactId>
@@ -92,9 +92,10 @@ http://qa.anyline.org/art/v?id=lv0182c99f6acebf1d2d680783bf1168e8f99eced8e0136a4
         接下来大部分操作通过这个service来完成，如
         DataSet set = service.querys("HR_USER");
         返回的DataSet中自带了常用的数学计算函数 如排序，求和，截取，清除空值，按列去重，最大最小值，交集合集差集，分组，行列转换，类SQL筛选
-    -->
+   ```
 
 
+## 目录说明
         <!--基础依赖-->
         <module>anyline-simple-dependency</module>
         <module>anyline-simple-dependency-web</module>
