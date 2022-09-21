@@ -59,6 +59,7 @@
         <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-hsqldb</module>
         <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-tdengine</module>
         <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-mssql</module>
+        <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-mysql</module>
         <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-db2</module>
 
         <!--短信-->
