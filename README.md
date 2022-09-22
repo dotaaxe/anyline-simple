@@ -131,6 +131,7 @@ http://qa.anyline.org/art/v?id=lv0182c99f6acebf1d2d680783bf1168e8f99eced8e0136a4
         <module>anyline-simple-noweb</module>
 
         <!--各种数据库操作示例-->
+
         <module>anyline-simple-jdbc-dialect</module>
         <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-dm</module>
         <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-oracle</module>
@@ -143,6 +144,9 @@ http://qa.anyline.org/art/v?id=lv0182c99f6acebf1d2d680783bf1168e8f99eced8e0136a4
         <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-hsqldb</module>
         <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-tdengine</module>
         <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-mssql</module>
+        <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-mysql</module>
+        <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-mariadb</module>
+        <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-db2</module>
 
         <!--短信-->
         <module>anyline-simple-sms</module>
