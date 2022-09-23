@@ -4,7 +4,7 @@ import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
 import org.anyline.entity.PageNavi;
 import org.anyline.entity.PageNaviImpl;
-import org.anyline.jdbc.config.db.SQLAdapter;
+import org.anyline.jdbc.adapter.JDBCAdapter;
 import org.anyline.jdbc.entity.Table;
 import org.anyline.service.AnylineService;
 import org.anyline.util.BasicUtil;
@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 
@@ -58,7 +59,7 @@ public class MSSQLTest {
         table.addColumn("CODE", "VARCHAR(50)").setComment("编号");
         table.addColumn("NAME", "VARCHAR(50)").setComment("名称");
         //默认当前时间 如果要适配多种数据库 用 SQL_BUILD_IN_VALUE.CURRENT_TIME
-        table.addColumn("REG_TIME", "datetime").setComment("名称").setDefaultValue(SQLAdapter.SQL_BUILD_IN_VALUE.CURRENT_TIME);
+        table.addColumn("REG_TIME", "datetime").setComment("名称").setDefaultValue(JDBCAdapter.SQL_BUILD_IN_VALUE.CURRENT_TIME);
         table.addColumn("DATA_VERSION", "double", false, 1.1).setComment("数据版本");
 
         //创建表
@@ -135,7 +136,11 @@ public class MSSQLTest {
 
     @Test
     public void help() throws Exception{
-        ResultSet set = jdbc.getDataSource().getConnection().getMetaData().getTables(null, null, table, "TABLE".split(","));
+        Connection con = jdbc.getDataSource().getConnection();
+        System.out.println("\n--------------[metadata]------------------------");
+        System.out.println("catalog:"+con.getCatalog());
+        System.out.println("schema:"+con.getSchema());
+        ResultSet set = con.getMetaData().getTables(null, null, table, "TABLE".split(","));
         ResultSetMetaData md = set.getMetaData();
         if (set.next()) {
             System.out.println("\n--------------[table metadata]------------------------");

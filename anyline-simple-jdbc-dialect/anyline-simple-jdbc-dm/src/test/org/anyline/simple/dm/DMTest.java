@@ -1,4 +1,4 @@
-package org.anyline.simple.postgre;
+package org.anyline.simple.dm;
 
 import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
@@ -23,14 +23,14 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 
 @SpringBootTest
-public class PostgreTest {
-    private Logger log = LoggerFactory.getLogger(PostgreTest.class);
+public class DMTest {
+    private Logger log = LoggerFactory.getLogger(DMTest.class);
     @Autowired
     private AnylineService service          ;
     @Autowired
     private JdbcTemplate jdbc               ;
-    private String catalog  = null          ; // 可以相当于数据库名
-    private String schema   = null          ; // 如 dbo
+    private String catalog  = null          ; // 默认数据库名
+    private String schema   = null          ; // 默认PUBLIC
     private String table    = "CRM_USER"    ; // 表名
 
 
@@ -44,7 +44,7 @@ public class PostgreTest {
             service.ddl().drop(table);
         }
         //也可以直接删除(需要数据库支持 IF EXISTS)
-        service.ddl().drop(new Table(catalog, schema, this.table));
+        //service.ddl().drop(new Table(catalog, schema, this.table));
 
         //再查询一次
         table = service.metadata().table(catalog, schema, this.table);
@@ -60,7 +60,7 @@ public class PostgreTest {
         table.addColumn("NAME", "VARCHAR(50)").setComment("名称");
         //默认当前时间 如果要适配多种数据库 用 SQL_BUILD_IN_VALUE.CURRENT_TIME
         table.addColumn("REG_TIME", "datetime").setComment("名称").setDefaultValue(JDBCAdapter.SQL_BUILD_IN_VALUE.CURRENT_TIME);
-        table.addColumn("DATA_VERSION", "DECIMAL(10,2)", false, 1.1).setComment("数据版本");
+        table.addColumn("DATA_VERSION", "double", false, 1.1).setComment("数据版本");
 
         //创建表
         service.ddl().create(table);
@@ -71,16 +71,24 @@ public class PostgreTest {
     }
     @Test
     public void dml() throws Exception{
+
         DataSet set = new DataSet();
         for(int i=1; i<=10; i++){
             DataRow row = new DataRow();
             //只插入NAME  ID自动生成 REG_TIME 默认当时时间
             row.put("NAME", "N"+i);
-            set.add(row);
+            if(i == 1){
+                //单行插入
+                int qty = service.insert(table, row);
+                Assertions.assertEquals(qty , 1);
+            }else {
+                set.add(row);
+            }
+
         }
         int qty = service.insert(table, set);
         log.warn(LogUtil.format("[insert result][插入数量:{}]", 36), qty);
-        Assertions.assertEquals(qty , 10);
+        Assertions.assertEquals(qty , set.size());
 
         //查询全部数据
         set = service.querys(table);
@@ -157,7 +165,7 @@ public class PostgreTest {
             System.out.println("\n--------------[column metadata]------------------------");
             for (int i = 1; i <= md.getColumnCount(); i++) {
                 String column = md.getColumnName(i);
-                System.out.print(BasicUtil.fillRChar(column, " ",37) + " = ");
+                System.out.print(BasicUtil.fillRChar(column, " ",35) + " = ");
                 Object value = set.getObject(i);
                 System.out.println(value);
             }

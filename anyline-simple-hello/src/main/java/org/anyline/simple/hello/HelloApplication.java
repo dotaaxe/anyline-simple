@@ -4,7 +4,6 @@ import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
 import org.anyline.entity.PageNavi;
 import org.anyline.entity.PageNaviImpl;
-import org.anyline.jdbc.config.impl.ConfigStoreImpl;
 import org.anyline.service.AnylineService;
 import org.anyline.util.BeanUtil;
 import org.anyline.util.ConfigTable;

@@ -25,11 +25,16 @@ public class Neo4jApplication {
         //基本上只会用到execute与querys
         //分页请自己查询总数
         service.execute("create (d:Dept{name:'财务部', leader:'张三'})");
-        DataSet set = service.querys("match (s:Dept) return s,s.name limit 100 ");
+        DataSet set = service.querys("match (s:Dept) return s,s.name as name limit 100 ");
+        service.querys("Dept",0,10,"name:张三");
         for(DataRow row:set){
             System.out.println(row);
             DataRow ss = row.getRow("s");
             System.out.println(ss.getName());
         }
+        DataRow row = new DataRow("User");
+        row.put("name","张三");
+        row.put("age", 20);
+       // service.save(row);
     }
 }

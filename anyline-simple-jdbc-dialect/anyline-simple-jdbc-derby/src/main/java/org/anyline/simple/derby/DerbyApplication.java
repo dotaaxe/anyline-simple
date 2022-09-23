@@ -5,7 +5,7 @@ import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
 import org.anyline.entity.PageNavi;
 import org.anyline.entity.PageNaviImpl;
-import org.anyline.jdbc.config.db.SQLAdapter;
+import org.anyline.jdbc.adapter.JDBCAdapter;
 import org.anyline.jdbc.entity.Table;
 import org.anyline.service.AnylineService;
 import org.anyline.util.BasicUtil;
@@ -13,7 +13,6 @@ import org.anyline.util.ConfigTable;
 import org.anyline.util.LogUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -70,7 +69,7 @@ public class DerbyApplication {
         table.addColumn("CODE", "VARCHAR(50)").setComment("编号");
         table.addColumn("NAME", "VARCHAR(50)").setComment("名称");
         //默认当前时间 如果要适配多种数据库 用 SQL_BUILD_IN_VALUE.CURRENT_TIME
-        table.addColumn("REG_TIME", "datetime").setComment("名称").setDefaultValue(SQLAdapter.SQL_BUILD_IN_VALUE.CURRENT_TIME);
+        table.addColumn("REG_TIME", "datetime").setComment("名称").setDefaultValue(JDBCAdapter.SQL_BUILD_IN_VALUE.CURRENT_TIME);
         table.addColumn("DATA_VERSION", "double", false, 1.1).setComment("数据版本");
 
         //创建表

@@ -2,7 +2,7 @@ package org.anyline.simple.init;
 
 import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
-import org.anyline.jdbc.config.db.SQLAdapter;
+import org.anyline.jdbc.adapter.JDBCAdapter;
 import org.anyline.jdbc.entity.Table;
 import org.anyline.service.AnylineService;
 import org.junit.jupiter.api.Assertions;
@@ -319,7 +319,7 @@ public class InitTest {
         table.addColumn("REMARK","varchar(50)").setComment("备注");
         table.addColumn("REG_ID","varchar(50)").setComment("注册人ID");
         table.addColumn("REG_IP","varchar(50)").setComment("注册IP");
-        table.addColumn("REG_TIME","datetime").setComment("注册时间").setDefaultValue(SQLAdapter.SQL_BUILD_IN_VALUE.CURRENT_TIME);
+        table.addColumn("REG_TIME","datetime").setComment("注册时间").setDefaultValue(JDBCAdapter.SQL_BUILD_IN_VALUE.CURRENT_TIME);
         table.addColumn("REG_CLIENT_ID","varchar(50)").setComment("注册客户端ID");
         table.addColumn("UPT_ID","varchar(50)").setComment("最后修改人ID");
         table.addColumn("UPT_IP","varchar(50)").setComment("最后修改IP");

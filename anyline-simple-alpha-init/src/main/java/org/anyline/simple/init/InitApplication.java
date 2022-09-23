@@ -2,7 +2,7 @@ package org.anyline.simple.init;
 
 import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
-import org.anyline.jdbc.config.db.SQLAdapter;
+import org.anyline.jdbc.adapter.JDBCAdapter;
 import org.anyline.jdbc.entity.Column;
 import org.anyline.jdbc.entity.Table;
 import org.anyline.service.AnylineService;

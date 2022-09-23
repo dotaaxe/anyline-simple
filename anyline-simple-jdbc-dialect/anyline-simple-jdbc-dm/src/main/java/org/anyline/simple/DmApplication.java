@@ -22,7 +22,6 @@ public class DmApplication {
 		DataSourceHolder.setDataSource("jt");
 
 		DataSet set = service.querys("all_tables",0,10);
-		DataSourceHolder.setDataSource("oracle");
 		set = service.querys("all_tables",0,10);
 		System.out.println(set);
 	}
