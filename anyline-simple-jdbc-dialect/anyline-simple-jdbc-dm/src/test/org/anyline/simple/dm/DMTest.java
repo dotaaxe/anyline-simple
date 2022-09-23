@@ -29,8 +29,8 @@ public class DMTest {
     private AnylineService service          ;
     @Autowired
     private JdbcTemplate jdbc               ;
-    private String catalog  = null          ; // 默认数据库名
-    private String schema   = null          ; // 默认PUBLIC
+    private String catalog  = null          ; //
+    private String schema   = null          ; //
     private String table    = "CRM_USER"    ; // 表名
 
 
