@@ -146,5 +146,12 @@ public class Neo4jTest {
         //返回{e={},k={},f={}}
         log.warn(LogUtil.format("[原生CQL][result:{}]", 36), set.toJSON());
 
+        //按条件删除
+        service.delete("Dept", "name","财务部");
+
+        set = service.querys("Batch", 0, 9);
+        //根据ID删除
+        service.delete("Batch", set);
+
     }
 }

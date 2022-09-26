@@ -637,11 +637,19 @@ public class Neo4jAdapter extends SimpleJDBCAdapter implements JDBCAdapter, Init
 
         return run;
     }
+
     protected Run createDeleteRunSQLFromEntity(String dest, Object obj, String ... columns){
         TableRun run = new TableRun(this,dest);
         StringBuilder builder = new StringBuilder();
-        builder.append("DELETE FROM ").append(parseTable(dest)).append(" WHERE ");
+        builder.append("MATCH (d");
+        String table = parseTable(dest);
+        if(BasicUtil.isNotEmpty(table)){
+            builder.append(":").append(table);
+        }
+        builder.append(")");
+        builder.append(" WHERE ");
         List<String> keys = new ArrayList<>();
+        List<String> pks = new ArrayList<>();
         if(null != columns && columns.length>0){
             for(String col:columns){
                 keys.add(col);
@@ -654,6 +662,7 @@ public class Neo4jAdapter extends SimpleJDBCAdapter implements JDBCAdapter, Init
                     keys = AdapterProxy.primaryKeys(obj.getClass());
                 }
             }
+            pks.addAll(keys);
         }
         int size = keys.size();
         if(size >0){
@@ -662,8 +671,11 @@ public class Neo4jAdapter extends SimpleJDBCAdapter implements JDBCAdapter, Init
                     builder.append("\nAND ");
                 }
                 String key = keys.get(i);
-
-                SQLUtil.delimiter(builder, key, getDelimiterFr(), getDelimiterTo()).append(" = ? ");
+                if(pks.contains(key)){
+                    builder.append(" ID(d) = ?");
+                }else {
+                    SQLUtil.delimiter(builder, "d." + key, getDelimiterFr(), getDelimiterTo()).append(" = ? ");
+                }
                 Object value = null;
                 if(obj instanceof DataRow){
                     value = ((DataRow)obj).get(key);
@@ -679,6 +691,7 @@ public class Neo4jAdapter extends SimpleJDBCAdapter implements JDBCAdapter, Init
         }else{
             throw new SQLUpdateException("删除异常:删除条件为空,delete方法不支持删除整表操作.");
         }
+        builder.append(" DELETE d");
         run.setBuilder(builder);
 
         return run;
