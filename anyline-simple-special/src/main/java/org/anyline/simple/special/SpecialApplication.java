@@ -2,8 +2,8 @@ package org.anyline.simple.special;
 
 import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
-import org.anyline.jdbc.config.ConfigStore;
-import org.anyline.jdbc.config.impl.ConfigStoreImpl;
+import org.anyline.jdbc.param.ConfigStore;
+import org.anyline.jdbc.param.init.SimpleConfigStore;
 import org.anyline.service.AnylineService;
 import org.anyline.util.ConfigTable;
 import org.springframework.boot.SpringApplication;
@@ -45,7 +45,7 @@ public class SpecialApplication {
 
 
 		//关于几个 空值 的查询条件
-		ConfigStore store = new ConfigStoreImpl();
+		ConfigStore store = new SimpleConfigStore();
 		store.addCondition("+ID", null);                // ID IS NULL
 		store.addCondition("+REMARK", "");              // REMARK = ''
 		store.addCondition("+IDX", "".split(","));      // IDX = ''

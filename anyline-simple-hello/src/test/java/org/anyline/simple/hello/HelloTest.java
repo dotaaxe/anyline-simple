@@ -21,15 +21,16 @@ public class HelloTest {
         //先创建个表
         Table table = service.metadata().table("crm_user");
         if(null != table){
-
             service.ddl().drop(table);
         }
-        Column column = new Column("ID").setAutoIncrement(true).setType("int");
+        table = new Table("crm_user");
+        Column column = new Column("ID").setAutoIncrement(true).setType("int").setPrimaryKey(true);
         table.addColumn(column);
         table.addColumn("NAME","varchar(10)");
+        service.ddl().create(table);
 
 
-        DataSet set = service.querys("al_hello");
+        DataSet set = service.querys("crm_user");
         System.out.println(set);
     }
 }

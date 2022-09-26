@@ -71,16 +71,24 @@ public class DB2Test {
     }
     @Test
     public void dml() throws Exception{
+
         DataSet set = new DataSet();
-        for(int i=1; i<=10; i++){
+        for(int i=1; i<10; i++){
             DataRow row = new DataRow();
             //只插入NAME  ID自动生成 REG_TIME 默认当时时间
             row.put("NAME", "N"+i);
             set.add(row);
         }
         int qty = service.insert(table, set);
-        log.warn(LogUtil.format("[insert result][插入数量:{}]", 36), qty);
-        Assertions.assertEquals(qty , 10);
+        log.warn(LogUtil.format("[批量插入][插入数量:{}][[生成主键:{}]", 36), qty, set.getStrings("ID"));
+        Assertions.assertEquals(qty , 9);
+
+        DataRow row = new DataRow();
+        row.put("NAME", "N");
+        qty = service.insert(table, row);
+        log.warn(LogUtil.format("[单行插入][插入数量:{}][生成主键:{}]", 36), qty, row.getId());
+        Assertions.assertEquals(qty , 1);
+        Assertions.assertNotNull(row.getId());
 
         //查询全部数据
         set = service.querys(table);
@@ -89,7 +97,7 @@ public class DB2Test {
         Assertions.assertEquals(set.size() , 10);
 
         //只查一行
-        DataRow row = service.query(table);
+        row = service.query(table);
         log.warn("[单行查询数据]:{}",row.toJSON());
         Assertions.assertNotNull(row);
         Assertions.assertEquals(row.getId(), "1");

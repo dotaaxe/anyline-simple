@@ -1,7 +1,7 @@
 package org.anyline.simple.tables;
 
 import org.anyline.entity.DataSet;
-import org.anyline.jdbc.config.TableBuilder;
+import org.anyline.jdbc.param.TableBuilder;
 import org.anyline.service.AnylineService;
 import org.anyline.util.ConfigTable;
 import org.springframework.boot.SpringApplication;
