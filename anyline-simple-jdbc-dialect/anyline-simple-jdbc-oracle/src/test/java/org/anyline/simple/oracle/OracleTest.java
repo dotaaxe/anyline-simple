@@ -132,13 +132,28 @@ public class OracleTest {
         Assertions.assertEquals(page.getTotalPage() , 4);
         Assertions.assertEquals(page.getTotalRow() , 10);
 
-        service.update(row,"NAME");
-        //根据主键删除
-        service.delete(row);
+
 
         qty = service.count(table);
         log.warn(LogUtil.format("[总数统计][count:{}]", 36), qty);
-        Assertions.assertEquals(qty , 9);
+        Assertions.assertEquals(qty , 10);
+
+        //更新部分列
+        qty = service.update(row,"NAME");
+
+        log.warn("[根据ID删除集合][删除数量:{}]", qty);
+        qty = service.delete(set);
+        Assertions.assertEquals(qty, set.size());
+
+        //根据主键删除
+        qty = service.delete(row);
+        log.warn("[根据ID删除][删除数量:{}]", qty);
+        Assertions.assertEquals(qty, 1);
+
+        set = service.querys(table, "ID:1");
+        qty = service.delete(table, "ID","1");
+        log.warn("[根据条件删除][删除数量:{}]", qty);
+        Assertions.assertEquals(qty, set.size());
     }
 
     @Test
