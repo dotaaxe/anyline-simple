@@ -1,8 +1,12 @@
 package org.anyline.simple.mysql;
 
 
+import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
 import org.anyline.entity.PageNaviImpl;
+import org.anyline.jdbc.param.ConfigStore;
+import org.anyline.jdbc.param.init.SimpleConfigStore;
+import org.anyline.jdbc.prepare.RunPrepare;
 import org.anyline.service.AnylineService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -21,38 +25,18 @@ import java.util.List;
 @ComponentScan(basePackages = {"org.anyline"})
 @SpringBootApplication
 public class MySQLApplication {
+    private static JdbcTemplate jdbc;
+    private static AnylineService service;
     public static void main(String[] args) {
         SpringApplication application = new SpringApplication(MySQLApplication.class);
         ConfigurableApplicationContext context = application.run(args);
-
-        JdbcTemplate jdbc = context.getBean(JdbcTemplate.class);
-        test(jdbc);
-
+        jdbc = context.getBean(JdbcTemplate.class);
+        service = context.getBean(AnylineService.class);
+        test();
     }
 
-    public static void test(JdbcTemplate jdbc){
-        List<Object> values = new ArrayList<>();
-       // values.add("A1");
-       // values.add("A2");
-       // values.add("A3");
-        String sql = "INSERT INTO CRM_USER(NAME)VALUES('AAA')";
-        int cnt = 0;
-        Long id = null;
-        KeyHolder keyholder = new GeneratedKeyHolder();
-            cnt = jdbc.update(new PreparedStatementCreator() {
-                @Override
-                public PreparedStatement createPreparedStatement(Connection con) throws java.sql.SQLException {
-                    PreparedStatement ps = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-                    int idx = 0;
-                    if (null != values) {
-                        for (Object obj : values) {
-                            ps.setObject(++idx, obj);
-                        }
-                    }
-                    return ps;
-                }
-            }, keyholder);
-            System.out.println(keyholder.getKeyList());
+    public static void test(){
+
 
     }
 }
