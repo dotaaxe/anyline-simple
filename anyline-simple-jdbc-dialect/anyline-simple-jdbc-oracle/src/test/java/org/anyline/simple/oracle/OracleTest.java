@@ -79,7 +79,7 @@ public class OracleTest {
         DataSet set = new DataSet();
         for(int i=1; i<10; i++){
             DataRow row = new DataRow();
-            //只插入NAME  ID自动生成 REG_TIME 默认当时时间
+            row.put("ID", i);
             row.put("NAME", "N"+i);
             set.add(row);
         }
