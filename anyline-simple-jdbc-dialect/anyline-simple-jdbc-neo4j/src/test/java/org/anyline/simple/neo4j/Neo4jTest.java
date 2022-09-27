@@ -125,6 +125,16 @@ public class Neo4jTest {
         set = service.querys("Dept","leader:张三","id:>0");
         log.warn(LogUtil.format("[按条件查询][result:{}]", 36), set.toJSON());
 
+
+        //模糊查询
+        set = service.querys("Dept", "name:%财务%");
+        log.warn(LogUtil.format("[模糊查询][result:{}]", 36), set.toJSON());
+        set = service.querys("Dept", "name:%财务");
+        log.warn(LogUtil.format("[模糊查询][result:{}]", 36), set.toJSON());
+        set = service.querys("Dept", "name:财务%");
+        log.warn(LogUtil.format("[模糊查询][result:{}]", 36), set.toJSON());
+
+
         //按条件分页查询
         PageNavi navi = new PageNaviImpl(3, 10);
         set = service.querys("Dept", navi, "leader:张三");
