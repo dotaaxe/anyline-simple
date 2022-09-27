@@ -17,8 +17,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DataSourceUtils;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.util.ArrayList;
@@ -163,5 +166,26 @@ public class Neo4jTest {
         //根据ID删除
         service.delete("Batch", set);
 
+    }
+
+    @Test
+    public void help() throws Exception{
+        DataSource ds = null;
+        Connection con = null;
+        ds = jdbc.getDataSource();
+        con = DataSourceUtils.getConnection(ds);
+        String query = "MATCH (e:Person)-[k:KNOWS]-(f) where e.name='Johan' RETURN e,labels(e),k, f";
+        PreparedStatement ps = con.prepareStatement(query);
+        ResultSet rs = ps.executeQuery();
+        ResultSetMetaData mt =  rs.getMetaData();
+        while(rs.next()) {
+            System.out.println("============================================");
+            for (int i = 1; i <= mt.getColumnCount(); i++) {
+                System.out.println(i + ":" + mt.getColumnName(i));
+                Object value = rs.getObject(i);
+                System.out.println(value.getClass() +"="+value);
+
+            }
+        }
     }
 }
