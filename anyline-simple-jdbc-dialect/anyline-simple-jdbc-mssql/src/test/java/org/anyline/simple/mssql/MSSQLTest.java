@@ -203,8 +203,8 @@ public class MSSQLTest {
         qty = service.update(row);
         log.warn(LogUtil.format("[根据临时主键更新][count:{}]", 36), qty);
 
-        //显示指定更新列的情况下才会更新主键与默认主键
-        qty = service.update(row,"NAME","CODE","ID");
+        //显示指定更新列的情况下才会更新主键与默认主键 ID列上有递增 不要修改
+        qty = service.update(row,"NAME","CODE");
         log.warn(LogUtil.format("[更新指定列][count:{}]", 36), qty);
 
         //根据条件更新
