@@ -178,7 +178,7 @@ public class PostgreTest {
         condition.addCondition(RunPrepare.COMPARE_TYPE.BETWEEN, "ID", between);
 
         // >=
-        condition.addCondition(RunPrepare.COMPARE_TYPE.GREAT_EQUAL, "ID", "1");
+        condition.addCondition(RunPrepare.COMPARE_TYPE.GREAT_EQUAL, "ID", new Integer(1));
 
         //前缀
         condition.addCondition(RunPrepare.COMPARE_TYPE.LIKE_PREFIX, "NAME", "N");
@@ -192,7 +192,7 @@ public class PostgreTest {
         Assertions.assertEquals(qty , 10);
 
         //根据默认主键ID更新
-        row.put("CODE",1001);
+        row.put("CODE","1001");
         //默认情况下 更新过的列 会参与UPDATE
         qty = service.update(row);
         log.warn(LogUtil.format("[根据主键更新内容有变化的化][count:{}]", 36), qty);
@@ -209,9 +209,9 @@ public class PostgreTest {
 
         //根据条件更新
         ConfigStore store = new SimpleConfigStore();
-        store.addCondition(RunPrepare.COMPARE_TYPE.GREAT, "ID", "1")
+        store.addCondition(RunPrepare.COMPARE_TYPE.GREAT, "ID", new Integer(1))
                 .addConditions("CODE","1","2","3")
-                .addCondition(" CODE > 1")
+                .addCondition(" CODE > '1'")
                 .addCondition("NAME IS NOT NULL");
         qty = service.update(row, store);
         log.warn(LogUtil.format("[根据条件更新][count:{}]", 36), qty);
@@ -226,8 +226,8 @@ public class PostgreTest {
         log.warn("[根据ID删除][删除数量:{}]", qty);
         Assertions.assertEquals(qty, 1);
 
-        set = service.querys(table, "ID:1");
-        qty = service.delete(table, "ID","1");
+        set = service.querys(table, "CODE:1001");
+        qty = service.delete(table, "CODE", "1001");
         log.warn("[根据条件删除][删除数量:{}]", qty);
         Assertions.assertEquals(qty, set.size());
     }
