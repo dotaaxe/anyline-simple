@@ -62,6 +62,7 @@
         <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-mysql</module>
         <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-mariadb</module>
         <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-db2</module>
+        <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-questdb</module>
 
         <!--短信-->
         <module>anyline-simple-sms</module>
@@ -111,6 +112,7 @@
         <module>anyline-simple-help</module>
         <module>anyline-simple-dml</module>
         <module>anyline-simple-alpha-init</module>
+        <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-timescale</module>
 
 
     </modules>
