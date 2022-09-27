@@ -191,11 +191,34 @@ public class MSSQLTest {
         log.warn(LogUtil.format("[总数统计][count:{}]", 36), qty);
         Assertions.assertEquals(qty , 10);
 
-        //更新部分列
-        qty = service.update(row,"NAME");
+        //根据默认主键ID更新
+        row.put("CODE",1001);
+        //默认情况下 更新过的列 会参与UPDATE
+        qty = service.update(row);
+        log.warn(LogUtil.format("[根据主键更新内容有变化的化][count:{}]", 36), qty);
 
-        log.warn("[根据ID删除集合][删除数量:{}]", qty);
+
+        //根据临时主键更新,注意这里更改了主键后ID就成了非主键，但未显式指定更新ID的情况下,ID不参与UPDATE
+        row.setPrimaryKey("NAME");
+        qty = service.update(row);
+        log.warn(LogUtil.format("[根据临时主键更新][count:{}]", 36), qty);
+
+        //显示指定更新列的情况下才会更新主键与默认主键
+        qty = service.update(row,"NAME","CODE","ID");
+        log.warn(LogUtil.format("[更新指定列][count:{}]", 36), qty);
+
+        //根据条件更新
+        ConfigStore store = new SimpleConfigStore();
+        store.addCondition(RunPrepare.COMPARE_TYPE.GREAT, "ID", "1")
+                .addConditions("CODE","1","2","3")
+                .addCondition(" CODE > 1")
+                .addCondition("NAME IS NOT NULL");
+        qty = service.update(row, store);
+        log.warn(LogUtil.format("[根据条件更新][count:{}]", 36), qty);
+
+
         qty = service.delete(set);
+        log.warn("[根据ID删除集合][删除数量:{}]", qty);
         Assertions.assertEquals(qty, set.size());
 
         //根据主键删除
