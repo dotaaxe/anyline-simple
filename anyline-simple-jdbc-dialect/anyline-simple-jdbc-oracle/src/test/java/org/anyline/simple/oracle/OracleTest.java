@@ -6,6 +6,9 @@ import org.anyline.entity.PageNavi;
 import org.anyline.entity.PageNaviImpl;
 import org.anyline.jdbc.adapter.JDBCAdapter;
 import org.anyline.jdbc.entity.Table;
+import org.anyline.jdbc.param.ConfigStore;
+import org.anyline.jdbc.param.init.SimpleConfigStore;
+import org.anyline.jdbc.prepare.RunPrepare;
 import org.anyline.service.AnylineService;
 import org.anyline.util.BasicUtil;
 import org.anyline.util.ConfigTable;
@@ -21,6 +24,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
+import java.util.ArrayList;
+import java.util.List;
 
 @SpringBootTest
 public class OracleTest {
@@ -120,8 +125,16 @@ public class OracleTest {
         service.save(row);
         row.put("NAME", "UPDATE NAME");
 
+        /*
+         * 注意这里的page一般不手工创建，而是通过AnylineController中的condition自动构造
+         * service.querys("CRM_USER", condition(true, "ID:id","NAME:%name%", TYPE_CODE:[type]), "AGE:>=age");
+         * true:表示分页 或者提供int 表示每页多少行
+         * ID:表示数据表中的列
+         * id:表示http提交的参数名
+         * [type]:表示数组
+         * */
+
         //分页查询
-        //注意这里的page一般不手工创建，而是通过AnylineController中的condition自动构造
         //每页3行,当前第2页(下标从1开始)
         PageNavi page = new PageNaviImpl(2, 3);
 
@@ -132,7 +145,46 @@ public class OracleTest {
         Assertions.assertEquals(page.getTotalPage() , 4);
         Assertions.assertEquals(page.getTotalRow() , 10);
 
+        //模糊查询
+        set = service.querys("CRM_USER", "NAME:%N%");
+        log.warn(LogUtil.format("[模糊查询][result:{}]", 36), set.toJSON());
+        set = service.querys("CRM_USER", "NAME:%N");
+        log.warn(LogUtil.format("[模糊查询][result:{}]", 36), set.toJSON());
+        set = service.querys("CRM_USER", "NAME:N%");
+        log.warn(LogUtil.format("[模糊查询][result:{}]", 36), set.toJSON());
 
+        //其他条件查询
+        //in
+        List<Integer> in = new ArrayList<>();
+        in.add(1);
+        in.add(2);
+        in.add(3);
+        ConfigStore condition = new SimpleConfigStore();
+        condition.addConditions("ID", in);
+
+        //not in
+        condition.addCondition(RunPrepare.COMPARE_TYPE.NOT_IN, "NAME", "N1");
+        List<Integer> notin = new ArrayList<>();
+        notin.add(10);
+        notin.add(20);
+        notin.add(30);
+        condition.addCondition(RunPrepare.COMPARE_TYPE.NOT_IN, "ID", notin);
+
+        //between
+        List<Integer> between = new ArrayList<>();
+        between.add(1);
+        between.add(10);
+        condition.addCondition(RunPrepare.COMPARE_TYPE.BETWEEN, "ID", between);
+
+        // >=
+        condition.addCondition(RunPrepare.COMPARE_TYPE.GREAT_EQUAL, "ID", "1");
+
+        //前缀
+        condition.addCondition(RunPrepare.COMPARE_TYPE.LIKE_PREFIX, "NAME", "N");
+
+        set = service.querys("CRM_USER", condition);
+        log.warn(LogUtil.format("[后台构建查询条件][result:{}]", 36), set.toJSON());
+        Assertions.assertEquals(set.size() , 2);
 
         qty = service.count(table);
         log.warn(LogUtil.format("[总数统计][count:{}]", 36), qty);
