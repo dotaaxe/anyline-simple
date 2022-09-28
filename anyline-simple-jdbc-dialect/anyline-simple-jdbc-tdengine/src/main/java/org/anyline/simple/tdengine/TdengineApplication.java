@@ -51,9 +51,9 @@ public class TdengineApplication {
             row.put("AGE", (i+1)*10);
             set.add(row);
         }
-        log.warn(LogUtil.format("子表直接插入数量",34));
+        log.warn(LogUtil.format("子表直接影响行数",34));
         service.insert("s_table_user_1", set);
-        log.warn(LogUtil.format("通过超表向子表插入数量",34));
+        log.warn(LogUtil.format("通过超表向子表影响行数",34));
         set = new DataSet();
         set.tag("d","10");
     }
