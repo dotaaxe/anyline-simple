@@ -55,31 +55,31 @@ public class Neo4jTest {
         r.put("NAME","ZH");
         r.put("AGE", 20);
         int qty = service.insert("user", r);
-        log.warn(LogUtil.format("[DataRow单行插入][插入数量:{}][生成主键:{}]", 36), qty, r.getId());
+        log.warn(LogUtil.format("[DataRow单行插入][影响行数:{}][生成主键:{}]", 36), qty, r.getId());
         Assertions.assertEquals(qty, 1);
         Assertions.assertNotNull(r.getId());
         //创建多标签(表)节点
         service.insert("User:Employee", r);
-        log.warn(LogUtil.format("[DataRow多标签单行插入][插入数量:{}][生成主键:{}]", 36), qty, r.getId());
+        log.warn(LogUtil.format("[DataRow多标签单行插入][影响行数:{}][生成主键:{}]", 36), qty, r.getId());
         Assertions.assertEquals(qty, 1);
         Assertions.assertNotNull(r.getId());
 
         //根据entity创建节点
         User u = new User("u1", 10);
         service.insert(u);
-        log.warn(LogUtil.format("[Entity单行插入][插入数量:{}][生成主键:{}]", 36), qty, u.getId());
+        log.warn(LogUtil.format("[Entity单行插入][影响行数:{}][生成主键:{}]", 36), qty, u.getId());
         Assertions.assertEquals(qty, 1);
         Assertions.assertNotNull(u.getId());
 
         //临时指定标签(表)
         service.insert("set_user",u);
-        log.warn(LogUtil.format("[Entity单行插入][临时指定目标表][插入数量:{}][生成主键:{}]", 36), qty, u.getId());
+        log.warn(LogUtil.format("[Entity单行插入][临时指定目标表][影响行数:{}][生成主键:{}]", 36), qty, u.getId());
         Assertions.assertEquals(qty, 1);
         Assertions.assertNotNull(u.getId());
 
         //指定多标签(表)
         service.insert("User:Employee", u);
-        log.warn(LogUtil.format("[Entity多标签单行插入][插入数量:{}][生成主键:{}]", 36), qty, u.getId());
+        log.warn(LogUtil.format("[Entity多标签单行插入][影响行数:{}][生成主键:{}]", 36), qty, u.getId());
         Assertions.assertEquals(qty, 1);
         Assertions.assertNotNull(u.getId());
 
@@ -93,7 +93,7 @@ public class Neo4jTest {
             set.add(row);
         }
         qty = service.insert("Batch", set);
-        log.warn(LogUtil.format("[DataSet批量插入][插入数量:{}][生成主键:{}]", 36), qty, set.getStrings("ID"));
+        log.warn(LogUtil.format("[DataSet批量插入][影响行数:{}][生成主键:{}]", 36), qty, set.getStrings("ID"));
         Assertions.assertEquals(qty, set.size());
         Assertions.assertEquals(set.getStrings("ID").size(), set.size());
 
@@ -102,11 +102,11 @@ public class Neo4jTest {
             users.add(new User("euser"+i, i*3));
         }
         qty = service.insert(users);
-        log.warn(LogUtil.format("[List<Entity>批量插入][插入数量:{}]", 36), qty);
+        log.warn(LogUtil.format("[List<Entity>批量插入][影响行数:{}]", 36), qty);
         Assertions.assertEquals(qty, users.size());
 
         qty = service.insert("Batch", (Object) users);
-        log.warn(LogUtil.format("[List<Entity>批量插入临时指定表][插入数量:{}][users:{}]", 36), qty, BeanUtil.object2json(users));
+        log.warn(LogUtil.format("[List<Entity>批量插入临时指定表][影响行数:{}][users:{}]", 36), qty, BeanUtil.object2json(users));
         Assertions.assertEquals(qty, users.size());
 
         //合计
