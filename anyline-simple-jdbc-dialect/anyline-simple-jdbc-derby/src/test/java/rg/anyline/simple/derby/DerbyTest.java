@@ -84,13 +84,15 @@ public class DerbyTest {
             set.add(row);
         }
         int qty = service.insert(table, set);
-        log.warn(LogUtil.format("[批量插入][插入数量:{}][[生成主键:{}]", 36), qty, set.getStrings("ID"));
+        log.warn(LogUtil.format("[批量插入][影响行数:{}][生成主键:{}]", 36), qty, set.getStrings("ID"));
         Assertions.assertEquals(qty , 9);
 
         DataRow row = new DataRow();
         row.put("NAME", "N");
+        //当前时间，如果要适配多种数据库环境尽量用SQL_BUILD_IN_VALUE,如果数据库明确可以写以根据不同数据库写成: row.put("REG_TIME","${now()}"); sysdate,getdate()等等
+        row.put("REG_TIME", JDBCAdapter.SQL_BUILD_IN_VALUE.CURRENT_TIME);
         qty = service.insert(table, row);
-        log.warn(LogUtil.format("[单行插入][插入数量:{}][生成主键:{}]", 36), qty, row.getId());
+        log.warn(LogUtil.format("[单行插入][影响行数:{}][生成主键:{}]", 36), qty, row.getId());
         Assertions.assertEquals(qty , 1);
         Assertions.assertNotNull(row.getId());
 
