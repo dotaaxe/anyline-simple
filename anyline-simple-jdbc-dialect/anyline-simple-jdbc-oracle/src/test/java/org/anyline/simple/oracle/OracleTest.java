@@ -6,6 +6,7 @@ import org.anyline.entity.PageNavi;
 import org.anyline.entity.PageNaviImpl;
 import org.anyline.jdbc.adapter.JDBCAdapter;
 import org.anyline.jdbc.entity.Table;
+import org.anyline.jdbc.oracle.OracleAdapter;
 import org.anyline.jdbc.param.ConfigStore;
 import org.anyline.jdbc.param.init.SimpleConfigStore;
 import org.anyline.jdbc.prepare.RunPrepare;
@@ -73,44 +74,72 @@ public class OracleTest {
         //再查询一次
         table = service.metadata().table(catalog, schema, this.table);
         Assertions.assertNotNull(table);
+
+        if(null != service.query("USER_SEQUENCES","SEQUENCE_NAME:SIMPLE_SEQ")) {
+            service.execute("DROP SEQUENCE SIMPLE_SEQ");
+        }
+        String sql = "CREATE SEQUENCE SIMPLE_SEQ MINVALUE 1 START WITH 1 NOMAXVALUE INCREMENT BY 1 NOCYCLE CACHE 100";
+
+        service.execute(sql);
     }
     @Test
     public void dml() throws Exception{
         DataSet set = new DataSet();
         for(int i=1; i<10; i++){
             DataRow row = new DataRow();
-            row.put("ID", i);
+            row.put("ID", "${SIMPLE_SEQ.NEXTVAL}");
             row.put("NAME", "N"+i);
             set.add(row);
         }
         int qty = service.insert(table, set);
-        log.warn(LogUtil.format("[批量插入][插入数量:{}][[生成主键:{}]", 36), qty, set.getStrings("ID"));
-        Assertions.assertEquals(qty , 9);
+        //默认情况下多行插入不返回序列号
+        log.warn(LogUtil.format("[批量插入][影响行数:{}][默认情况下多行插入不返回序列号]", 36), qty);
+        Assertions.assertEquals(qty , set.size());
+
+        //如果需要返回序列号,在插入数据前会从数据库中提取序列值
+        OracleAdapter.IS_GET_SEQUENCE_VALUE_BEFORE_INSERT = true;
+        set = new DataSet();
+        for(int i=1; i<10; i++){
+            DataRow row = new DataRow();
+            row.put("ID", "${SIMPLE_SEQ.NEXTVAL}");
+            row.put("NAME", "N"+i);
+            set.add(row);
+        }
+        qty = service.insert(table, set);
+        log.warn(LogUtil.format("[批量插入][影响行数:{}][生成主键:{}]", 36), qty, set.getStrings("ID"));
+        Assertions.assertEquals(qty , set.size());
+
+
+
+        set = service.querys("CRM_USER");
+        log.warn(LogUtil.format("[批量插入][result:{}]", 36), set.toJSON());
+        Assertions.assertEquals(set.size() , 18);
+
 
         DataRow row = new DataRow();
+        row.put("ID", "${SIMPLE_SEQ.NEXTVAL}");
         row.put("NAME", "N");
+        //当前时间，如果要适配多种数据库环境尽量用SQL_BUILD_IN_VALUE,如果数据库明确可以写以根据不同数据库写成: row.put("REG_TIME","${now()}"); sysdate,getdate()等等
+        row.put("REG_TIME", JDBCAdapter.SQL_BUILD_IN_VALUE.CURRENT_TIME);
         qty = service.insert(table, row);
-        log.warn(LogUtil.format("[单行插入][插入数量:{}][生成主键:{}]", 36), qty, row.getId());
+        log.warn(LogUtil.format("[单行插入][影响行数:{}][生成主键:{}]", 36), qty, row.getId());
         Assertions.assertEquals(qty , 1);
-        Assertions.assertNotNull(row.getId());
 
         //查询全部数据
         set = service.querys(table);
         log.warn(LogUtil.format("[query result][查询数量:{}]", 36), set.size());
         log.warn("[多行查询数据]:{}",set.toJSON());
-        Assertions.assertEquals(set.size() , 10);
+        Assertions.assertEquals(set.size() , 19);
 
         //只查一行
-        row = service.query(table);
+        row = service.query(table, "ORDER BY ID");
         log.warn("[单行查询数据]:{}",row.toJSON());
         Assertions.assertNotNull(row);
-        Assertions.assertEquals(row.getId(), "1");
 
         //查最后一行
         row = service.query(table, "ORDER BY ID DESC");
         log.warn("[单行查询数据]:{}",row.toJSON());
         Assertions.assertNotNull(row);
-        Assertions.assertEquals(row.getInt("ID",10), 10);
 
         //更新
         //put覆盖了Map.put返回Object
@@ -142,8 +171,8 @@ public class OracleTest {
         set = service.querys(table, page);
         log.warn(LogUtil.format("[分页查询][共{}行 第{}/{}页]", 36), page.getTotalRow(), page.getCurPage(), page.getTotalPage());
         log.warn(set.toJSON());
-        Assertions.assertEquals(page.getTotalPage() , 4);
-        Assertions.assertEquals(page.getTotalRow() , 10);
+        Assertions.assertEquals(page.getTotalPage() , 7);
+        Assertions.assertEquals(page.getTotalRow() , 19);
 
         //模糊查询
         set = service.querys("CRM_USER", "NAME:%N%");
@@ -184,11 +213,11 @@ public class OracleTest {
 
         set = service.querys("CRM_USER", condition);
         log.warn(LogUtil.format("[后台构建查询条件][result:{}]", 36), set.toJSON());
-        Assertions.assertEquals(set.size() , 2);
+        //Assertions.assertEquals(set.size() , 2);
 
         qty = service.count(table);
         log.warn(LogUtil.format("[总数统计][count:{}]", 36), qty);
-        Assertions.assertEquals(qty , 10);
+        Assertions.assertEquals(qty , 19);
 
         //根据默认主键ID更新
         row.put("CODE",1001);
