@@ -6,13 +6,13 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.anyline</groupId>
-        <artifactId>anyline-simple-dependency</artifactId>
+        <artifactId>anyline-simple-start</artifactId>
         <version>1.0-SNAPSHOT</version>
-        <relativePath>../anyline-simple-dependency</relativePath>
+        <relativePath>../anyline-simple-start</relativePath>
     </parent>
 
     <groupId>org.anyline</groupId>
-    <artifactId>anyline-simple-dependency-mysql</artifactId>
+    <artifactId>anyline-simple-start-mysql</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
@@ -22,12 +22,12 @@
             <artifactId>spring-boot-starter-jdbc</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.anyline</groupId>
-            <artifactId>anyline-jdbc-mysql</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.anyboot</groupId>
             <artifactId>anyboot-jdbc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.anyline</groupId>
+            <artifactId>anyline-jdbc-mysql</artifactId>
         </dependency>
         <dependency>
             <groupId>mysql</groupId>

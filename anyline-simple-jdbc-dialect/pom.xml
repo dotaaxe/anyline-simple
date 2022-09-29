@@ -9,9 +9,9 @@
     </modules>
     <parent>
         <groupId>org.anyline</groupId>
-        <artifactId>anyline-simple-dependency</artifactId>
+        <artifactId>anyline-simple-start</artifactId>
         <version>1.0-SNAPSHOT</version>
-        <relativePath>../anyline-simple-dependency</relativePath>
+        <relativePath>../anyline-simple-start</relativePath>
     </parent>
 
     <groupId>org.anyline</groupId>

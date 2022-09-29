@@ -5,9 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.anyline</groupId>
-        <artifactId>anyline-simple-dependency</artifactId>
+        <artifactId>anyline-simple-start</artifactId>
         <version>1.0-SNAPSHOT</version>
-        <relativePath>../anyline-simple-dependency</relativePath>
+        <relativePath>../anyline-simple-start</relativePath>
     </parent>
     <artifactId>anyline-simple-regular</artifactId>
     <packaging>jar</packaging>

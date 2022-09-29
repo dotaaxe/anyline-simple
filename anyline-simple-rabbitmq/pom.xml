@@ -6,9 +6,9 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.anyline</groupId>
-        <artifactId>anyline-simple-dependency-web</artifactId>
+        <artifactId>anyline-simple-start-mvc-mysql</artifactId>
         <version>1.0-SNAPSHOT</version>
-        <relativePath>../anyline-simple-dependency-web</relativePath>
+        <relativePath>../anyline-simple-start-mvc-mysql</relativePath>
     </parent>
     <!--<parent>
         <groupId>org.anyboot</groupId>

@@ -5,9 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.anyline</groupId>
-        <artifactId>anyline-simple-dependency-mysql</artifactId>
+        <artifactId>anyline-simple-start-mysql</artifactId>
         <version>1.0-SNAPSHOT</version>
-        <relativePath>../anyline-simple-dependency-mysql</relativePath>
+        <relativePath>../anyline-simple-start-mysql</relativePath>
     </parent>
 
     <artifactId>anyline-simple-ddl</artifactId>
@@ -15,6 +15,10 @@
         <dependency>
             <groupId>org.anyline</groupId>
             <artifactId>anyline-jdbc-postgresql</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.anyboot</groupId>
+            <artifactId>anyboot-jdbc</artifactId>
         </dependency>
         <dependency>
             <groupId>org.anyline</groupId>

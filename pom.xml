@@ -10,16 +10,14 @@
     <description>示例</description>
     <modules>
 
-        <module>anyline-simple-hello</module>
 
         <!--基础依赖-->
         <module>anyline-simple-dependency</module>
-        <module>anyline-simple-dependency-web</module>
+        <module>anyline-simple-start</module>
         <module>anyline-simple-start-mysql</module>
         <module>anyline-simple-start-mvc-mysql</module>
 
-        <!--简单的数据库操作-->
-        <module>anyline-simple-start</module>
+        <module>anyline-simple-hello</module>
 
         <!--多数据源库操作-->
         <module>anyline-simple-ds</module>
@@ -65,6 +63,7 @@
         <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-db2</module>
         <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-questdb</module>
         <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-timescale</module>
+        <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-mongodb</module>
 
         <!--短信-->
         <module>anyline-simple-sms</module>

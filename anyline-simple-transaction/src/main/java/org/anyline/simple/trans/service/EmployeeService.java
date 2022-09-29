@@ -1,7 +1,6 @@
 package org.anyline.simple.trans.service;
 
 import org.anyline.entity.DataRow;
-import org.anyline.service.AnylineService;
 import org.anyline.service.init.SimpleService;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

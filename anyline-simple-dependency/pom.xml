@@ -5,9 +5,9 @@
 
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.anyboot</groupId>
-        <artifactId>anyboot-start</artifactId>
-        <version>8.5.7.2512-SNAPSHOT</version>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.5.12</version>
         <relativePath></relativePath>
     </parent>
 
@@ -16,28 +16,42 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <dependencies>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>1.2.11</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.10.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-jsr310</artifactId>
-            <version>2.10.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
+    <properties>
+
+        <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+
+        <anyboot.version>8.5.7.2512-SNAPSHOT</anyboot.version>
+        <anyline.version>8.5.7-SNAPSHOT</anyline.version>
+        <maven-jar-plugin.version>3.0.0</maven-jar-plugin.version>
+
+        <spring.boot.version>2.5.12</spring.boot.version>
+    </properties>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.anyline</groupId>
+                <artifactId>anyline-dependency</artifactId>
+                <version>${anyline.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.anyboot</groupId>
+                <artifactId>anyboot-jdbc</artifactId>
+                <version>${anyboot.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.anyboot</groupId>
+                <artifactId>anyboot-mvc</artifactId>
+                <version>${anyboot.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <repositories>
         <repository>
             <id>aliyun</id>
