@@ -191,24 +191,24 @@ public class OracleTest {
         condition.addConditions("ID", in);
 
         //not in
-        condition.addCondition(RunPrepare.COMPARE_TYPE.NOT_IN, "NAME", "N1");
+        condition.addCondition(Compare.NOT_IN, "NAME", "N1");
         List<Integer> notin = new ArrayList<>();
         notin.add(10);
         notin.add(20);
         notin.add(30);
-        condition.addCondition(RunPrepare.COMPARE_TYPE.NOT_IN, "ID", notin);
+        condition.addCondition(Compare.NOT_IN, "ID", notin);
 
         //between
         List<Integer> between = new ArrayList<>();
         between.add(1);
         between.add(10);
-        condition.addCondition(RunPrepare.COMPARE_TYPE.BETWEEN, "ID", between);
+        condition.addCondition(Compare.BETWEEN, "ID", between);
 
         // >=
-        condition.addCondition(RunPrepare.COMPARE_TYPE.GREAT_EQUAL, "ID", "1");
+        condition.addCondition(Compare.GREAT_EQUAL, "ID", "1");
 
         //前缀
-        condition.addCondition(RunPrepare.COMPARE_TYPE.LIKE_PREFIX, "NAME", "N");
+        condition.addCondition(Compare.LIKE_PREFIX, "NAME", "N");
 
         set = service.querys("CRM_USER", condition);
         log.warn(LogUtil.format("[后台构建查询条件][result:{}]", 36), set.toJSON());
@@ -236,7 +236,7 @@ public class OracleTest {
 
         //根据条件更新
         ConfigStore store = new SimpleConfigStore();
-        store.addCondition(RunPrepare.COMPARE_TYPE.GREAT, "ID", "1")
+        store.addCondition(Compare.GREAT, "ID", "1")
                 .addConditions("CODE","1","2","3")
                 .addCondition(" CODE > 1")
                 .addCondition("NAME IS NOT NULL");
