@@ -97,12 +97,12 @@ http://qa.anyline.org/art/v?id=lv0182c99f6acebf1d2d680783bf1168e8f99eced8e0136a4
 
 ## 目录说明
         <!--基础依赖-->
-        <module>anyline-simple-dependency</module>
-        <module>anyline-simple-dependency-web</module>
-        <module>anyline-simple-dependency-mysql</module>
+        <module>anyline-simple-start</module>
+        <module>anyline-simple-start-mvc-mysql</module>
+        <module>anyline-simple-start-mysql</module>
 
         <!--简单的数据库操作-->
-        <module>anyline-simple-start</module>
+        <module>anyline-simple-hello</module>
 
         <!--多数据源库操作-->
         <module>anyline-simple-ds</module>
