@@ -1,14 +1,10 @@
 package org.anyline.simple.postgre;
 
-import org.anyline.entity.DataRow;
-import org.anyline.entity.DataSet;
-import org.anyline.entity.PageNavi;
-import org.anyline.entity.PageNaviImpl;
+import org.anyline.entity.*;
 import org.anyline.jdbc.adapter.JDBCAdapter;
 import org.anyline.jdbc.entity.Table;
 import org.anyline.jdbc.param.ConfigStore;
 import org.anyline.jdbc.param.init.SimpleConfigStore;
-import org.anyline.jdbc.prepare.RunPrepare;
 import org.anyline.service.AnylineService;
 import org.anyline.util.BasicUtil;
 import org.anyline.util.ConfigTable;

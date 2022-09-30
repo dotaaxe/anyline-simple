@@ -232,6 +232,11 @@ public class DMTest {
         qty = service.delete(table, "ID","1");
         log.warn("[根据条件删除][删除数量:{}]", qty);
         Assertions.assertEquals(qty, set.size());
+
+        set = service.querys(table, "ID IN(2,3)");
+        qty = service.deletes(table, "ID","2","3");
+        log.warn("[根据条件删除][删除数量:{}]", qty);
+        Assertions.assertEquals(qty, set.size());
     }
 
     @Test

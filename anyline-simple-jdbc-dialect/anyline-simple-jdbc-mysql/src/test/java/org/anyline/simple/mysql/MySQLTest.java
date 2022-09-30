@@ -226,8 +226,14 @@ public class MySQLTest {
         log.warn("[根据ID删除][删除数量:{}]", qty);
         Assertions.assertEquals(qty, 1);
 
-        set = service.querys(table, "ID:1");
-        qty = service.delete(table, "ID","1");
+        set = service.querys(table, "ID:2");
+        qty = service.delete(table, "ID","2");
+        log.warn("[根据条件删除][删除数量:{}]", qty);
+        Assertions.assertEquals(qty, set.size());
+
+
+        set = service.querys(table, "ID IN(2,3)");
+        qty = service.deletes(table, "ID","2","3");
         log.warn("[根据条件删除][删除数量:{}]", qty);
         Assertions.assertEquals(qty, set.size());
 

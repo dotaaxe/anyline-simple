@@ -1,14 +1,10 @@
 package rg.anyline.simple.derby;
 
-import org.anyline.entity.DataRow;
-import org.anyline.entity.DataSet;
-import org.anyline.entity.PageNavi;
-import org.anyline.entity.PageNaviImpl;
+import org.anyline.entity.*;
 import org.anyline.jdbc.adapter.JDBCAdapter;
 import org.anyline.jdbc.entity.Table;
 import org.anyline.jdbc.param.ConfigStore;
 import org.anyline.jdbc.param.init.SimpleConfigStore;
-import org.anyline.jdbc.prepare.RunPrepare;
 import org.anyline.service.AnylineService;
 import org.anyline.util.BasicUtil;
 import org.anyline.util.ConfigTable;
@@ -229,6 +225,11 @@ public class DerbyTest {
 
         set = service.querys(table, "ID:1");
         qty = service.delete(table, "ID","1");
+        log.warn("[根据条件删除][删除数量:{}]", qty);
+        Assertions.assertEquals(qty, set.size());
+
+        set = service.querys(table, "ID IN(2,3)");
+        qty = service.deletes(table, "ID","2","3");
         log.warn("[根据条件删除][删除数量:{}]", qty);
         Assertions.assertEquals(qty, set.size());
     }
