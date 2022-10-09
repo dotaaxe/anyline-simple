@@ -1,14 +1,12 @@
 package org.anyline.simple.net;
 
 import org.anyline.net.*;
-import org.anyline.util.BeanUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
 import java.util.HashMap;
@@ -25,11 +23,17 @@ public class NetApplication extends SpringBootServletInitializer {
 	}
 
 	public static void main(String[] args) throws Exception {
-		String txt = HttpUtil.get("http://zhannei.baidu.com/cse/site?q=%E4%B8%AA%E4%BA%BA%E6%89%80%E5%BE%97&p=1&cc=www.ushui.net").getText();
-		System.out.println(txt);
+		//String txt = HttpUtil.get("http://zhannei.baidu.com/cse/site?q=%E4%B8%AA%E4%BA%BA%E6%89%80%E5%BE%97&p=1&cc=www.ushui.net").getText();
+		//System.out.println(txt);
 		//http();
 		//download();
-		jtt808();
+		//jtt808();
+		//
+		String url = "https://api.quanweidu.com/api/open/ic/baseinfo_contact/1005/v1?code=91110000802100433B";
+		Map<String,String> headers = new HashMap<>();
+		headers.put("token", "62d587fa-8f47-4132-aff5-498eda0459b3") ;
+		String txt = HttpUtil.get(headers, url).getText();
+		System.out.println(txt);
 	}
 	public static void jtt808(){
 

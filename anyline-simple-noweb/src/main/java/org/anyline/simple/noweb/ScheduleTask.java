@@ -2,7 +2,7 @@ package org.anyline.simple.noweb;
 
 import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
-import org.anyline.jdbc.ds.DataSourceHolder;
+import org.anyline.data.jdbc.ds.DataSourceHolder;
 import org.anyline.service.AnylineService;
 import org.anyline.util.DateUtil;
 import org.slf4j.Logger;

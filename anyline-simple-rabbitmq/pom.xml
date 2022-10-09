@@ -13,7 +13,7 @@
     <!--<parent>
         <groupId>org.anyboot</groupId>
         <artifactId>anyboot-start</artifactId>
-        <version>8.5.7.2512-SNAPSHOT</version>
+        <version>8.6.1.2612-SNAPSHOT</version>
         <relativePath></relativePath>
     </parent>-->
     <artifactId>anyline-simple-rabbitmq</artifactId>
@@ -30,8 +30,8 @@
         </dependency>
         <dependency>
             <groupId>org.anyline</groupId>
-            <artifactId>anyline-jdbc-dm</artifactId>
-            <version>8.5.7-SNAPSHOT</version>
+            <artifactId>anyline-data-jdbc-dm</artifactId>
+            <version>8.6.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>dm.jdbc</groupId>

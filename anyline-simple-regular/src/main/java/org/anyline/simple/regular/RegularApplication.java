@@ -1,5 +1,7 @@
 package org.anyline.simple.regular;
 
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.LoggerContext;
 import org.anyline.net.HttpResponse;
 import org.anyline.net.HttpUtil;
 import org.anyline.util.DateUtil;
@@ -13,7 +15,6 @@ public class RegularApplication {
     private static Logger log = LoggerFactory.getLogger(RegularApplication.class);
     public static void main(String[] args) throws Exception{
 
-
         //通过正则抽取标签
         //start();
 
@@ -25,7 +26,88 @@ public class RegularApplication {
         //cuts();
 
         //针对html标签的匹配
-        html();
+        //html();
+        //国家统计局 行政区 划分
+        district();
+    }
+
+    /**
+     * 行政区域解析
+     * 为什么不用dom解析?
+     * 格式要求太严格,大部分页面不符合要求
+     */
+    public static void district(){
+
+        LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
+        List<ch.qos.logback.classic.Logger> logs =  lc.getLoggerList();
+        for(ch.qos.logback.classic.Logger log:logs){
+            log.setLevel(Level.ERROR);
+        }
+
+        String txt = HttpUtil.get("http://www.stats.gov.cn/tjsj/tjbz/tjyqhdmhcxhfdm/2021/index.html").getText();
+        //行截取出 内容部分 如果内容比较少 这一步可以省略
+
+        String table = RegularUtil.cut(txt,"provincetable","</table");
+        //System.out.println(table);
+        //再截取出所有包含省的tr
+        int idx = 0;
+        List<String> trs = RegularUtil.cuts(table, "provincetr","</tr");
+        for(String tr:trs){
+            //System.out.println(tr);
+            //从tr取出td 每个td中有一个省
+            //这里不要写成<td> 标签内可能还有其他属性
+            List<String> tds = RegularUtil.cuts(tr,"<td","</td");
+            for(String td:tds){
+                //只解析一个省 测试一下行了 不要给服务器造成太大压力
+                if(idx ++ >0) {
+                    return;
+                }
+                //><a href="11.html">北京市<br /></a>
+                //System.out.println("province td:"+td);
+                //province td:><a href="11.html">北京市<br /></a>
+                //取出其中的id和名称
+                //注意这里的href=中间可能有空格 所以 href 和 "(引号)分开写
+                String id = RegularUtil.cut(td,"href","\"", ".html");
+                String name = RegularUtil.cut(td, "html",">","<");
+                System.out.println("province:"+id+":"+name);
+
+                province(id, name);
+            }
+        }
+    }
+    //解析省页面的市
+    public static void province(String id, String name){
+        System.out.println("解析:"+id+":"+name);
+        String txt = HttpUtil.get("http://www.stats.gov.cn/tjsj/tjbz/tjyqhdmhcxhfdm/2021/"+id+".html").getText();
+        //取出内容部分 这里有个表头需要跳过去
+        String table = RegularUtil.cut(txt,"citytable","cityhead","</tr","</table");
+        //从table中取出所有tr,每个tr代表一个市
+        List<String> trs = RegularUtil.cuts(table, "<tr","</tr");
+        int idx = 0;
+        for(String tr:trs ){
+            if(idx ++ >0) {
+                return;
+            }
+            //tr中有两个td分别包含id和名称
+            //<tr class="citytr"><td><a href="37/3702.html">370200000000</a></td>
+            // <td><a href="37/3702.html">青岛市</a></td></tr>
+            List<String> tds = RegularUtil.cuts(tr, "<td","</td");
+            if(tds.size() < 2){
+                continue;
+            }
+            id = RegularUtil.cut(tds.get(0), "href", "/", ".html");
+            String code = RegularUtil.cut(tds.get(0), "href", ".html", ">", "<");
+            //这里的name区域格式与id区域类似 所以取两次 /
+            name = RegularUtil.cut(tds.get(1), "href", ".html", ">", "<");
+
+            System.out.println("city:"+id+":"+code+":"+name);
+            //这里也可能不解析td直接从tr中提取id code name
+            id = RegularUtil.cut(tr, "href", "/", ".html");
+            code = RegularUtil.cut(tr, "href", "/", ".html", ">", "<");
+            name = RegularUtil.cut(tr, ".html", ".html", ">", "<");
+            System.out.println("city:"+id+":"+code+":"+name);
+        }
+
     }
     public static void start() throws Exception{
 

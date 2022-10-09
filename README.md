@@ -67,10 +67,10 @@ http://qa.anyline.org/art/v?id=lv0182c99f6acebf1d2d680783bf1168e8f99eced8e0136a4
         System.out.println(set.size());
 
 
-        项目中操作数据库只需要依赖anyline-jdbc-*以及相应数据库的驱动
+        项目中操作数据库只需要依赖anyline-data-jdbc-*以及相应数据库的驱动
  
         <groupId>org.anyline</groupId>
-        <artifactId>anyline-jdbc-mysql(mssql|oracle|clickhouse...)</artifactId>
+        <artifactId>anyline-data-jdbc-mysql(mssql|oracle|clickhouse...)</artifactId>
 
         如果本地有源码 就用本地的版本号
         如果没有可以用中央库的版本(如果你配置了阿里云的私服不要用最近日期的，可能还没同步过去)
@@ -132,21 +132,21 @@ http://qa.anyline.org/art/v?id=lv0182c99f6acebf1d2d680783bf1168e8f99eced8e0136a4
 
         <!--各种数据库操作示例-->
 
-        <module>anyline-simple-jdbc-dialect</module>
-        <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-dm</module>
-        <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-oracle</module>
-        <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-postgresql</module>
-        <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-clickhouse</module>
-        <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-kingbase</module>
-        <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-sqlite</module>
-        <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-derby</module>
-        <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-h2</module>
-        <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-hsqldb</module>
-        <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-tdengine</module>
-        <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-mssql</module>
-        <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-mysql</module>
-        <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-mariadb</module>
-        <module>anyline-simple-jdbc-dialect/anyline-simple-jdbc-db2</module>
+        <module>anyline-simple-data-jdbc-dialect</module>
+        <module>anyline-simple-data-jdbc-dialect/anyline-simple-data-jdbc-dm</module>
+        <module>anyline-simple-data-jdbc-dialect/anyline-simple-data-jdbc-oracle</module>
+        <module>anyline-simple-data-jdbc-dialect/anyline-simple-data-jdbc-postgresql</module>
+        <module>anyline-simple-data-jdbc-dialect/anyline-simple-data-jdbc-clickhouse</module>
+        <module>anyline-simple-data-jdbc-dialect/anyline-simple-data-jdbc-kingbase</module>
+        <module>anyline-simple-data-jdbc-dialect/anyline-simple-data-jdbc-sqlite</module>
+        <module>anyline-simple-data-jdbc-dialect/anyline-simple-data-jdbc-derby</module>
+        <module>anyline-simple-data-jdbc-dialect/anyline-simple-data-jdbc-h2</module>
+        <module>anyline-simple-data-jdbc-dialect/anyline-simple-data-jdbc-hsqldb</module>
+        <module>anyline-simple-data-jdbc-dialect/anyline-simple-data-jdbc-tdengine</module>
+        <module>anyline-simple-data-jdbc-dialect/anyline-simple-data-jdbc-mssql</module>
+        <module>anyline-simple-data-jdbc-dialect/anyline-simple-data-jdbc-mysql</module>
+        <module>anyline-simple-data-jdbc-dialect/anyline-simple-data-jdbc-mariadb</module>
+        <module>anyline-simple-data-jdbc-dialect/anyline-simple-data-jdbc-db2</module>
 
         <!--短信-->
         <module>anyline-simple-sms</module>

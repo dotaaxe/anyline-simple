@@ -1,10 +1,10 @@
 package org.anyline.simple.help;
 
-import org.anyboot.jdbc.ds.DynamicDataSourceRegister;
+import org.anyboot.data.jdbc.ds.DynamicDataSourceRegister;
 import org.anyline.entity.DataRow;
-import org.anyline.jdbc.ds.DataSourceHolder;
-import org.anyline.jdbc.entity.Column;
-import org.anyline.jdbc.entity.Table;
+import org.anyline.data.jdbc.ds.DataSourceHolder;
+import org.anyline.data.entity.Column;
+import org.anyline.data.entity.Table;
 import org.anyline.service.AnylineService;
 import org.anyline.util.BasicUtil;
 import org.springframework.boot.SpringApplication;

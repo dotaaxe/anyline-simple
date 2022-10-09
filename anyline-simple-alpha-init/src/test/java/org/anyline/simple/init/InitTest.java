@@ -2,8 +2,8 @@ package org.anyline.simple.init;
 
 import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
-import org.anyline.jdbc.adapter.JDBCAdapter;
-import org.anyline.jdbc.entity.Table;
+import org.anyline.data.jdbc.adapter.JDBCAdapter;
+import org.anyline.data.entity.Table;
 import org.anyline.service.AnylineService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

@@ -24,12 +24,12 @@
         <dependency>
             <groupId>org.anyline</groupId>
             <artifactId>anyline-net</artifactId>
-            <version>8.5.7-SNAPSHOT</version>
+            <version>8.6.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.anyline</groupId>
             <artifactId>anyline-thingsboard</artifactId>
-            <version>8.5.7-SNAPSHOT</version>
+            <version>8.6.1-SNAPSHOT</version>
         </dependency>
         <!--官方提供了私服地址
         <repositories>
