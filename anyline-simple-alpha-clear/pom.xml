@@ -143,6 +143,9 @@
         <repository>
             <id>anyline</id>
             <url>http://maven.anyline.org/repository/maven-snapshots/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
         </repository>
     </repositories>
 </project>
