@@ -6,7 +6,15 @@
 再install anyline-simple(编译到前项目下所有的module)
 
 
-注意anyline-simple-dependency中添加了如下的repositorie:
+anyline-simple-alpha-clear
+这是一个独立的项目,spring-boot环境,与其他模块没有任何关系,直接运行
+现有项目基础上要集成anyline可以参考这里
+项目中主要用到Anyline(可以继承AnylineController或者在需要的位置注入)
+主要配置了maven仓库以及mvc环境和jdbc环境
+其他的一些依赖一般用现有项目的就可以
+    
+
+注意因为示例中用了快照版本 所以anyline-simple-dependency中添加了如下的repositorie:
 <repositories>
     <repository>
         <id>aliyun</id>
