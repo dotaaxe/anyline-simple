@@ -34,12 +34,11 @@
             <version>8.6.1-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>dm.jdbc</groupId>
-            <artifactId>dmjdbc</artifactId>
-            <version>18</version>
-            <scope>system</scope>
-            <systemPath>${pom.basedir}/src/main/lib/DmJdbcDriver18.jar</systemPath>
+            <groupId>com.dameng</groupId>
+            <artifactId>DmJdbcDriver18</artifactId>
+            <version>8.1.2.79</version>
         </dependency>
+
     </dependencies>
     <build>
         <plugins>
