@@ -4,7 +4,7 @@ package org.anyline.simple.derby;
 import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
 import org.anyline.entity.PageNavi;
-import org.anyline.entity.PageNaviImpl;
+import org.anyline.entity.DefaultPageNavi;
 import org.anyline.data.jdbc.adapter.JDBCAdapter;
 import org.anyline.data.entity.Table;
 import org.anyline.service.AnylineService;

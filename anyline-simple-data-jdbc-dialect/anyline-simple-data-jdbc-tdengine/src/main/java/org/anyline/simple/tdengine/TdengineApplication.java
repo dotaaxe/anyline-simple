@@ -4,7 +4,7 @@ package org.anyline.simple.tdengine;
 import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
 import org.anyline.entity.PageNavi;
-import org.anyline.entity.PageNaviImpl;
+import org.anyline.entity.DefaultPageNavi;
 import org.anyline.data.entity.*;
 import org.anyline.service.AnylineService;
 import org.anyline.util.ConfigTable;
@@ -264,7 +264,7 @@ public class TdengineApplication {
 
         int total = service.count("a_test");
         log.warn(LogUtil.format("统计数量:"+total,34));
-        PageNavi navi = new PageNaviImpl();
+        PageNavi navi = new DefaultPageNavi();
         navi.setTotalRow(total);
         navi.setCurPage(2);
         navi.setPageRows(3);

@@ -3,7 +3,7 @@ package org.anyline.simple.neo4j;
 import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
 import org.anyline.entity.PageNavi;
-import org.anyline.entity.PageNaviImpl;
+import org.anyline.entity.DefaultPageNavi;
 import org.anyline.entity.adapter.KeyAdapter;
 import org.anyline.service.AnylineService;
 import org.anyline.util.BasicUtil;
@@ -139,7 +139,7 @@ public class Neo4jTest {
 
 
         //按条件分页查询
-        PageNavi navi = new PageNaviImpl(3, 10);
+        PageNavi navi = new DefaultPageNavi(3, 10);
         set = service.querys("Dept", navi, "leader:张三");
         log.warn(LogUtil.format("[按条件分页查询][result:{}]", 36), set.toJSON());
 

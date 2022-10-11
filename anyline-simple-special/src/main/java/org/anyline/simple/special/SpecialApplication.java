@@ -3,7 +3,7 @@ package org.anyline.simple.special;
 import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
 import org.anyline.data.param.ConfigStore;
-import org.anyline.data.param.init.SimpleConfigStore;
+import org.anyline.data.param.init.DefaultConfigStore;
 import org.anyline.service.AnylineService;
 import org.anyline.util.ConfigTable;
 import org.springframework.boot.SpringApplication;
@@ -45,7 +45,7 @@ public class SpecialApplication {
 
 
 		//关于几个 空值 的查询条件
-		ConfigStore store = new SimpleConfigStore();
+		ConfigStore store = new DefaultConfigStore();
 		store.addCondition("+ID", null);                // ID IS NULL
 		store.addCondition("+REMARK", "");              // REMARK = ''
 		store.addCondition("+IDX", "".split(","));      // IDX = ''

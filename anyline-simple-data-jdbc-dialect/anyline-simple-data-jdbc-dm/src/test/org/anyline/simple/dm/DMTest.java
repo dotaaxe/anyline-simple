@@ -3,11 +3,11 @@ package org.anyline.simple.dm;
 import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
 import org.anyline.entity.PageNavi;
-import org.anyline.entity.PageNaviImpl;
+import org.anyline.entity.DefaultPageNavi;
 import org.anyline.data.jdbc.adapter.JDBCAdapter;
 import org.anyline.data.entity.Table;
 import org.anyline.data.param.ConfigStore;
-import org.anyline.data.param.init.SimpleConfigStore;
+import org.anyline.data.param.init.DefaultConfigStore;
 import org.anyline.data.jdbc.prepare.RunPrepare;
 import org.anyline.service.AnylineService;
 import org.anyline.util.BasicUtil;
@@ -139,7 +139,7 @@ public class DMTest {
 
         //分页查询
         //每页3行,当前第2页(下标从1开始)
-        PageNavi page = new PageNaviImpl(2, 3);
+        PageNavi page = new DefaultPageNavi(2, 3);
 
         //无论是否分页 都返回相同结构的DataSet
         set = service.querys(table, page);
@@ -162,7 +162,7 @@ public class DMTest {
         in.add(1);
         in.add(2);
         in.add(3);
-        ConfigStore condition = new SimpleConfigStore();
+        ConfigStore condition = new DefaultConfigStore();
         condition.addConditions("ID", in);
 
         //not in
@@ -210,7 +210,7 @@ public class DMTest {
         log.warn(LogUtil.format("[更新指定列][count:{}]", 36), qty);
 
         //根据条件更新
-        ConfigStore store = new SimpleConfigStore();
+        ConfigStore store = new DefaultConfigStore();
         store.addCondition(Compare.GREAT, "ID", "1")
                 .addConditions("CODE","1","2","3")
                 .addCondition(" CODE > 1")

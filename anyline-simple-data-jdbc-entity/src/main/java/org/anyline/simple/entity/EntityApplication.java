@@ -4,7 +4,7 @@ package org.anyline.simple.entity;
 import org.anyline.entity.DataSet;
 import org.anyline.entity.EntitySet;
 import org.anyline.entity.PageNavi;
-import org.anyline.entity.PageNaviImpl;
+import org.anyline.entity.DefaultPageNavi;
 import org.anyline.service.AnylineService;
 import org.anyline.util.BeanUtil;
 import org.anyline.util.DateUtil;
@@ -31,7 +31,7 @@ public class EntityApplication {
         DataSet set = service.querys("HR_EMPLOYEE",0,9);
         System.out.println(set.toJSON());
 
-        PageNavi navi = new PageNaviImpl();
+        PageNavi navi = new DefaultPageNavi();
         navi.setPageRows(10);
         EntitySet<Employee> list = service.querys(Employee.class, navi,"ORDER BY ID DESC");
         System.out.println(BeanUtil.object2json(list));

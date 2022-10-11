@@ -3,7 +3,7 @@ package org.anyline.simple.hello;
 import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
 import org.anyline.entity.PageNavi;
-import org.anyline.entity.PageNaviImpl;
+import org.anyline.entity.DefaultPageNavi;
 import org.anyline.service.AnylineService;
 import org.anyline.util.BeanUtil;
 import org.anyline.util.ConfigTable;
@@ -33,7 +33,7 @@ public class HelloApplication {
         service.querys("bs_dict(ID,GROUP_CODE,CODE,NM,VAL)", "ID:1");
         service.querys("bs_dict(ID,GROUP_CODE,CODE,NM,VAL)", "ID=1","NM IS NOT NULL");
         service.querys("bs_dict(ID,GROUP_CODE,CODE,NM,VAL)", 0, 9,"NM IS NOT NULL");
-        PageNavi navi = new PageNaviImpl(); //这里的分页数据一般不直接new，而是通过http参数自动构造
+        PageNavi navi = new DefaultPageNavi(); //这里的分页数据一般不直接new，而是通过http参数自动构造
         navi.setPageRows(10);
         navi.setCurPage(2);//默认第1页,下标从1开始
         service.querys("bs_dict(ID,GROUP_CODE,CODE,NM,VAL)", navi, "NM IS NOT NULL");
