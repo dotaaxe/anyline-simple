@@ -69,6 +69,7 @@
         <module>anyline-simple-data-jdbc-dialect/anyline-simple-data-jdbc-db2</module>
         <module>anyline-simple-data-jdbc-dialect/anyline-simple-data-jdbc-questdb</module>
         <module>anyline-simple-data-jdbc-dialect/anyline-simple-data-jdbc-timescale</module>
+        <module>anyline-simple-data-jdbc-dialect/anyline-simple-data-jdbc-neo4j</module>
         <module>anyline-simple-data-mongodb</module>
 
         <!--短信-->

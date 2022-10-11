@@ -29,11 +29,6 @@ public class NetApplication extends SpringBootServletInitializer {
 		//download();
 		//jtt808();
 		//
-		String url = "https://api.quanweidu.com/api/open/ic/baseinfo_contact/1005/v1?code=91110000802100433B";
-		Map<String,String> headers = new HashMap<>();
-		headers.put("token", "62d587fa-8f47-4132-aff5-498eda0459b3") ;
-		String txt = HttpUtil.get(headers, url).getText();
-		System.out.println(txt);
 	}
 	public static void jtt808(){
 
