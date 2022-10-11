@@ -64,7 +64,7 @@ public class DMTest {
         table.addColumn("CODE", "VARCHAR(50)").setComment("编号");
         table.addColumn("NAME", "VARCHAR(50)").setComment("名称");
         //默认当前时间 如果要适配多种数据库 用 SQL_BUILD_IN_VALUE.CURRENT_TIME
-        table.addColumn("REG_TIME", "datetime").setComment("名称").setDefaultValue(JDBCAdapter.SQL_BUILD_IN_VALUE.CURRENT_TIME);
+        table.addColumn("REG_TIME", "datetime").setComment("注册时间").setDefaultValue(JDBCAdapter.SQL_BUILD_IN_VALUE.CURRENT_TIME);
         table.addColumn("DATA_VERSION", "double", false, 1.1).setComment("数据版本");
 
         //创建表
