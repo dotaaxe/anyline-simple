@@ -20,6 +20,8 @@
         <!--先执行这个初始化数据库中的表及测试数据-->
         <module>anyline-simple-alpha-init</module>
 
+        <module>anyline-simple-alpha-clear</module>
+
 
         <module>anyline-simple-hello</module>
 

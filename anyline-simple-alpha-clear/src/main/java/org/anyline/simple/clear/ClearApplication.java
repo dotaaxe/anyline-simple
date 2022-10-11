@@ -1,8 +1,7 @@
 package org.anyline.simple.clear;
 
 
-import org.anyline.data.jdbc.ds.DataSourceHolder;
-import org.anyline.service.AnylineService;
+import org.anyline.service.AnylineService; 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
