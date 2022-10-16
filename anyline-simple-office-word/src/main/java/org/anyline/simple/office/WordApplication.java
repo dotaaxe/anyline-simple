@@ -19,6 +19,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +39,7 @@ public class WordApplication {
 		SpringApplication application = new SpringApplication(WordApplication.class);
 		ConfigurableApplicationContext context = application.run(args);
 		service = (AnylineService)context.getBean("anyline.service");
-		System.exit(0);
+
 		//简单替换书签、关键字
 		//start();
 
@@ -137,6 +138,7 @@ public class WordApplication {
 
 		//插入一行数据(注意这里要保持每行列数量一致)
 		table.insert(2,template, "<tr><td>1</td><td>2</td><td>3</td><td>4</td></tr>");
+
 		//支持多个tr合并插入
 		table.insert(1,template, "<tr><td>10</td><td>20</td><td>30</td><td>40</td></tr><tr><td>100</td><td>200</td><td>300</td><td>400</td></tr>");
 

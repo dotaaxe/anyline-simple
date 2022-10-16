@@ -27,7 +27,7 @@
 	<!-- 默认主键 -->
 	<property key="DEFAULT_PRIMARY_KEY">ID</property>
 	<!-- 抛出SQL异常 -->
-	<property key="IS_THROW_SQL_EXCEPTION">true</property>
+	<property key="IS_THROW_SQL_UPDATE_EXCEPTION">true</property>
 
 	<!-- 是否显示执行的SQL -->
 	<property key="SHOW_SQL">true</property>

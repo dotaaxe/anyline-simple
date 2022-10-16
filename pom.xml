@@ -119,6 +119,7 @@
 
         <module>anyline-simple-help</module>
         <module>anyline-simple-data-jdbc-dml</module>
+        <module>anyline-simple-doc</module>
 
     </modules>
 </project>

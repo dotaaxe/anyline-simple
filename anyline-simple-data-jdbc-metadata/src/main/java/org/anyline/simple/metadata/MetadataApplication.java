@@ -8,6 +8,8 @@ import org.anyline.data.entity.Index;
 import org.anyline.data.entity.Table;
 import org.anyline.service.AnylineService;
 import org.anyline.util.ConfigTable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
@@ -22,7 +24,7 @@ import java.util.List;
 @ComponentScan(basePackages = {"org.anyline","org.anyboot"})
 @Import(DynamicDataSourceRegister.class)
 public class MetadataApplication extends SpringBootServletInitializer {
-
+	private static Logger log = LoggerFactory.getLogger(MetadataApplication.class);
 	private static AnylineService service = null;
 
 	public static void main(String[] args) throws Exception{
@@ -32,12 +34,12 @@ public class MetadataApplication extends SpringBootServletInitializer {
 
 		service = context.getBean(AnylineService.class);
 
-		//check(null, "MySQL");
+		check(null, "MySQL");
 		//check("pg", "PostgreSQL");
 		//check("ms", "SQL Server");
 		//check("oracle", "Oracle 11G");
 		//check("td", "TDengine");
-		check("db2", "DB2");
+		//check("db2", "DB2");
 
 	}
 
@@ -129,10 +131,17 @@ public class MetadataApplication extends SpringBootServletInitializer {
 
 	public static void table() throws Exception{
 		System.out.println("-------------------------------- start table  --------------------------------------------");
+		LinkedHashMap<String,Table> tables = service.metadata().tables();
+		for(String key:tables.keySet()){
+			Table table = tables.get(key);
+			log.warn("table:"+table.getName());
+			log.warn("comment:"+table.getComment());
+		}
 		System.out.println("-------------------------------- end table  ----------------------------------------------");
 	}
 	public static void column() throws Exception{
 		System.out.println("-------------------------------- start column  -------------------------------------------");
+
 		System.out.println("-------------------------------- end column  --------------------------------------------");
 	}
 	public static void exception() throws Exception{

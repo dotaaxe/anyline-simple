@@ -29,6 +29,9 @@ public class NetApplication extends SpringBootServletInitializer {
 		//download();
 		//jtt808();
 		//
+		String url = "https://so.gushiwen.cn/shiwenv_45c396367f59.aspx";
+		url ="http://www.lljyj.com/writer/242.html";
+		System.out.println(HttpUtil.get(url).getText());
 	}
 	public static void jtt808(){
 
