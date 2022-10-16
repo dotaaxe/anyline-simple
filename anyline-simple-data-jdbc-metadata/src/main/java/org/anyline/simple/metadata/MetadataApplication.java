@@ -49,14 +49,14 @@ public class MetadataApplication extends SpringBootServletInitializer {
 			DataSourceHolder.setDataSource(ds);
 		}
 		table();
-		stable();
+		tables();
 		column();
 		tag();
 		index();
 		exception();
 		System.out.println("=============================== END " + title + "=========================================");
 	}
-	public static void stable() throws Exception{
+	public static void table() throws Exception{
 		System.out.println("-------------------------------- start  stable  ------------------------------------------");
 
 		ConfigTable.IS_SQL_DELIMITER_OPEN = true;
@@ -68,20 +68,23 @@ public class MetadataApplication extends SpringBootServletInitializer {
 			//AGE 属性在表中不存在,直接插入会SQL异常
 			service.insert("HR_DEPARTMENT", row);
 		}catch (Exception e){
-			System.out.println("AGE 属性在表中不存在,直接插入会SQL异常:"+e.getMessage());
-			e.printStackTrace();
+			log.error("AGE 属性在表中不存在,直接插入会SQL异常:"+e.getMessage());
 		}
 
 		ConfigTable.IS_AUTO_CHECK_METADATA = true;
 		//开启检测后，会先检测表结构，将不表中未出现的列过滤
 		row.remove("ID");
 		service.insert("HR_DEPARTMENT", row);
+
+
 		row.remove("ID");
 		//相同的表结构会有一段时间缓存，不会每次都读取物理表
 		service.insert("HR_DEPARTMENT", row);
 
-		row.put("REG_TIME","");	//类型转换失败会按null处理
-		row.put("DATA_STATUS","1");//类型转换成int
+		row.put("REG_TIME","");						//datetime 类型转换失败会按null处理
+		row.put("AGE",1);							//数据库中没有的列 不会参与更新
+		row.put("QTY","");							//int 类型转换失败会按null处理
+		row.put("DATA_STATUS","1");					//int 类型转换成int
 		service.save("HR_DEPARTMENT", row);
 
 		//所有表名,支持模糊匹配
@@ -129,15 +132,15 @@ public class MetadataApplication extends SpringBootServletInitializer {
 		System.out.println("-------------------------------- end index  ---------------------------------------------");
 	}
 
-	public static void table() throws Exception{
-		System.out.println("-------------------------------- start table  --------------------------------------------");
+	public static void tables() throws Exception{
+		System.out.println("-------------------------------- start tables  --------------------------------------------");
 		LinkedHashMap<String,Table> tables = service.metadata().tables();
 		for(String key:tables.keySet()){
 			Table table = tables.get(key);
 			log.warn("table:"+table.getName());
 			log.warn("comment:"+table.getComment());
 		}
-		System.out.println("-------------------------------- end table  ----------------------------------------------");
+		System.out.println("-------------------------------- end tables  ----------------------------------------------");
 	}
 	public static void column() throws Exception{
 		System.out.println("-------------------------------- start column  -------------------------------------------");
