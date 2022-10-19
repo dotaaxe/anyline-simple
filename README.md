@@ -1,17 +1,18 @@
 
 ## 环境配置
 ```
-刚pull下来的项目
-先install anyline-simple-dependency(用来设置基础依赖)
-再install anyline-simple(编译到前项目下所有的module)
 
 
-anyline-simple-alpha-clear
-这是一个独立的项目,spring-boot环境,与其他模块没有任何关系,直接运行
-现有项目基础上要集成anyline可以参考这里
-项目中主要用到Anyline(可以继承AnylineController或者在需要的位置注入)
-主要配置了maven仓库以及mvc环境和jdbc环境
-其他的一些依赖一般用现有项目的就可以
+如果只是搭建环境的话，只需要看这个:anyline-simple-alpha-clear  
+这是一个独立的项目,spring-boot环境,与其他模块没有任何关系,直接运行  
+现有项目基础上要集成anyline可以参考这里  
+项目中主要用到Anyline(可以继承AnylineController或者在需要的位置注入)  
+主要配置了maven仓库以及mvc环境和jdbc环境  
+其他的一些依赖一般用现有项目的就可以  
+
+
+
+
     
 
 注意因为示例中用了快照版本 所以anyline-simple-dependency中添加了如下的repositorie:
@@ -23,6 +24,9 @@ anyline-simple-alpha-clear
     <repository>
         <id>anyline</id>
         <url>http://maven.anyline.org/repository/maven-snapshots/</url>
+        <snapshots>
+            <enabled>true</enabled>
+        </snapshots>
     </repository>
 </repositories>
 
@@ -43,6 +47,11 @@ anyline-simple-alpha-clear
   <mirrorOf>*</mirrorOf>   
   <url>http://maven.anyline.org/repository/maven-snapshots/</url>   
 </mirror>  
+
+刚pull下来的项目
+先install anyline-simple-dependency(用来设置基础依赖)
+再install anyline-simple(编译到前项目下所有的module)
+
 
 如果还是缺少依赖的话 请联系QQ群(86020680)的管理员
 或者直接pull源码 https://gitee.com/anyline/anyline
