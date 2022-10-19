@@ -30,7 +30,7 @@ public class MySQLTest {
     private AnylineService service          ;
     @Autowired
     private JdbcTemplate jdbc               ;
-    private String catalog  = null          ; //
+    private String catalog  = null          ; // 相当于数据库名 但是查数据库列表 是用SHOW SCHEMAS而不是SHOW CATALOG
     private String schema   = null          ; //
     private String table    = "CRM_USER"    ; // 表名
 
