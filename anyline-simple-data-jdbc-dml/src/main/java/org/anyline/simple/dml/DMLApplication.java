@@ -2,6 +2,7 @@ package org.anyline.simple.dml;
 
 import org.anyboot.data.jdbc.ds.DynamicDataSourceRegister;
 import org.anyline.data.jdbc.ds.DataSourceHolder;
+import org.anyline.entity.DataSet;
 import org.anyline.service.AnylineService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,8 +52,18 @@ public class DMLApplication {
 	}
 
 	public static void query() throws Exception{
-		System.out.println("\n-------------------------------- start index  --------------------------------------------\n");
-		System.out.println("\n-------------------------------- end index  ----------------------------------------------\n");
+		System.out.println("\n-------------------------------- start query  --------------------------------------------\n");
+		//查询总行数
+		int qty = service.count("CRM_USER");
+
+		//查询全部
+		DataSet set = service.querys("CRM_USER");
+
+		//按条件查询
+		set = service.querys("CRM_USER", "ID:1");
+
+
+		System.out.println("\n-------------------------------- end query  ----------------------------------------------\n");
 	}
 
 	public static void page() throws Exception{
