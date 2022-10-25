@@ -130,7 +130,6 @@ public class SpiderApplication {
             log.warn("exception", ex);
             result = false;
         }
-
     }
 
 }
