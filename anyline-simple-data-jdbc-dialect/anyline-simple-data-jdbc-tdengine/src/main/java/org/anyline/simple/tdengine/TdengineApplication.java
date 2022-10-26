@@ -29,17 +29,57 @@ public class TdengineApplication {
         ConfigurableApplicationContext context = application.run(args);
         service = context.getBean(AnylineService.class);
         ConfigTable.IS_DDL_AUTO_DROP_COLUMN = true;
+
+
         try {
-            table();
-            mtable();
-            column();
-            mcolumn();
-            tag();
+            //table();
+           // mtable();
+            //column();
+           // mcolumn();
+           // tag();
+            dml();
         }catch (Exception e){
             e.printStackTrace();
         }
-        data();
-       // clear();
+       // data();
+      // // clear();
+    }
+    public static void dml(){
+
+        DataRow row = new DataRow();
+        row.put("ID", System.currentTimeMillis());
+        row.put("CODE","C");
+        row.put("age", 10);
+
+        service.insert("a_test", row);
+
+        DataSet set = new DataSet();
+        for(int i=0; i<10; i++){
+            row = new DataRow();
+            row.put("ID", System.currentTimeMillis()+i);
+            row.put("CODE","C"+i);
+            row.put("age", i*10);
+            set.add(row);
+        }
+        log.warn(LogUtil.format("批量插入数据",34));
+        service.insert("a_test", set);
+
+        int total = service.count("a_test");
+        log.warn(LogUtil.format("统计数量:"+total,34));
+        PageNavi navi = new DefaultPageNavi();
+        navi.setTotalRow(total);
+        navi.setCurPage(2);
+        navi.setPageRows(3);
+        set = service.querys("a_test",navi);
+        log.warn(LogUtil.format("分页查询",34));
+
+        System.out.println(set);
+        set = service.querys("a_test");
+        System.out.println(set);
+        set = service.querys("a_test", "CODE:C0");
+        System.out.println(set);
+        set = service.querys("a_test", "CODE LIKE 'C0%'");
+        System.out.println(set);
     }
     public static void data(){
 
@@ -246,31 +286,12 @@ public class TdengineApplication {
         table = new Table("a_test");
         //第一个字段必须是 TIMESTAMP，并且系统自动将其设为主键
         table.addColumn("ID", "TIMESTAMP");
+        //用NCHAR  不要用 VARCHAR(BINARY类型的别名)
         table.addColumn("CODE","NCHAR(10)");
         table.addColumn("age","int");
 
         service.ddl().save(table);
 
-        DataSet set = new DataSet();
-        for(int i=0; i<10; i++){
-            DataRow row = new DataRow();
-            row.put("ID", System.currentTimeMillis()+i);
-            row.put("CODE","C"+i);
-            row.put("age", ""+i*10);
-            set.add(row);
-        }
-        log.warn(LogUtil.format("批量插入数据",34));
-        service.insert("a_test", set);
-
-        int total = service.count("a_test");
-        log.warn(LogUtil.format("统计数量:"+total,34));
-        PageNavi navi = new DefaultPageNavi();
-        navi.setTotalRow(total);
-        navi.setCurPage(2);
-        navi.setPageRows(3);
-        set = service.querys("a_test",navi);
-        log.warn(LogUtil.format("分页查询",34));
-        System.out.println(set);
         System.out.println("\n-------------------------------- end table  --------------------------------------------\n");
     }
 }
