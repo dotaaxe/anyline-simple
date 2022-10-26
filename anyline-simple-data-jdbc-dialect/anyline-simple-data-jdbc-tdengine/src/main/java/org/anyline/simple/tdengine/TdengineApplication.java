@@ -16,7 +16,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 
 @ComponentScan(basePackages = {"org.anyline"})
@@ -41,7 +43,6 @@ public class TdengineApplication {
         }catch (Exception e){
             e.printStackTrace();
         }
-        data();
         clear();
     }
     public static void dml(){
@@ -64,6 +65,18 @@ public class TdengineApplication {
         log.warn(LogUtil.format("批量插入数据",34));
         service.insert("a_test", set);
 
+
+        log.warn(LogUtil.format("直接插入子表",34));
+        service.insert("s_table_user_1", set);
+
+        log.warn(LogUtil.format("通过超表向子表插入",34));
+        set.tag("d","10");
+        //内部执行过程
+        //先根据主表查出所有子表，再根据标签值过滤出对应的子表
+        //存在大量子表时，不要这样操作，定位子表需要时间，应该直接插入到子表中
+        service.insert("s_table_user", set);
+
+
         int total = service.count("a_test");
         log.warn(LogUtil.format("统计数量:"+total,34));
         PageNavi navi = new DefaultPageNavi();
@@ -80,22 +93,7 @@ public class TdengineApplication {
         System.out.println(set);
         set = service.querys("a_test", "CODE LIKE 'C0%'");
         System.out.println(set);
-    }
-    public static void data(){
 
-        DataSet set = new DataSet();
-        for(int i=0;i<10;i++){
-            DataRow row = new DataRow();
-            row.put("ID", System.currentTimeMillis()+i);
-            row.put("CODE", "C"+i);
-            row.put("AGE", (i+1)*10);
-            set.add(row);
-        }
-        log.warn(LogUtil.format("子表直接影响行数",34));
-        service.insert("s_table_user_1", set);
-        log.warn(LogUtil.format("通过超表向子表影响行数",34));
-        set = new DataSet();
-        set.tag("d","10");
     }
     public static void clear() throws Exception{
 
@@ -194,11 +192,11 @@ public class TdengineApplication {
         service.ddl().save(tag);
 
         log.warn(LogUtil.format("超表修改tag名:"+tag.toString(),34));
-        tag.update().setName("RENAME_TAG");
+        tag.update().setName("RENAME_TAG"+System.currentTimeMillis());
         service.ddl().save(tag);
 
         log.warn(LogUtil.format("超表删除tag:"+tag.toString(),34));
-       // service.ddl().drop(tag);
+        service.ddl().drop(tag);
         System.out.println("\n-------------------------------- end tag  --------------------------------------------\n");
     }
     public static void mtable() throws Exception{
@@ -213,6 +211,7 @@ public class TdengineApplication {
 
         MasterTable table = service.metadata().mtable("s_table_user");
         if(null != table){
+            //表存存 查看表结构
             log.warn(LogUtil.format("查询表结构:"+table.getName(),34));
             LinkedHashMap<String,Column> columns = table.getColumns();
             for(Column column:columns.values()){
@@ -221,6 +220,7 @@ public class TdengineApplication {
             log.warn(LogUtil.format("删除表",34));
             service.ddl().drop(table);
         }else{
+            //表不存在  创建新表
             table = new MasterTable("s_table_user");
 
         }
@@ -255,8 +255,17 @@ public class TdengineApplication {
             service.ddl().create(item);
         }
 
-        LinkedHashMap<String,PartitionTable> items = service.metadata().ptables(table);
         log.warn(LogUtil.format("根据主表查询子表",34));
+        LinkedHashMap<String,PartitionTable> items = service.metadata().ptables(table);
+        for(Table item:items.values()){
+            log.warn("子表:"+item.getName());
+        }
+        log.warn(LogUtil.format("根据主表与标签值查询子表",34));
+        Map<String,Object> tags = new HashMap<>();
+        tags.put("I", 1);
+        tags.put("D",10);
+        tags.put("S", "S1");
+        items = service.metadata().ptables(table, tags);
         for(Table item:items.values()){
             log.warn("子表:"+item.getName());
         }
