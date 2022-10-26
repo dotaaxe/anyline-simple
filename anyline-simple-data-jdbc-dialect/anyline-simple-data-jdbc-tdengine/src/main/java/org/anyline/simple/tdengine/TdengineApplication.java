@@ -32,17 +32,17 @@ public class TdengineApplication {
 
 
         try {
-            //table();
-           // mtable();
-            //column();
-           // mcolumn();
-           // tag();
+            table();
+            mtable();
+            column();
+            mcolumn();
+            tag();
             dml();
         }catch (Exception e){
             e.printStackTrace();
         }
-       // data();
-      // // clear();
+        data();
+        clear();
     }
     public static void dml(){
 
