@@ -16,9 +16,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 
 @ComponentScan(basePackages = {"org.anyline"})
@@ -26,6 +24,7 @@ import java.util.Map;
 public class TdengineApplication {
     private static Logger log = LoggerFactory.getLogger(TdengineApplication.class);
     private static AnylineService service;
+
     public static void main(String[] args) throws Exception{
         SpringApplication application = new SpringApplication(TdengineApplication.class);
         ConfigurableApplicationContext context = application.run(args);
@@ -71,8 +70,9 @@ public class TdengineApplication {
 
         log.warn(LogUtil.format("通过超表向子表插入",34));
         set.tag("d","10");
-        //内部执行过程
-        //先根据主表查出所有子表，再根据标签值过滤出对应的子表
+        set.tag("i",1);
+        set.tag("s","S1");
+        //在这要根据主表+标签值查出子表,只有查出一个子表时才能执行，否则抛出异常
         //存在大量子表时，不要这样操作，定位子表需要时间，应该直接插入到子表中
         service.insert("s_table_user", set);
 
