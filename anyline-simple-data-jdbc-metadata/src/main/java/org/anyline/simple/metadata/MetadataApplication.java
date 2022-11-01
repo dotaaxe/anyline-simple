@@ -144,7 +144,12 @@ public class MetadataApplication extends SpringBootServletInitializer {
 	}
 	public static void column() throws Exception{
 		System.out.println("-------------------------------- start column  -------------------------------------------");
-
+		Column col = service.metadata().column("HR_DEPARTMENT","ID");
+		log.warn("column: ID, type:{}", col.getFullType());
+		LinkedHashMap<String,Column> columns = service.metadata().columns("HR_DEPARTMENT");
+		for(Column column: columns.values()){
+			log.warn("column:{}\ttype:{}\tauto increment:{}",column.getName(), column.getFullType(), column.isAutoIncrement()==1);
+		}
 		System.out.println("-------------------------------- end column  --------------------------------------------");
 	}
 	public static void exception() throws Exception{
