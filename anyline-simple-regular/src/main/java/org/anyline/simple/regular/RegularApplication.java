@@ -252,7 +252,7 @@ public class RegularApplication {
          * ]
          */
         //所有包含href属性的标签
-        tags = RegularUtil.getAllTagAndBodyWithAttribute(html, "href");
+        tags = RegularUtil.getTagAndBodyWithAttribute(html, "href");
         for(List<String> tag:tags){
             log.warn("所有包含href属性的标签:{},标签名:{}", tag.get(0), tag.get(4));
         }
