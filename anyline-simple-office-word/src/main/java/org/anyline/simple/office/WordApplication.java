@@ -118,9 +118,9 @@ public class WordApplication {
 	}
 	public static void insert(){
 		WDocument doc = doc("insert");
-		Wtable table = doc.getTable("src_tc");
+		Wtable table = doc.table("src_tc");
 		//同样的可以获取一个tr,也可以通过书签或下标获取
-		Wtr template = table.getTr("src_tc");
+		Wtr template = table.tr("src_tc");
 		//template = table.getTr(1);
 
 		//追加2行 追加的行将复制上一行的样式(如背景色字体等)
@@ -191,7 +191,7 @@ public class WordApplication {
 	public static void src(){
 		WDocument doc = doc("src");
 		//通过书签定位到一个table,只要这个书签在table标签范围内即可
-		Wtable table = doc.getTable("src_tc");
+		Wtable table = doc.table("src_tc");
 		int row =1 ;
 		int col = 1;
 
