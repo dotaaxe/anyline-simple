@@ -1,7 +1,9 @@
 package org.anyline.simple.encrypt;
 
+import org.anyline.util.NumberUtil;
 import org.anyline.util.encrypt.MD5Util;
 import org.anyline.util.encrypt.RSAUtil;
+import org.anyline.util.encrypt.SMUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -30,6 +32,33 @@ public class EncryptTest {
         log.warn("md52:{}", md52);
         Assertions.assertEquals(md5,"670b14728ad9902aecba32e22fa4f6bd");
         Assertions.assertEquals(md52,"ff92a240d11b05ebd392348c35f781b2");
+    }
+    @Test
+    public void sm2(){
+        //生成一个密钥对
+        SMUtil.SM2 sm2 = SMUtil.sm2();
+        String publicKey = sm2.getPublicKey();      //这里有65位是因为有04前缀
+        String privateKey = sm2.getPrivateKey();
+        byte[] publicBytes = sm2.getPublicBytes();
+        byte[] privateBytes = sm2.getPrivateBytes();
+        log.warn("公钥({}位):\n{}", publicBytes.length, publicKey);
+        log.warn("私钥({}位):\n{}", privateBytes.length, privateKey);
+
+        String txt = "中文_ABC_123";
+        String encrypt = sm2.encrypt(txt);
+        log.warn("明文:\n{}", txt);
+        log.warn("公钥加密:\n{}", encrypt);
+        String decrypt = sm2.decrypt(encrypt);
+        log.warn("私钥解密hex:\n{}", decrypt);
+        log.warn("私钥解密原文:\n{}", NumberUtil.hex2string(decrypt,"UTF-8"));
+
+        //如果只有公钥,可以只有公钥构造sm2
+        sm2 = SMUtil.sm2(publicKey);
+        for(int i=0;i <10; i++){
+            //sm2内部已经有公钥了，所以直接调用加密 不再提供公钥
+            sm2.encrypt("明文:"+i);
+        }
+
     }
     @Test
     public void rsa() throws Exception{
