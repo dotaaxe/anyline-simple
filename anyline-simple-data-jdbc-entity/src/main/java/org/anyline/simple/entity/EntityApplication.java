@@ -5,6 +5,7 @@ import org.anyline.entity.DataSet;
 import org.anyline.entity.EntitySet;
 import org.anyline.entity.PageNavi;
 import org.anyline.entity.DefaultPageNavi;
+import org.anyline.proxy.ServiceProxy;
 import org.anyline.service.AnylineService;
 import org.anyline.util.BeanUtil;
 import org.anyline.util.DateUtil;
@@ -12,9 +13,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @ComponentScan(basePackages = {"org.anyline","org.anyboot"})
 @SpringBootApplication
@@ -36,6 +34,16 @@ public class EntityApplication {
         EntitySet<Employee> list = service.querys(Employee.class, navi,"ORDER BY ID DESC");
         System.out.println(BeanUtil.object2json(list));
         System.out.println(BeanUtil.object2json(list.getNavi()));
+/*
+        AnylineService<Employee> s = null;
+        Employee e = s.get("");
+        e = s.query(Employee.class);*/
+
+        //这里需要转换类型
+        Employee e = (Employee) service.query(Employee.class);
+
+        //也可以通过静态代理类,AnylineProxy可以代理AnylineService的一切操作并且是静态方法
+        e = ServiceProxy.query(Employee.class);
 
         Employee employee = list.get(0);
         employee.setAge(100);
