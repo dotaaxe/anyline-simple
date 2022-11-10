@@ -22,8 +22,20 @@ public class EntityApplication {
         SpringApplication application = new SpringApplication(EntityApplication.class);
         ConfigurableApplicationContext context = application.run(args);
         service = (AnylineService)context.getBean("anyline.service");
-        run();
+       // run();
+        xml();
+        sql();
         System.exit(0);
+    }
+    public static void xml(){
+        String sql = "crm.user:USER_LIST";
+        Employee e = ServiceProxy.select(sql, Employee.class );
+        System.out.println(BeanUtil.object2json(e));
+    }
+    public static void sql(){
+        String sql = "SELECT * FROM HR_EMPLOYEE";
+        Employee e = ServiceProxy.select(sql, Employee.class );
+        System.out.println(BeanUtil.object2json(e));
     }
     public static void run(){
         DataSet set = service.querys("HR_EMPLOYEE",0,9);
@@ -31,20 +43,21 @@ public class EntityApplication {
 
         PageNavi navi = new DefaultPageNavi();
         navi.setPageRows(10);
-        EntitySet<Employee> list = service.querys(Employee.class, navi,"ORDER BY ID DESC");
+        EntitySet<Employee> list = service.selects(Employee.class, navi,"ORDER BY ID DESC");
         System.out.println(BeanUtil.object2json(list));
         System.out.println(BeanUtil.object2json(list.getNavi()));
+
 /*
         AnylineService<Employee> s = null;
         Employee e = s.get("");
         e = s.query(Employee.class);*/
 
         //这里需要转换类型
-        Employee e = (Employee) service.query(Employee.class);
+        Employee e = (Employee) service.select(Employee.class);
 
         //也可以通过静态代理类,AnylineProxy可以代理AnylineService的一切操作并且是静态方法
         //ServiceProxy不需要注入直接调用静态方法,方法签名参考AnylineService
-        e = ServiceProxy.query(Employee.class);
+        e = ServiceProxy.select(Employee.class);
 
         Employee employee = list.get(0);
         employee.setAge(100);
