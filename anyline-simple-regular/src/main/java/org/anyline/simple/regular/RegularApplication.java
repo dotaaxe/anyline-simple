@@ -241,7 +241,7 @@ public class RegularApplication {
         }
 
         //清除所有标签，只保留标签体
-        String txt = RegularUtil.removeAllTag(html);
+        String txt = RegularUtil.removeTag(html);
         log.warn("text:{}", txt);
 
         /*
@@ -252,7 +252,7 @@ public class RegularApplication {
          * ]
          */
         //所有包含href属性的标签
-        tags = RegularUtil.getTagAndBodyWithAttribute(html, "href");
+        tags = RegularUtil.getTagWithBodyByAttribute(html, "href");
         for(List<String> tag:tags){
             log.warn("所有包含href属性的标签:{},标签名:{}", tag.get(0), tag.get(4));
         }
