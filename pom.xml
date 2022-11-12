@@ -17,12 +17,13 @@
         <module>anyline-simple-start-mysql</module>
         <module>anyline-simple-start-mvc-mysql</module>
 
+        <!--一个完全独立的项目，与其他模块不相关，用为演示快速环境搭建-->
+        <module>anyline-simple-alpha-clear</module>
+
         <!--先执行这个初始化数据库中的表及测试数据-->
         <module>anyline-simple-alpha-init</module>
 
-        <module>anyline-simple-alpha-clear</module>
-
-
+        <!--一个简单的入门示例-->
         <module>anyline-simple-hello</module>
 
         <!--多数据源库操作-->
@@ -39,6 +40,9 @@
 
         <!--各种场景的查询-->
         <module>anyline-simple-query</module>
+
+        <!--各种查询条件构造-->
+        <module>anyline-simple-data-condition</module>
 
         <!--网络操作-->
         <module>anyline-simple-net</module>
@@ -118,9 +122,16 @@
         <module>anyline-simple-data-jdbc-ddl</module>
 
         <module>anyline-simple-help</module>
+        <!--MDL相关-->
         <module>anyline-simple-data-jdbc-dml</module>
+        <!--word操作-->
         <module>anyline-simple-doc</module>
+        <!--加密解密rsa m2等-->
         <module>anyline-simple-encrypt</module>
+        <!--xml中自定义复杂SQL-->
+        <module>anyline-simple-data-xml</module>
+        <!--java中自定义SQL-->
+        <module>anyline-simple-data-sql</module>
 
     </modules>
 </project>
