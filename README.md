@@ -115,19 +115,27 @@ http://qa.anyline.org/art/v?id=lv0182c99f6acebf1d2d680783bf1168e8f99eced8e0136a4
 
 
 ## 目录说明
-        <!--基础依赖-->
-        <module>anyline-simple-start</module>
-        <module>anyline-simple-start-mvc-mysql</module>
-        <module>anyline-simple-start-mysql</module>
 
-        <!--简单的数据库操作-->
+        <!--基础依赖-->
+        <module>anyline-simple-dependency</module>
+        <module>anyline-simple-start</module>
+        <module>anyline-simple-start-mysql</module>
+        <module>anyline-simple-start-mvc-mysql</module>
+        
+        <!--一个完全独立的项目，与其他模块不相关，用为演示快速环境搭建-->
+        <module>anyline-simple-alpha-clear</module>
+
+        <!--先执行这个初始化数据库中的表及测试数据-->
+        <module>anyline-simple-alpha-init</module>
+
+        <!--一个简单的入门示例-->
         <module>anyline-simple-hello</module>
 
         <!--多数据源库操作-->
-        <module>anyline-simple-ds</module>
+        <module>anyline-simple-data-jdbc-ds</module>
 
         <!--对结果集的操作-->
-        <module>anyline-simple-result</module>
+        <module>anyline-simple-data-jdbc-result</module>
 
         <!--pdf操作-->
         <module>anyline-simple-pdf</module>
@@ -138,6 +146,9 @@ http://qa.anyline.org/art/v?id=lv0182c99f6acebf1d2d680783bf1168e8f99eced8e0136a4
         <!--各种场景的查询-->
         <module>anyline-simple-query</module>
 
+        <!--各种查询条件构造-->
+        <module>anyline-simple-data-condition</module>
+        
         <!--网络操作-->
         <module>anyline-simple-net</module>
 
@@ -150,7 +161,6 @@ http://qa.anyline.org/art/v?id=lv0182c99f6acebf1d2d680783bf1168e8f99eced8e0136a4
         <module>anyline-simple-noweb</module>
 
         <!--各种数据库操作示例-->
-
         <module>anyline-simple-data-jdbc-dialect</module>
         <module>anyline-simple-data-jdbc-dialect/anyline-simple-data-jdbc-dm</module>
         <module>anyline-simple-data-jdbc-dialect/anyline-simple-data-jdbc-oracle</module>
@@ -166,12 +176,16 @@ http://qa.anyline.org/art/v?id=lv0182c99f6acebf1d2d680783bf1168e8f99eced8e0136a4
         <module>anyline-simple-data-jdbc-dialect/anyline-simple-data-jdbc-mysql</module>
         <module>anyline-simple-data-jdbc-dialect/anyline-simple-data-jdbc-mariadb</module>
         <module>anyline-simple-data-jdbc-dialect/anyline-simple-data-jdbc-db2</module>
+        <module>anyline-simple-data-jdbc-dialect/anyline-simple-data-jdbc-questdb</module>
+        <module>anyline-simple-data-jdbc-dialect/anyline-simple-data-jdbc-timescale</module>
+        <module>anyline-simple-data-jdbc-dialect/anyline-simple-data-jdbc-neo4j</module>
+        <module>anyline-simple-data-mongodb</module>
 
         <!--短信-->
         <module>anyline-simple-sms</module>
 
         <!--针对Entity的操作-->
-        <module>anyline-simple-entity</module>
+        <module>anyline-simple-data-jdbc-entity</module>
 
         <!--ThingsBoard-->
         <module>anyline-simple-thingsboard</module>
@@ -189,29 +203,40 @@ http://qa.anyline.org/art/v?id=lv0182c99f6acebf1d2d680783bf1168e8f99eced8e0136a4
         <module>anyline-simple-transaction</module>
 
         <!--动态数据源事务回滚-->
-        <module>anyline-simple-ds-transaction</module>
+        <module>anyline-simple-data-jdbc-transaction</module>
 
         <!--适配 高德、百度、腾讯地图接口 超限额后自动切换平台-->
         <module>anyline-simple-map</module>
 
         <!--多表操作-->
-        <module>anyline-simple-tables</module>
+        <module>anyline-simple-data-jdbc-tables</module>
 
         <!--界定符-->
-        <module>anyline-simple-delimiter</module>
+        <module>anyline-simple-data-jdbc-delimiter</module>
 
         <!--界定符 占位-->
-        <module>anyline-simple-placeholder</module>
+        <module>anyline-simple-data-jdbc-placeholder</module>
 
         <!--数据库结构 表、列明细-->
-        <module>anyline-simple-metadata</module>
+        <module>anyline-simple-data-jdbc-metadata</module>
 
         <!--部分不常用的操作-->
         <module>anyline-simple-special</module>
 
         <!--DDL相关操作  创建修改表列数据类型 以及超表子表-->
-        <module>anyline-simple-ddl</module>
+        <module>anyline-simple-data-jdbc-ddl</module>
 
         <module>anyline-simple-help</module>
+        <!--MDL相关-->
+        <module>anyline-simple-data-jdbc-dml</module>
+        <!--word操作-->
+        <module>anyline-simple-doc</module>
+        <!--加密解密rsa m2等-->
+        <module>anyline-simple-encrypt</module>
+        <!--xml中自定义复杂SQL-->
+        <module>anyline-simple-data-xml</module>
+        <!--java中自定义SQL-->
+        <module>anyline-simple-data-sql</module>
+
 
 每个目录下有read说明了实现的示例、测试方式和注意事项
