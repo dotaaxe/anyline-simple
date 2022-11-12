@@ -1,6 +1,9 @@
 package org.anyline.simple.entity;
 
 
+import com.sun.xml.internal.bind.v2.TODO;
+import org.anyline.data.param.ConfigStore;
+import org.anyline.data.param.init.DefaultConfigStore;
 import org.anyline.entity.DataSet;
 import org.anyline.entity.EntitySet;
 import org.anyline.entity.PageNavi;
@@ -18,6 +21,15 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 public class EntityApplication {
     private static AnylineService service;
+
+    /* *********************************************************************
+     *
+     * condition 为方便示例的临时方法，在实际项目中 AnylineController会提供实现
+     *
+     ******************************************************************** */
+    public static ConfigStore condition(boolean navi, String ... conditions){
+        return new DefaultConfigStore();
+    }
     public static void main(String[] args) {
         SpringApplication application = new SpringApplication(EntityApplication.class);
         ConfigurableApplicationContext context = application.run(args);
@@ -27,14 +39,28 @@ public class EntityApplication {
         sql();
         System.exit(0);
     }
+    //更多XML定义SQL参考  anyline-simple-data-xml
     public static void xml(){
         String sql = "crm.user:USER_LIST";
         Employee e = ServiceProxy.select(sql, Employee.class );
         System.out.println(BeanUtil.object2json(e));
     }
     public static void sql(){
-        String sql = "SELECT * FROM HR_EMPLOYEE";
-        Employee e = ServiceProxy.select(sql, Employee.class );
+        String sql = "SELECT * FROM HR_EMPLOYEE WHERE CODE = ':CODE' AND ID IN (:ID) AND CODE > ':CODE'";
+        //url   http://127.0.0.1?name=张
+        Employee e = ServiceProxy.select(sql, Employee.class , condition(true,"NAME:%name%")
+                .addCondition("CODE","123")
+                .addConditions("ID","1","2")
+                .addCondition("DATA_STATUS", 1)
+        );
+        /*合成SQL
+
+        SELECT * FROM HR_EMPLOYEE WHERE CODE = '123'
+        AND ID IN (?,?)
+        AND CODE > '123'
+        AND DATA_STATUS = ?
+        LIMIT 0,1
+        */
         System.out.println(BeanUtil.object2json(e));
     }
     public static void run(){
