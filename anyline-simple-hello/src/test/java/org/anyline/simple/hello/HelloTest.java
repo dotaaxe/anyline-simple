@@ -47,4 +47,13 @@ public class HelloTest {
         //更新数据
         service.update(row);
     }
+
+    /**
+     * XML中自定义SQL
+     */
+    @Test
+    public void xml(){
+        DataSet users = service.querys("crm.user:USER_LIST");
+        System.out.println(users);
+    }
 }
