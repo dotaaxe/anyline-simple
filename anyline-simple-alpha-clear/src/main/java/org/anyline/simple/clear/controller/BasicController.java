@@ -8,5 +8,4 @@ import org.anyline.controller.impl.AnylineController;
  * AnylineController里已经注入了AnylineService
  */
 public class BasicController extends AnylineController {
-    protected String dir = "";
 }

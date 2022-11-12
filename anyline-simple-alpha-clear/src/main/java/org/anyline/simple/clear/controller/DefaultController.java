@@ -11,15 +11,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller("web.home.DefaultController")
 @RequestMapping("/")
 public class DefaultController extends BasicController {
-    //如果没有从父类中继承到AnylineService
-    //就直接在需要的位置注入一个
-    @Qualifier("anyline.service")
-    private AnylineService tmpService;
+    //访问url
+    // http://127.0.0.1:8080/list?id=1&id=2
+    // 生成SQL SELECT * FROM crm_user WHERE( ID IN (?,?)) LIMIT 0,10
 
+    // http://127.0.0.1:8080/list?n=A
+    //生成SQL SELECT * FROM crm_user WHERE (NAME LIKE concat('%',?,'%')) LIMIT 0,10
     @RequestMapping("list")
     @ResponseBody
     public String list() {
-        DataSet set = tmpService.querys("crm_user");
+        //这里的true表示 需要分页
+        DataSet set = service.querys("crm_user", condition(true,"NAME:%n%","ID:[id]"));
         return success(set);
     }
 

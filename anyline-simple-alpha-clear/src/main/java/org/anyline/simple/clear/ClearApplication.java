@@ -13,17 +13,10 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan(basePackages = {"org.anyline"})
 public class ClearApplication {
 
-    private static AnylineService service;
-    private static Logger log = LoggerFactory.getLogger(ClearApplication.class);
-
     public static void main(String[] args) throws Exception {
-
         SpringApplication application = new SpringApplication(ClearApplication.class);
-
         ConfigurableApplicationContext context = application.run(args);
-
-        service = context.getBean(AnylineService.class);
-
-
+        //这里可以验证一下 service 有没有成功注入
+        AnylineService service = context.getBean(AnylineService.class);
     }
 }
