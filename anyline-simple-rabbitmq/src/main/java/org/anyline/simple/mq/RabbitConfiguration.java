@@ -11,14 +11,12 @@ import org.springframework.boot.autoconfigure.amqp.SimpleRabbitListenerContainer
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-/**
- * 公共服务中心RabbitMq配置
- */
+
 @Configuration
 public class RabbitConfiguration {
 
     /**
-     * 配置公共服务中心RabbitMq数据源
+     * 配置RabbitMq数据源
      */
     @Bean(name = "tpscConnectionFactory")
     public CachingConnectionFactory twoConnectionFactory(@Value("${spring.rabbitmq.host}") String host,
@@ -37,7 +35,7 @@ public class RabbitConfiguration {
     }
 
     /**
-     * 配置公共服务中心RabbitMq连接
+     * 配置RabbitMq连接
      */
     @Bean(name = "tpscRabbitTemplate")
     public RabbitTemplate twoRabbitTemplate(@Qualifier("tpscConnectionFactory") CachingConnectionFactory connectionFactory) {
@@ -45,7 +43,7 @@ public class RabbitConfiguration {
     }
 
     /**
-     * 配置公共服务中心RabbitMq监听
+     * 配置RabbitMq监听
      */
     @Bean(name = "tpscFactory")
     public SimpleRabbitListenerContainerFactory twoFactory(SimpleRabbitListenerContainerFactoryConfigurer configurer,
@@ -60,7 +58,7 @@ public class RabbitConfiguration {
     }
 
     /**
-     * 配置公共服务中心RabbitMq
+     * 配置RabbitMq
      * RabbitAdmin：作为申明、删除交换机和队列，绑定和解绑队列和交换机的绑定关系使用。
      */
     @Bean(name = "tpscRabbitAdmin")
