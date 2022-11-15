@@ -4,22 +4,12 @@ import javax.persistence.Column;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 @Table(name="hr_employee")
-public class Employee {
+public class Employee extends BaseEntity{
     private Long id;
     @Column(name = "NM")
     private String name;
     @Transient
     private int age;
-    @Column(name = "CREATE_TIME", updatable = false)
-    private String createTime;
-
-    public String getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(String createTime) {
-        this.createTime = createTime;
-    }
 
     //@Column(name = "JOIN_YMD")
     private String joinYmd;

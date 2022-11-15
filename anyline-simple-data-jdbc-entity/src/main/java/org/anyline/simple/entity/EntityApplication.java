@@ -84,9 +84,10 @@ public class EntityApplication {
         //也可以通过静态代理类,AnylineProxy可以代理AnylineService的一切操作并且是静态方法
         //ServiceProxy不需要注入直接调用静态方法,方法签名参考AnylineService
         e = ServiceProxy.select(Employee.class);
-
+        e = new Employee();
         e.setCreateTime(DateUtil.format());
-        e.setName("zh");
+        service.insert(e);
+        e.setCreateTime(null);
         e.setId(1L);
         service.update(e);
 
