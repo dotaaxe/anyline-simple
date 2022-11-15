@@ -34,7 +34,7 @@ public class EntityApplication {
         SpringApplication application = new SpringApplication(EntityApplication.class);
         ConfigurableApplicationContext context = application.run(args);
         service = (AnylineService)context.getBean("anyline.service");
-       // run();
+        run();
         xml();
         sql();
         System.exit(0);
@@ -84,6 +84,11 @@ public class EntityApplication {
         //也可以通过静态代理类,AnylineProxy可以代理AnylineService的一切操作并且是静态方法
         //ServiceProxy不需要注入直接调用静态方法,方法签名参考AnylineService
         e = ServiceProxy.select(Employee.class);
+
+        e.setCreateTime(DateUtil.format());
+        e.setName("zh");
+        e.setId(1L);
+        service.update(e);
 
         Employee employee = list.get(0);
         employee.setAge(100);

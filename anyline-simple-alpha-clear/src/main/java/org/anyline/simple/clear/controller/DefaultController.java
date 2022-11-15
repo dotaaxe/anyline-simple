@@ -21,7 +21,7 @@ public class DefaultController extends BasicController {
     @ResponseBody
     public String list() {
         //这里的true表示 需要分页
-        DataSet set = service.querys("crm_user", condition(true,"NAME:%n%","ID:[id]"));
+        DataSet set = service.querys("crm_user", condition(true,"NAME:%n%","ID:[id]","CODE:!=cd:${9}"));
         return success(set);
     }
 

@@ -132,6 +132,7 @@
         <module>anyline-simple-data-xml</module>
         <!--java中自定义SQL-->
         <module>anyline-simple-data-sql</module>
+        <module>anyline-simple-kafka</module>
 
     </modules>
 </project>

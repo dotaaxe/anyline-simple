@@ -10,6 +10,16 @@ public class Employee {
     private String name;
     @Transient
     private int age;
+    @Column(name = "CREATE_TIME", updatable = false)
+    private String createTime;
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
 
     //@Column(name = "JOIN_YMD")
     private String joinYmd;
