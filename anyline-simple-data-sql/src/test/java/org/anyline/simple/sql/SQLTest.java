@@ -48,11 +48,35 @@ public class SQLTest {
         //生成SQL SELECT * FROM CRM_USER WHERE CODE = ? AND ID = ?
 
 
+        //如果没有提供参数值 会生成 = NULL, 这种情况明显不符合预期
         sql = "SELECT * FROM CRM_USER WHERE CODE = :PARAM_CODE";
         set = service.querys(sql);
+        //生成SQL  SELECT * FROM CRM_USER WHERE CODE = NULL
 
-        //但是以个SQL 最好应该这样写
-        //service.query("CRM_USER", "CODE:100");
+        String value = "100";
+        //以上SQL 最好应该这样写
+        service.query("CRM_USER", "CODE:"+value);
+        //默认情况下如果value没有值则会生成 SELECT * FROM CRM_USER
+        value = null;
+        service.query("CRM_USER", "CODE:"+value);
+        value =  "";
+        service.query("CRM_USER", "CODE:"+value);
+
+        //如果希望没有提供参数值是不执行SQL
+        value = null;
+        service.query("CRM_USER", "++CODE:"+value);
+        value =  "";
+        service.query("CRM_USER", "++CODE:"+value);
+        //不会生成SQL 返回new DataSet();
+
+        //如果希望没有提供参数值是依然拼接这个查询条件
+        value = null;
+        service.query("CRM_USER", "+CODE:"+value);
+        value =  "";
+        service.query("CRM_USER", "+CODE:"+value);
+        //生成SQL SELECT * FROM CRM_USER WHERE CODE IS NULL
+
+
 
     }
 }
