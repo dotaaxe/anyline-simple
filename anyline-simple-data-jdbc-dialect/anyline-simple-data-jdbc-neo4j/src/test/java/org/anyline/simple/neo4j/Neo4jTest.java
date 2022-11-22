@@ -54,11 +54,12 @@ public class Neo4jTest {
         DataRow r = new DataRow();
         r.put("NAME","ZH");
         r.put("AGE", 20);
-        int qty = service.insert("user", r);
+        int qty = service.insert("User", r);
         log.warn(LogUtil.format("[DataRow单行插入][影响行数:{}][生成主键:{}]", 36), qty, r.getId());
         Assertions.assertEquals(qty, 1);
         Assertions.assertNotNull(r.getId());
-        //创建多标签(表)节点
+
+        //创建多标签(表)节点,用:将多个标签分隔
         service.insert("User:Employee", r);
         log.warn(LogUtil.format("[DataRow多标签单行插入][影响行数:{}][生成主键:{}]", 36), qty, r.getId());
         Assertions.assertEquals(qty, 1);
@@ -161,6 +162,7 @@ public class Neo4jTest {
 
         //按条件删除
         service.delete("Dept", "name","财务部");
+
 
         set = service.querys("Batch", 0, 9);
         //根据ID删除
