@@ -56,11 +56,14 @@ public class SQLTest {
         String value = "100";
         //以上SQL 最好应该这样写
         service.query("CRM_USER", "CODE:"+value);
-        //默认情况下如果value没有值则会生成 SELECT * FROM CRM_USER
+        //生成SQL SELECT * FROM CRM_USER WHERE CODE = ?
+
+        //默认情况下如果value没有值则不会拼接相应的查询条件
         value = null;
         service.query("CRM_USER", "CODE:"+value);
         value =  "";
         service.query("CRM_USER", "CODE:"+value);
+        //生成SQL SELECT * FROM CRM_USER
 
         //如果希望没有提供参数值是不执行SQL
         value = null;
