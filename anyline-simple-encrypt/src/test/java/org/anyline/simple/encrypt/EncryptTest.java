@@ -13,9 +13,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
-import java.security.interfaces.RSAPrivateKey;
-import java.security.interfaces.RSAPublicKey;
-import java.util.Map;
+
+import static org.anyline.util.encrypt.SMUtil.*;
 
 @SpringBootTest
 public class EncryptTest {
@@ -36,7 +35,7 @@ public class EncryptTest {
     @Test
     public void sm2(){
         //生成一个密钥对
-        SMUtil.SM2 sm2 = SMUtil.sm2();
+        SM2 sm2 = SMUtil.sm2();
         String publicKey = sm2.getPublicKey();      //这里有65位是因为有04前缀
         String privateKey = sm2.getPrivateKey();
         byte[] publicBytes = sm2.getPublicBytes();
