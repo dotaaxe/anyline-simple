@@ -10,8 +10,10 @@
         <version>2.7.3</version>
         <relativePath></relativePath>
     </parent>
-
+    <groupId>org.anyline</groupId>
     <artifactId>anyline-simple-alpha-clear</artifactId>
+    <version>1.0</version>
+    <packaging>jar</packaging>
     <description>
         这是一个独立的项目,spring-boot环境,与其他模块没有任何关系,直接运行
         现有项目基础上要集成anyline可以参考这里
@@ -148,4 +150,17 @@
             </snapshots>
         </repository>
     </repositories>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.7.3</version>
+                <configuration>
+                    <includeSystemScope>true</includeSystemScope>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
