@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class DefaultController extends BasicController {
     //访问url
     // http://127.0.0.1:8080/list?id=1&id=2
-    // 生成SQL SELECT * FROM crm_user WHERE( ID IN (?,?)) LIMIT 0,10
+    // 生成SQL SELECT * FROM crm_user WHERE ( ID IN (?,?) AND  CODE != ?) LIMIT 0,10
 
     // http://127.0.0.1:8080/list?n=A
-    //生成SQL SELECT * FROM crm_user WHERE (NAME LIKE concat('%',?,'%')) LIMIT 0,10
+    //生成SQL SELECT * FROM crm_user WHERE  NAME LIKE concat('%',?,'%') AND AND  CODE != ?  LIMIT 0,10
     @RequestMapping("list")
     @ResponseBody
     public String list() {
