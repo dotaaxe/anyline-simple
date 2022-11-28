@@ -1,6 +1,7 @@
 package org.anyline.simple.ddl;
 
 import org.anyboot.data.jdbc.ds.DynamicDataSourceRegister;
+import org.anyline.data.entity.Index;
 import org.anyline.entity.DataRow;
 import org.anyline.data.jdbc.ds.DataSourceHolder;
 import org.anyline.data.entity.Column;
@@ -33,11 +34,11 @@ public class DDLApplication {
 
 		service = context.getBean(AnylineService.class);
 
-		//check(null, "MySQL");
+		check(null, "MySQL");
 		//check("pg", "PostgreSQL");
 		//check("ms", "SQL Server");
 		//check("oracle", "Oracle 11G");
-		check("db2", "DB2");
+		//check("db2", "DB2");
 
 	}
 	public static void check(String ds, String title) throws Exception{
@@ -45,10 +46,10 @@ public class DDLApplication {
 		if(null != ds) {
 			DataSourceHolder.setDataSource(ds);
 		}
-		table();
-		column();
+		//table();
+		//column();
 		index();
-		exception();
+		//exception();
 		System.out.println("\n=============================== END " + title + "=========================================\n");
 	}
 	public static void table() throws Exception{
@@ -173,7 +174,24 @@ public class DDLApplication {
 	}
 	public static void index() throws Exception{
 		System.out.println("\n-------------------------------- start index  --------------------------------------------\n");
-		clear();
+		//添加索引
+		Index indx = new Index();
+		indx.setName("index_code_name");
+		indx.setTableName("crm_user");
+		indx.addColumn(new Column("CODE"));
+		indx.addColumn(new Column("NAME"));
+		service.ddl().add(indx);
+
+		LinkedHashMap<String, Index> indexs = service.metadata().indexs("crm_user");
+		for(Index index:indexs.values()){
+			System.out.println("所引:"+index.getName());
+			LinkedHashMap<String, Column> columns = index.getColumns();
+			for(Column column:columns.values()){
+				System.out.println("包含名:"+column.getName());
+			}
+			service.ddl().drop(index);
+		}
+
 		System.out.println("\n-------------------------------- end index  ----------------------------------------------\n");
 	}
 
