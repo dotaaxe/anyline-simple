@@ -175,21 +175,29 @@ public class DDLApplication {
 	public static void index() throws Exception{
 		System.out.println("\n-------------------------------- start index  --------------------------------------------\n");
 		//添加索引
-		Index indx = new Index();
-		indx.setName("index_code_name");
-		indx.setTableName("crm_user");
-		indx.addColumn(new Column("CODE"));
-		indx.addColumn(new Column("NAME"));
-		service.ddl().add(indx);
+		Index index = new Index();
+		index.setName("index_code_name");
+		index.setTableName("crm_user");
+		index.setUnique(true);
+		index.addColumn(new Column("CODE"));
+		index.addColumn(new Column("NAME").setOrder("DESC"));//倒序
+		service.ddl().add(index);
 
 		LinkedHashMap<String, Index> indexs = service.metadata().indexs("crm_user");
-		for(Index index:indexs.values()){
-			System.out.println("所引:"+index.getName());
-			LinkedHashMap<String, Column> columns = index.getColumns();
+		for(Index item:indexs.values()){
+			System.out.println("所引:"+item.getName());
+			System.out.println("是否物理所引:"+item.isCluster());
+			System.out.println("是否唯一:"+item.isUnique());
+			LinkedHashMap<String, Column> columns = item.getColumns();
 			for(Column column:columns.values()){
-				System.out.println("包含名:"+column.getName());
+				System.out.println("包含列:"+column.getName());
 			}
-			service.ddl().drop(index);
+			//如果删除自增长主键 会抛出异常： there can be only one auto column and it must be defined as a key
+			if(!item.isCluster()) {
+				System.out.println("删除索引:" + item.getName());
+				service.ddl().drop(item);
+			}
+
 		}
 
 		System.out.println("\n-------------------------------- end index  ----------------------------------------------\n");
