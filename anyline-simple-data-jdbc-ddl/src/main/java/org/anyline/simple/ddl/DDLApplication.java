@@ -36,7 +36,7 @@ public class DDLApplication {
 
 		check(null, "MySQL");
 		//check("pg", "PostgreSQL");
-		//check("ms", "SQL Server");
+		check("ms", "SQL Server");
 		//check("oracle", "Oracle 11G");
 		//check("db2", "DB2");
 
@@ -181,22 +181,31 @@ public class DDLApplication {
 		index.setUnique(true);
 		index.addColumn(new Column("CODE"));
 		index.addColumn(new Column("NAME").setOrder("DESC"));//倒序
-		service.ddl().add(index);
+		try {
+			service.ddl().add(index);
+		}catch (Exception e){
+			e.printStackTrace();
+		}
 
 		LinkedHashMap<String, Index> indexs = service.metadata().indexs("crm_user");
 		for(Index item:indexs.values()){
 			System.out.println("所引:"+item.getName());
+			System.out.println("是否主键:"+item.isPrimary());
 			System.out.println("是否物理所引:"+item.isCluster());
 			System.out.println("是否唯一:"+item.isUnique());
 			LinkedHashMap<String, Column> columns = item.getColumns();
 			for(Column column:columns.values()){
 				System.out.println("包含列:"+column.getName());
 			}
-			//如果删除自增长主键 会抛出异常： there can be only one auto column and it must be defined as a key
-			if(!item.isCluster()) {
-				System.out.println("删除索引:" + item.getName());
+			//如果删除自增长主键 有可能会抛出异常： there can be only one auto column and it must be defined as a key
+
+			System.out.println("删除索引:" + item.getName());
+			try {
 				service.ddl().drop(item);
+			}catch (Exception e){
+				e.printStackTrace();
 			}
+
 
 		}
 

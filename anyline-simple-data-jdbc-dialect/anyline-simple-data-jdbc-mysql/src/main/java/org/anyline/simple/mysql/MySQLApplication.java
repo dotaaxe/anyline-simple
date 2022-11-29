@@ -18,11 +18,5 @@ public class MySQLApplication {
         ConfigurableApplicationContext context = application.run(args);
         jdbc = context.getBean(JdbcTemplate.class);
         service = context.getBean(AnylineService.class);
-        test();
-    }
-
-    public static void test(){
-
-
     }
 }
