@@ -19,7 +19,7 @@ public class RabbitConfiguration {
      * 配置RabbitMq数据源
      */
     @Bean(name = "tpscConnectionFactory")
-    public CachingConnectionFactory twoConnectionFactory(@Value("${spring.rabbitmq.host}") String host,
+    public CachingConnectionFactory connectionFactory(@Value("${spring.rabbitmq.host}") String host,
                                                          @Value("${spring.rabbitmq.port}") int port,
                                                          @Value("${spring.rabbitmq.username}") String username,
                                                          @Value("${spring.rabbitmq.password}") String password,
@@ -38,7 +38,7 @@ public class RabbitConfiguration {
      * 配置RabbitMq连接
      */
     @Bean(name = "tpscRabbitTemplate")
-    public RabbitTemplate twoRabbitTemplate(@Qualifier("tpscConnectionFactory") CachingConnectionFactory connectionFactory) {
+    public RabbitTemplate rabbitTemplate(@Qualifier("tpscConnectionFactory") CachingConnectionFactory connectionFactory) {
         return new RabbitTemplate(connectionFactory);
     }
 
@@ -46,7 +46,7 @@ public class RabbitConfiguration {
      * 配置RabbitMq监听
      */
     @Bean(name = "tpscFactory")
-    public SimpleRabbitListenerContainerFactory twoFactory(SimpleRabbitListenerContainerFactoryConfigurer configurer,
+    public SimpleRabbitListenerContainerFactory factory(SimpleRabbitListenerContainerFactoryConfigurer configurer,
                                                            @Qualifier("tpscConnectionFactory") CachingConnectionFactory connectionFactory) {
         SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
         factory.setConcurrentConsumers(5); // 并发设置消费者监听数量
@@ -62,7 +62,7 @@ public class RabbitConfiguration {
      * RabbitAdmin：作为申明、删除交换机和队列，绑定和解绑队列和交换机的绑定关系使用。
      */
     @Bean(name = "tpscRabbitAdmin")
-    public RabbitAdmin twoRabbitAdmin(
+    public RabbitAdmin rabbitAdmin(
             @Qualifier("tpscConnectionFactory") CachingConnectionFactory connectionFactory) {
         RabbitAdmin rabbitAdmin = new RabbitAdmin(connectionFactory);
         rabbitAdmin.setAutoStartup(true);

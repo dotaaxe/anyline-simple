@@ -22,7 +22,7 @@ public class RabbitHandlerDM {
     int vol = 20;
     @RabbitHandler
     @RabbitListener(queues = "car", containerFactory = "tpscFactory", concurrency = "1")
-    public synchronized void taxi(Message message, Channel channel) {
+    public void car(Message message, Channel channel) {
         try {
             channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
             String json = new String(message.getBody());
