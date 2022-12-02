@@ -2,6 +2,7 @@ package org.anyline.simple.sql;
 
 import org.anyline.data.param.ConfigStore;
 import org.anyline.data.param.init.DefaultConfigStore;
+import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
 import org.anyline.service.AnylineService;
 import org.junit.jupiter.api.Test;
@@ -30,6 +31,7 @@ public class SQLTest {
 
 
 
+
         //::PARAM_CODE 与 ${PARAM_CODE} 效果一致但不能混用
         //不生成占位符,而是在原sql上replace
         //在一些比较复杂的情况,简单占位符胜任不了时 会用到
@@ -53,8 +55,20 @@ public class SQLTest {
         set = service.querys(sql);
         //生成SQL  SELECT * FROM CRM_USER WHERE CODE = NULL
 
+        sql = "UPDATE CRM_USER SET CODE = :CODE WHERE ID = :ID";
+        service.execute(sql,"CODE:C001", "ID:1");
+        //生成SQL  UPDATE  CRM_USER WHERE CODE = ? WHERE ID = ?
+
+        sql = "UPDATE CRM_USER SET CODE = :CODE WHERE ID = :ID";
+        service.execute(sql,"CODE:C001", "++ID:");
+        //如果ID没有提供参数值，则整个SQL不执行
+
         String value = "100";
-        //以上SQL 最好应该这样写
+        /********************************************************************
+         *
+         *                        以上SQL 最好应该这样写
+         *
+         **************************************************************/
         service.query("CRM_USER", "CODE:"+value);
         //生成SQL SELECT * FROM CRM_USER WHERE CODE = ?
 
@@ -80,6 +94,12 @@ public class SQLTest {
         //生成SQL SELECT * FROM CRM_USER WHERE CODE IS NULL
 
 
+        DataRow row = new DataRow();
+        row.put("NAME","中文名");
+        row.put("CODE", "C001");
+        row.setPrimaryKey("CODE");  //临时设置主键，执行update时根据设置的主键执行,否则按默认主键
+
+        service.save("CRM_USER", row);
 
     }
 }
