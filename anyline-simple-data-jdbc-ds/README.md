@@ -13,7 +13,7 @@ import org.anyboot.data.jdbc.ds.DynamicDataSourceRegister;
 @Import(DynamicDataSourceRegister.class)
 ```
 
-注意需要在配置文件在配置数据源或动态注册数据源才能切换成功  
+注意需要在配置文件中 配置数据源或动态注册数据源 才能切换成功  
 动态注册一个数据源
 ```
 import org.anyline.data.jdbc.ds.DataSourceHolder;
