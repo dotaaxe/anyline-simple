@@ -6,16 +6,10 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.anyline</groupId>
-        <artifactId>anyline-simple-start-mvc-mysql</artifactId>
+        <artifactId>anyline-simple-start-mysql</artifactId>
         <version>1.0-SNAPSHOT</version>
-        <relativePath>../anyline-simple-start-mvc-mysql</relativePath>
+        <relativePath>../anyline-simple-start-mysql</relativePath>
     </parent>
-    <!--<parent>
-        <groupId>org.anyboot</groupId>
-        <artifactId>anyboot-start</artifactId>
-        <version>8.6.1.2612-SNAPSHOT</version>
-        <relativePath></relativePath>
-    </parent>-->
     <artifactId>anyline-simple-rabbitmq</artifactId>
     <version>1.0</version>
     <packaging>jar</packaging>
@@ -28,17 +22,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-amqp</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.anyline</groupId>
-            <artifactId>anyline-data-jdbc-dm</artifactId>
-            <version>8.6.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.dameng</groupId>
-            <artifactId>DmJdbcDriver18</artifactId>
-            <version>8.1.2.79</version>
-        </dependency>
-
     </dependencies>
     <build>
         <plugins>
