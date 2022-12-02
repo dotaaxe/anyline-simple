@@ -55,6 +55,7 @@ public class DatasourceApplication extends SpringBootServletInitializer {
 		//查询表结构
 		Table user = service.metadata().table("sso_user");
 		//如果同一个数据源中可以操作多个数据库(要注意catalog、schema中不同的数据库中的区别)(mysql中catalog可以理解成数据库名)
+		//前一行没有指定catalog则取当前连接中的catalog(就是配置文件中设置的数据库名)
 		user = service.metadata().table("simple_sso",null,"sso_user");
 		LinkedHashMap<String, Column> columns = user.getColumns();
 		//直接查columns
