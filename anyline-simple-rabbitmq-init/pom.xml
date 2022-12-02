@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>org.anyline</groupId>
+        <artifactId>anyline-simple-start-mysql</artifactId>
+        <version>1.0-SNAPSHOT</version>
+        <relativePath>../anyline-simple-start-mysql</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>anyline-simple-rabbitmq-init</artifactId>
+    <description>
+        基于rabbitmq官方驱动的的hello world
+        springboot版本请看 anyline-simple-rabbitmq
+    </description>
+    <dependencies>
+        <dependency>
+            <groupId>com.rabbitmq</groupId>
+            <artifactId>amqp-client</artifactId>
+        </dependency>
+
+    </dependencies>
+</project>
