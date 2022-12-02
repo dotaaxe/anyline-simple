@@ -50,7 +50,12 @@
         <!--word excel操作 重点实现word excel中的表格操作以及html/css转word标签-->
         <module>anyline-simple-office-excel</module>
         <module>anyline-simple-office-word</module>
+
+        <!--基于springboot的rabbitmq-->
         <module>anyline-simple-rabbitmq</module>
+        <!--基于官方驱动的rabbitmq-->
+        <module>anyline-simple-rabbitmq-init</module>
+
         <module>anyline-simple-minio</module>
         <!--没有web环境-->
         <module>anyline-simple-noweb</module>
