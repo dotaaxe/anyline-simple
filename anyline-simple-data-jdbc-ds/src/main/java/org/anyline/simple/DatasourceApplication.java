@@ -1,6 +1,8 @@
 package org.anyline.simple;
 
 import org.anyboot.data.jdbc.ds.DynamicDataSourceRegister;
+import org.anyline.data.entity.Column;
+import org.anyline.data.entity.Table;
 import org.anyline.data.jdbc.ds.DataSourceHolder;
 import org.anyline.data.jdbc.ds.DynamicDataSource;
 import org.anyline.proxy.ServiceProxy;
@@ -13,6 +15,8 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
+
+import java.util.LinkedHashMap;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {"org.anyline","org.anyboot"})
@@ -45,13 +49,25 @@ public class DatasourceApplication extends SpringBootServletInitializer {
 
 	//切换数据源 以及动态注册数据源
 	public static void ds(AnylineService service){
-		//DataSourceHolder.setDataSource("sso1", true);
+		DataSourceHolder.setDataSource("sso");
 		service.query("sso_user");
-		DataSourceHolder.setDataSource("sso", true);
+
+		//查询表结构
+		Table user = service.metadata().table("sso_user");
+		//如果同一个数据源中可以操作多个数据库(要注意catalog、schema中不同的数据库中的区别)(mysql中catalog可以理解成数据库名)
+		user = service.metadata().table("simple_sso",null,"sso_user");
+		LinkedHashMap<String, Column> columns = user.getColumns();
+		//直接查columns
+		columns = service.metadata().columns("sso_user");
+		for(Column column:columns.values()){
+			System.out.println(column.getName());
+		}
+
 		ServiceProxy.execute("update sso_user set code = '123'");
 		//用<>表示数据源,执行完成后会自动切换回默认数据源
 		service.query("<crm>crm_customer");
 
+		DataSourceHolder.setDataSource("crm");
 		service.query("HR_DEPARTMENT"); //这里查的还是默认数据源
 
 		service.query("<erp>mm_material");
