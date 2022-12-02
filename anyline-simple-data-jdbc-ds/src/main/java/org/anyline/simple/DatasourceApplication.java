@@ -3,6 +3,7 @@ package org.anyline.simple;
 import org.anyboot.data.jdbc.ds.DynamicDataSourceRegister;
 import org.anyline.data.jdbc.ds.DataSourceHolder;
 import org.anyline.service.AnylineService;
+import org.anyline.util.SpringContextUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -42,6 +43,11 @@ public class DatasourceApplication extends SpringBootServletInitializer {
 
 	//切换数据源 以及动态注册数据源
 	public static void ds(AnylineService service){
+		DataSourceHolder.setDataSource("sso", true);
+		service.query("sso_user");
+		DataSourceHolder.setDataSource("sso", true);
+		service.execute("update sso_user set code = '123'");
+
 		//用<>表示数据源,执行完成后会自动切换回默认数据源
 		service.query("<crm>crm_customer");
 
