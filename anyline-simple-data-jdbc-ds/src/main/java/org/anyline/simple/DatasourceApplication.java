@@ -65,10 +65,12 @@ public class DatasourceApplication extends SpringBootServletInitializer {
 		}
 
 		ServiceProxy.execute("update sso_user set code = '123'");
-		//用<>表示数据源,执行完成后会自动切换回默认数据源
+
+		DataSourceHolder.setDefaultDataSource();
+
+		//用<>表示数据源,执行完成后会自动切换回 切换前的数据库(而不是默认数据源)
 		service.query("<crm>crm_customer");
 
-		DataSourceHolder.setDataSource("crm");
 		service.query("HR_DEPARTMENT"); //这里查的还是默认数据源
 
 		service.query("<erp>mm_material");
