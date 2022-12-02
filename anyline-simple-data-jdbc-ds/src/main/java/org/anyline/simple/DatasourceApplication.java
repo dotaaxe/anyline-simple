@@ -55,7 +55,7 @@ public class DatasourceApplication extends SpringBootServletInitializer {
 
 		service.query("<erp>mm_material");
 		try {
-			//动态注册一个数据源
+			//动态注册一个数据源(配置文件中配置过的将被这里覆盖)
 			//数据要设置更多参数 放到map里
 			String url = "jdbc:mysql://192.168.220.100:3306/simple_sso?useUnicode=true&characterEncoding=UTF8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true";
 			DataSourceHolder.reg("sso", "com.zaxxer.hikari.HikariDataSource", "com.mysql.cj.jdbc.Driver", url, "root", "root");
