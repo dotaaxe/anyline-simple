@@ -12,7 +12,7 @@
 
     <artifactId>anyline-simple-rabbitmq-init</artifactId>
     <description>
-        基于rabbitmq官方驱动的的hello world
+        基于rabbitmq官方驱动的hello world
         springboot版本请看 anyline-simple-rabbitmq
     </description>
     <dependencies>
