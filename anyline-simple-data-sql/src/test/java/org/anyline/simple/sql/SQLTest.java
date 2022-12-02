@@ -59,6 +59,7 @@ public class SQLTest {
         service.execute(sql,"CODE:C001", "ID:1");
         //生成SQL  UPDATE  CRM_USER WHERE CODE = ? WHERE ID = ?
 
+
         sql = "UPDATE CRM_USER SET CODE = :CODE WHERE ID = :ID";
         service.execute(sql,"CODE:C001", "++ID:");
         //如果ID没有提供参数值，则整个SQL不执行
