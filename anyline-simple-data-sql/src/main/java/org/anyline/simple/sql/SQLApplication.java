@@ -13,8 +13,7 @@ public class SQLApplication {
 
 	public static void main(String[] args) {
 		SpringApplication application = new SpringApplication(SQLApplication.class);
-		ConfigurableApplicationContext context = application.run(args);
-		System.exit(0);
+		application.run(args);
 	}
 
 }
