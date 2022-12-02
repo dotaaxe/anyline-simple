@@ -13,12 +13,12 @@ import org.springframework.context.annotation.Configuration;
 
 
 @Configuration
-public class RabbitConfiguration {
+public class RabbitConfig {
 
     /**
      * 配置RabbitMq数据源
      */
-    @Bean(name = "tpscConnectionFactory")
+    @Bean(name = "anylineConnectionFactory")
     public CachingConnectionFactory connectionFactory(@Value("${spring.rabbitmq.host}") String host,
                                                          @Value("${spring.rabbitmq.port}") int port,
                                                          @Value("${spring.rabbitmq.username}") String username,
@@ -37,17 +37,17 @@ public class RabbitConfiguration {
     /**
      * 配置RabbitMq连接
      */
-    @Bean(name = "tpscRabbitTemplate")
-    public RabbitTemplate rabbitTemplate(@Qualifier("tpscConnectionFactory") CachingConnectionFactory connectionFactory) {
+    @Bean(name = "anylineRabbitTemplate")
+    public RabbitTemplate rabbitTemplate(@Qualifier("anylineConnectionFactory") CachingConnectionFactory connectionFactory) {
         return new RabbitTemplate(connectionFactory);
     }
 
     /**
      * 配置RabbitMq监听
      */
-    @Bean(name = "tpscFactory")
+    @Bean(name = "anylineRabbitListenerContainerFactory")
     public SimpleRabbitListenerContainerFactory factory(SimpleRabbitListenerContainerFactoryConfigurer configurer,
-                                                           @Qualifier("tpscConnectionFactory") CachingConnectionFactory connectionFactory) {
+                                                           @Qualifier("anylineConnectionFactory") CachingConnectionFactory connectionFactory) {
         SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
         factory.setConcurrentConsumers(5); // 并发设置消费者监听数量
         factory.setMaxConcurrentConsumers(20); // 并发设置最大消费者监听数量
@@ -61,9 +61,9 @@ public class RabbitConfiguration {
      * 配置RabbitMq
      * RabbitAdmin：作为申明、删除交换机和队列，绑定和解绑队列和交换机的绑定关系使用。
      */
-    @Bean(name = "tpscRabbitAdmin")
+    @Bean(name = "RabbitAdmin")
     public RabbitAdmin rabbitAdmin(
-            @Qualifier("tpscConnectionFactory") CachingConnectionFactory connectionFactory) {
+            @Qualifier("anylineConnectionFactory") CachingConnectionFactory connectionFactory) {
         RabbitAdmin rabbitAdmin = new RabbitAdmin(connectionFactory);
         rabbitAdmin.setAutoStartup(true);
         return rabbitAdmin;
