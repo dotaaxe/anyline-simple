@@ -1,6 +1,8 @@
 package org.anyline.simple.mq;
 
+import com.rabbitmq.client.AMQP;
 import org.springframework.amqp.core.AcknowledgeMode;
+import org.springframework.amqp.core.ExchangeBuilder;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
@@ -14,7 +16,6 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitConfig {
-
     /**
      * 配置RabbitMq数据源
      */

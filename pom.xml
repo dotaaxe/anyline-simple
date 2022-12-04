@@ -138,6 +138,7 @@
         <!--java中自定义SQL-->
         <module>anyline-simple-data-sql</module>
         <module>anyline-simple-kafka</module>
+        <module>anyline-simple-rabbitmq-boot</module>
 
     </modules>
 </project>
