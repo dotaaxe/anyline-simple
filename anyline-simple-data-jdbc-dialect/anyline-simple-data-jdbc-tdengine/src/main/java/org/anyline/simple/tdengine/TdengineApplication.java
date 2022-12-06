@@ -291,6 +291,7 @@ public class TdengineApplication {
             log.warn(LogUtil.format("删除表",34));
             service.ddl().drop(table);
         }
+        //数据类型参考这里 https://docs.taosdata.com/taos-sql/data-type/
         log.warn(LogUtil.format("创建表,第一个字段必须是 TIMESTAMP，并且系统自动将其设为主键",34));
         table = new Table("a_test");
         //第一个字段必须是 TIMESTAMP，并且系统自动将其设为主键
