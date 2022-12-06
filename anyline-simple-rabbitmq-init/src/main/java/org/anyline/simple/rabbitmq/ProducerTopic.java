@@ -30,7 +30,6 @@ public class ProducerTopic {
             e.printStackTrace();
         }
     }
-    //发布订阅
     public void send() throws Exception{
         new Thread(new Runnable() {
             @Override
