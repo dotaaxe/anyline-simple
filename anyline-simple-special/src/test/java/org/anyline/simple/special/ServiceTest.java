@@ -5,6 +5,9 @@ import org.anyline.data.param.init.DefaultConfigStore;
 import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
 import org.anyline.service.AnylineService;
+import org.anyline.util.BeanUtil;
+import org.anyline.util.regular.Regular;
+import org.anyline.util.regular.RegularUtil;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.logging.Logger;
 import org.junit.platform.commons.logging.LoggerFactory;
@@ -12,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @SpringBootTest
 public class ServiceTest {
@@ -29,6 +34,15 @@ public class ServiceTest {
         store.addCondition("+CODE", new ArrayList<>());       // CODE IS NULL
         store.addCondition("+VAL", new String[]{});            // VAL IS NULL
         DataSet set = service.querys("bs_dict(ID,GROUP_CODE,CODE,NM,VAL)", store);
+
+        List<Integer> ids = new ArrayList<>();
+        ids.add(1);
+        ids.add(2);
+        ids.add(3);
+        //反例 这里不能这样直接拼上，因为list.toString返回的结果会有空格[1, 2, 3]
+        service.query("bs_dict","ID:"+ids);
+        service.query("bs_dict","ID:"+BeanUtil.list2string(ids));
+
     }
     @Test
     public void update(){
@@ -56,6 +70,32 @@ public class ServiceTest {
         row.put("ID","1");
         row.put("NM", "ZH");
         service.delete("HR_EMPLOYEE", row, "ID","NM");
+    }
+    @Test
+    public void set(){
+        DataSet set = new DataSet();
+        DataRow row = new DataRow();
+        row.put("ID",1);
+        row.put("NAME", "张三");
+        set.add(row);
+
+        //value可以是正则表达式,也可以是SQL通配符
+        DataSet result = set.select.like("NAME","张%");
+        System.out.println(result);
+        result = set.getRows("NAME:张%");
+        System.out.println(result);
+        result = set.getRows("NAME","张%");
+        System.out.println(result);
+    }
+    @Test
+    public void entity(){
+        DataRow row = new DataRow();
+        row.put("ID",1);
+        row.put("NAME", "张三");
+        row.put("joinTime", new Date());
+        row.put("localTime", new Date());
+        User user = row.entity(User.class);
+        System.out.println(BeanUtil.object2json(user));
     }
 
 }
