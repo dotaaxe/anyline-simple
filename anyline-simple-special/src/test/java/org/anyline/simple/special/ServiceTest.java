@@ -6,6 +6,7 @@ import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
 import org.anyline.service.AnylineService;
 import org.anyline.util.BeanUtil;
+import org.anyline.util.ConfigTable;
 import org.anyline.util.regular.Regular;
 import org.anyline.util.regular.RegularUtil;
 import org.junit.jupiter.api.Test;
@@ -14,6 +15,8 @@ import org.junit.platform.commons.logging.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -23,6 +26,26 @@ public class ServiceTest {
     private Logger log = LoggerFactory.getLogger(ServiceTest.class);
     @Autowired
     private AnylineService service;
+
+    @Test
+    public void json(){
+        ConfigTable.IS_AUTO_CHECK_METADATA = true;
+        DataRow user = service.query("CRM_USER");
+        System.out.println(user.toJSON());
+        user.clearUpdateColumns();
+        service.update(user);
+    }
+    @Test
+    public void blob(){
+        //BT 设置成blob类型
+        ConfigTable.IS_AUTO_CHECK_METADATA = true;
+        DataRow user = service.query("CRM_USER");
+        System.out.println(user.toJSON());
+        System.out.println("blob:"+new String((byte[])user.get("BT")));
+        user.put("BT","abc".getBytes());
+        user.clearUpdateColumns();
+        service.update(user);
+    }
 
     @Test
     public void query(){
@@ -86,16 +109,6 @@ public class ServiceTest {
         System.out.println(result);
         result = set.getRows("NAME","张%");
         System.out.println(result);
-    }
-    @Test
-    public void entity(){
-        DataRow row = new DataRow();
-        row.put("ID",1);
-        row.put("NAME", "张三");
-        row.put("joinTime", new Date());
-        row.put("localTime", new Date());
-        User user = row.entity(User.class);
-        System.out.println(BeanUtil.object2json(user));
     }
 
 }
