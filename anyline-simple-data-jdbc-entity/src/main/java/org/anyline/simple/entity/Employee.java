@@ -3,6 +3,8 @@ package org.anyline.simple.entity;
 import javax.persistence.Column;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import java.util.List;
+
 @Table(name="hr_employee")
 public class Employee extends BaseEntity{
     private Long id;
@@ -10,9 +12,41 @@ public class Employee extends BaseEntity{
     private String name;
     @Transient
     private int age;
+    //对应数据库blob类型
+    private byte[] remark;
+    //对应数据库blob类型
+    private String des;
+
+    private Department department;
 
     //@Column(name = "JOIN_YMD")
     private String joinYmd;
+    private List<Department> departments;
+
+    public List<Department> getDepartments() {
+        return departments;
+    }
+
+    public void setDepartments(List<Department> departments) {
+        this.departments = departments;
+    }
+
+    public String getDes() {
+        return des;
+    }
+
+    public void setDes(String des) {
+        this.des = des;
+    }
+
+    public byte[] getRemark() {
+        return remark;
+    }
+
+    public void setRemark(byte[] remark) {
+        this.remark = remark;
+    }
+
 
     public Long getId() {
         return id;
@@ -45,4 +79,13 @@ public class Employee extends BaseEntity{
     public void setJoinYmd(String joinYmd) {
         this.joinYmd = joinYmd;
     }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+
 }

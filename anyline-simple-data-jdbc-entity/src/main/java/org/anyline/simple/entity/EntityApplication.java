@@ -10,12 +10,16 @@ import org.anyline.entity.PageNavi;
 import org.anyline.entity.DefaultPageNavi;
 import org.anyline.proxy.ServiceProxy;
 import org.anyline.service.AnylineService;
+import org.anyline.util.Base64Util;
 import org.anyline.util.BeanUtil;
+import org.anyline.util.ConfigTable;
 import org.anyline.util.DateUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
+
+import java.util.regex.Pattern;
 
 @ComponentScan(basePackages = {"org.anyline","org.anyboot"})
 @SpringBootApplication
@@ -30,14 +34,44 @@ public class EntityApplication {
     public static ConfigStore condition(boolean navi, String ... conditions){
         return new DefaultConfigStore();
     }
-    public static void main(String[] args) {
+    private static boolean isBase64(String str) {
+        String base64Pattern = "^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)$";
+        return Pattern.matches(base64Pattern, str);
+    }
+    public static void main(String[] args) throws Exception{
+        ConfigTable.IS_AUTO_CHECK_METADATA = true;
         SpringApplication application = new SpringApplication(EntityApplication.class);
-        ConfigurableApplicationContext context = application.run(args);
-        service = (AnylineService)context.getBean("anyline.service");
-        run();
+       ConfigurableApplicationContext context = application.run(args);
+       service = (AnylineService)context.getBean("anyline.service");
+        init();
+      /*  run();
         xml();
-        sql();
+        sql();*/
         System.exit(0);
+    }
+
+    public static void init() throws Exception{
+        Employee employee = ServiceProxy.select(Employee.class);
+        System.out.println(BeanUtil.object2json(employee));
+        Department dept = new Department();
+        dept.setCode("A1");
+        dept.setName("财务部");
+        employee.setName("张三");
+        employee.setDepartment(dept);
+
+        //数据库>blob entity>byte[]
+        employee.setRemark("abcd".getBytes());
+
+        //数据库>blob entity>String
+        //如果要把String保存到blob列,需要把String转成base64
+        //因为从数据库中读取出来后是经过了base64(str)后赋值给了属性
+        //再保存回去时如果不经过base64会造成 sql执行时不确定当前值是否是base64格式,(如果是base64需要执行decode,如果是String原文需要执行str.getBytes())
+        //如 "abcd" 符合base64格式 这时无法判断如何处理
+        employee.setDes(Base64Util.encode("abcd"));
+        service.save(employee);
+        employee = ServiceProxy.select(Employee.class);
+        System.out.println(BeanUtil.object2json(employee));
+
     }
     //更多XML定义SQL参考  anyline-simple-data-xml
     public static void xml(){
