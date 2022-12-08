@@ -4,16 +4,10 @@ package org.anyline.simple.entity;
 import com.sun.xml.internal.bind.v2.TODO;
 import org.anyline.data.param.ConfigStore;
 import org.anyline.data.param.init.DefaultConfigStore;
-import org.anyline.entity.DataSet;
-import org.anyline.entity.EntitySet;
-import org.anyline.entity.PageNavi;
-import org.anyline.entity.DefaultPageNavi;
+import org.anyline.entity.*;
 import org.anyline.proxy.ServiceProxy;
 import org.anyline.service.AnylineService;
-import org.anyline.util.Base64Util;
-import org.anyline.util.BeanUtil;
-import org.anyline.util.ConfigTable;
-import org.anyline.util.DateUtil;
+import org.anyline.util.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -67,11 +61,33 @@ public class EntityApplication {
         //因为从数据库中读取出来后是经过了base64(str)后赋值给了属性
         //再保存回去时如果不经过base64会造成 sql执行时不确定当前值是否是base64格式,(如果是base64需要执行decode,如果是String原文需要执行str.getBytes())
         //如 "abcd" 符合base64格式 这时无法判断如何处理
+        //如果确定不规格base64格式的可以直接用原文,sql执行前会先执行base64
+
+        //这样会造成歧义
+        employee.setDes("abcd");
+
+        //应该这样
         employee.setDes(Base64Util.encode("abcd"));
+
+
+        //如果确定不规格base64格式的可以直接用原文,sql执行前会先执行base64
+        employee.setDes(Base64Util.encode("abcd中文123"));
+
         service.save(employee);
         employee = ServiceProxy.select(Employee.class);
+        //这时查出来的des是经过base64后的内容如果要显示原文需要经过base解码
         System.out.println(BeanUtil.object2json(employee));
+        System.out.println(new String(Base64Util.decode(employee.getDes())));
+        DataRow e = service.query("HR_EMPLOYEE");
+        System.out.println(e.toJSON());
 
+        //因为DataRow中没有类型限制所以 按原样(byte[])取出
+        System.out.println(new String(e.getBytes("des")));
+
+
+        //为什么不直接把str.getBytes()保存到blob
+        //因为这样的话 在显示时 需要new String(byte[])来还原 原文
+        //但有些情况下blob中可能不是String而是image,这时一般需要显示base64(image)
     }
     //更多XML定义SQL参考  anyline-simple-data-xml
     public static void xml(){
