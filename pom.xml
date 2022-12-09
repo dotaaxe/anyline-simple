@@ -139,6 +139,7 @@
         <module>anyline-simple-data-sql</module>
         <module>anyline-simple-kafka</module>
         <module>anyline-simple-rabbitmq-boot</module>
+        <module>anyline-simple-redis</module>
 
     </modules>
 </project>
