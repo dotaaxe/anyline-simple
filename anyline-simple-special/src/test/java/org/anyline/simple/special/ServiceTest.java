@@ -27,6 +27,38 @@ public class ServiceTest {
     @Autowired
     private AnylineService service;
 
+
+    @Test
+    public void override(){
+        //DataSet DataRow规则一样
+        DataRow row = service.query("CRM_USER");
+
+        //默认情况下 有主键值则update 没主键则insert
+        service.save(row);
+
+        //如果数据已存存则覆盖
+        row.setOverride(true);
+        service.save(row);
+
+        //如果数据已存存则跳过
+        row.setOverride(false);
+        service.save(row);
+
+        //复合主键规则一样
+        row.setPrimaryKey("CODE","NAME");
+
+        //默认情况下 有主键值则update 没主键则insert
+        row.setOverride(null);
+        service.save(row);
+
+        //如果数据已存存则覆盖
+        row.setOverride(true);
+        service.save(row);
+
+        //如果数据已存存则跳过
+        row.setOverride(false);
+        service.save(row);
+    }
     @Test
     public void json(){
         ConfigTable.IS_AUTO_CHECK_METADATA = true;
