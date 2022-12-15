@@ -16,6 +16,8 @@ public class Employee extends BaseEntity{
     private byte[] remark;
     //对应数据库blob类型
     private String des;
+    //对应数据库中的json类型
+    private String sdepartment;
 
     private Department department;
 
@@ -47,6 +49,13 @@ public class Employee extends BaseEntity{
         this.remark = remark;
     }
 
+    public String getSdepartment() {
+        return sdepartment;
+    }
+
+    public void setSdepartment(String sdepartment) {
+        this.sdepartment = sdepartment;
+    }
 
     public Long getId() {
         return id;

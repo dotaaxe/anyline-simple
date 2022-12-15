@@ -28,40 +28,64 @@ public class EntityApplication {
     public static ConfigStore condition(boolean navi, String ... conditions){
         return new DefaultConfigStore();
     }
-    private static boolean isBase64(String str) {
-        String base64Pattern = "^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)$";
-        return Pattern.matches(base64Pattern, str);
-    }
+
+
     public static void main(String[] args) throws Exception{
         ConfigTable.IS_AUTO_CHECK_METADATA = true;
         SpringApplication application = new SpringApplication(EntityApplication.class);
        ConfigurableApplicationContext context = application.run(args);
        service = (AnylineService)context.getBean("anyline.service");
-        init();
+
+        //blob();
+        json();
       /*  run();
         xml();
         sql();*/
         System.exit(0);
     }
-
-    public static void init() throws Exception{
+    public static void json(){
         Employee employee = ServiceProxy.select(Employee.class);
+        //employee的department属性是Department类型
+        //这里会输出{"id":1,"name":"张三","department":{"code":"A1","name":"财务部"}, "departments":[{"code":"A1","name":"财务部"}]}
         System.out.println(BeanUtil.object2json(employee));
+        employee.setSdepartment("{\"code\":\"A1\",\"name\":\"财务部\"}");
+        ServiceProxy.save(employee);
+
+
         Department dept = new Department();
         dept.setCode("A1");
         dept.setName("财务部");
         employee.setName("张三");
+        //属性是entity类型的 数据是json类型
         employee.setDepartment(dept);
+        //这里会执行SQL UPDATE hr_employee SET department ={"code":"A1","name":"财务部"}(java.lang.String)
+        ServiceProxy.save(employee);
+
+        //DataRow 与Entity效果类似
+        DataRow emp = ServiceProxy.query("hr_employee");
+        System.out.println(emp.toJSON());
+
+        DataSet emps = ServiceProxy.querys("hr_employee");
+        System.out.println(emps.toJSON());
+
+        emp.put("department", dept);
+        //也可以通过String类型的json赋值
+        emp.put("department", BeanUtil.object2json(dept));
+        System.out.println(emp.toJSON());
+        service.save(emp);
+    }
+    public static void blob()throws Exception{
+        Employee employee = ServiceProxy.select(Employee.class);
 
         //数据库>blob entity>byte[]
         employee.setRemark("abcd".getBytes());
 
-        //数据库>blob entity>String
-        //如果要把String保存到blob列,需要把String转成base64
-        //因为从数据库中读取出来后是经过了base64(str)后赋值给了属性
+        //数据库>blob ,  entity>String
+        //如果要把String保存到blob列,需要把String执行base64编码
+        //因为从数据库中读取出来的blob需要经过base64(str)后赋值给了属性
         //再保存回去时如果不经过base64会造成 sql执行时不确定当前值是否是base64格式,(如果是base64需要执行decode,如果是String原文需要执行str.getBytes())
         //如 "abcd" 符合base64格式 这时无法判断如何处理
-        //如果确定不规格base64格式的可以直接用原文,sql执行前会先执行base64
+        //如果确定值是不符合base64格式的可以直接用原文,sql执行前会先执行base64
 
         //这样会造成歧义
         employee.setDes("abcd");
@@ -89,6 +113,8 @@ public class EntityApplication {
         //因为这样的话 在显示时 需要new String(byte[])来还原 原文
         //但有些情况下blob中可能不是String而是image,这时一般需要显示base64(image)
     }
+
+
     //更多XML定义SQL参考  anyline-simple-data-xml
     public static void xml(){
         String sql = "crm.user:USER_LIST";
