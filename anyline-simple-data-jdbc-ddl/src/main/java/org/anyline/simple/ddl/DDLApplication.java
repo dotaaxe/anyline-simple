@@ -34,9 +34,9 @@ public class DDLApplication {
 
 		service = context.getBean(AnylineService.class);
 
-		check(null, "MySQL");
-		//check("pg", "PostgreSQL");
-		check("ms", "SQL Server");
+		//check(null, "MySQL");
+		check("pg", "PostgreSQL");
+		//check("ms", "SQL Server");
 		//check("oracle", "Oracle 11G");
 		//check("db2", "DB2");
 
@@ -46,10 +46,10 @@ public class DDLApplication {
 		if(null != ds) {
 			DataSourceHolder.setDataSource(ds);
 		}
-		//table();
-		//column();
+		table();
+		column();
 		index();
-		//exception();
+		exception();
 		System.out.println("\n=============================== END " + title + "=========================================\n");
 	}
 	public static void table() throws Exception{
@@ -83,6 +83,7 @@ public class DDLApplication {
 
 		table.addColumn("NAME","varchar(50)");
 		table.addColumn("A_CHAR","varchar(50)");
+		service.ddl().save(table);
 		service.ddl().save(table);
 		System.out.println("\n-------------------------------- end table  ----------------------------------------------\n");
 	}
