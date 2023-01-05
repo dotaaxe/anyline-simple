@@ -88,11 +88,11 @@ public class NetApplication extends SpringBootServletInitializer {
 				.setUrl(url)
 				.setHeaders(headers)
 				.setParams(params)
-				.setEncode("UTF-8")
+				.setCharset("UTF-8")
 				.build().post();
 
 		//包括文件上传下载
-		Map<String,File> files = new HashMap<>();
+		Map<String, Object> files = new HashMap<>();
 		files.put("idcard", new File(""));
 		HttpBuilder.init()
 				.setUrl(url)
@@ -157,7 +157,7 @@ public class NetApplication extends SpringBootServletInitializer {
 	//文件上传
 	public static void upload(){
 		String url = "";
-		Map<String,File> files = new HashMap<>();
+		Map<String, Object> files = new HashMap<>();
 		files.put("idcard", new File(""));
 		HttpUtil.upload(url, files);
 	}
