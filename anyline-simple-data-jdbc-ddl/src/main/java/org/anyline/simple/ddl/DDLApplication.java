@@ -79,11 +79,13 @@ public class DDLApplication {
 		log.warn("创建表");
 		table = new Table();
 		table.setName("A_TEST");
+		table.setComment("表备注");
 		table.addColumn("ID", "int").setAutoIncrement(true).setComment("主键说明");
 
-		table.addColumn("NAME","varchar(50)");
+		table.addColumn("NAME","varchar(50)").setComment("名称");
 		table.addColumn("A_CHAR","varchar(50)");
 		service.ddl().save(table);
+		table.getColumn("NAME").setComment("新备注名称");
 		service.ddl().save(table);
 		System.out.println("\n-------------------------------- end table  ----------------------------------------------\n");
 	}

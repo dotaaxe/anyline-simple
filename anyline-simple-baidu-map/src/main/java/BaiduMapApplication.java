@@ -1,16 +1,17 @@
+import org.anyline.baidu.map.util.BaiduMapClient;
 import org.anyline.baidu.map.util.BaiduMapConfig;
-import org.anyline.baidu.map.util.BaiduMapUtil;
 import org.anyline.entity.Coordinate;
 import org.anyline.util.BeanUtil;
+import org.anyline.util.GISUtil;
 
 
 public class BaiduMapApplication {
 
 	public static void main(String[] args) {
 		//在这申请 https://lbsyun.baidu.com/apiconsole/key#/home
-		BaiduMapConfig.register("YuFLj**************0PnOzEhBAKh","gKq8Ol3UM********YW7KNXXfdC");
-		BaiduMapUtil util =   BaiduMapUtil.getInstance();
-		Coordinate point = util.regeo("120.3801102573153","36.204793643413055");
+		BaiduMapConfig.register("4KKFwk**j0SB8HXNlGVhH","RVNp**7sB1U");
+		BaiduMapClient util = BaiduMapClient.getInstance();
+		Coordinate point = util.regeo("113.134651","36.195654");
 		System.out.println(BeanUtil.object2json(point));
 	}
 
