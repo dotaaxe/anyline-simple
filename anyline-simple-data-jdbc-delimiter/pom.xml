@@ -8,15 +8,9 @@
     <parent>
         <groupId>org.anyline</groupId>
         <artifactId>anyline-simple-start-mysql</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>8.6.2-SNAPSHOT</version>
         <relativePath>../anyline-simple-start-mysql</relativePath>
     </parent>
 
     <artifactId>anyline-simple-data-jdbc-delimiter</artifactId>
-    <dependencies>
-        <dependency>
-            <groupId>org.anyboot</groupId>
-            <artifactId>anyboot-data-jdbc</artifactId>
-        </dependency>
-    </dependencies>
 </project>

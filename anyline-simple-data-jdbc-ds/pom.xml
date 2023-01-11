@@ -6,21 +6,10 @@
     <parent>
         <groupId>org.anyline</groupId>
         <artifactId>anyline-simple-start-mvc-mysql</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>8.6.2-SNAPSHOT</version>
         <relativePath>../anyline-simple-start-mvc-mysql</relativePath>
     </parent>
     <artifactId>anyline-simple-data-jdbc-ds</artifactId>
     <packaging>jar</packaging>
     <description>多数据源操作</description>
-    <dependencies>
-        <dependency>
-            <groupId>org.anyboot</groupId>
-            <artifactId>anyboot-data-jdbc</artifactId>
-        </dependency>
-        <!--<dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-starter</artifactId>
-            <version>1.1.20</version>
-        </dependency>-->
-    </dependencies>
 </project>

@@ -13,7 +13,7 @@
 
     <groupId>org.anyline</groupId>
     <artifactId>anyline-simple-dependency</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>8.6.2-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>
@@ -37,18 +37,6 @@
                 <version>${anyline.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.anyboot</groupId>
-                <artifactId>anyboot-data-jdbc</artifactId>
-                <version>${anyboot.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.anyboot</groupId>
-                <artifactId>anyboot-mvc</artifactId>
-                <version>${anyboot.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

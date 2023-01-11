@@ -1,6 +1,6 @@
 package org.anyline.simple.controller;
 
-import org.anyboot.mvc.controller.impl.TemplateController;
+import org.anyline.controller.impl.TemplateController;
 import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
 import org.anyline.data.jdbc.ds.DataSourceHolder;

@@ -6,7 +6,7 @@
     <parent>
         <artifactId>anyline-simple-data-jdbc-dialect</artifactId>
         <groupId>org.anyline</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>8.6.2-SNAPSHOT</version>
     </parent>
 
     <artifactId>anyline-simple-data-jdbc-sqlite</artifactId>
