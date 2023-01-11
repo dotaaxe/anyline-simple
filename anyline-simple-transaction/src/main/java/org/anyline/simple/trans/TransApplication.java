@@ -11,7 +11,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 //@EnableTransactionManagement
 @SpringBootApplication
-@ComponentScan(basePackages = {"org.anyline","org.anyboot"})
+@ComponentScan(basePackages = {"org.anyline"})
 public class TransApplication {
 
     public static void main(String[] args) {

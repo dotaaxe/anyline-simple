@@ -9,7 +9,7 @@
 
 注意需要在启动类上添加注解
 ```
-import org.anyboot.data.jdbc.ds.DynamicDataSourceRegister;
+
 @Import(DynamicDataSourceRegister.class)
 ```
 

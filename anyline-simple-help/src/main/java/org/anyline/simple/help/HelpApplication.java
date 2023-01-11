@@ -1,6 +1,6 @@
 package org.anyline.simple.help;
 
-import org.anyboot.data.jdbc.ds.DynamicDataSourceRegister;
+import org.anyline.data.jdbc.ds.DynamicDataSourceRegister;
 import org.anyline.entity.DataRow;
 import org.anyline.data.jdbc.ds.DataSourceHolder;
 import org.anyline.data.entity.Column;
@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"org.anyline","org.anyboot"})
+@ComponentScan(basePackages = {"org.anyline"})
 @Import(DynamicDataSourceRegister.class)
 public class HelpApplication {
 

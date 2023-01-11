@@ -1,11 +1,11 @@
 package org.anyline.simple.metadata;
 
-import org.anyboot.data.jdbc.ds.DynamicDataSourceRegister;
-import org.anyline.entity.DataRow;
-import org.anyline.data.jdbc.ds.DataSourceHolder;
 import org.anyline.data.entity.Column;
 import org.anyline.data.entity.Index;
 import org.anyline.data.entity.Table;
+import org.anyline.data.jdbc.ds.DataSourceHolder;
+import org.anyline.data.jdbc.ds.DynamicDataSourceRegister;
+import org.anyline.entity.DataRow;
 import org.anyline.service.AnylineService;
 import org.anyline.util.ConfigTable;
 import org.slf4j.Logger;
@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"org.anyline","org.anyboot"})
+@ComponentScan(basePackages = {"org.anyline"})
 @Import(DynamicDataSourceRegister.class)
 public class MetadataApplication extends SpringBootServletInitializer {
 	private static Logger log = LoggerFactory.getLogger(MetadataApplication.class);

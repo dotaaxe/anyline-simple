@@ -1,12 +1,10 @@
 package org.anyline.simple;
 
-import org.anyboot.data.jdbc.ds.DynamicDataSourceRegister;
+
+import org.anyline.data.jdbc.ds.DynamicDataSourceRegister;
 import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
-import org.anyline.entity.html.Table;
-import org.anyline.entity.html.TableBuilder;
 import org.anyline.service.AnylineService;
-import org.anyline.util.BeanUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -17,12 +15,11 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"org.anyline","org.anyboot"})
+@ComponentScan(basePackages = {"org.anyline"})
 @Import(DynamicDataSourceRegister.class)
 public class ResultApplication extends SpringBootServletInitializer {
 	private static Logger log = LoggerFactory.getLogger(ResultApplication.class);

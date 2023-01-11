@@ -1,11 +1,11 @@
 package org.anyline.simple.ddl;
 
-import org.anyboot.data.jdbc.ds.DynamicDataSourceRegister;
-import org.anyline.data.entity.Index;
-import org.anyline.entity.DataRow;
-import org.anyline.data.jdbc.ds.DataSourceHolder;
 import org.anyline.data.entity.Column;
+import org.anyline.data.entity.Index;
 import org.anyline.data.entity.Table;
+import org.anyline.data.jdbc.ds.DataSourceHolder;
+import org.anyline.data.jdbc.ds.DynamicDataSourceRegister;
+import org.anyline.entity.DataRow;
 import org.anyline.service.AnylineService;
 import org.anyline.util.BasicUtil;
 import org.anyline.util.DateUtil;
@@ -20,7 +20,7 @@ import org.springframework.context.annotation.Import;
 import java.util.LinkedHashMap;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"org.anyline","org.anyboot"})
+@ComponentScan(basePackages = {"org.anyline"})
 @Import(DynamicDataSourceRegister.class)
 public class DDLApplication {
 

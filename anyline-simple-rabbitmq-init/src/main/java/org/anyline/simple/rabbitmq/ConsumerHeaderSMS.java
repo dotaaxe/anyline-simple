@@ -1,7 +1,6 @@
 package org.anyline.simple.rabbitmq;
 
 import com.rabbitmq.client.*;
-import jdk.internal.org.objectweb.asm.Handle;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -9,7 +8,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.anyline.simple.rabbitmq.Constant.QUEUE_HEADER_SMS;
-import static org.anyline.simple.rabbitmq.Constant.QUEUE_ROUTING_SMS;
 
 @Component
 public class ConsumerHeaderSMS {

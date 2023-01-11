@@ -1,7 +1,8 @@
 package org.anyline.simple.dml;
 
-import org.anyboot.data.jdbc.ds.DynamicDataSourceRegister;
+
 import org.anyline.data.jdbc.ds.DataSourceHolder;
+import org.anyline.data.jdbc.ds.DynamicDataSourceRegister;
 import org.anyline.entity.DataSet;
 import org.anyline.service.AnylineService;
 import org.slf4j.Logger;
@@ -13,7 +14,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"org.anyline","org.anyboot"})
+@ComponentScan(basePackages = {"org.anyline"})
 @Import(DynamicDataSourceRegister.class)
 public class DMLApplication {
 

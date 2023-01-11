@@ -1,7 +1,6 @@
 package org.anyline.simple.entity;
 
 
-import com.sun.xml.internal.bind.v2.TODO;
 import org.anyline.data.param.ConfigStore;
 import org.anyline.data.param.init.DefaultConfigStore;
 import org.anyline.entity.*;
@@ -13,9 +12,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 
-import java.util.regex.Pattern;
 
-@ComponentScan(basePackages = {"org.anyline","org.anyboot"})
+@ComponentScan(basePackages = {"org.anyline"})
 @SpringBootApplication
 public class EntityApplication {
     private static AnylineService service;

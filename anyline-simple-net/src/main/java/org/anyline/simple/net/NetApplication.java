@@ -14,7 +14,7 @@ import java.util.Map;
 
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"org.anyline","org.anyboot"})
+@ComponentScan(basePackages = {"org.anyline"})
 public class NetApplication extends SpringBootServletInitializer {
 	private static Logger log = LoggerFactory.getLogger(NetApplication.class);
 	@Override
