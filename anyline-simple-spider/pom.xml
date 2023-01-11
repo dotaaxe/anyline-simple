@@ -22,7 +22,7 @@
         </dependency>
         <dependency>
             <groupId>org.anyline</groupId>
-            <artifactId>anyline-baidu-site</artifactId>
+            <artifactId>anyline-baidu-seo</artifactId>
         </dependency>
 
         <dependency>

@@ -21,7 +21,7 @@
         <dependency>
             <groupId>org.anyline</groupId>
             <artifactId>anyline-data-jdbc-kingbase-postgresql</artifactId>
-            <version>8.6.1-SNAPSHOT</version>
+            <version>8.6.2-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.kingbase</groupId>
