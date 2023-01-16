@@ -184,27 +184,27 @@ public class OracleTest {
         in.add(2);
         in.add(3);
         ConfigStore condition = new DefaultConfigStore();
-        condition.addConditions("ID", in);
+        condition.ands("ID", in);
 
         //not in
-        condition.addCondition(Compare.NOT_IN, "NAME", "N1");
+        condition.and(Compare.NOT_IN, "NAME", "N1");
         List<Integer> notin = new ArrayList<>();
         notin.add(10);
         notin.add(20);
         notin.add(30);
-        condition.addCondition(Compare.NOT_IN, "ID", notin);
+        condition.and(Compare.NOT_IN, "ID", notin);
 
         //between
         List<Integer> between = new ArrayList<>();
         between.add(1);
         between.add(10);
-        condition.addCondition(Compare.BETWEEN, "ID", between);
+        condition.and(Compare.BETWEEN, "ID", between);
 
         // >=
-        condition.addCondition(Compare.GREAT_EQUAL, "ID", "1");
+        condition.and(Compare.GREAT_EQUAL, "ID", "1");
 
         //前缀
-        condition.addCondition(Compare.LIKE_PREFIX, "NAME", "N");
+        condition.and(Compare.LIKE_PREFIX, "NAME", "N");
 
         set = service.querys("CRM_USER", condition);
         log.warn(LogUtil.format("[后台构建查询条件][result:{}]", 36), set.toJSON());
@@ -232,10 +232,10 @@ public class OracleTest {
 
         //根据条件更新
         ConfigStore store = new DefaultConfigStore();
-        store.addCondition(Compare.GREAT, "ID", "1")
-                .addConditions("CODE","1","2","3")
-                .addCondition(" CODE > 1")
-                .addCondition("NAME IS NOT NULL");
+        store.and(Compare.GREAT, "ID", "1")
+                .ands("CODE","1","2","3")
+                .and(" CODE > 1")
+                .and("NAME IS NOT NULL");
         qty = service.update(row, store);
         log.warn(LogUtil.format("[根据条件更新][count:{}]", 36), qty);
 

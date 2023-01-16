@@ -41,7 +41,7 @@
             static="true"的条件 默认激活，除非有test属性
             test中ognl表达式赋值
                 condition("TST.QTY:qty")
-                addCondition("TST","QTY", "11")
+                and("TST","QTY", "11")
          -->
         <condition id="TST" static="true" test="QTY>1">ID&gt;1000</condition>
         <!-- ref对应conditions.id -->

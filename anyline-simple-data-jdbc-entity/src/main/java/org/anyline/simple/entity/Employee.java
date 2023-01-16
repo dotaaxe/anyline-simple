@@ -15,30 +15,30 @@ public class Employee extends BaseEntity{
     //对应数据库blob类型
     private byte[] remark;
     //对应数据库blob类型
-    private String des;
+    private String dblob;
     //对应数据库中的json类型
-    private String sdepartment;
+    private String djson;
 
-    private Department department;
+    private Department ejson;
 
     //@Column(name = "JOIN_YMD")
     private String joinYmd;
-    private List<Department> departments;
+    private List<Department> ejsons;
 
-    public List<Department> getDepartments() {
-        return departments;
+    public List<Department> getEjsons() {
+        return ejsons;
     }
 
-    public void setDepartments(List<Department> departments) {
-        this.departments = departments;
+    public void setEjsons(List<Department> ejsons) {
+        this.ejsons = ejsons;
     }
 
-    public String getDes() {
-        return des;
+    public String getDblob() {
+        return dblob;
     }
 
-    public void setDes(String des) {
-        this.des = des;
+    public void setDblob(String dblob) {
+        this.dblob = dblob;
     }
 
     public byte[] getRemark() {
@@ -49,12 +49,12 @@ public class Employee extends BaseEntity{
         this.remark = remark;
     }
 
-    public String getSdepartment() {
-        return sdepartment;
+    public String getDjson() {
+        return djson;
     }
 
-    public void setSdepartment(String sdepartment) {
-        this.sdepartment = sdepartment;
+    public void setDjson(String djson) {
+        this.djson = djson;
     }
 
     public Long getId() {
@@ -89,12 +89,11 @@ public class Employee extends BaseEntity{
         this.joinYmd = joinYmd;
     }
 
-    public Department getDepartment() {
-        return department;
+    public Department getEjson() {
+        return ejson;
     }
 
-    public void setDepartment(Department department) {
-        this.department = department;
+    public void setEjson(Department ejson) {
+        this.ejson = ejson;
     }
-
 }

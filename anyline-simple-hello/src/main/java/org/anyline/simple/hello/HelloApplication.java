@@ -39,7 +39,7 @@ public class HelloApplication {
         service.querys("bs_dict(ID,GROUP_CODE,CODE,NM,VAL)", navi, "NM IS NOT NULL");
         //实际开发中经常这样写分页, true:表示需要分页,其他参数通过http参数自动抽取
         // service.querys("bs_dict", condition(true), "NM IS NOT NULL");
-        service.querys("bs_dict", new ConfigStoreImpl().addConditions("ID",1,2,3));
+        service.querys("bs_dict", new ConfigStoreImpl().ands("ID",1,2,3));
         System.out.println(set);
 
         DataRow row = new DataRow();

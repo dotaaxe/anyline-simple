@@ -83,11 +83,11 @@ public class ServiceTest {
     public void query(){
         //关于几个 空值 的查询条件
         ConfigStore store = new DefaultConfigStore();
-        store.addCondition("+ID", null);                // ID IS NULL
-        store.addCondition("+REMARK", "");              // REMARK = ''
-        store.addCondition("+IDX", "".split(","));      // IDX = ''
-        store.addCondition("+CODE", new ArrayList<>());       // CODE IS NULL
-        store.addCondition("+VAL", new String[]{});            // VAL IS NULL
+        store.and("+ID", null);                // ID IS NULL
+        store.and("+REMARK", "");              // REMARK = ''
+        store.and("+IDX", "".split(","));      // IDX = ''
+        store.and("+CODE", new ArrayList<>());       // CODE IS NULL
+        store.and("+VAL", new String[]{});            // VAL IS NULL
         DataSet set = service.querys("bs_dict(ID,GROUP_CODE,CODE,NM,VAL)", store);
 
         List<Integer> ids = new ArrayList<>();
