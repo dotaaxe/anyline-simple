@@ -7,7 +7,7 @@
         <artifactId>anyline-simple-start-mysql</artifactId>
         <groupId>org.anyline</groupId>
         <version>8.6.2-SNAPSHOT</version>
-        <relativePath>../anyline-simple-start-mysql</relativePath>
+        <relativePath>../anyline-simple-start-mysql/pom.xml</relativePath>
     </parent>
 
     <artifactId>anyline-simple-start-mvc-mysql</artifactId>

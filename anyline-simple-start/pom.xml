@@ -8,7 +8,7 @@
         <groupId>org.anyline</groupId>
         <artifactId>anyline-simple-dependency</artifactId>
         <version>8.6.2-SNAPSHOT</version>
-        <relativePath>../anyline-simple-dependency</relativePath>
+        <relativePath>../anyline-simple-dependency/pom.xml</relativePath>
     </parent>
     <artifactId>anyline-simple-start</artifactId>
     <packaging>pom</packaging>
