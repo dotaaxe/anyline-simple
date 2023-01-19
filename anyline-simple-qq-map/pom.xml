@@ -8,13 +8,13 @@
     <parent>
         <groupId>org.anyline</groupId>
         <artifactId>anyline-simple-start</artifactId>
-        <version>8.6.2-SNAPSHOT</version>
+        <version>8.6.3-SNAPSHOT</version>
         <relativePath>../anyline-simple-start</relativePath>
     </parent>
 
     <groupId>org.anyline</groupId>
     <artifactId>anyline-simple-qq-map</artifactId>
-    <version>8.6.2-SNAPSHOT</version>
+    <version>8.6.3-SNAPSHOT</version>
     <packaging>jar</packaging>
     <dependencies>
         <dependency>

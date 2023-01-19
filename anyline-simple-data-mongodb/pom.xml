@@ -6,7 +6,7 @@
         <groupId>org.anyline</groupId>
         <artifactId>anyline-simple-start</artifactId>
         <relativePath>../anyline-simple-start</relativePath>
-        <version>8.6.2-SNAPSHOT</version>
+        <version>8.6.3-SNAPSHOT</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>

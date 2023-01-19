@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.anyline</groupId>
         <artifactId>anyline-simple-data-jdbc-dialect</artifactId>
-        <version>8.6.2-SNAPSHOT</version>
+        <version>8.6.3-SNAPSHOT</version>
     </parent>
 
     <artifactId>anyline-simple-data-jdbc-oracle</artifactId>
@@ -16,7 +16,7 @@
         <dependency>
             <groupId>org.anyline</groupId>
             <artifactId>anyline-data-jdbc-oracle</artifactId>
-            <version>8.6.2-SNAPSHOT</version>
+            <version>8.6.3-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.oracle.database.jdbc</groupId>

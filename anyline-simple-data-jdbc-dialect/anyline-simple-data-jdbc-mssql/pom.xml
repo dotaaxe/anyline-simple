@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.anyline</groupId>
         <artifactId>anyline-simple-data-jdbc-dialect</artifactId>
-        <version>8.6.2-SNAPSHOT</version>
+        <version>8.6.3-SNAPSHOT</version>
     </parent>
 
     <artifactId>anyline-simple-data-jdbc-mssql</artifactId>

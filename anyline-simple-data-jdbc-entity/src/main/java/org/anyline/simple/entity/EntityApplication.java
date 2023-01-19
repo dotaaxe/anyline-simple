@@ -141,6 +141,10 @@ public class EntityApplication {
         System.out.println(BeanUtil.object2json(e));
     }
     public static void run(){
+        //当前类上没有表注解但父类上有 保存时取父类注解值
+        ChildEntity child = new ChildEntity();
+        child.setNm("张三");
+        service.insert(child);
 
         DataSet set = service.querys("HR_EMPLOYEE",0,9);
         System.out.println(set.toJSON());

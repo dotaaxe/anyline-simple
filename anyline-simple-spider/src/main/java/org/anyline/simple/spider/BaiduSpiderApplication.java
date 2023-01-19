@@ -8,9 +8,6 @@ import java.util.List;
 
 
 public class BaiduSpiderApplication {
-    public static void main(String[] args) {
-         push();
-    }
 
     /**
      * 推送给百度收录
