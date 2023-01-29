@@ -155,10 +155,13 @@ public class EntityApplication {
         System.out.println(BeanUtil.object2json(list));
         System.out.println(BeanUtil.object2json(list.getNavi()));
 
+        String sql = "SELECT * FROM hr_employee";
+        list = service.selects(sql, Department.class);
 /*
         AnylineService<Employee> s = null;
         Employee e = s.get("");
-        e = s.query(Employee.class);*/
+        e = s.query(Employee.class);
+        */
 
         //这里需要转换类型
         Employee e = (Employee) service.select(Employee.class);
