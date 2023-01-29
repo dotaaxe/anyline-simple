@@ -142,5 +142,10 @@ public class ServiceTest {
         result = set.getRows("NAME","张%");
         System.out.println(result);
     }
+    @Test
+    public void sql(){
+        String sql = "SELECT * FROM HR_EMPLOYEE ";
+        DataSet set = sevice.querys(sql, "ID>0");
 
+    }
 }

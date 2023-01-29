@@ -20,16 +20,13 @@ public class SQLTest {
 
         //详细的查询条件构造方式 参考 anyline-simple-data-condition
 
-
         //:PARAM_CODE 与 {PARAM_CODE} 效果一致但不能混用
-        //会生成占位符
+        //会生成占位符 "PARAM_CODE:100" 与SQL中的占位符能匹配成功 会把值100赋值给占位符
         String sql = "SELECT * FROM CRM_USER WHERE CODE = :PARAM_CODE";
         DataSet set = service.querys(sql, "PARAM_CODE:100");
         sql = "SELECT * FROM CRM_USER WHERE CODE = {PARAM_CODE}";
         set = service.querys(sql, "PARAM_CODE:100");
         //生成SQL SELECT * FROM CRM_USER WHERE CODE = ?
-
-
 
 
         //::PARAM_CODE 与 ${PARAM_CODE} 效果一致但不能混用
@@ -40,8 +37,6 @@ public class SQLTest {
         sql = "SELECT * FROM CRM_USER WHERE CODE = ${PARAM_CODE}";
         set = service.querys(sql, "PARAM_CODE:100");
         //生成SQL SELECT * FROM CRM_USER WHERE CODE = 1
-
-
 
 
         //特别注意这以下情况 ID:1与SQL中的变量匹配不成功时，SQL会追加一个条件  ID = 1
