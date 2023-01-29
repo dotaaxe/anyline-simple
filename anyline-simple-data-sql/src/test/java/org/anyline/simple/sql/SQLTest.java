@@ -5,9 +5,13 @@ import org.anyline.data.param.init.DefaultConfigStore;
 import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
 import org.anyline.service.AnylineService;
+import org.anyline.util.ConfigTable;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @SpringBootTest
 public class SQLTest {
@@ -19,7 +23,7 @@ public class SQLTest {
     public void init() throws Exception{
 
         //详细的查询条件构造方式 参考 anyline-simple-data-condition
-
+        ConfigTable.IS_AUTO_CHECK_METADATA = true;
         //:PARAM_CODE 与 {PARAM_CODE} 效果一致但不能混用
         //会生成占位符 "PARAM_CODE:100" 与SQL中的占位符能匹配成功 会把值100赋值给占位符
         String sql = "SELECT * FROM CRM_USER WHERE CODE = :PARAM_CODE";
@@ -43,6 +47,14 @@ public class SQLTest {
         sql = "SELECT * FROM CRM_USER WHERE CODE = :PARAM_CODE";
         set = service.querys(sql, "PARAM_CODE:1", "ID:1");
         //生成SQL SELECT * FROM CRM_USER WHERE CODE = ? AND ID = ?
+
+
+        //相当于web环境中的ConfigStore configs = condition()
+        ConfigStore configs = new DefaultConfigStore();
+        Map<String,Object> map = new HashMap<>();
+        map.put("ID", "100");
+        configs.setValue(map);
+        set = service.querys(sql, configs);
 
 
         //如果没有提供参数值 会生成 = NULL, 这种情况明显不符合预期

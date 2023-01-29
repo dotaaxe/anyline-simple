@@ -144,4 +144,15 @@ public class DefaultController extends BasicController {
         return success(set);
     }
 
+    //特别注意这以下情况 SEX与SQL中的变量匹配不成功时，SQL会追加一个条件  SEX = ?
+    @RequestMapping("sql")
+    @ResponseBody
+    public String sql() {
+        String sql = "SELECT * FROM HR_EMPLOYEE WHERE DEPARTMENT_ID = :DEPT";
+        DataSet set = service.querys(sql
+                , condition("DEPT:dept","SEX:sex:${1}")
+        );
+        set.toLowerKey().camel();
+        return success(set);
+    }
 }

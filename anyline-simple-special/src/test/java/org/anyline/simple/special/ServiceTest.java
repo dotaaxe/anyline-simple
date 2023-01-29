@@ -7,18 +7,13 @@ import org.anyline.entity.DataSet;
 import org.anyline.service.AnylineService;
 import org.anyline.util.BeanUtil;
 import org.anyline.util.ConfigTable;
-import org.anyline.util.regular.Regular;
-import org.anyline.util.regular.RegularUtil;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.logging.Logger;
 import org.junit.platform.commons.logging.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @SpringBootTest
@@ -141,11 +136,5 @@ public class ServiceTest {
         System.out.println(result);
         result = set.getRows("NAME","张%");
         System.out.println(result);
-    }
-    @Test
-    public void sql(){
-        String sql = "SELECT * FROM HR_EMPLOYEE ";
-        DataSet set = sevice.querys(sql, "ID>0");
-
     }
 }
