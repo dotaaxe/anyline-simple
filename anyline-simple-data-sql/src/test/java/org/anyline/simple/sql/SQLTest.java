@@ -53,7 +53,13 @@ public class SQLTest {
         ConfigStore configs = new DefaultConfigStore();
         Map<String,Object> map = new HashMap<>();
         map.put("ID", "100");
-        configs.setValue(map);
+        configs.setValue(map); //这里相当于接收request的提交的参数
+        set = service.querys(sql, configs);
+
+        configs = new DefaultConfigStore();
+        configs.param("PARAM_CODE", "9");
+        configs.param("TYPE_CODE", "100"); //param 如果没有匹配到参数则忽略，而不会添加新的查询条件
+        configs.and("NM", "zh");         //and 如果没有匹配到参数 会添加新的查询条件
         set = service.querys(sql, configs);
 
 
