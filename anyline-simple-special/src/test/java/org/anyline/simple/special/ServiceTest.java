@@ -56,11 +56,14 @@ public class ServiceTest {
     }
     @Test
     public void json(){
-        ConfigTable.IS_AUTO_CHECK_METADATA = true;
+        //JS列设置成json类型
+        //ConfigTable.IS_AUTO_CHECK_METADATA = true;
         DataRow user = service.query("CRM_USER");
-        System.out.println(user.toJSON());
+        user.put("JS","{\"id\":1}");
         user.clearUpdateColumns();
         service.update(user);
+        user = service.query("CRM_USER");
+        System.out.println(user.toJSON());
     }
     @Test
     public void blob(){
