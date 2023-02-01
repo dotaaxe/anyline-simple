@@ -85,7 +85,7 @@ public class ServiceTest {
         store.and("+REMARK", "");              // REMARK = ''
         store.and("+IDX", "".split(","));      // IDX = ''
         store.and("+CODE", new ArrayList<>());       // CODE IS NULL
-        store.and("+VAL", new String[]{});            // VAL IS NULL
+        store.and("+VAL", new String[]{});           // VAL IS NULL
         DataSet set = service.querys("bs_dict(ID,GROUP_CODE,CODE,NM,VAL)", store);
 
         List<Integer> ids = new ArrayList<>();
@@ -93,7 +93,7 @@ public class ServiceTest {
         ids.add(2);
         ids.add(3);
         //反例 这里不能这样直接拼上，因为list.toString返回的结果会有空格[1, 2, 3]
-        service.query("bs_dict","ID:"+ids);
+        service.query("bs_dict","ID:"+ids, "(id>0 and age>10)");
         service.query("bs_dict","ID:"+BeanUtil.list2string(ids));
 
     }
