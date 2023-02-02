@@ -113,9 +113,24 @@ public class ServiceTest {
     @Test
     public void delete(){
         //根据 ID 删除多行
-        //DELETE FROM HR_EMPLOYEE WHERE ID IN(100,200)
+        try {
+            //注意:为了避免整表删除,values必须提供否则会抛出异常
+            //整表删除请调用service.execute("DELETE FROM HR_EMPLOYEE");
+            service.deletes("HR_EMPLOYEE", "ID");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        //DELETE FROM HR_EMPLOYEE WHERE ID = 100
         service.deletes("HR_EMPLOYEE", "ID", "100");
+        //DELETE FROM HR_EMPLOYEE WHERE ID IN(100,200)
         service.deletes("HR_EMPLOYEE", "ID", "100","200");
+
+        List<String> ids = new ArrayList<>();
+        //注意:为了避免整表删除,ids必须提供否则会抛出异常
+        //service.deletes("HR_EMPLOYEE", "ID", ids);
+        ids.add("100");
+        ids.add("200");
+        service.deletes("HR_EMPLOYEE", "ID", ids);
 
         //根据多列条件删除
         //DELETE FROM HR_EMPLOYEE WHERE ID = 1 AND NM = 'ZH'
@@ -123,6 +138,16 @@ public class ServiceTest {
         row.put("ID","1");
         row.put("NM", "ZH");
         service.delete("HR_EMPLOYEE", row, "ID","NM");
+
+        //DELETE FROM HR_EMPLOYEE WHERE ID = 1 AND CODE = 20
+        service.delete("HR_EMPLOYEE","ID","1", "CODE:20");
+
+        //DELETE FROM HR_EMPLOYEE WHERE ID = '' AND CODE = 20
+        service.delete("HR_EMPLOYEE","ID","", "CODE:20");
+        //DELETE FROM HR_EMPLOYEE WHERE ID = 1 AND CODE = ''
+        service.delete("HR_EMPLOYEE","ID","1", "CODE:");
+
+
     }
     @Test
     public void set(){
@@ -131,6 +156,7 @@ public class ServiceTest {
         row.put("ID",1);
         row.put("NAME", "张三");
         set.add(row);
+
 
         //value可以是正则表达式,也可以是SQL通配符
         DataSet result = set.select.like("NAME","张%");
