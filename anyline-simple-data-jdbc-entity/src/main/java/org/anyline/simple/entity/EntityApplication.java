@@ -55,7 +55,7 @@ public class EntityApplication {
         service.save(e);
 
         //会插入和更新null与""的值
-        //如果属性上没有注解会 会根据 ConfigTable.ENTITY_FIELD_COLUMN_MAP进程转换;
+        //如果属性上没有注解 会根据 ConfigTable.ENTITY_FIELD_COLUMN_MAP进程转换;
         //默认"camel_"属性小驼峰转下划线 userName > USER_NAME
         ConfigTable.IS_UPDATE_NULL_FIELD = true;
         ConfigTable.IS_INSERT_NULL_FIELD = true;
