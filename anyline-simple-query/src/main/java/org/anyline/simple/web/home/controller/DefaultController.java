@@ -19,7 +19,6 @@ public class DefaultController extends BasicController {
 
         return mv;
     }
-
     /**
      * URL:/like?nm=燕
      * WHERE:NM LIKE '%燕%'
