@@ -26,9 +26,20 @@ public class TablesApplication {
 				.left("HR_EMPLOYEE AS FE","M.EMPLOYEE_ID = FE.ID")
 				.left("HR_DEPARTMENT AS FD", "FE.DEPARTMENT_ID = FD.ID")
 				.build()
+				//condition("FE.NM:%nm%"); //如果 是在controller可以加这个参数
 				,"M.yyyy:2017"
 		);
-		System.out.println(set);
+		service.querys(TableBuilder.init()
+				.setTable("HR_EMPLOYEE(U.ID AS USER_ID,D.NM AS DEPARTMENT_NM)").setAlias("U")
+				.left("HR_DEPARTMENT D","U.DEPARTMENT_ID = D.ID").build(), "U.ID:>=100");
+
+		service.querys(TableBuilder.init("HR_EMPLOYEE(U.ID AS USER_ID,D.NM AS DEPARTMENT_NM) AS U")
+				.left("HR_DEPARTMENT D","U.DEPARTMENT_ID = D.ID").build(), "U.ID:>=100");
+
+
+		service.querys("SELECT E.ID AS EMPLOYEE_ID, D.NM AS DEPT_NM FROM HR_EMPLOYEE AS E LEFT JOIN HR_DEPARTMENT AS D ON E.DEPARTMENT_ID = D.ID"
+		,"E.ID:>=1", "E.NM:张%");
+
 		System.exit(0);
 	}
 
