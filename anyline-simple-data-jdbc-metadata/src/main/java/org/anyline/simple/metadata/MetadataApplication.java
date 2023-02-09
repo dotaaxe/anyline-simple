@@ -75,6 +75,8 @@ public class MetadataApplication extends SpringBootServletInitializer {
 		//开启检测后，会先检测表结构，将不表中未出现的列过滤
 		row.remove("ID");
 		service.insert("HR_DEPARTMENT", row);
+		row.put("TMP_COLUMN","TMP");
+		service.save("HR_DEPARTMENT", row);
 
 
 		row.remove("ID");

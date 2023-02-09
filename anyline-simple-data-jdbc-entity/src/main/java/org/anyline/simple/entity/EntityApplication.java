@@ -37,12 +37,12 @@ public class EntityApplication {
        ConfigurableApplicationContext context = application.run(args);
        service = (AnylineService)context.getBean("anyline.service");
 
+        //init();
         //blob();
-        //json();
-        //run();
+        json();
         //xml();
         //sql();
-        empty();
+        //empty();
         System.exit(0);
     }
     public static void empty(){
@@ -68,13 +68,20 @@ public class EntityApplication {
 
     }
     public static void json(){
-        Employee employee = ServiceProxy.select(Employee.class);
+        ConfigTable.IS_AUTO_CHECK_METADATA = true;
+        Employee employee = new Employee();
+        employee.setName("A");
+        employee.setTmpCol("111"); //数据库中没有这一列,开启了IS_AUTO_CHECK_METADATA后 可以把不存在的列过滤掉
+
+        ServiceProxy.save(employee);
+        employee = ServiceProxy.select(Employee.class);
         //employee的department属性是Department类型
         //这里会输出{"id":1,"name":"张三","department":{"code":"A1","name":"财务部"}, "departments":[{"code":"A1","name":"财务部"}]}
         System.out.println(BeanUtil.object2json(employee));
         employee.setDjson("{\"code\":\"A1\",\"name\":\"财务部\"}");
+        employee.setTmpCol("123");
         ServiceProxy.save(employee);
-
+        employee = ServiceProxy.select(Employee.class);
 
         Department dept = new Department();
         dept.setCode("A1");
@@ -163,7 +170,7 @@ public class EntityApplication {
         */
         System.out.println(BeanUtil.object2json(e));
     }
-    public static void run(){
+    public static void init(){
         //当前类上没有表注解但父类上有 保存时取父类注解值
         ChildEntity child = new ChildEntity();
         child.setNm("张三");
@@ -235,5 +242,6 @@ public class EntityApplication {
         service.insert(list);
         System.out.println(BeanUtil.object2json(list));
     }
+
 
 }

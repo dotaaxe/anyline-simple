@@ -16,10 +16,14 @@ public class Employee extends BaseEntity{
     private byte[] remark;
     //对应数据库blob类型
     private String dblob;
-    //对应数据库中的json类型
-    private String djson;
-
     private Department ejson;
+    //这个属性在数据库中不存在
+    private String tmpCol;
+
+    // 对应数据库中的json类型 注意这里不要用String接收 否则在返回给前端调用toJson时会把引号 转义
+    // 应该根据json格式定义一个类，如果不想定义可以用Object类型(会实例化一个LinkedHashMap赋值给Object)
+    private Object djson;
+
 
     //如果属性上没有注解会 会根据 ConfigTable.ENTITY_FIELD_COLUMN_MAP 进程转换;
     //默认"camel_"属性小驼峰转下划线 joinYmd > join_ymd
@@ -52,9 +56,6 @@ public class Employee extends BaseEntity{
         this.remark = remark;
     }
 
-    public String getDjson() {
-        return djson;
-    }
 
     public void setDjson(String djson) {
         this.djson = djson;
@@ -98,5 +99,21 @@ public class Employee extends BaseEntity{
 
     public void setEjson(Department ejson) {
         this.ejson = ejson;
+    }
+
+    public String getTmpCol() {
+        return tmpCol;
+    }
+
+    public void setTmpCol(String tmpCol) {
+        this.tmpCol = tmpCol;
+    }
+
+    public Object getDjson() {
+        return djson;
+    }
+
+    public void setDjson(Object djson) {
+        this.djson = djson;
     }
 }
