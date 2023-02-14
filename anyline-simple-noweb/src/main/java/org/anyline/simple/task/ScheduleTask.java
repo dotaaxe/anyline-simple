@@ -1,17 +1,14 @@
-package org.anyline.simple.noweb;
+package org.anyline.simple.task;
 
 import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
 import org.anyline.data.jdbc.ds.DataSourceHolder;
 import org.anyline.service.AnylineService;
-import org.anyline.util.DateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-
-import java.util.Date;
 
 @Component
 public class ScheduleTask {
@@ -26,8 +23,8 @@ public class ScheduleTask {
 
         //检测数据源
         DataSourceHolder.setDefaultDataSource();
-        DataSet datasources = service.querys("BS_DATASOURCE");
-        for(DataRow ds:datasources){
+        DataSet dss = service.querys("BS_DATASOURCE");
+        for(DataRow ds:dss){
             String code = ds.getCode();
             String driver = ds.getString("DRIVER");
             String url = ds.getString("URL");
@@ -35,6 +32,7 @@ public class ScheduleTask {
             String password = ds.getString("PASSWORD");
             try {
                 if(!DataSourceHolder.contains(code)) {
+                    //注册数据源
                     DataSourceHolder.reg(code, "com.zaxxer.hikari.HikariDataSource", driver, url, account, password);
                 }
             }catch (Exception e){
