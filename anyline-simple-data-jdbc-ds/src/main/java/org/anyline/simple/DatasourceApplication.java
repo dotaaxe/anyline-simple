@@ -52,7 +52,6 @@ public class DatasourceApplication extends SpringBootServletInitializer {
 	public static void ds(AnylineService service){
 		DataSourceHolder.setDataSource("sso");
 		service.query("sso_user");
-	new DataRow().get(true, "");
 		//查询表结构
 		Table user = service.metadata().table("sso_user");
 		//如果同一个数据源中可以操作多个数据库(要注意catalog、schema中不同的数据库中的区别)(mysql中catalog可以理解成数据库名)
