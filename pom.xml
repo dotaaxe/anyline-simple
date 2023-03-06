@@ -39,7 +39,7 @@
         <module>anyline-simple-regular</module>
 
         <!--各种场景的查询-->
-        <module>anyline-simple-query</module>
+        <module>anyline-simple-data-jdbc-query</module>
 
         <!--各种查询条件构造-->
         <module>anyline-simple-data-condition</module>
@@ -121,7 +121,7 @@
         <module>anyline-simple-data-jdbc-metadata</module>
 
         <!--部分不常用的操作-->
-        <module>anyline-simple-special</module>
+        <module>anyline-simple-data-jdbc-special</module>
 
         <!--DDL相关操作  创建修改表列数据类型 以及超表子表-->
         <module>anyline-simple-data-jdbc-ddl</module>
@@ -134,9 +134,10 @@
         <!--加密解密rsa m2等-->
         <module>anyline-simple-encrypt</module>
         <!--xml中自定义复杂SQL-->
-        <module>anyline-simple-data-xml</module>
+        <module>anyline-simple-data-jdbc-xml</module>
         <!--java中自定义SQL-->
-        <module>anyline-simple-data-sql</module>
+        <module>anyline-simple-data-jdbc-sql</module>
+        <module>anyline-simple-data-jdbc-delete</module>
         <module>anyline-simple-kafka</module>
         <module>anyline-simple-rabbitmq-boot</module>
         <module>anyline-simple-redis</module>

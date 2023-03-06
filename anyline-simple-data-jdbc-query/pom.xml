@@ -9,7 +9,7 @@
         <version>8.6.3-SNAPSHOT</version>
         <relativePath>../anyline-simple-start-mvc-mysql</relativePath>
     </parent>
-    <artifactId>anyline-simple-query</artifactId>
+    <artifactId>anyline-simple-data-jdbc-query</artifactId>
     <packaging>war</packaging>
     <description>查询操作</description>
 </project>
