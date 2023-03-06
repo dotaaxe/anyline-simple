@@ -34,8 +34,8 @@ public class DDLApplication {
 
 		service = context.getBean(AnylineService.class);
 
-		//check(null, "MySQL");
-		check("pg", "PostgreSQL");
+		check(null, "MySQL");
+		//check("pg", "PostgreSQL");
 		//check("ms", "SQL Server");
 		//check("oracle", "Oracle 11G");
 		//check("db2", "DB2");
@@ -80,13 +80,34 @@ public class DDLApplication {
 		table = new Table();
 		table.setName("A_TEST");
 		table.setComment("表备注");
-		table.addColumn("ID", "int").setAutoIncrement(true).setComment("主键说明");
+		table.addColumn("ID", "int").setPrimaryKey(true).setAutoIncrement(true).setComment("主键说明");
 
 		table.addColumn("NAME","varchar(50)").setComment("名称");
 		table.addColumn("A_CHAR","varchar(50)");
 		service.ddl().save(table);
+
+		//修改表结构两类场景
+		//1.在原表结构上添加修改列
 		table.getColumn("NAME").setComment("新备注名称");
+		table.addColumn("NAMES","varchar(50)").setComment("名称S");
 		service.ddl().save(table);
+
+		//2.构造表结构(如根据解析实体类的结果) 与数据库对比
+		/* ***************************************************************************************************************
+		* 		这里务必注意:因为update是新构造的(而不像1中是从数据库中查出来的会包含数据库中所有的列)所以会存在update中不存在而数据库中存在的列
+		* 		对于这部分列有两种处理方式:1)从数据库中删除 2)忽略
+		* 		默认情况下会忽略,如果要删除可以设置table.setAutoDropColumn(true)
+		*
+		* ****************************************************************************************************************/
+
+		//如果数据库中已存在同名的表 则执行更新
+		Table update = new Table("a_test");//尽量不要new Table  因为表结构上有许多许多的配置项
+		update.setAutoDropColumn(true); //删除update中不存在的列
+		update.addColumn("ID", "int").setPrimaryKey(true).setAutoIncrement(true).setComment("主键说明");
+		update.addColumn("CODE","varchar(50)").setComment("编号");
+		//这里表原来少了NAME  NAMES  A_CHAR 三列、执行save时会删除这三列
+		service.ddl().save(update);
+
 		System.out.println("\n-------------------------------- end table  ----------------------------------------------\n");
 	}
 	public static void column() throws Exception{
