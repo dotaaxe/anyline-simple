@@ -1,5 +1,8 @@
 package org.anyline.simple.delete;
 
+import org.anyline.data.param.ConfigStore;
+import org.anyline.data.param.init.DefaultConfigStore;
+import org.anyline.entity.Compare;
 import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
 import org.anyline.service.AnylineService;
@@ -19,20 +22,30 @@ public class DeleteTest {
     private AnylineService service          ;
     @Test
     public void init(){
-        /*
-        * 删除会有以下几类情况
-        * 1.先查出数据，再执行删除
-        * 2.直接执行SQL
-        * 3.根据约定参数删除
-        *
-        * */
         for(int i=0; i<10; i++){
             DataRow user = new DataRow();
             user.put("CODE", "C"+i);
             user.put("NAME", "NAME"+i);
             service.insert("CRM_USER", user);
         }
+        //删除会有以下几类情况
+
         //1.先查出数据，再执行删除
+        def();
+
+        //2.直接执行SQL
+        sql();
+
+        //3.根据约定参数删除
+        param();
+
+        //4.复杂条件可以构造ConfigStore
+        condition();
+    }
+
+    @Test
+    //1.先查出数据，再执行删除
+    public void def(){
         //默认情况下根据主键删除
         DataRow row = service.query("CRM_USER");
         //SQL:DELETE FROM CRM_USER WHERE ID = ?
@@ -55,8 +68,11 @@ public class DeleteTest {
         row.setPrimaryKey("CODE", "NAME");
         //SQL:DELETE FROM CRM_USER WHERE CODE = ?(A1) AND NAME = ?(N1)
         service.delete("CRM_USER", row);
+    }
+    @Test
+    //2.执行SQL
+    public void sql(){
 
-        //2.执行SQL
         service.execute("DELETE FROM CRM_USER WHERE ID = 1");
 
         //SQL:DELETE FROM CRM_USER WHERE ID = 1  AND NAME = ?(N1)
@@ -67,8 +83,12 @@ public class DeleteTest {
 
         //SQL:DELETE FROM CRM_USER WHERE ID = ?(3)
         service.execute("DELETE FROM CRM_USER WHERE ID = {ID}", "ID:3");
+    }
 
-        //3.根据约定参数删除
+    @Test
+    //3.根据约定参数删除
+    public void param(){
+
         //根据 ID 删除多行 deletes(String table, String key, String ... values)
         try {
             //注意:为了避免整表删除,values必须提供否则会抛出异常
@@ -91,7 +111,7 @@ public class DeleteTest {
         service.deletes("HR_EMPLOYEE", "ID", ids);
 
         //根据多列条件删除
-        row = new DataRow();
+        DataRow row = new DataRow();
         row.put("ID","1");
         row.put("NM", "ZH");
         //SQL:DELETE FROM HR_EMPLOYEE WHERE ID = ?(1) AND NM = ?(ZH)
@@ -105,5 +125,18 @@ public class DeleteTest {
 
         //SQL:DELETE FROM HR_EMPLOYEE WHERE ID = ?(1) AND CODE = ?('')
         service.delete("HR_EMPLOYEE","ID","1", "CODE:");
+    }
+    @Test
+    //4.复杂条件可以构造ConfigStore
+    public void condition(){
+        ConfigStore condition = new DefaultConfigStore();
+        condition.and("ID" , "1");
+        condition.and(Compare.NOT_IN,"ID",  "100");
+        condition.and("ID > 100");
+        List<Integer> between = new ArrayList<>();
+        between.add(1);
+        between.add(200);
+        condition.and(Compare.BETWEEN, "ID", between);
+        service.delete("HR_EMPLOYEE", condition);
     }
 }
