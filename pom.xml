@@ -141,6 +141,7 @@
         <module>anyline-simple-kafka</module>
         <module>anyline-simple-rabbitmq-boot</module>
         <module>anyline-simple-redis</module>
+        <module>anyline-simple-data-jdbc-dialect/anyline-simple-data-jdbc-oceanbase</module>
 
     </modules>
 </project>

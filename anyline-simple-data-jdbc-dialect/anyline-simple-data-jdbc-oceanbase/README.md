@@ -1,0 +1,1 @@
+直接用mysql的驱动就可以了，详细操作参考anyline-simple-data-jdbc-mysql
