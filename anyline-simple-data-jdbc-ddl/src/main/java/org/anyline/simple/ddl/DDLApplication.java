@@ -1,5 +1,6 @@
 package org.anyline.simple.ddl;
 
+import javafx.scene.control.Tab;
 import org.anyline.data.entity.Column;
 import org.anyline.data.entity.Index;
 import org.anyline.data.entity.Table;
@@ -46,6 +47,7 @@ public class DDLApplication {
 		if(null != ds) {
 			DataSourceHolder.setDataSource(ds);
 		}
+		clear();
 		table();
 		column();
 		index();
@@ -54,7 +56,7 @@ public class DDLApplication {
 	}
 	public static void table() throws Exception{
 		System.out.println("\n-------------------------------- start table  --------------------------------------------\n");
-		clear();
+
 
 		LinkedHashMap<String,Table> tables = service.metadata().tables();
 		log.warn("检索表数量:"+tables.size());
@@ -86,6 +88,7 @@ public class DDLApplication {
 		table.addColumn("A_CHAR","varchar(50)");
 		service.ddl().save(table);
 
+
 		//修改表结构两类场景
 		//1.在原表结构上添加修改列
 		table.getColumn("NAME").setComment("新备注名称");
@@ -112,7 +115,8 @@ public class DDLApplication {
 	}
 	public static void column() throws Exception{
 		System.out.println("\n-------------------------------- start column  -------------------------------------------\n");
-		clear();
+
+
 		Column column = new Column();
 		column.setTable("A_TEST");
 		column.setName("A_CHAR");
@@ -148,11 +152,17 @@ public class DDLApplication {
 
 		log.warn("删除列");
 		service.ddl().drop(column);
+
+		Table tab = new Table("c_test");
+		tab.addColumn("ID", "int");
+		service.ddl().save(tab);
+		//添加修改自增(没有实现)
+
 		System.out.println("\n-------------------------------- end column  ---------------------------------------------\n");
+
 	}
 	public static void exception() throws Exception{
 		System.out.println("\n-------------------------------- start exception  ----------------------------------------\n");
-		clear();
 		//ConfigTable.AFTER_ALTER_COLUMN_EXCEPTION_ACTION
 		// 0:中断执行
 		// 1:直接修正
@@ -198,18 +208,12 @@ public class DDLApplication {
 	}
 	public static void index() throws Exception{
 		System.out.println("\n-------------------------------- start index  --------------------------------------------\n");
-		//添加索引
-		Index index = new Index();
-		index.setName("index_code_name");
-		index.setTableName("crm_user");
-		index.setUnique(true);
-		index.addColumn(new Column("CODE"));
-		index.addColumn(new Column("NAME").setOrder("DESC"));//倒序
-		try {
-			service.ddl().add(index);
-		}catch (Exception e){
-			e.printStackTrace();
-		}
+
+		Table tab = new Table("B_TEST");
+		tab.addColumn("ID", "INT");
+		tab.addColumn("CODE", "INT");
+		service.ddl().save(tab);
+		//添加修改主键(没有实现)
 
 		LinkedHashMap<String, Index> indexs = service.metadata().indexs("crm_user");
 		for(Index item:indexs.values()){
@@ -227,10 +231,8 @@ public class DDLApplication {
 			try {
 				service.ddl().drop(item);
 			}catch (Exception e){
-				e.printStackTrace();
+				log.error(e.getMessage());
 			}
-
-
 		}
 
 		System.out.println("\n-------------------------------- end index  ----------------------------------------------\n");
@@ -238,6 +240,12 @@ public class DDLApplication {
 
 	public static void clear(){
 		System.out.println("\n=============================== START clear =========================================\n");
+		try {
+			service.ddl().drop(new Table("a_test"));
+			service.ddl().drop(new Table("b_test"));
+			service.ddl().drop(new Table("c_test"));
+			service.ddl().drop(new Table("i_test"));
+		}catch (Exception e){}
 		System.out.println("\n=============================== START clear =========================================\n");
 	}
 }
