@@ -39,11 +39,20 @@ public class EntityApplication {
 
         //init();
         //blob();
-        json();
+        //json();
         //xml();
         //sql();
         //empty();
+        camel();
         System.exit(0);
+    }
+    public static  void camel(){
+
+        Employee e = new Employee();
+        e.setName("A1");
+        e.setUserName("zh");
+        e.setJoinYmd("2020-01-01");
+        service.save(e);
     }
     public static void empty(){
         ConfigTable.IS_UPDATE_NULL_FIELD = false;
@@ -59,7 +68,10 @@ public class EntityApplication {
         //默认"camel_"属性小驼峰转下划线 userName > USER_NAME
         ConfigTable.IS_UPDATE_NULL_FIELD = true;
         ConfigTable.IS_INSERT_NULL_FIELD = true;
+        ConfigTable.IS_UPPER_KEY = false;
+        ConfigTable.ENTITY_FIELD_COLUMN_MAP = "camel_";
         e = new Employee();
+        e.setUserName("root");
         e.setName("A1");
         service.save(e);
         e.setName("A2");

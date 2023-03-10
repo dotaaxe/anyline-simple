@@ -10,6 +10,7 @@ public class Employee extends BaseEntity{
     private Long id;
     @Column(name = "NM")
     private String name;
+    private String userName;
     @Transient
     private int age;
     //对应数据库blob类型
@@ -28,7 +29,6 @@ public class Employee extends BaseEntity{
     //如果属性上没有注解会 会根据 ConfigTable.ENTITY_FIELD_COLUMN_MAP 进程转换;
     //默认"camel_"属性小驼峰转下划线 joinYmd > join_ymd
 
-    //@Column(name = "JOIN_YMD")
     private String joinYmd;
     private List<Department> ejsons;
 
@@ -115,5 +115,13 @@ public class Employee extends BaseEntity{
 
     public void setDjson(Object djson) {
         this.djson = djson;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }
