@@ -31,9 +31,15 @@ public class TdengineApplication {
         service = context.getBean(AnylineService.class);
         ConfigTable.IS_DDL_AUTO_DROP_COLUMN = true;
 
+        ConfigTable.IS_AUTO_CHECK_METADATA = true;
 
         try {
             table();
+
+            DataRow row = new DataRow();
+            row.put( "ID", new Date());
+            service.insert("a_test", row);
+
             mtable();
             column();
             mcolumn();
@@ -106,12 +112,16 @@ public class TdengineApplication {
 
         MasterTable stable = service.metadata().mtable("s_table_user");
         log.warn(LogUtil.format("查看超表Column(不含Tag)",34));
-        for(Column col:stable.getColumns().values()){
-            log.warn(LogUtil.format(col.toString(),34));
+        if(null != stable) {
+            for (Column col : stable.getColumns().values()) {
+                log.warn(LogUtil.format(col.toString(), 34));
+            }
         }
         log.warn(LogUtil.format("查看超表TAG",34));
-        for(Tag tag:stable.getTags().values()){
-            log.warn(LogUtil.format(tag.toString(),34));
+        if(null != stable) {
+            for (Tag tag : stable.getTags().values()) {
+                log.warn(LogUtil.format(tag.toString(), 34));
+            }
         }
         service.ddl().drop(new MasterTable("s_table_user"));
     }
