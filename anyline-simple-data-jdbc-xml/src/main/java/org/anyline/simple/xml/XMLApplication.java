@@ -22,7 +22,8 @@ public class XMLApplication {
 
 		AnylineService service = (AnylineService)context.getBean("anyline.service");
 
-		service.query("");
+		DataSet users = service.querys("crm.hr.user:USER_LIST");
+		System.out.println(users);
 		System.exit(0);
 	}
 

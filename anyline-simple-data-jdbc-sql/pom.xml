@@ -11,7 +11,7 @@
         <relativePath>../anyline-simple-start-mysql</relativePath>
     </parent>
 
-    <artifactId>anyline-simple-data-sql</artifactId>
+    <artifactId>anyline-simple-data-jdbc-sql</artifactId>
     <packaging>jar</packaging>
     <description>JAVA自定义SQL</description>
 

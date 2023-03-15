@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sqls>
+    <sql id="USER_LIST">
+        <text>
+            SELECT * FROM CRM_USER
+        </text>
+
+        <condition id="NAME" required="true"><!-- required=true 没有值也要拼接当前条件   最终被替换成 SORT_ID IS NULL-->
+            AND TITLE LIKE '%:NAME%'
+        </condition>
+        <condition id="ID" strictRequired="false"><!-- strictRequired=true如果没有值整个SQL不执行 -->
+            ID IN(:ID)
+        </condition>
+    </sql>
+    <!--定义一个公用组-->
+    <conditions id="group_art">
+        <condition id="ID">
+            ID IN(:ID)
+        </condition>
+    </conditions>
+    <sql id="ART_STAT" strict="true"><!-- strict默认false ,true表示不可以添加XML中定义之外的条件 -->
+        <title>内容统计</title>
+        <text>
+            SELECT
+                M.SORT_ID           AS SORT_ID  ,
+                GROUP_CONCAT(M.ID)  AS IDS      ,
+                COUNT(0) AS QTY
+            FROM ART AS M
+            WHERE M.DATA_STATUS = 1
+            <!-- 标签体中的条件如果没有赋值，则整个SQL不执行 -->
+            AND IDX IN(:IDX)
+            AND TITLE LIKE '%:NM%'
+        </text>
+        <condition id="SORT_ID" required="true"><!-- required=true 没有值也要拼接当前条件   最终被替换成 SORT_ID IS NULL-->
+            SORT_ID = ?
+        </condition>
+        <condition id="ID" strictRequired="false"><!-- strictRequired=true如果没有值整个SQL不执行 -->
+            ID IN(:ID)
+        </condition>
+        <!--
+            static="true"的条件 默认激活，除非有test属性
+            test中ognl表达式赋值
+                condition("TST.QTY:qty")
+                and("TST","QTY", "11")
+         -->
+        <condition id="TST" static="true" test="QTY>1">ID&gt;1000</condition>
+        <!-- ref对应conditions.id -->
+        <condition ref="group_art"></condition>
+        <order>
+            SORT_ID ASC
+        </order>
+        <group>
+            SORT_ID
+        </group>
+    </sql>
+</sqls>
