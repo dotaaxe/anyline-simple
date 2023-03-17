@@ -18,6 +18,5 @@ public class InterceptorApplication {
 
         AnylineService service = context.getBean(AnylineService.class);
         service.query("CRM_USER");
-
     }
 }
