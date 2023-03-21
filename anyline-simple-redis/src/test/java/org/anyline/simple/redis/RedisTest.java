@@ -15,7 +15,12 @@ public class RedisTest {
 
     @Test
     public void init(){
-        Set<String> keys = redis.keys("jtt808_table*");
-        redis.delete(keys);
+       Set set = redis.opsForSet().members("jtt808_wait_client");
+       for(Object item:set){
+           System.out.println(item);
+       }
+        //Set<String> keys = redis.keys("jtt808_table*");
+        //redis.delete(keys);
+
     }
 }
