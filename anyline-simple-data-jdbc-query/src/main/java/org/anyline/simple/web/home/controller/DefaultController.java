@@ -157,13 +157,13 @@ public class DefaultController extends BasicController {
     @RequestMapping("find")
     @ResponseBody
     public String find() {
-        DataSet set = service.querys("HR_EMPLOYEE", condition("CODE:(code)"));
+        DataSet set = service.querys("HR_EMPLOYEE", condition("[CODE]:code"));
         return success(set);
     }
     @RequestMapping("finds")
     @ResponseBody
     public String finds() {
-        DataSet set = service.querys("HR_EMPLOYEE", condition("CODE:(split(code))"));
+        DataSet set = service.querys("HR_EMPLOYEE", condition("[CODE]:split(code)"));
         return success(set);
     }
 }

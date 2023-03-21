@@ -98,7 +98,7 @@ public class DMLApplication {
 		//set = service.querys("CRM_USER", configs,"ID:1");
 
 		//FIND_IN_SET
-		//如果从request中取值  condition("CODE:(code)")
+		//如果从request中取值  condition("[CODE]:code");condition("[CODE]:split(code)")
 
 		configs.and("CODE","9,0".split(","));
 		configs.and("NM","a,b".split(","));
