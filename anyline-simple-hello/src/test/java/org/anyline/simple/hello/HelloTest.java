@@ -39,8 +39,13 @@ public class HelloTest {
         service.insert("crm_user", row);
 
         //查询数据
-        DataSet set = service.querys("crm_user");
+        DataSet set = service.querys("crm_user", "ID>1");
         System.out.println(set);
+        //合计行数 与查询的参数一样只是返回值不一样
+        int qty = service.count("crm_user", "id>1");
+        System.out.println(qty);
+        qty = service.count("crm_user(distinct id)", "id>1");
+        System.out.println(qty);
 
         row = service.query("CRM_USER", "ID:1");
         row.put("CODE","102");
