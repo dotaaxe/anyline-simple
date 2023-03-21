@@ -17,7 +17,9 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {"org.anyline"})
@@ -97,6 +99,7 @@ public class DMLApplication {
 
 		//FIND_IN_SET
 		//如果从request中取值  condition("CODE:(code)")
+
 		configs.and("CODE","9,0".split(","));
 		configs.and("NM","a,b".split(","));
 		//configs.and(Compare.FIND_IN_SET, "TYPES", "9");

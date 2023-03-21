@@ -49,7 +49,7 @@ public class DefaultController extends BasicController {
         return success(set);
     }
     /**
-     * URL:/in?dept=1&dept=2
+     * URL:/in?dept=1,2
      * WHERE:DEPARTMENT_ID IN(1,2)
      * @return json
      */
@@ -152,6 +152,18 @@ public class DefaultController extends BasicController {
                 , condition("DEPT:dept","SEX:sex:${1}")
         );
         set.toLowerKey().camel();
+        return success(set);
+    }
+    @RequestMapping("find")
+    @ResponseBody
+    public String find() {
+        DataSet set = service.querys("HR_EMPLOYEE", condition("CODE:(code)"));
+        return success(set);
+    }
+    @RequestMapping("finds")
+    @ResponseBody
+    public String finds() {
+        DataSet set = service.querys("HR_EMPLOYEE", condition("CODE:(split(code))"));
         return success(set);
     }
 }
