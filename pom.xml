@@ -79,6 +79,8 @@
         <module>anyline-simple-data-jdbc-dialect/anyline-simple-data-jdbc-questdb</module>
         <module>anyline-simple-data-jdbc-dialect/anyline-simple-data-jdbc-timescale</module>
         <module>anyline-simple-data-jdbc-dialect/anyline-simple-data-jdbc-neo4j</module>
+        <module>anyline-simple-data-jdbc-dialect/anyline-simple-data-jdbc-oceanbase</module>
+
         <module>anyline-simple-data-mongodb</module>
 
         <!--短信-->
@@ -91,7 +93,8 @@
         <module>anyline-simple-thingsboard</module>
 
         <!--百度地图-->
-        <module>anyline-simple-baidu-map</module>
+        <module>anyline-simple-baidu/anyline-simple-baidu-map</module>
+        <module>anyline-simple-baidu/anyline-simple-baidu-ocr</module>
 
         <!--腾讯地图-->
         <module>anyline-simple-qq-map</module>
@@ -141,7 +144,6 @@
         <module>anyline-simple-kafka</module>
         <module>anyline-simple-rabbitmq-boot</module>
         <module>anyline-simple-redis</module>
-        <module>anyline-simple-data-jdbc-dialect/anyline-simple-data-jdbc-oceanbase</module>
         <module>anyline-simple-data-jdbc-interceptor</module>
 
     </modules>

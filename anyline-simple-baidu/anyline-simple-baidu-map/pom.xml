@@ -8,7 +8,7 @@
         <groupId>org.anyline</groupId>
         <artifactId>anyline-simple-start</artifactId>
         <version>8.6.3-SNAPSHOT</version>
-        <relativePath>../anyline-simple-start</relativePath>
+        <relativePath>../../anyline-simple-start/pom.xml</relativePath>
     </parent>
 
     <artifactId>anyline-simple-baidu-map</artifactId>
