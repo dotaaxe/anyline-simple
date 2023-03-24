@@ -37,7 +37,7 @@ public class EntityApplication {
        ConfigurableApplicationContext context = application.run(args);
        service = (AnylineService)context.getBean("anyline.service");
 
-        //init();
+        init();
         //blob();
         //json();
         //xml();
@@ -198,7 +198,7 @@ public class EntityApplication {
         System.out.println(BeanUtil.object2json(list.getNavi()));
 
         String sql = "SELECT * FROM hr_employee";
-        list = service.selects(sql, Department.class);
+        list = service.selects(sql, Employee.class);
 /*
         AnylineService<Employee> s = null;
         Employee e = s.get("");
@@ -216,6 +216,7 @@ public class EntityApplication {
         service.insert(e);
         e.setCreateTime(null);
         e.setId(1L);
+        e.setName("test");
         service.update(e);
 
         Employee employee = list.get(0);
