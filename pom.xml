@@ -145,6 +145,7 @@
         <module>anyline-simple-rabbitmq-boot</module>
         <module>anyline-simple-redis</module>
         <module>anyline-simple-data-jdbc-interceptor</module>
+        <module>anyline-simple-data-jdbc-id</module>
 
     </modules>
 </project>
