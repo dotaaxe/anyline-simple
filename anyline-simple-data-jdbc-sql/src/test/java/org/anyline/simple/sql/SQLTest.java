@@ -32,8 +32,9 @@ public class SQLTest {
         ConfigTable.IS_AUTO_CHECK_METADATA = true;
         //:PARAM_CODE 与 {PARAM_CODE} 效果一致但不能混用
         //会生成占位符 "PARAM_CODE:100" 与SQL中的占位符能匹配成功 会把值100赋值给占位符
-        String sql = "SELECT * FROM CRM_USER WHERE CODE = :PARAM_CODE";
-        DataSet set = service.querys(sql, "PARAM_CODE:100");
+        String sql = "SELECT * FROM CRM_USER WHERE CODE = :PARAM_CODE AND NAME != :PARAM_CODE AND FIND_IN_SET(:PARAM_CODE, CODE)";
+        DataSet set = service.querys(sql, "PARAM_CODE:111");
+        set = service.querys(sql, new DefaultConfigStore().param("PARAM_CODE", 222));
         sql = "SELECT * FROM CRM_USER WHERE CODE = {PARAM_CODE}";
         set = service.querys(sql, "PARAM_CODE:100");
         //生成SQL SELECT * FROM CRM_USER WHERE CODE = ?
@@ -65,7 +66,7 @@ public class SQLTest {
         configs = new DefaultConfigStore();
         configs.param("PARAM_CODE", "9");
         configs.param("TYPE_CODE", "100"); //param 如果没有匹配到参数则忽略，而不会添加新的查询条件
-        configs.and("NM", "zh");         //and 如果没有匹配到参数 会添加新的查询条件
+        configs.and("NAME", "zh");         //and 如果没有匹配到参数 会添加新的查询条件
         set = service.querys(sql, configs);
 
 

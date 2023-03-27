@@ -24,7 +24,7 @@ public class DelimiterApplication {
 		//开启前SQL中不加界定符
 		ds(service);
 		ConfigTable.IS_SQL_DELIMITER_OPEN = true;
-		//开启后SQL中不加界定符，但原生SQL不作任何修改
+		//开启后自动生成的SQL中加界定符，但原生SQL不作任何修改
 		ds(service);
 		System.exit(0);
 
