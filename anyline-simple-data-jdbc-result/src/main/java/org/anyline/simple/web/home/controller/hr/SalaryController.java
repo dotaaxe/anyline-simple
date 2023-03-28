@@ -38,7 +38,7 @@ public class SalaryController extends BasicController{
     @ResponseBody
     public String navi(HttpServletRequest request, HttpServletResponse response) {
         DataSet set = service.querys("V_HR_SALARY", condition(true,"DEPARTMENT_ID:dept+","TOTAL_PRICE:>=fr","TOTAL_PRICE:<=to"));
-        set.divide("TOTAL_PRICE_K","TOTAL_PRICE",1000.0).formatNumber("0","TOTAL_PRICE_K");
+        set.divide("TOTAL_PRICE_K","TOTAL_PRICE",1000.0).format.number("0","TOTAL_PRICE_K");
         request.setAttribute("set", WebUtil.encrypt(set, "ID","EMPLOYEE_ID","DEPARTMENT_ID"));
         return navi(true,request, response, set, "/WEB-INF/web/home/template/data/hr/salary/navi.jsp");
     }
