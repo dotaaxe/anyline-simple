@@ -15,12 +15,12 @@ import org.springframework.context.annotation.Import;
 @SpringBootApplication
 @ComponentScan(basePackages = {"org.anyline"})
 @Import(DynamicDataSourceRegister.class)
-public class DatasourceApplication extends SpringBootServletInitializer {
+public class TransactionApplication extends SpringBootServletInitializer {
 
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 
-		return application.sources(DatasourceApplication.class);
+		return application.sources(TransactionApplication.class);
 	}
 
 	/* *************************************************       先看说明         ********************************************************************************
@@ -31,7 +31,7 @@ public class DatasourceApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {
 
-		SpringApplication application = new SpringApplication(DatasourceApplication.class);
+		SpringApplication application = new SpringApplication(TransactionApplication.class);
 
 		ConfigurableApplicationContext context = application.run(args);
 
