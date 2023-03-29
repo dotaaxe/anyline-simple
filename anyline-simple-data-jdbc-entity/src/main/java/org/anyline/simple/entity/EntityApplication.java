@@ -15,6 +15,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 @ComponentScan(basePackages = {"org.anyline"})
 @SpringBootApplication
@@ -37,7 +40,7 @@ public class EntityApplication {
        ConfigurableApplicationContext context = application.run(args);
        service = (AnylineService)context.getBean("anyline.service");
 
-        init();
+        //init();
         //blob();
         //json();
         //xml();
@@ -53,6 +56,15 @@ public class EntityApplication {
         e.setUserName("zh");
         e.setJoinYmd("2020-01-01");
         service.save(e);
+        List<Employee> list = new ArrayList<>();
+        for(int i=0; i<3; i++){
+            Employee item = new Employee();
+            item.setName("A"+i);
+            item.setUserName("zh"+i);
+            item.setJoinYmd("2020-01-01");
+            list.add(item);
+        }
+        service.insert(list);
     }
     public static void empty(){
         ConfigTable.IS_UPDATE_NULL_FIELD = false;
