@@ -1,6 +1,7 @@
 package org.anyline.simple.dml;
 
 
+import org.anyline.data.entity.Table;
 import org.anyline.data.jdbc.ds.DataSourceHolder;
 import org.anyline.data.jdbc.ds.DynamicDataSourceRegister;
 import org.anyline.data.param.ConfigStore;
@@ -9,6 +10,7 @@ import org.anyline.entity.Compare;
 import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
 import org.anyline.service.AnylineService;
+import org.anyline.util.ConfigTable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -36,9 +38,9 @@ public class DMLApplication {
 
 		service = context.getBean(AnylineService.class);
 		boolean s = null instanceof  List;
-		check(null, "MySQL");
+		//check(null, "MySQL");
 		///check("pg", "PostgreSQL");
-		//check("ms", "SQL Server");
+		check("ms", "SQL Server");
 		//check("oracle", "Oracle 11G");
 		//check("db2", "DB2");
 
@@ -56,10 +58,24 @@ public class DMLApplication {
 		System.out.println("\n=============================== END " + title + "=========================================\n");
 	}
 	public static void insert() throws Exception{
+
+		ConfigTable.IS_AUTO_CHECK_METADATA = true;
 		System.out.println("\n-------------------------------- start insert  --------------------------------------------\n");
 		DataRow row = new DataRow();
 		row.put("NM", "张三");
+		row.put("NO_COL", "张三");
 		row.put("DEPARTMENT_ID", 1);
+		Table table = service.metadata().table("HR_EMPLOYEE");
+		if(null == table){
+			table = new Table();
+			table.setName("HR_EMPLOYEE");
+			table.setComment("表备注");
+			table.addColumn("ID", "int").setPrimaryKey(true).setAutoIncrement(true).setComment("主键说明");
+
+			table.addColumn("NM","varchar(50)").setComment("名称");
+			table.addColumn("DEPARTMENT_ID","INT");
+			service.ddl().save(table);
+		}
 		service.insert("HR_EMPLOYEE", row);
 		//执行insert后row如果数据库自动生成ID这时会row中会有ID值
 		//在有主键值的情况下执行save最终会调用update
