@@ -36,8 +36,9 @@ public class DDLApplication {
 
 		service = context.getBean(AnylineService.class);
 
-		check(null, "MySQL");
-		//check("pg", "PostgreSQL");
+		//check(null, "MySQL");
+		//check("cms", "MySQL");
+		check("pg", "PostgreSQL");
 		//check("ms", "SQL Server");
 		//check("oracle", "Oracle 11G");
 		//check("db2", "DB2");
@@ -48,11 +49,11 @@ public class DDLApplication {
 		if(null != ds) {
 			DataSourceHolder.setDataSource(ds);
 		}
-		clear();
 		table();
 		column();
 		index();
 		exception();
+		clear();
 		System.out.println("\n=============================== END " + title + "=========================================\n");
 	}
 	public static void table() throws Exception{
@@ -66,15 +67,7 @@ public class DDLApplication {
 		}
 
 
-		Table table = service.metadata().table("a_test");
-		if(null != table) {
-			log.warn("查询表结构:" + table.getName());
-			LinkedHashMap<String, Column> columns = table.getColumns();
-			for (Column column : columns.values()) {
-				log.warn("列:" + column.toString());
-			}
-
-		}
+		Table table = service.metadata().table("A_TEST");
 		if(null != table){
 			log.warn("删除表:"+table.getName());
 			service.ddl().drop(table);
@@ -88,13 +81,23 @@ public class DDLApplication {
 		table.addColumn("NAME","varchar(50)").setComment("名称");
 		table.addColumn("A_CHAR","varchar(50)");
 		service.ddl().save(table);
+		table = service.metadata().table("A_TEST");
+		if(null != table) {
+			log.warn("查询表结构:" + table.getName());
+			LinkedHashMap<String, Column> columns = table.getColumns();
+			for (Column column : columns.values()) {
+				log.warn("列:" + column.toString());
+			}
 
+		}
 
 		//修改表结构两类场景
 		//1.在原表结构上添加修改列
-		table.getColumn("NAME").setComment("新备注名称");
-		table.addColumn("NAMES","varchar(50)").setComment("名称S");
-		service.ddl().save(table);
+		if(null != table) {
+			table.getColumn("NAME").setComment("新备注名称");
+			table.addColumn("NAMES", "varchar(50)").setComment("名称S");
+			service.ddl().save(table);
+		}
 
 		//2.构造表结构(如根据解析实体类的结果) 与数据库对比
 		/* ***************************************************************************************************************
@@ -117,6 +120,18 @@ public class DDLApplication {
 	public static void column() throws Exception{
 		System.out.println("\n-------------------------------- start column  -------------------------------------------\n");
 
+		Table table = service.metadata().table("A_TEST");
+		if(null == table) {
+			table = new Table();
+			table.setName("A_TEST");
+			table.setComment("表备注");
+			table.addColumn("ID", "int").setPrimaryKey(true).setAutoIncrement(true).setComment("主键说明");
+
+			table.addColumn("NAME","varchar(50)").setComment("名称");
+			table.addColumn("A_CHAR","varchar(50)");
+			service.ddl().save(table);
+
+		}
 
 		Column column = new Column();
 		column.setTable("A_TEST");
