@@ -44,7 +44,7 @@ public class DatasourceApplication extends SpringBootServletInitializer {
 		AnylineService service = (AnylineService)context.getBean("anyline.service");
 
 		//切换数据源
-		//ds(service);
+		ds(service);
 
 	}
 	//切换数据源 以及动态注册数据源
