@@ -39,7 +39,8 @@ public class DDLApplication {
 		//check(null, "MySQL");
 		//check("cms", "MySQL");
 		//check("pg", "PostgreSQL");
-		check("ms", "SQL Server");
+		//check("ms", "SQL Server");
+		check("ms2000", "SQL Server 2000");
 		//check("oracle", "Oracle 11G");
 		//check("db2", "DB2");
 
