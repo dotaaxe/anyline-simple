@@ -9,8 +9,11 @@ import org.anyline.data.param.init.DefaultConfigStore;
 import org.anyline.entity.Compare;
 import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
+import org.anyline.proxy.ServiceProxy;
 import org.anyline.service.AnylineService;
 import org.anyline.util.ConfigTable;
+import org.anyline.util.DateUtil;
+import org.anyline.util.NumberUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -19,6 +22,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,7 +44,8 @@ public class DMLApplication {
 		boolean s = null instanceof  List;
 		//check(null, "MySQL");
 		///check("pg", "PostgreSQL");
-		check("ms", "SQL Server");
+		//check("ms", "SQL Server");
+		check("ms2000", "SQL Server 2000");
 		//check("oracle", "Oracle 11G");
 		//check("db2", "DB2");
 
@@ -61,10 +66,7 @@ public class DMLApplication {
 
 		ConfigTable.IS_AUTO_CHECK_METADATA = true;
 		System.out.println("\n-------------------------------- start insert  --------------------------------------------\n");
-		DataRow row = new DataRow();
-		row.put("NM", "张三");
-		row.put("NO_COL", "张三");
-		row.put("DEPARTMENT_ID", 1);
+
 		Table table = service.metadata().table("HR_EMPLOYEE");
 		if(null == table){
 			table = new Table();
@@ -73,13 +75,22 @@ public class DMLApplication {
 			table.addColumn("ID", "int").setPrimaryKey(true).setAutoIncrement(true).setComment("主键说明");
 
 			table.addColumn("NM","varchar(50)").setComment("名称");
+			table.addColumn("my","money").setComment("名称");
 			table.addColumn("DEPARTMENT_ID","INT");
 			service.ddl().save(table);
 		}
-		service.insert("HR_EMPLOYEE", row);
+
+
+		DataRow row = new DataRow();
+		row.put("REG_TIME", "2020-01-01");
+		row.put("NM","ZH");
+		row.put("my","10.1"); //money
+		row.setOverride(true);
+		ServiceProxy.save("HR_EMPLOYEE", row);
+
 		//执行insert后row如果数据库自动生成ID这时会row中会有ID值
 		//在有主键值的情况下执行save最终会调用update
-		service.save("HR_EMPLOYEE", row);
+		ServiceProxy.save("HR_EMPLOYEE", row);
 		row.remove("ID");
 		//如果没有主键值则执行insert
 		service.save("HR_EMPLOYEE", row);
