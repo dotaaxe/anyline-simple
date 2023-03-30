@@ -64,6 +64,7 @@ public class EntityApplication {
             item.setJoinYmd("2020-01-01");
             list.add(item);
         }
+        //批量insert时不检测空值
         service.insert(list);
     }
     public static void empty(){
