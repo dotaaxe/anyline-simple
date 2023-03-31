@@ -1,6 +1,9 @@
 package org.anyline.simple.net;
 
+import org.anyline.entity.DataRow;
+import org.anyline.entity.adapter.KeyAdapter;
 import org.anyline.net.*;
+import org.apache.http.entity.StringEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -28,10 +31,7 @@ public class NetApplication extends SpringBootServletInitializer {
 		//http();
 		//download();
 		//jtt808();
-		//
-		String url = "https://so.gushiwen.cn/shiwenv_45c396367f59.aspx";
-		url ="http://www.lljyj.com/writer/242.html";
-		System.out.println(HttpUtil.get(url).getText());
+
 	}
 	public static void jtt808(){
 
