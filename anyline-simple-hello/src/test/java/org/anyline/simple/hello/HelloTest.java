@@ -5,6 +5,7 @@ import org.anyline.data.entity.Table;
 import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
 import org.anyline.service.AnylineService;
+import org.anyline.util.BeanUtil;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.logging.Logger;
 import org.junit.platform.commons.logging.LoggerFactory;
@@ -19,7 +20,6 @@ public class HelloTest {
 
     @Test
     public void init() throws Exception{
-
         //先创建个表
         Table table = service.metadata().table("crm_user");
         if(null != table){
@@ -32,6 +32,10 @@ public class HelloTest {
         table.addColumn("NAME","varchar(10)");
         service.ddl().create(table);
 
+        DataRow test = new DataRow();
+        test.put("NAME",  "1,2,3".split(","));
+        service.save("crm_user", test);
+
         //插入数据
         DataRow row = new DataRow();
         row.put("CODE","101");
@@ -40,6 +44,8 @@ public class HelloTest {
 
         //查询数据
         DataSet set = service.querys("crm_user", "ID>1");
+        System.out.println(set);
+        set = service.querys("crm_user", service.condition().and("ID", "1,2,3".split(",")));
         System.out.println(set);
         //合计行数 与查询的参数一样只是返回值不一样
         int qty = service.count("crm_user", "id>1");
