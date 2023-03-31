@@ -5,8 +5,10 @@ import org.anyline.data.entity.Column;
 import org.anyline.data.entity.Table;
 import org.anyline.data.jdbc.ds.DataSourceHolder;
 import org.anyline.data.jdbc.ds.DynamicDataSourceRegister;
+import org.anyline.entity.DataRow;
 import org.anyline.proxy.ServiceProxy;
 import org.anyline.service.AnylineService;
+import org.anyline.util.ConfigTable;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -49,6 +51,7 @@ public class DatasourceApplication extends SpringBootServletInitializer {
 	}
 	//切换数据源 以及动态注册数据源
 	public static void ds(AnylineService service){
+		ConfigTable.IS_AUTO_CHECK_METADATA = true;
 		DataSourceHolder.setDataSource("sso");
 		service.query("sso_user");
 		//查询表结构
@@ -68,8 +71,9 @@ public class DatasourceApplication extends SpringBootServletInitializer {
 		DataSourceHolder.setDefaultDataSource();
 
 		//用<>表示数据源,执行完成后会自动切换回 切换前的数据库(而不是默认数据源)
-		service.query("<crm>crm_customer");
-
+		DataRow cust = service.query("<crm>crm_customer");
+		cust.put("NM", 1);
+		service.save(cust);
 		service.query("HR_DEPARTMENT"); //这里查的还是默认数据源
 
 		service.query("<erp>mm_material");
