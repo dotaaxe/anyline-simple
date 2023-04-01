@@ -10,7 +10,7 @@
 注意需要在启动类上添加注解
 ```
 
-@Import(DynamicDataSourceRegister.class)
+@Import(DynamicDataSourceRegister.class) //2023-03-31之后的版本不需要这一行
 ```
 
 注意需要在配置文件中 配置数据源或动态注册数据源 才能切换成功  

@@ -20,7 +20,7 @@ import java.util.List;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {"org.anyline"})
-@Import(DynamicDataSourceRegister.class)
+@Import(DynamicDataSourceRegister.class) //2023-03-31之后的版本不需要这一行
 public class ResultApplication extends SpringBootServletInitializer {
 	private static Logger log = LoggerFactory.getLogger(ResultApplication.class);
 	private static AnylineService service;
