@@ -1,9 +1,12 @@
 package org.anyline.simple.net;
 
 import org.anyline.entity.DataRow;
+import org.anyline.entity.DataSet;
 import org.anyline.entity.adapter.KeyAdapter;
 import org.anyline.net.*;
+import org.anyline.util.DateUtil;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,6 +15,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.annotation.ComponentScan;
 
 import java.io.File;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,7 +35,46 @@ public class NetApplication extends SpringBootServletInitializer {
 		//http();
 		//download();
 		//jtt808();
+		test();
+	}
+	public static void test() throws Exception{
+		String url = "https://api.jiandaoyun.com/api/v4/app/636b3a0342e9fa00084ab1ca/entry/63971ce8892298000aa82566/data";
+		Map<String,String> headers = new HashMap<>();
+		headers.put("Authorization","Bearer Aw4fIl8bc7hr0NdG0goB2p2tjZ5XTdCD");
+		DataRow param = new DataRow(KeyAdapter.KEY_CASE.SRC);
+		param.put("limit",2);
+		HttpResponse response = HttpUtil.post(headers, url, "utf-8", new StringEntity(param.toJSON()));
+		HttpClient client = new HttpClient();
+		client.setEntity(new StringEntity(param.toJSON()));
+		client.setUrl(url);
+		client.setHeaders(headers);
+		HttpResponse res = client.post();
+		System.out.println(res.getText());
+		//{"data":[{"creator":{"name":"HEBE","username":"#admin","status":1,"type":0,"_id":"605c1c6280e9de2aa14e73c3"}
+		// ,"updater":{"name":"HEBE","username":"#admin","status":1,"type":0,"_id":"605c1c6280e9de2aa14e73c3"},
+		// "deleter":null,"createTime":"2022-12-12T12:23:23.390Z","updateTime":"2022-12-12T12:23:23.390Z",
+		// "deleteTime":null,"_widget_1670847721466":1,"_widget_1670847721467":"孙涛"
+		// ,"_widget_1670847721469":"男","_id":"63971d3b9ae454000a8cf9d8","appId":"636b3a0342e9fa00084ab1ca"
+		// ,"entryId":"63971ce8892298000aa82566"},{"creator":{"name":"HEBE","username":"#admin","status":1,"type":0,"_id":"605c1c6280e9de2aa14e73c3"},"updater":{"name":"HEBE","username":"#admin","status":1,"type":0,"_id":"605c1c6280e9de2aa14e73c3"},"deleter":null,"createTime":"2022-12-12T12:23:40.774Z","updateTime":"2022-12-12T12:23:40.774Z","deleteTime":null,"_widget_1670847721466":2,"_widget_1670847721467":"张三","_widget_1670847721469":"女","_id":"63971d4c7f10a5000a03b8bf","appId":"636b3a0342e9fa00084ab1ca","entryId":"63971ce8892298000aa82566"},{"creator":{"name":"HEBE","username":"#admin","status":1,"type":0,"_id":"605c1c6280e9de2aa14e73c3"},"updater":{"name":"HEBE","username":"#admin","status":1,"type":0,"_id":"605c1c6280e9de2aa14e73c3"},"deleter":null,"createTime":"2022-12-12T12:24:07.658Z","updateTime":"2022-12-12T12:24:07.658Z","deleteTime":null,"_widget_1670847721466":3,"_widget_1670847721467":"刘丽","_widget_1670847721469":"女","_id":"63971d67a2e4ab000855bcaa","appId":"636b3a0342e9fa00084ab1ca","entryId":"63971ce8892298000aa82566"},{"creator":{"name":"HEBE","username":"#admin","status":1,"type":0,"_id":"605c1c6280e9de2aa14e73c3"},"updater":{"name":"HEBE","username":"#admin","status":1,"type":0,"_id":"605c1c6280e9de2aa14e73c3"},"deleter":null,"createTime":"2022-12-12T12:24:21.808Z","updateTime":"2022-12-12T12:24:21.808Z","deleteTime":null,"_widget_1670847721466":4,"_widget_1670847721467":"王琦","_widget_1670847721469":"男","_id":"63971d75959e16000aac3c27","appId":"636b3a0342e9fa00084ab1ca","entryId":"63971ce8892298000aa82566"},{"creator":{"name":"HEBE","username":"#admin","status":1,"type":0,"_id":"605c1c6280e9de2aa14e73c3"},"updater":{"name":"HEBE","username":"#admin","status":1,"type":0,"_id":"605c1c6280e9de2aa14e73c3"},"deleter":null,"createTime":"2022-12-14T07:47:43.949Z","updateTime":"2022-12-14T07:47:43.949Z","deleteTime":null,"_widget_1670847721466":5,"_widget_1670847721467":"张无忌","_widget_1670847721469":"男","_id":"63997f9f888442000a58379f","appId":"636b3a0342e9fa00084ab1ca","entryId":"63971ce8892298000aa82566"}]}
 
+		DataRow result = DataRow.parseJson(res.getText());
+		DataSet items = result.getSet("data");
+		System.out.println(items.size());
+
+		/*
+		DataSet inserts = new DataSet();
+		for(DataRow item:items){
+			DataRow creator = item.getRow("creator");
+			DataRow updater = item.getRow("updater");
+			String sex = item.getString("_widget_1670847721469");
+
+			DataRow insert = new DataRow();
+			insert.copy(item, "ID:_id", "SEX:_widget_1670847721469");
+			//需处理的就先处理一下格式
+			Date createTime = item.getDate("createTime");
+			insert.put("CREATE_TIME", DateUtil.format(createTime, DateUtil.FORMAT_DATE_TIME));
+			inserts.add(insert);
+		}*/
 	}
 	public static void jtt808(){
 

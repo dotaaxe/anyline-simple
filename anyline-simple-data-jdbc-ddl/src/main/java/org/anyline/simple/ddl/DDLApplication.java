@@ -23,7 +23,7 @@ import java.util.LinkedHashMap;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {"org.anyline"})
-@Import(DynamicDataSourceRegister.class) //2023-03-31之后的版本不需要这一行
+//@Import(DynamicDataSourceRegister.class) //2023-03-31之后的版本不需要这一行
 public class DDLApplication {
 
 	private static AnylineService service;
@@ -35,12 +35,11 @@ public class DDLApplication {
 		ConfigurableApplicationContext context = application.run(args);
 
 		service = context.getBean(AnylineService.class);
-
-		//check(null, "MySQL");
+		check(null, "MySQL");
 		//check("cms", "MySQL");
 		//check("pg", "PostgreSQL");
 		//check("ms", "SQL Server");
-		check("ms2000", "SQL Server 2000");
+		//check("ms2000", "SQL Server 2000");
 		//check("oracle", "Oracle 11G");
 		//check("db2", "DB2");
 
