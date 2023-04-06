@@ -100,6 +100,8 @@ public class DatasourceApplication extends SpringBootServletInitializer {
 
 
 		//覆盖一个数据源
+		//注意如果需要覆盖数据源 先设置spring.main.allow-bean-definition-overriding=true
+		//否则会抛出异常
 		try {
 			String url = "jdbc:mysql://192.168.220.100:3306/simple_crm?useUnicode=true&characterEncoding=UTF8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true";
 			DataSourceHolder.reg("sso", "com.zaxxer.hikari.HikariDataSource", "com.mysql.cj.jdbc.Driver", url, "root", "root");
