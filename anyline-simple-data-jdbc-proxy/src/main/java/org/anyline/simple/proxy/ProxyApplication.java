@@ -26,7 +26,6 @@ import java.util.List;
 @ComponentScan(basePackages = {"org.anyline"})
 
 public class ProxyApplication {
-
 	private static Logger log = LoggerFactory.getLogger(ProxyApplication.class);
 	public static void main(String[] args) throws Exception{
 		SpringApplication application = new SpringApplication(ProxyApplication.class);
@@ -36,12 +35,10 @@ public class ProxyApplication {
 		//以下操作都是针对cms数据源，运行过程中不能切换数据源
 		service.query("a_test");
 
-
 		//返回一个对应默认数据源的service
 		service = ServiceProxy.service();
 		//以下操作都是针对默认数据源
 		service.query("a_test");
-
 
 		//ServiceProxy有两个应用场景
 		//1.用来代替AnylineService
