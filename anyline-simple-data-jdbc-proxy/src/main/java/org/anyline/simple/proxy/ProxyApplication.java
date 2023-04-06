@@ -27,7 +27,6 @@ import java.util.List;
 
 public class ProxyApplication {
 
-	private static AnylineService service;
 	private static Logger log = LoggerFactory.getLogger(ProxyApplication.class);
 	public static void main(String[] args) throws Exception{
 		SpringApplication application = new SpringApplication(ProxyApplication.class);
