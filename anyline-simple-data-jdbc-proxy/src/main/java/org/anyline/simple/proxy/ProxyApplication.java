@@ -43,6 +43,10 @@ public class ProxyApplication {
 		//以下操作都是针对默认数据源
 		service.query("a_test");
 
+
+		//ServiceProxy有两个应用场景
+		//1.用来代替AnylineService
+		//2.用来切换数据源
 		//详细说明参考 http://doc.anyline.org/s?id=p298pn6e9o1r5gv78acvic1e624c62387f51d08504f16eef5d2bbd26817f54f0e3
 	}
 }
