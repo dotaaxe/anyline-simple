@@ -30,6 +30,18 @@ public class ProxyApplication {
 	public static void main(String[] args) throws Exception{
 		SpringApplication application = new SpringApplication(ProxyApplication.class);
 		ConfigurableApplicationContext context = application.run(args);
+
+
+		//ServiceProxy有两个应用场景
+		//1.用来代替AnylineService
+
+		//这里直接调用静态方式，就不需要注入service了
+		ServiceProxy.query("a_test");
+
+		//2.用来切换数据源
+		//详细说明参考 http://doc.anyline.org/s?id=p298pn6e9o1r5gv78acvic1e624c62387f51d08504f16eef5d2bbd26817f54f0e3
+
+
 		//返回一个对应cms数据源的service
 		AnylineService service = ServiceProxy.service("cms");
 		//以下操作都是针对cms数据源，运行过程中不能切换数据源
@@ -39,10 +51,5 @@ public class ProxyApplication {
 		service = ServiceProxy.service();
 		//以下操作都是针对默认数据源
 		service.query("a_test");
-
-		//ServiceProxy有两个应用场景
-		//1.用来代替AnylineService
-		//2.用来切换数据源
-		//详细说明参考 http://doc.anyline.org/s?id=p298pn6e9o1r5gv78acvic1e624c62387f51d08504f16eef5d2bbd26817f54f0e3
 	}
 }
