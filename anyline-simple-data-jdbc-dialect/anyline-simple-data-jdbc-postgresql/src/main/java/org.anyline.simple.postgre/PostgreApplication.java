@@ -1,7 +1,9 @@
 package org.anyline.simple.postgre;
 
+import org.anyline.data.entity.Table;
 import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
+import org.anyline.entity.adapter.KeyAdapter;
 import org.anyline.service.AnylineService;
 import org.anyline.util.BasicUtil;
 import org.anyline.util.BeanUtil;
@@ -19,14 +21,55 @@ import java.util.UUID;
 @ComponentScan(basePackages = {"org.anyline"})
 @SpringBootApplication
 public class PostgreApplication {
-    public static void main(String[] args) {
+    private static  AnylineService service;
+    public static void main(String[] args) throws Exception {
         SpringApplication application = new SpringApplication(PostgreApplication.class);
         ConfigurableApplicationContext ctx = application.run(args);
-        AnylineService service = (AnylineService) ctx.getBean("anyline.service");
+        service = (AnylineService) ctx.getBean("anyline.service");
+        DataRow.DEFAULT_KEY_KASE = KeyAdapter.KEY_CASE.SRC;
+        DataRow.DEFAULT_PRIMARY_KEY = "id";
+        init();
+        dml();
+       // metadata();
+        //type();
+        System.exit(0);
+    }
+    public static void dml(){
+        DataRow row = new DataRow();
+        row.put("name", "张三");
+        row.put("id", BasicUtil.getRandomString(32));
+        service.insert("tb_user", row);
+        System.out.println(row);
+    }
+    public static void init() throws Exception{
+        Table table = service.metadata().table("tb_user");
+        if(null != table){
+            service.ddl().drop(table);
+        }
+        table = new Table("tb_user");
+        table.addColumn("name", "varchar(32)");
+        table.addColumn("id", "varchar(32)");
+        table.addColumn("remark", "varchar(32)");
+        service.ddl().create(table);
+    }
+    public static void metadata(){
+
         List<String> mts = service.columns("tb_user");
         System.out.println(BeanUtil.object2json(mts));
-        DataSet set = service.querys("tb_user(email)",0,1);
-        System.out.println(set);
+        //DataSet set = service.querys("tb_user(email)",0,1);
+        //System.out.println(set);
+
+        List<String> tables = service.tables();
+        System.out.println(tables);
+        tables = service.tables("TABLE");
+        System.out.println(tables);
+        tables = service.tables("ts_%","TABLE");
+        System.out.println(tables);
+        tables = service.tables("public","ts_%","TABLE");
+        System.out.println(tables);
+    }
+    public static void type(){
+
         DataRow user = new DataRow();
         user.put("id", UUID.randomUUID());
         user.put("created_time", System.currentTimeMillis());
@@ -66,7 +109,7 @@ public class PostgreApplication {
         user.setIsNew(true);
         //t7 列的类型是numeric直接save会报错
         try {
-  //          service.save("tb_user", user);
+            service.save("tb_user", user);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -81,17 +124,5 @@ public class PostgreApplication {
         service.update("tb_user",user);
         //System.out.println(BeanUtil.object2json(service.metadatas("tb_user")));
 
-
-        List<String> tables = service.tables();
-        System.out.println(tables);
-        tables = service.tables("TABLE");
-        System.out.println(tables);
-        tables = service.tables("ts_%","TABLE");
-        System.out.println(tables);
-        tables = service.tables("public","ts_%","TABLE");
-        System.out.println(tables);
-
-
-        System.exit(0);
     }
 }
