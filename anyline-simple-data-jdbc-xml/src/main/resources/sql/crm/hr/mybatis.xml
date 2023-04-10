@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper>
+    <select id="users">
+        select * FROM user
+        where 1=1 AND ${id}
+    </select>
+    <select id="user_list">
+        select * from CRM_USER t where 1=1 and t.ID=#{ID}
+    </select>
+</mapper>
