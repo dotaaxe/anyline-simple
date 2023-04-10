@@ -1,17 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sqls>
+
+
     <sql id="USER_LIST">
         <text>
-            SELECT * FROM CRM_USER
+            SELECT * FROM CRM_USER  WHERE CODE = '::CODE' AND  CODE = ':CD'
         </text>
 
         <condition id="NAME" required="true"><!-- required=true 没有值也要拼接当前条件   最终被替换成 SORT_ID IS NULL-->
-            AND TITLE LIKE '%:NAME%'
+            AND NAME LIKE '%:NAME%'
         </condition>
+        <!--ID IN(?,?,?)-->
         <condition id="ID" strictRequired="false"><!-- strictRequired=true如果没有值整个SQL不执行 -->
             ID IN(:ID)
         </condition>
     </sql>
+    <!--各版本的变量及占位符格式-->
+
+    <!--SELECT * FROM CRM_USER  WHERE CODE = 'A101' AND  CODE = 'A1' AND NAME LIKE '%张三%' AND ID IN(?,?,?)-->
+    <sql id="USER_LIST1">
+        <text>
+            SELECT * FROM CRM_USER  WHERE CODE = '::CODE' AND  CODE = ':CD'
+        </text>
+        <condition id="NAME">
+            AND NAME LIKE '%:NAME%'
+        </condition>
+        <condition id="ID">
+            ID IN(:ID)
+        </condition>
+    </sql>
+
+
+    <!--SELECT * FROM CRM_USER WHERE CODE = ? AND  CODE = 'A1' AND NAME LIKE '%张三%' AND ID IN(?,?,?)-->
+    <sql id="USER_LIST2">
+        <text>
+            SELECT * FROM CRM_USER WHERE CODE = #{CODE} AND  CODE = '#{CD}'
+        </text>
+
+        <condition id="NAME">
+            AND NAME LIKE '%#{NAME}%'
+        </condition>
+        <condition id="ID">
+            ID IN(#{ID})
+        </condition>
+    </sql>
+
+    <!--SELECT * FROM CRM_USER WHERE CODE = 'A101'  AND  CODE = 'A1' AND NAME LIKE '%张三%' AND ID IN(1,2,3)-->
+    <sql id="USER_LIST3">
+        <text>
+            SELECT * FROM CRM_USER WHERE CODE = '${CODE}'  AND  CODE = '${CD}'
+        </text>
+        <condition id="NAME">
+            AND NAME LIKE '%${NAME}%'
+        </condition>
+        <!--ID IN(1,2,3)-->
+        <condition id="ID">
+            ID IN(${ID})
+        </condition>
+    </sql>
+
     <!--定义一个公用组-->
     <conditions id="group_art">
         <condition id="ID">
