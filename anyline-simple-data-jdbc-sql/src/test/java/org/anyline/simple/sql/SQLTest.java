@@ -8,6 +8,7 @@ import org.anyline.service.AnylineService;
 import org.anyline.util.ConfigTable;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.HashMap;
@@ -17,6 +18,7 @@ import java.util.Map;
 public class SQLTest {
 
     @Autowired
+    @Qualifier("anyline.service")
     private AnylineService service;
 
     /************************************************************************************************************
@@ -33,10 +35,11 @@ public class SQLTest {
         //:PARAM_CODE 与 {PARAM_CODE} 效果一致但不能混用
         //会生成占位符 "PARAM_CODE:100" 与SQL中的占位符能匹配成功 会把值100赋值给占位符
         String sql = "SELECT * FROM CRM_USER WHERE CODE = :PARAM_CODE AND NAME != :PARAM_CODE AND FIND_IN_SET(:PARAM_CODE, CODE)";
-        DataSet set = service.querys(sql, "PARAM_CODE:111");
-        set = service.querys(sql, new DefaultConfigStore().param("PARAM_CODE", 222));
-        sql = "SELECT * FROM CRM_USER WHERE CODE = {PARAM_CODE}";
-        set = service.querys(sql, "PARAM_CODE:100");
+        service.querys(sql, "PARAM_CODE:111");
+        service.querys(sql, new DefaultConfigStore().param("PARAM_CODE", 222));
+
+        sql = "SELECT * FROM CRM_USER WHERE CODE = #{PARAM_CODE}";
+        service.querys(sql, "PARAM_CODE:100");
         //生成SQL SELECT * FROM CRM_USER WHERE CODE = ?
 
 
@@ -44,15 +47,18 @@ public class SQLTest {
         //不生成占位符,而是在原sql上replace
         //在一些比较复杂的情况,简单占位符胜任不了时 会用到
         sql = "SELECT * FROM CRM_USER WHERE CODE = ::PARAM_CODE";
-        set = service.querys(sql, "PARAM_CODE:100");
+        service.querys(sql, "PARAM_CODE:100");
+        //生成SQL SELECT * FROM CRM_USER WHERE CODE = 1
+
+
         sql = "SELECT * FROM CRM_USER WHERE CODE = ${PARAM_CODE}";
-        set = service.querys(sql, "PARAM_CODE:100");
+        service.querys(sql, "PARAM_CODE:100");
         //生成SQL SELECT * FROM CRM_USER WHERE CODE = 1
 
 
         //特别注意这以下情况 ID:1与SQL中的变量匹配不成功时，SQL会追加一个条件  ID = 1
         sql = "SELECT * FROM CRM_USER WHERE CODE = :PARAM_CODE";
-        set = service.querys(sql, "PARAM_CODE:1", "ID:1");
+        service.querys(sql, "PARAM_CODE:1", "ID:1");
         //生成SQL SELECT * FROM CRM_USER WHERE CODE = ? AND ID = ?
 
 
@@ -61,18 +67,18 @@ public class SQLTest {
         Map<String,Object> map = new HashMap<>();
         map.put("ID", "100");
         configs.setValue(map); //这里相当于接收request的提交的参数
-        set = service.querys(sql, configs);
+        service.querys(sql, configs);
 
         configs = new DefaultConfigStore();
         configs.param("PARAM_CODE", "9");
         configs.param("TYPE_CODE", "100"); //param 如果没有匹配到参数则忽略，而不会添加新的查询条件
         configs.and("NAME", "zh");         //and 如果没有匹配到参数 会添加新的查询条件
-        set = service.querys(sql, configs);
+        service.querys(sql, configs);
 
 
         //如果没有提供参数值 会生成 = NULL, 这种情况明显不符合预期
         sql = "SELECT * FROM CRM_USER WHERE CODE = :PARAM_CODE";
-        set = service.querys(sql);
+        service.querys(sql);
         //生成SQL  SELECT * FROM CRM_USER WHERE CODE = NULL
 
         sql = "UPDATE CRM_USER SET CODE = :CODE WHERE ID = :ID";
