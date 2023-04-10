@@ -147,6 +147,7 @@
         <module>anyline-simple-data-jdbc-interceptor</module>
         <module>anyline-simple-data-jdbc-id</module>
         <module>anyline-simple-data-jdbc-proxy</module>
+        <module>anyline-simple-jar</module>
 
     </modules>
 </project>
