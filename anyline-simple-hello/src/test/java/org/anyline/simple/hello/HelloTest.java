@@ -2,6 +2,9 @@ package org.anyline.simple.hello;
 
 import org.anyline.data.entity.Column;
 import org.anyline.data.entity.Table;
+import org.anyline.data.param.ConfigStore;
+import org.anyline.data.param.init.DefaultConfigStore;
+import org.anyline.entity.Compare;
 import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
 import org.anyline.service.AnylineService;
@@ -65,6 +68,13 @@ public class HelloTest {
     @Test
     public void xml(){
         DataSet users = service.querys("crm.user:USER_LIST");
+        System.out.println(users);
+    }
+    @Test
+    public void query(){
+        ConfigStore configs = new DefaultConfigStore();
+        configs.and(Compare.EQUAL, "ID", "5", true, true);
+        DataSet users = service.querys("CRM_USER", configs);
         System.out.println(users);
     }
 }
