@@ -42,13 +42,23 @@ public class EntityApplication {
        service = (AnylineService)context.getBean("anyline.service");
 
         //init();
+        point();
         //blob();
         //json();
         //xml();
         //sql();
         //empty();
-        camel();
+        //camel();
         System.exit(0);
+    }
+    public static void point(){
+        Employee e =  ServiceProxy.select(Employee.class, "LOC IS NOT NULL");
+        BeanUtil.setFieldValue(e, "ymd", DateUtil.parse("2020-01-01"));
+        System.out.println(BeanUtil.object2json(e));
+        System.out.println(BeanUtil.concat(e.getLoc()));
+
+        service.save(e);
+
     }
     public static  void camel(){
 

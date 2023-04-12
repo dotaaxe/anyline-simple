@@ -3,14 +3,18 @@ package org.anyline.simple.entity;
 import javax.persistence.Column;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import java.time.LocalDate;
 import java.util.List;
 
 @Table(name="hr_employee")
 public class Employee extends BaseEntity{
+
     private Long id;
     @Column(name = "NM")
     private String name;
     private String userName;
+    //对应date类型
+    private LocalDate ymd;
     @Transient
     private int age;
     //对应数据库blob类型
@@ -31,6 +35,11 @@ public class Employee extends BaseEntity{
 
     private String joinYmd;
     private List<Department> ejsons;
+    //对应数据类型point
+    private double[] loc;
+
+
+
 
     public List<Department> getEjsons() {
         return ejsons;
@@ -123,5 +132,21 @@ public class Employee extends BaseEntity{
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public LocalDate getYmd() {
+        return ymd;
+    }
+
+    public void setYmd(LocalDate ymd) {
+        this.ymd = ymd;
+    }
+
+    public double[] getLoc() {
+        return loc;
+    }
+
+    public void setLoc(double[] loc) {
+        this.loc = loc;
     }
 }
