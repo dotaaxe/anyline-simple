@@ -9,11 +9,16 @@ import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
 import org.anyline.service.AnylineService;
 import org.anyline.util.BeanUtil;
+import org.anyline.util.NumberUtil;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.logging.Logger;
 import org.junit.platform.commons.logging.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.math.BigDecimal;
 
 @SpringBootTest
 public class HelloTest {
@@ -76,5 +81,9 @@ public class HelloTest {
         configs.and(Compare.EQUAL, "ID", "5", true, true);
         DataSet users = service.querys("CRM_USER", configs);
         System.out.println(users);
+        DataRow user = service.query("CRM_USER");
+
+        System.out.println(user);
     }
+
 }
