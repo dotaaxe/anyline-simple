@@ -3,6 +3,7 @@ package org.anyline.simple.ddl;
 import javafx.scene.control.Tab;
 import org.anyline.data.entity.Column;
 import org.anyline.data.entity.Index;
+import org.anyline.data.entity.PrimaryKey;
 import org.anyline.data.entity.Table;
 import org.anyline.data.jdbc.ds.DataSourceHolder;
 import org.anyline.data.jdbc.ds.DynamicDataSourceRegister;
@@ -11,6 +12,7 @@ import org.anyline.service.AnylineService;
 import org.anyline.util.BasicUtil;
 import org.anyline.util.ConfigTable;
 import org.anyline.util.DateUtil;
+import org.anyline.util.SpringContextUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -34,9 +36,10 @@ public class DDLApplication {
 
 		ConfigurableApplicationContext context = application.run(args);
 
-		service = context.getBean(AnylineService.class);
-		check(null, "MySQL");
-		//check("cms", "MySQL");
+		service = (AnylineService)SpringContextUtil.getBean("anyline.service");
+
+		//check(null, "MySQL");
+		check("cms", "MySQL");
 		//check("pg", "PostgreSQL");
 		//check("ms", "SQL Server");
 		//check("ms2000", "SQL Server 2000");
@@ -81,6 +84,15 @@ public class DDLApplication {
 		table.addColumn("NAME","varchar(50)").setComment("名称");
 		table.addColumn("A_CHAR","varchar(50)");
 		service.ddl().save(table);
+		ConfigTable.IS_DDL_AUTO_DROP_COLUMN = true;
+		table = service.metadata().table("a_test");
+		table.setName("a_test");
+		table.setComment("新备注");
+		table.addColumn("a_char","varchar(50)");
+		table.addColumn("NAME_"+BasicUtil.getRandomNumberString(5),"varchar(50)").setComment("添加新列");
+		service.ddl().save(table);
+
+
 		table = service.metadata().table("A_TEST");
 		if(null != table) {
 			log.warn("查询表结构:" + table.getName());
@@ -88,7 +100,6 @@ public class DDLApplication {
 			for (Column column : columns.values()) {
 				log.warn("列:" + column.toString());
 			}
-
 		}
 
 		//修改表结构两类场景
@@ -114,6 +125,25 @@ public class DDLApplication {
 		update.addColumn("CODE","varchar(50)").setComment("编号");
 		//这里表原来少了NAME  NAMES  A_CHAR 三列、执行save时会删除这三列
 		service.ddl().save(update);
+		table = service.metadata().table("TEST_PK");
+		if(null != table){
+			service.ddl().drop(table);
+		}
+
+		table = new Table("TEST_PK");
+		table.addColumn("NAME", "varchar(10)");
+		service.ddl().save(table);
+
+		table.addColumn("ID", "int").setPrimaryKey(true).setAutoIncrement(true);
+		service.ddl().save(table);
+
+
+		table = service.metadata().table("TEST_PK");
+		Column pcol = table.addColumn("PKID", "int");
+		PrimaryKey pk = new PrimaryKey();
+		pk.addColumn(pcol);
+		table.setPrimaryKey(pk);
+		service.ddl().save(table);
 
 		System.out.println("\n-------------------------------- end table  ----------------------------------------------\n");
 	}
