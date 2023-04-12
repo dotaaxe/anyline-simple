@@ -37,10 +37,10 @@ public class DatasourceApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {
 
+		ConfigTable.IS_MULTIPLE_SERVICE = false;
 		SpringApplication application = new SpringApplication(DatasourceApplication.class);
 
 		ConfigurableApplicationContext context = application.run(args);
-
 		AnylineService service = (AnylineService)context.getBean("anyline.service");
 
 		//切换数据源
