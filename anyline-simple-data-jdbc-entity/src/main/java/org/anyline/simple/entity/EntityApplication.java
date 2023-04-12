@@ -56,8 +56,11 @@ public class EntityApplication {
         BeanUtil.setFieldValue(e, "ymd", DateUtil.parse("2020-01-01"));
         System.out.println(BeanUtil.object2json(e));
         System.out.println(BeanUtil.concat(e.getLoc()));
-
         service.save(e);
+
+        DataRow row = service.query("HR_EMPLOYEE", "LOC IS NOT NULL");
+        System.out.println(row);
+        service.save(row);
 
     }
     public static  void camel(){
