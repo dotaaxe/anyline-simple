@@ -1,5 +1,7 @@
 package org.anyline.simple.entity;
 
+import org.anyline.entity.Point;
+
 import javax.persistence.Column;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -36,7 +38,9 @@ public class Employee extends BaseEntity{
     private String joinYmd;
     private List<Department> ejsons;
     //对应数据类型point
-    private double[] loc;
+    private Double[] loc;
+    //对应数据类型point
+    private Point pt;
 
 
 
@@ -142,11 +146,19 @@ public class Employee extends BaseEntity{
         this.ymd = ymd;
     }
 
-    public double[] getLoc() {
+    public Point getPt() {
+        return pt;
+    }
+
+    public void setPt(Point pt) {
+        this.pt = pt;
+    }
+
+    public Double[] getLoc() {
         return loc;
     }
 
-    public void setLoc(double[] loc) {
+    public void setLoc(Double[] loc) {
         this.loc = loc;
     }
 }

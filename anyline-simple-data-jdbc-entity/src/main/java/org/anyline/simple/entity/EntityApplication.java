@@ -52,6 +52,7 @@ public class EntityApplication {
         System.exit(0);
     }
     public static void point(){
+        ConfigTable.IS_AUTO_SPLIT_ARRAY = false;
         Employee e =  ServiceProxy.select(Employee.class, "LOC IS NOT NULL");
         BeanUtil.setFieldValue(e, "ymd", DateUtil.parse("2020-01-01"));
         System.out.println(BeanUtil.object2json(e));
