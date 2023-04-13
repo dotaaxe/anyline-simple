@@ -22,7 +22,7 @@ import java.util.List;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {"org.anyline"})
-@Import(DynamicDataSourceRegister.class) //2023-03-31之后的版本不需要这一行
+
 public class MetadataApplication extends SpringBootServletInitializer {
 	private static Logger log = LoggerFactory.getLogger(MetadataApplication.class);
 	private static AnylineService service = null;

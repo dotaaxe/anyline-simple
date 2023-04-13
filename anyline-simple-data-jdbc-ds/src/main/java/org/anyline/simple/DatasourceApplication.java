@@ -19,7 +19,7 @@ import java.util.LinkedHashMap;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {"org.anyline"})
-//@Import(DynamicDataSourceRegister.class) //2023-03-31之后的版本不需要这一行
+//
 public class DatasourceApplication extends SpringBootServletInitializer {
 
 	@Override
