@@ -36,20 +36,31 @@ public class EntityApplication {
 
 
     public static void main(String[] args) throws Exception{
-        ConfigTable.IS_AUTO_CHECK_METADATA = true;
+        //ConfigTable.IS_AUTO_CHECK_METADATA = true;
         SpringApplication application = new SpringApplication(EntityApplication.class);
        ConfigurableApplicationContext context = application.run(args);
        service = (AnylineService)context.getBean("anyline.service");
 
         //init();
-        point();
+        //point();
         //blob();
         //json();
         //xml();
         //sql();
         //empty();
         //camel();
+        test();
         System.exit(0);
+    }
+    public static void test(){
+
+       // SyncTask task = ServiceProxy.select(SyncTask.class);
+        //SyncTask task = (SyncTask)service.select("sync_task1", SyncTask.class, "id:1");
+        SyncTask task = new SyncTask();
+        task.setId(1L);
+        task.setLastExeQty(123L);
+        //service.update(task, "LAST_EXE_QTY");
+        service.update("sync_task", task, "LAST_EXE_QTY");
     }
     public static void point(){
         //ConfigTable.IS_AUTO_SPLIT_ARRAY = false;
@@ -235,6 +246,12 @@ public class EntityApplication {
 
         //这里需要转换类型
         Employee e = (Employee) service.select(Employee.class);
+        //更新全部列
+        service.save(e);
+
+        //修改部分列
+        e.setJoinYmd(DateUtil.format("yyyy-MM-dd"));
+        service.update(e, "join_ymd");
 
         //也可以通过静态代理类,AnylineProxy可以代理AnylineService的一切操作并且是静态方法
         //ServiceProxy不需要注入直接调用静态方法,方法签名参考AnylineService
