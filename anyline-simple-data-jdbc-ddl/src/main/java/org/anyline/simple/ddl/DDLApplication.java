@@ -158,6 +158,7 @@ public class DDLApplication {
 		Column pcol = table.addColumn("PKID", "int");
 		PrimaryKey pk = new PrimaryKey();
 		pk.addColumn(pcol);
+		//修改主键
 		table.setPrimaryKey(pk);
 		service.ddl().save(table);
 		//修改表名
