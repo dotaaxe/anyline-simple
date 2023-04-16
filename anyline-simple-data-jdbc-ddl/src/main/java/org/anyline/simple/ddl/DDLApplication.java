@@ -8,6 +8,8 @@ import org.anyline.data.entity.Table;
 import org.anyline.data.jdbc.ds.DataSourceHolder;
 import org.anyline.data.jdbc.ds.DynamicDataSourceRegister;
 import org.anyline.entity.DataRow;
+import org.anyline.entity.MultiPoint;
+import org.anyline.entity.Point;
 import org.anyline.service.AnylineService;
 import org.anyline.util.BasicUtil;
 import org.anyline.util.ConfigTable;
@@ -30,6 +32,7 @@ public class DDLApplication {
 
 	private static AnylineService service;
 	private static Logger log = LoggerFactory.getLogger(DDLApplication.class);
+
 	public static void main(String[] args) throws Exception{
 
 		SpringApplication application = new SpringApplication(DDLApplication.class);
@@ -38,8 +41,8 @@ public class DDLApplication {
 
 		service = (AnylineService)SpringContextUtil.getBean("anyline.service");
 
-		//check(null, "MySQL");
-		check("cms", "MySQL");
+		check(null, "MySQL");
+		//check("cms", "MySQL");
 		//check("pg", "PostgreSQL");
 		//check("ms", "SQL Server");
 		//check("ms2000", "SQL Server 2000");
@@ -52,12 +55,25 @@ public class DDLApplication {
 		if(null != ds) {
 			DataSourceHolder.setDataSource(ds);
 		}
+		type();
 		table();
 		column();
 		index();
 		exception();
 		clear();
 		System.out.println("\n=============================== END " + title + "=========================================\n");
+	}
+	public static void type() throws Exception{
+		Table table = service.metadata().table("a_test");
+		if(null == table){
+			table = new Table("a_test");
+		}
+		table.setComment("表备注");
+		Column column = new Column();
+		column.setName("a");
+		column.setTypeName("int");
+		table.addColumn(column);
+		service.ddl().save(table);
 	}
 	public static void table() throws Exception{
 		System.out.println("\n-------------------------------- start table  --------------------------------------------\n");
@@ -68,7 +84,7 @@ public class DDLApplication {
 		for(Table table:tables.values()){
 			log.warn("表:"+table.getName());
 		}
-
+		//修改表名
 
 		Table table = service.metadata().table("A_TEST");
 		if(null != table){
@@ -143,6 +159,9 @@ public class DDLApplication {
 		PrimaryKey pk = new PrimaryKey();
 		pk.addColumn(pcol);
 		table.setPrimaryKey(pk);
+		service.ddl().save(table);
+		//修改表名
+		table.update().setName("test_pk_new");
 		service.ddl().save(table);
 
 		System.out.println("\n-------------------------------- end table  ----------------------------------------------\n");
