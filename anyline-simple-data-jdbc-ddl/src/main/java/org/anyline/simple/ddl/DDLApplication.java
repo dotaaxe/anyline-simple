@@ -162,7 +162,7 @@ public class DDLApplication {
 		table.setPrimaryKey(pk);
 		service.ddl().save(table);
 		//修改表名
-		table.update().setName("test_pk_new");
+		table.update().setName("test_pk_"+DateUtil.format("yyyyMMddHHmmss"));
 		service.ddl().save(table);
 
 		System.out.println("\n-------------------------------- end table  ----------------------------------------------\n");
@@ -179,9 +179,18 @@ public class DDLApplication {
 
 			table.addColumn("NAME","varchar(50)").setComment("名称");
 			table.addColumn("A_CHAR","varchar(50)");
+			table.addColumn("DEL_COL","varchar(50)");
 			service.ddl().save(table);
 
 		}
+		//添加列
+		String tmp = "NEW_"+BasicUtil.getRandomNumberString(3);
+		table.addColumn(tmp, "int");
+		service.ddl().save(table);
+		//删除列
+		Column dcol = table.getColumn(tmp);
+		dcol.delete();
+		service.ddl().save(table);
 
 		Column column = new Column();
 		column.setTable("A_TEST");
