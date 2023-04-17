@@ -3,7 +3,9 @@ package org.anyline.simple.listener;
 import org.anyline.data.listener.init.BasicDMListener;
 import org.anyline.data.param.ConfigStore;
 import org.anyline.data.prepare.RunPrepare;
+import org.anyline.data.run.Run;
 import org.anyline.entity.DataRow;
+import org.anyline.entity.DataSet;
 import org.anyline.util.DateUtil;
 import org.springframework.stereotype.Component;
 
@@ -92,5 +94,11 @@ public class DefaultListener extends BasicDMListener {
      */
     public boolean beforeBuildDelete(String table, String key, Object values){
         return false;
+    }
+
+    @Override
+    public void afterQuery(Run run, DataSet set, long millis) {
+        System.out.println(run.getFinalQuery());
+        System.out.println(run.getValues());
     }
 }
