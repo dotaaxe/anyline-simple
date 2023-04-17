@@ -219,10 +219,18 @@ public class DDLApplication {
 		log.warn("修改列名");
 		service.ddl().save(column);
 
+
+
 		// 2.可以在update基础上修改
 		//如果设置了update, 后续所有更新应该在update上执行
 		column.update().setName("C_TEST").setPosition(0).setTypeName("VARCHAR(20)");
 		log.warn("修改列名");
+		service.ddl().save(column);
+
+		column = new Column();
+		column.setName("c_test").setNewName("d_test");
+		column.setTypeName("varchar(1)");
+		column.setTableName("A_TEST");
 		service.ddl().save(column);
 
 		log.warn("删除列");
