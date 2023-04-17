@@ -40,12 +40,12 @@ public class DMLApplication {
 
 		ConfigurableApplicationContext context = application.run(args);
 
-		service = context.getBean(AnylineService.class);
+		service = ServiceProxy.service();
 		boolean s = null instanceof  List;
-		//check(null, "MySQL");
+		check(null, "MySQL");
 		///check("pg", "PostgreSQL");
 		//check("ms", "SQL Server");
-		check("ms2000", "SQL Server 2000");
+		//check("ms2000", "SQL Server 2000");
 		//check("oracle", "Oracle 11G");
 		//check("db2", "DB2");
 
@@ -56,11 +56,31 @@ public class DMLApplication {
 		if(null != ds) {
 			DataSourceHolder.setDataSource(ds);
 		}
+		date();
 		insert();
 		query();
 		page();
 		delete();
 		System.out.println("\n=============================== END " + title + "=========================================\n");
+	}
+	//日期类型
+	public static void date() throws Exception{
+		Table table = service.metadata().table("CRM_DATE");
+		if(null != table){
+			service.ddl().drop(table);
+		}
+		table = new Table();
+		table.addColumn("ID", "int").setPrimaryKey(true).setAutoIncrement(true);
+		table.addColumn("YMD", "DATE");
+		table.addColumn("YMD_HMS", "DATETIME");
+		table.addColumn("HMS", "TIME");
+		service.ddl().save(table);
+
+		DataRow row = new DataRow();
+		row.put("YMD", new Date());
+		row.put("YMD_HMS", new Date());
+		row.put("HMS", new Date());
+		service.insert("CRM_DATE", row);
 	}
 	public static void insert() throws Exception{
 
