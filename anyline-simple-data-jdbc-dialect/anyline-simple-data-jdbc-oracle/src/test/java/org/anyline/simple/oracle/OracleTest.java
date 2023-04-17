@@ -9,6 +9,7 @@ import org.anyline.data.param.init.DefaultConfigStore;
 import org.anyline.service.AnylineService;
 import org.anyline.util.BasicUtil;
 import org.anyline.util.ConfigTable;
+import org.anyline.util.DateUtil;
 import org.anyline.util.LogUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -22,6 +23,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @SpringBootTest
@@ -81,9 +83,21 @@ public class OracleTest {
     @Test
     public void dml() throws Exception{
         int qty = 0;
+        ConfigTable.IS_AUTO_CHECK_METADATA = true;
         DataSet set = null;
         DataRow row = null;
 
+        row = new DataRow();
+        row.put("ID", "${SIMPLE_SEQ.NEXTVAL}");
+        row.put("NAME", "N");
+        row.put("REG_TIME", new java.util.Date());
+        qty = service.insert(table, row);
+
+        row = new DataRow();
+        row.put("ID", "${SIMPLE_SEQ.NEXTVAL}");
+        row.put("NAME", "N");
+        row.put("REG_TIME", DateUtil.format("yyyy-MM-dd HH:mm:ss"));
+        qty = service.insert(table, row);
 
         row = new DataRow();
         row.put("ID", "${SIMPLE_SEQ.NEXTVAL}");
@@ -91,6 +105,21 @@ public class OracleTest {
         //当前时间，如果要适配多种数据库环境尽量用SQL_BUILD_IN_VALUE,如果数据库明确可以写以根据不同数据库写成: row.put("REG_TIME","${now()}"); sysdate,getdate()等等
         row.put("REG_TIME", JDBCAdapter.SQL_BUILD_IN_VALUE.CURRENT_TIME);
         qty = service.insert(table, row);
+
+        set = service.querys(table);
+        row = new DataRow();
+        row.put("ID", "${SIMPLE_SEQ.NEXTVAL}");
+        row.put("NAME", "N");
+        row.put("REG_TIME", new java.sql.Timestamp(System.currentTimeMillis()));
+        qty = service.insert(table, row);
+
+        row = new DataRow();
+        row.put("ID", "${SIMPLE_SEQ.NEXTVAL}");
+        row.put("NAME", "N");
+        row.put("REG_TIME", new java.sql.Date(System.currentTimeMillis()));
+        qty = service.insert(table, row);
+
+
         log.warn(LogUtil.format("[单行插入][影响行数:{}][生成主键:{}]", 36), qty, row.getId());
         Assertions.assertEquals(qty , 1);
 
