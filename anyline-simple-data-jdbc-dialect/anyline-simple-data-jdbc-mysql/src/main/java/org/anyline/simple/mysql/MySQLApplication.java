@@ -8,6 +8,9 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import java.sql.DatabaseMetaData;
+import java.sql.ResultSet;
+
 @ComponentScan(basePackages = {"org.anyline"})
 @SpringBootApplication
 public class MySQLApplication {
@@ -18,5 +21,17 @@ public class MySQLApplication {
         ConfigurableApplicationContext context = application.run(args);
         jdbc = context.getBean(JdbcTemplate.class);
         service = context.getBean(AnylineService.class);
+        try {
+            System.out.println("getCatalog:" + jdbc.getDataSource().getConnection().getCatalog());
+            System.out.println("getSchema:" + jdbc.getDataSource().getConnection().getSchema());
+            DatabaseMetaData dbmd = jdbc.getDataSource().getConnection().getMetaData();
+            ResultSet set =dbmd.getTables("simple", "def", null, null);
+            while (set.next()) {
+                System.out.println(set.getString("TABLE_NAME"));
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }
