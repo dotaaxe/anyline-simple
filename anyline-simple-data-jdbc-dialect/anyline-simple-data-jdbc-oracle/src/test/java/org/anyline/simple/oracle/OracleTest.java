@@ -86,9 +86,10 @@ public class OracleTest {
         ConfigTable.IS_AUTO_CHECK_METADATA = true;
         DataSet set = null;
         DataRow row = null;
-       // row = service.query("DUAL(SIMPLE_SEQ.NEXTVAL)");
-        row = service.query("SELECT SIMPLE_SEQ.NEXTVAL FROM DUAL");
 
+        //序列查询
+        row = service.query("DUAL(SIMPLE_SEQ.NEXTVAL)");
+        row = service.query("SELECT SIMPLE_SEQ.NEXTVAL FROM DUAL");
         Long next = service.sequence("SIMPLE_SEQ");
         DataRow nexts = service.sequences("SIMPLE_SEQ", "SIMPLE_SEQ2");
 
