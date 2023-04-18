@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -72,6 +73,13 @@ public class DB2Test {
     }
     @Test
     public void dml() throws Exception{
+       // service.execute("CREATE SEQUENCE SIMPLE_SEQ");
+        //service.execute("CREATE SEQUENCE SIMPLE_SEQ2");
+
+        BigDecimal next = service.sequence("SIMPLE_SEQ");
+        DataRow nexts = service.sequences("SIMPLE_SEQ", "SIMPLE_SEQ2");
+        BigDecimal cur = service.sequence(false,"SIMPLE_SEQ");
+        DataRow curs = service.sequences(false, "SIMPLE_SEQ", "SIMPLE_SEQ2");
 
         DataSet set = new DataSet();
         for(int i=1; i<10; i++){
