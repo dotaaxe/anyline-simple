@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -88,10 +89,11 @@ public class OracleTest {
         DataRow row = null;
 
         //序列查询
-        row = service.query("DUAL(SIMPLE_SEQ.NEXTVAL)");
-        row = service.query("SELECT SIMPLE_SEQ.NEXTVAL FROM DUAL");
-        Long next = service.sequence("SIMPLE_SEQ");
+
+        BigDecimal next = service.sequence("SIMPLE_SEQ");
         DataRow nexts = service.sequences("SIMPLE_SEQ", "SIMPLE_SEQ2");
+        BigDecimal cur = service.sequence(false,"SIMPLE_SEQ");
+        DataRow curs = service.sequences(false, "SIMPLE_SEQ", "SIMPLE_SEQ2");
 
         row = new DataRow();
         row.put("ID", "${SIMPLE_SEQ.NEXTVAL}");
