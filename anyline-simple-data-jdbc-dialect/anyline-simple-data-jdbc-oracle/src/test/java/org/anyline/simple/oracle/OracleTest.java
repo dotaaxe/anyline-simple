@@ -86,18 +86,11 @@ public class OracleTest {
         ConfigTable.IS_AUTO_CHECK_METADATA = true;
         DataSet set = null;
         DataRow row = null;
+       // row = service.query("DUAL(SIMPLE_SEQ.NEXTVAL)");
+        row = service.query("SELECT SIMPLE_SEQ.NEXTVAL FROM DUAL");
 
-        row = new DataRow();
-        row.put("ID", "${SIMPLE_SEQ.NEXTVAL}");
-        row.put("NAME", "N");
-        row.put("REG_TIME", new java.util.Date());
-        qty = service.insert(table, row);
-
-        row = new DataRow();
-        row.put("ID", "${SIMPLE_SEQ.NEXTVAL}");
-        row.put("NAME", "N");
-        row.put("REG_TIME", DateUtil.format("yyyy-MM-dd HH:mm:ss"));
-        qty = service.insert(table, row);
+        Long next = service.sequence("SIMPLE_SEQ");
+        DataRow nexts = service.sequences("SIMPLE_SEQ", "SIMPLE_SEQ2");
 
         row = new DataRow();
         row.put("ID", "${SIMPLE_SEQ.NEXTVAL}");
@@ -119,6 +112,18 @@ public class OracleTest {
         row.put("REG_TIME", new java.sql.Date(System.currentTimeMillis()));
         qty = service.insert(table, row);
 
+        //下面这两种如果不开启IS_AUTO_CHECK_METADATA会抛出异常
+        row = new DataRow();
+        row.put("ID", "${SIMPLE_SEQ.NEXTVAL}");
+        row.put("NAME", "N");
+        row.put("REG_TIME", new java.util.Date());
+        qty = service.insert(table, row);
+
+        row = new DataRow();
+        row.put("ID", "${SIMPLE_SEQ.NEXTVAL}");
+        row.put("NAME", "N");
+        row.put("REG_TIME", DateUtil.format("yyyy-MM-dd HH:mm:ss"));
+        qty = service.insert(table, row);
 
         log.warn(LogUtil.format("[单行插入][影响行数:{}][生成主键:{}]", 36), qty, row.getId());
         Assertions.assertEquals(qty , 1);
