@@ -13,6 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -35,6 +36,13 @@ public class PostgreApplication {
         System.exit(0);
     }
     public static void dml(){
+        //序列查询
+
+        BigDecimal next = service.sequence("SIMPLE_SEQ");
+        DataRow nexts = service.sequences("SIMPLE_SEQ", "SIMPLE_SEQ2");
+        BigDecimal cur = service.sequence(false,"SIMPLE_SEQ");
+        DataRow curs = service.sequences(false, "SIMPLE_SEQ", "SIMPLE_SEQ2");
+
         DataRow row = new DataRow();
         row.put("name", "张三");
         row.put("id", BasicUtil.getRandomString(32));
