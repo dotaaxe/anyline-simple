@@ -96,6 +96,12 @@ public class DefaultListener extends BasicDMListener {
         return false;
     }
 
+    /**
+     * 查询完成后调用
+     * @param run 执行SQL及参数值
+     * @param set 查询结果
+     * @param millis 耗时(毫秒)
+     */
     @Override
     public void afterQuery(Run run, DataSet set, long millis) {
         System.out.println(run.getFinalQuery());
