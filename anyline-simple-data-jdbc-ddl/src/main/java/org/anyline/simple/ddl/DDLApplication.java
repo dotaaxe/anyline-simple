@@ -55,9 +55,9 @@ public class DDLApplication {
 		if(null != ds) {
 			DataSourceHolder.setDataSource(ds);
 		}
-		type();
-		table();
-		column();
+		//type();
+		//table();
+		//column();
 		index();
 		exception();
 		clear();
@@ -257,7 +257,7 @@ public class DDLApplication {
 		column.setTypeName("varchar(50)");
 		//添加 新列
 		service.ddl().save(column);
-
+service.clearColumnCache();
 		//表中有数据的情况下
 		DataRow row = new DataRow();
 		//自增列有可能引起异常
@@ -316,11 +316,16 @@ public class DDLApplication {
 			}
 		}
 
-		Index index = new Index();
-		index.setUnique(true);
-		index.setTable(tab);
-		index.addColumn(new Column("CODE"));
-		service.ddl().add(index);
+		Index index = service.metadata().index("crm_user_index_CODE");
+		if(null == index){
+			index = new Index();
+
+			index.setName("crm_user_index_CODE"); //如果不指定名称，会生成一个随机名称，如果指定了名称但与现有索引重名 会抛出异常
+			index.setUnique(true);
+			index.setTable(tab);
+			index.addColumn(new Column("CODE"));
+			service.ddl().add(index);
+		}
 
 		System.out.println("\n-------------------------------- end index  ----------------------------------------------\n");
 	}
