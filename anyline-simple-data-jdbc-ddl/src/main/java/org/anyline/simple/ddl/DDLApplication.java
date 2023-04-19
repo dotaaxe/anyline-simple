@@ -296,8 +296,6 @@ public class DDLApplication {
 		tab.addColumn("ID", "INT");
 		tab.addColumn("CODE", "INT");
 		service.ddl().save(tab);
-		//添加修改主键(没有实现)
-
 		LinkedHashMap<String, Index> indexs = service.metadata().indexs("crm_user");
 		for(Index item:indexs.values()){
 			System.out.println("所引:"+item.getName());
@@ -317,6 +315,12 @@ public class DDLApplication {
 				log.error(e.getMessage());
 			}
 		}
+
+		Index index = new Index();
+		index.setUnique(true);
+		index.setTable(tab);
+		index.addColumn(new Column("CODE"));
+		service.ddl().add(index);
 
 		System.out.println("\n-------------------------------- end index  ----------------------------------------------\n");
 	}
