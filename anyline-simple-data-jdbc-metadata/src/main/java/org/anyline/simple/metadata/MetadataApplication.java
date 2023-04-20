@@ -142,6 +142,19 @@ public class MetadataApplication extends SpringBootServletInitializer {
 			log.warn("table:"+table.getName());
 			log.warn("comment:"+table.getComment());
 		}
+
+		//当前schema中没有的表 默认查不到
+		Table table = service.metadata().table("art_comment");
+		if(null != table) {
+			System.out.println(table.getCatalog() + ":" + table.getSchema() + ":" + table.getName());
+		}
+
+		//当前schema中没有的表 greedy=rue 可以查到其他schema中的表
+		table = service.metadata().table(true,"art_comment");
+		if(null != table) {
+			System.out.println(table.getCatalog() + ":" + table.getSchema() + ":" + table.getName());
+		}
+
 		System.out.println("-------------------------------- end tables  ----------------------------------------------");
 	}
 	public static void column() throws Exception{
