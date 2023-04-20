@@ -19,6 +19,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.LinkedHashMap;
 
 @SpringBootTest
 public class HelloTest {
@@ -77,12 +78,25 @@ public class HelloTest {
     }
     @Test
     public void query(){
-        ConfigStore configs = new DefaultConfigStore();
-        configs.and(Compare.EQUAL, "ID", "5", true, true);
-        DataSet users = service.querys("CRM_USER", configs);
-        System.out.println(users);
-        DataRow user = service.query("CRM_USER");
+        //当前schema中没有的表 默认查不到
+        Table table = service.metadata().table("art_comment");
+        if(null != table) {
+            System.out.println(table.getCatalog() + ":" + table.getSchema() + ":" + table.getName());
+        }
 
+        //当前schema中没有的表 greedy=rue 可以查到其他schema中的表
+        table = service.metadata().table(true,"art_comment");
+        if(null != table) {
+            System.out.println(table.getCatalog() + ":" + table.getSchema() + ":" + table.getName());
+        }
+
+        ConfigStore configs = new DefaultConfigStore();
+        configs.and(Compare.GREAT, "ID", "1");
+        configs.and(Compare.LESS, "ID", "5");
+        DataSet users = service.querys("SELECT * FROM CRM_USER", configs);
+        System.out.println(users);
+        DataRow user = service.query("CRM_USER", configs);
+        service.update(user, configs);
         System.out.println(user);
     }
 
