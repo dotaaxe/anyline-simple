@@ -53,9 +53,9 @@ public class EntityApplication {
         System.exit(0);
     }
     public static void test(){
-       // SyncTask task = ServiceProxy.select(SyncTask.class);
-        //SyncTask task = (SyncTask)service.select("sync_task1", SyncTask.class, "id:1");
-        SyncTask task = new SyncTask();
+        SyncTask task = ServiceProxy.select(SyncTask.class);
+        task = (SyncTask)service.select("sync_task", SyncTask.class, "id:1");
+        task = new SyncTask();
         task.setId(1L);
         task.setLastExeQty(123L);
         DataRow row = DataRow.parse(task).camel_();

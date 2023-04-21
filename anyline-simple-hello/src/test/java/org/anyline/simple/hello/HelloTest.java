@@ -87,7 +87,7 @@ public class HelloTest {
         //当前schema中没有的表 greedy=rue 可以查到其他schema中的表
         table = service.metadata().table(true,"art_comment");
         if(null != table) {
-            System.out.println(table.getCatalog() + ":" + table.getSchema() + ":" + table.getName());
+            System.out.println( table.getName(true));
         }
 
         ConfigStore configs = new DefaultConfigStore();
