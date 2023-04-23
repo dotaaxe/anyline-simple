@@ -3,7 +3,6 @@ package org.anyline.simple.dml;
 
 import org.anyline.data.entity.Table;
 import org.anyline.data.jdbc.ds.DataSourceHolder;
-import org.anyline.data.jdbc.ds.DynamicDataSourceRegister;
 import org.anyline.data.param.ConfigStore;
 import org.anyline.data.param.init.DefaultConfigStore;
 import org.anyline.entity.Compare;
@@ -12,8 +11,7 @@ import org.anyline.entity.DataSet;
 import org.anyline.proxy.ServiceProxy;
 import org.anyline.service.AnylineService;
 import org.anyline.util.ConfigTable;
-import org.anyline.util.DateUtil;
-import org.anyline.util.NumberUtil;
+import org.anyline.util.SpringContextUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -40,10 +38,9 @@ public class DMLApplication {
 
 		ConfigurableApplicationContext context = application.run(args);
 
-		service = ServiceProxy.service();
-		boolean s = null instanceof  List;
-		check(null, "MySQL");
-		///check("pg", "PostgreSQL");
+		service = (AnylineService)SpringContextUtil.getBean("anyline.service");
+		//check(null, "MySQL");
+		check("pg", "PostgreSQL");
 		//check("ms", "SQL Server");
 		//check("ms2000", "SQL Server 2000");
 		//check("oracle", "Oracle 11G");
@@ -69,7 +66,7 @@ public class DMLApplication {
 		if(null != table){
 			service.ddl().drop(table);
 		}
-		table = new Table();
+		table = new Table("CRM_DATE");
 		table.addColumn("ID", "int").setPrimaryKey(true).setAutoIncrement(true);
 		table.addColumn("YMD", "DATE");
 		table.addColumn("YMD_HMS", "DATETIME");
@@ -94,6 +91,7 @@ public class DMLApplication {
 			table.setComment("表备注");
 			table.addColumn("ID", "int").setPrimaryKey(true).setAutoIncrement(true).setComment("主键说明");
 
+			//table.addColumn("CD","varchar(50)").setComment("code");
 			table.addColumn("NM","varchar(50)").setComment("名称");
 			table.addColumn("my","money").setComment("名称");
 			table.addColumn("DEPARTMENT_ID","INT");
@@ -136,29 +134,29 @@ public class DMLApplication {
 		//经常继承AnylineController 调用其中的里的condition()生成ConfigStore
 		ConfigStore configs = new DefaultConfigStore();
 		//查询总行数
-		//int qty = service.count("CRM_USER");
+		int qty = service.count("CRM_USER");
 
 		//查询全部
-		//DataSet set = service.querys("CRM_USER");
+		DataSet set = service.querys("CRM_USER");
 
 		//按条件查询
-		//set = service.querys("CRM_USER", configs,"ID:1");
+		set = service.querys("CRM_USER", configs,"ID:1");
 
 		//FIND_IN_SET
-		//如果从request中取值  condition("[CODE]:code");condition("[CODE]:split(code)")
+		//如果从request中取值  condition("[CD]:CD");condition("[CD]:split(CD)")
 
-		configs.and("CODE","9,0".split(","));
+		configs.and("ID","9,0".split(","));
 		configs.and("NM","a,b".split(","));
-		//configs.and(Compare.FIND_IN_SET, "TYPES", "9");
+		configs.and(Compare.FIND_IN_SET, "TYPES", "9");
 		//传多个值时FIND_IN_SET默认与FIND_IN_SET_OR效果一样
-		configs.and(Compare.FIND_IN_SET, "TYPES", "A,B".split(","));
-		configs.and(Compare.FIND_IN_SET_OR, "TYPES", "1,2,3".split(","));
-		configs.and(Compare.FIND_IN_SET_AND, "TYPES", "1,2,3".split(","));
-		configs.or(Compare.FIND_IN_SET_OR, "TYPES", "4,5,6".split(","));
-/*
-		configs.or(Compare.FIND_IN_SET_AND, "TYPES", "4,5,6".split(","));
-		configs.ors(Compare.FIND_IN_SET_OR, "TYPES", "4,5,6".split(","));
-		configs.ors(Compare.FIND_IN_SET_AND, "TYPES", "4,5,6".split(","));*/
+		//configs.and(Compare.FIND_IN_SET, "TYPES", "A,B".split(","));
+		//configs.and(Compare.FIND_IN_SET_OR, "TYPES", "1,2,3".split(","));
+		//configs.and(Compare.FIND_IN_SET_AND, "TYPES", "1,2,3".split(","));
+		//configs.or(Compare.FIND_IN_SET_OR, "TYPES", "4,5,6".split(","));
+
+		//configs.or(Compare.FIND_IN_SET_AND, "TYPES", "4,5,6".split(","));
+		//configs.ors(Compare.FIND_IN_SET_OR, "TYPES", "4,5,6".split(","));
+		//configs.ors(Compare.FIND_IN_SET_AND, "TYPES", "4,5,6".split(","));
 		//find_in_set 只在mysql中有实现 FIND_IN_SET(?,TYPES)
 		service.querys("HR_EMPLOYEE", configs
 		);
