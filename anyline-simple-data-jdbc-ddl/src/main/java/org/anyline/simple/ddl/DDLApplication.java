@@ -41,8 +41,8 @@ public class DDLApplication {
 
 		service = (AnylineService)SpringContextUtil.getBean("anyline.service");
 
-		check(null, "MySQL");
-		//check("cms", "MySQL");
+		//check(null, "MySQL");
+		check("cms", "MySQL");
 		//check("pg", "PostgreSQL");
 		//check("ms", "SQL Server");
 		//check("ms2000", "SQL Server 2000");
