@@ -53,6 +53,7 @@ public class EntityApplication {
         System.exit(0);
     }
     public static void test(){
+        DataRow t = service.query("sync_task(max(id))");
         SyncTask task = ServiceProxy.select(SyncTask.class);
         task = (SyncTask)service.select("sync_task", SyncTask.class, "id:1");
         task = new SyncTask();
@@ -60,7 +61,9 @@ public class EntityApplication {
         task.setLastExeQty(123L);
         DataRow row = DataRow.parse(task).camel_();
         System.out.println(row);
-        //service.update(task, "LAST_EXE_QTY");
+        task.setCols("NULL");
+        service.update(task);
+        service.update(task, "LAST_EXE_QTY");
         service.update("sync_task", task, "LAST_EXE_QTY");
     }
     public static void point(){
