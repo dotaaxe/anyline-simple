@@ -15,9 +15,6 @@ public class MSSQLApplication {
     public static void main(String[] args) {
         SpringApplication application = new SpringApplication(MSSQLApplication.class);
         ConfigurableApplicationContext context = application.run(args);
-        AnylineService service = (AnylineService) context.getBean("anyline.service");
-        DataSet set = service.querys("ABM100T", new DefaultPageNavi().setCurPage(2).setPageRows(10));
-        System.out.println(set);
 
     }
 }

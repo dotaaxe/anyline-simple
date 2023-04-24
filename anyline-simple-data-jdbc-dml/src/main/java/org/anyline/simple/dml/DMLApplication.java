@@ -42,9 +42,9 @@ public class DMLApplication {
 		service = (AnylineService)SpringContextUtil.getBean("anyline.service");
 		//check(null, "MySQL");
 		//check("pg", "PostgreSQL");
-		//check("ms", "SQL Server");
+		check("ms", "SQL Server");
 		//check("ms2000", "SQL Server 2000");
-		check("oracle", "Oracle 11G");
+		//check("oracle", "Oracle 11G");
 		//check("db2", "DB2");
 
 	}
@@ -76,8 +76,7 @@ public class DMLApplication {
 		table.addColumn("HMS", "TIME");
 		service.ddl().save(table);
 
-
-
+		ConfigTable.IS_AUTO_CHECK_METADATA = true;
 		DataRow row = new DataRow();
 		row.put("YMD", new Date());
 		row.put("YMD_HMS", new Date());

@@ -32,12 +32,14 @@ public class MetadataApplication extends SpringBootServletInitializer {
 		SpringApplication application = new SpringApplication(MetadataApplication.class);
 		ConfigurableApplicationContext context = application.run(args);
 
-		service = context.getBean(AnylineService.class);
+		service = (AnylineService)context.getBean("anyline.service");
 
 		//check(null, "MySQL");
 		//check("pg", "PostgreSQL");
-		check("ms", "SQL Server");
-		//check("oracle", "Oracle 11G");
+		//check("ms", "SQL Server");
+		//
+		//
+		check("oracle", "Oracle 11G");
 		//check("td", "TDengine");
 		//check("db2", "DB2");
 

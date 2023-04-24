@@ -34,12 +34,21 @@ public class SQLTest {
         conditions.param("PARAM_CODE", 222);
         //详细的查询条件构造方式 参考 anyline-simple-data-condition
         ConfigTable.IS_AUTO_CHECK_METADATA = true;
+        String sql = "";
 
+        conditions.param("CODES","1,2,3".split(","));
+        sql = "SELECT * FROM CRM_USER WHERE 1=1 AND CODE='in:1' AND id in (SELECT id from CRM_USER WHERE CODE in (:CODES))";
+        service.query(sql, conditions);
+        sql = "SELECT * FROM CRM_USER WHERE 1=1 AND id in (SELECT id from CRM_USER WHERE CODE in (${CODES}))";
+        service.query(sql, conditions);
+        sql = "SELECT * FROM CRM_USER WHERE 1=1 AND id in (SELECT id from CRM_USER WHERE CODE in(#{CODES}))";
+        service.query(sql, conditions);
 
         ConfigStore configs = new DefaultConfigStore();
         configs.and(Compare.GREAT, "ID", "1");
         configs.and(Compare.LESS, "ID", "5");
-        service.querys("SELECT * FROM CRM_USER", configs);
+        sql = "SELECT * FROM CRM_USER";
+        service.querys(sql, configs);
         // SELECT * FROM CRM_USER WHERE ID > 1 AND ID < 5
 
         DataRow user = service.query("CRM_USER", configs);
@@ -49,7 +58,7 @@ public class SQLTest {
         // UPDATE CRM_USER SET ... WHERE ID > 1 AND ID < 5
 
         conditions = new DefaultConfigStore();
-        String sql = "SELECT * FROM CRM_USER WHERE CODE = :CODE";
+        sql = "SELECT * FROM CRM_USER WHERE CODE = :CODE";
         conditions.and("CODE", "100");
         service.querys(sql, conditions);
         //SELECT * FROM CRM_USER WHERE CODE = ?

@@ -44,11 +44,11 @@ public class EntityApplication {
         //init();
         //point();
         //blob();
-        //json();
-        //xml();
-        //sql();
-        //empty();
-        //camel();
+        json();
+        xml();
+        sql();
+        empty();
+        camel();
         test();
         System.exit(0);
     }

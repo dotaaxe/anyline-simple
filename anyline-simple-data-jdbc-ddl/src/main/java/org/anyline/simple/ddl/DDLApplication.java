@@ -42,12 +42,12 @@ public class DDLApplication {
 		service = (AnylineService)SpringContextUtil.getBean("anyline.service");
 
 		//check(null, "MySQL");
-		check("cms", "MySQL");
+		//check("cms", "MySQL");
 		//check("pg", "PostgreSQL");
 		//check("ms", "SQL Server");
 		//check("ms2000", "SQL Server 2000");
 		//check("oracle", "Oracle 11G");
-		//check("db2", "DB2");
+		check("db2", "DB2");
 
 	}
 	public static void check(String ds, String title) throws Exception{
@@ -55,8 +55,8 @@ public class DDLApplication {
 		if(null != ds) {
 			DataSourceHolder.setDataSource(ds);
 		}
-		//type();
-		//table();
+		type();
+		table();
 		column();
 		index();
 		exception();

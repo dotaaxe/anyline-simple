@@ -17,6 +17,10 @@
             <groupId>org.anyline</groupId>
             <artifactId>anyline-data-jdbc-mssql</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.microsoft.sqlserver</groupId>
+            <artifactId>mssql-jdbc</artifactId>
+        </dependency>
     </dependencies>
 
 </project>
