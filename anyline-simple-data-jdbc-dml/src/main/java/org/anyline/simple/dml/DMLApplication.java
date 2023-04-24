@@ -8,6 +8,7 @@ import org.anyline.data.param.init.DefaultConfigStore;
 import org.anyline.entity.Compare;
 import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
+import org.anyline.entity.data.Column;
 import org.anyline.proxy.ServiceProxy;
 import org.anyline.service.AnylineService;
 import org.anyline.util.ConfigTable;
@@ -40,10 +41,10 @@ public class DMLApplication {
 
 		service = (AnylineService)SpringContextUtil.getBean("anyline.service");
 		//check(null, "MySQL");
-		check("pg", "PostgreSQL");
+		//check("pg", "PostgreSQL");
 		//check("ms", "SQL Server");
 		//check("ms2000", "SQL Server 2000");
-		//check("oracle", "Oracle 11G");
+		check("oracle", "Oracle 11G");
 		//check("db2", "DB2");
 
 	}
@@ -62,16 +63,20 @@ public class DMLApplication {
 	}
 	//日期类型
 	public static void date() throws Exception{
+
 		Table table = service.metadata().table("CRM_DATE");
 		if(null != table){
 			service.ddl().drop(table);
 		}
 		table = new Table("CRM_DATE");
 		table.addColumn("ID", "int").setPrimaryKey(true).setAutoIncrement(true);
+		table.addColumn("CODE", "VARCHAR(10)");
 		table.addColumn("YMD", "DATE");
 		table.addColumn("YMD_HMS", "DATETIME");
 		table.addColumn("HMS", "TIME");
 		service.ddl().save(table);
+
+
 
 		DataRow row = new DataRow();
 		row.put("YMD", new Date());
@@ -85,18 +90,22 @@ public class DMLApplication {
 		System.out.println("\n-------------------------------- start insert  --------------------------------------------\n");
 
 		Table table = service.metadata().table("HR_EMPLOYEE");
-		if(null == table){
-			table = new Table();
-			table.setName("HR_EMPLOYEE");
-			table.setComment("表备注");
-			table.addColumn("ID", "int").setPrimaryKey(true).setAutoIncrement(true).setComment("主键说明");
-
-			//table.addColumn("CD","varchar(50)").setComment("code");
-			table.addColumn("NM","varchar(50)").setComment("名称");
-			table.addColumn("my","money").setComment("名称");
-			table.addColumn("DEPARTMENT_ID","INT");
-			service.ddl().save(table);
+		if(null != table) {
+			service.ddl().drop(table);
 		}
+		table = new Table();
+		table.setName("HR_EMPLOYEE");
+		table.setComment("表备注");
+		table.addColumn("ID", "int").setPrimaryKey(true).setAutoIncrement(true).setComment("主键说明");
+
+		table.addColumn("CODE","varchar(50)").setComment("编号");
+		table.addColumn("AGE","int").setComment("年龄");
+		table.addColumn("L","LONG").setComment("long");
+		table.addColumn("NM","varchar(50)").setComment("名称");
+		table.addColumn("my","money").setComment("金额");
+		table.addColumn("DEPARTMENT_ID","INT");
+		service.ddl().save(table);
+
 
 
 		DataRow row = new DataRow();
@@ -143,10 +152,15 @@ public class DMLApplication {
 		set = service.querys("CRM_USER", configs,"ID:1");
 
 		//FIND_IN_SET
-		//如果从request中取值  condition("[CD]:CD");condition("[CD]:split(CD)")
+		//如果从request中取值  condition("[CODE]:CODE");condition("[CODE]:split(CODE)")
 
 		configs.and("ID","9,0".split(","));
 		configs.and("NM","a,b".split(","));
+		org.anyline.data.entity.Column ctype = service.metadata().column("HR_EMPLOYEE","TYPES");
+		if(null == ctype){
+			ctype = new org.anyline.data.entity.Column("HR_EMPLOYEE","TYPES").setType("varchar(100)");
+			service.ddl().add(ctype);
+		}
 		configs.and(Compare.FIND_IN_SET, "TYPES", "9");
 		//传多个值时FIND_IN_SET默认与FIND_IN_SET_OR效果一样
 		//configs.and(Compare.FIND_IN_SET, "TYPES", "A,B".split(","));
