@@ -57,7 +57,7 @@ public class DDLApplication {
 		}
 		//type();
 		//table();
-		//column();
+		column();
 		index();
 		exception();
 		clear();
