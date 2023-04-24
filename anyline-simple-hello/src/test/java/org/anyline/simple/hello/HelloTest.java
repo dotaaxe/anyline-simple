@@ -45,12 +45,16 @@ public class HelloTest {
         test.put("NAME",  "1,2,3".split(","));
         service.save("crm_user", test);
 
+
         //插入数据
         DataRow row = new DataRow();
         row.put("CODE","101");
         row.put("NAME","ZH");
         service.insert("crm_user", row);
 
+        row.put("CODE","NULL");
+        service.save("crm_user", row);
+        row = service.query("crm_user(max(id) as id)");
         //查询数据
         DataSet set = service.querys("crm_user", "ID>1");
         System.out.println(set);
