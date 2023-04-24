@@ -43,7 +43,7 @@ public class DDLApplication {
 
 		//check(null, "MySQL");
 		//check("cms", "MySQL");
-		//check("pg", "PostgreSQL");
+		check("pg", "PostgreSQL");
 		//check("ms", "SQL Server");
 		//check("ms2000", "SQL Server 2000");
 		//check("oracle", "Oracle 11G");
@@ -232,9 +232,14 @@ public class DDLApplication {
 		column.setTypeName("varchar(1)");
 		column.setTableName("A_TEST");
 		service.ddl().save(column);
+/*
+		column = new Column("id");
+		column.setTable("t");
+		column.setCatalog("c");
+		column.setSchema("s");
 
 		log.warn("删除列");
-		service.ddl().drop(column);
+		service.ddl().drop(column);*/
 
 		Table tab = new Table("c_test");
 		tab.addColumn("ID", "int");
