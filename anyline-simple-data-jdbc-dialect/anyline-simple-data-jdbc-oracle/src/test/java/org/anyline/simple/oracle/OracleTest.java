@@ -80,6 +80,7 @@ public class OracleTest {
         String sql = "CREATE SEQUENCE SIMPLE_SEQ MINVALUE 0 START WITH 0 NOMAXVALUE INCREMENT BY 1 NOCYCLE CACHE 100";
 
         service.execute(sql);
+
     }
     @Test
     public void dml() throws Exception{
@@ -101,7 +102,6 @@ public class OracleTest {
         //当前时间，如果要适配多种数据库环境尽量用SQL_BUILD_IN_VALUE,如果数据库明确可以写以根据不同数据库写成: row.put("REG_TIME","${now()}"); sysdate,getdate()等等
         row.put("REG_TIME", JDBCAdapter.SQL_BUILD_IN_VALUE.CURRENT_TIME);
         qty = service.insert(table, row);
-
         set = service.querys(table);
         row = new DataRow();
         row.put("ID", "${SIMPLE_SEQ.NEXTVAL}");
@@ -115,13 +115,17 @@ public class OracleTest {
         row.put("REG_TIME", new java.sql.Date(System.currentTimeMillis()));
         qty = service.insert(table, row);
 
-        //下面这两种如果不开启IS_AUTO_CHECK_METADATA会抛出异常
+        ConfigTable.IS_AUTO_CHECK_METADATA = false;
         row = new DataRow();
         row.put("ID", "${SIMPLE_SEQ.NEXTVAL}");
         row.put("NAME", "N");
         row.put("REG_TIME", new java.util.Date());
         qty = service.insert(table, row);
+        DataSet tmps = service.querys(table);
+        tmps.put("ID", "${SIMPLE_SEQ.NEXTVAL}");
+        service.insert(table, tmps);
 
+        //日期类型 插入String 值  如果不开启IS_AUTO_CHECK_METADATA会抛出异常
         row = new DataRow();
         row.put("ID", "${SIMPLE_SEQ.NEXTVAL}");
         row.put("NAME", "N");
