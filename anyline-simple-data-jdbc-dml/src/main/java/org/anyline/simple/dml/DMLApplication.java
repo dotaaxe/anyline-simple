@@ -40,9 +40,9 @@ public class DMLApplication {
 		ConfigurableApplicationContext context = application.run(args);
 
 		service = (AnylineService)SpringContextUtil.getBean("anyline.service");
-		//check(null, "MySQL");
+		check(null, "MySQL");
 		//check("pg", "PostgreSQL");
-		check("ms", "SQL Server");
+		//check("ms", "SQL Server");
 		//check("ms2000", "SQL Server 2000");
 		//check("oracle", "Oracle 11G");
 		//check("db2", "DB2");
@@ -102,6 +102,7 @@ public class DMLApplication {
 		table.addColumn("L","LONG").setComment("long");
 		table.addColumn("NM","varchar(50)").setComment("名称");
 		table.addColumn("my","money").setComment("金额");
+		table.addColumn("REG_TIME","DATETIME").setComment("日期");
 		table.addColumn("DEPARTMENT_ID","INT");
 		service.ddl().save(table);
 
@@ -111,6 +112,7 @@ public class DMLApplication {
 		row.put("REG_TIME", "2020-01-01");
 		row.put("NM","ZH");
 		row.put("my","10.1"); //money
+		row.put("REG_TIME", new Date());
 		row.setOverride(true);
 		ServiceProxy.save("HR_EMPLOYEE", row);
 
