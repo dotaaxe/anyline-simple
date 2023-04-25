@@ -15,7 +15,9 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 
+import java.util.Hashtable;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {"org.anyline"})
@@ -77,9 +79,17 @@ public class DatasourceApplication extends SpringBootServletInitializer {
 		service.query("<erp>mm_material");
 		try {
 			//动态注册一个数据源(配置文件中配置过的将被这里覆盖)
-			//数据要设置更多参数 放到map里
 			String url = "jdbc:mysql://192.168.220.100:3306/simple_sso?useUnicode=true&characterEncoding=UTF8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true";
 			DataSourceHolder.reg("sso", "com.zaxxer.hikari.HikariDataSource", "com.mysql.cj.jdbc.Driver", url, "root", "root");
+
+			//如果需要设置更多参数 放到map里 参数名参考连接池类型(就是连接池配置文件中用的参数名)
+			Map params = new Hashtable<>();
+			params.put("url", url);
+			params.put("type", "com.zaxxer.hikari.HikariDataSource");
+			params.put("driver-class-name", "com.mysql.cj.jdbc.Driver");
+			params.put("user-name", "root");
+			params.put("password", "root");
+			DataSourceHolder.reg("sso2", params);
 		}catch (Exception e){
 			e.printStackTrace();
 		}
@@ -100,8 +110,13 @@ public class DatasourceApplication extends SpringBootServletInitializer {
 
 
 		//覆盖一个数据源
-		//注意如果需要覆盖数据源 先设置spring.main.allow-bean-definition-overriding=true
-		//否则会抛出异常
+		/**************************************************************************************************************************
+		 *
+		 *                         注意如果需要覆盖数据源 先设置 spring.main.allow-bean-definition-overriding=true
+		 *
+		 *                         否则会 抛出异常
+		 *
+		 ***************************************************************************************************************************/
 		try {
 			String url = "jdbc:mysql://192.168.220.100:3306/simple_crm?useUnicode=true&characterEncoding=UTF8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true";
 			DataSourceHolder.reg("sso", "com.zaxxer.hikari.HikariDataSource", "com.mysql.cj.jdbc.Driver", url, "root", "root");
