@@ -3,6 +3,7 @@ package org.anyline.simple.metadata;
 import org.anyline.data.entity.Column;
 import org.anyline.data.entity.Index;
 import org.anyline.data.entity.Table;
+import org.anyline.data.entity.View;
 import org.anyline.data.jdbc.ds.DataSourceHolder;
 import org.anyline.data.jdbc.ds.DynamicDataSourceRegister;
 import org.anyline.entity.DataRow;
@@ -19,6 +20,7 @@ import org.springframework.context.annotation.Import;
 
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {"org.anyline"})
@@ -26,7 +28,7 @@ import java.util.List;
 public class MetadataApplication extends SpringBootServletInitializer {
 	private static Logger log = LoggerFactory.getLogger(MetadataApplication.class);
 	private static AnylineService service = null;
-
+	private static String seq = null;
 	public static void main(String[] args) throws Exception{
 
 		SpringApplication application = new SpringApplication(MetadataApplication.class);
@@ -34,12 +36,13 @@ public class MetadataApplication extends SpringBootServletInitializer {
 
 		service = (AnylineService)context.getBean("anyline.service");
 
-		//check(null, "MySQL");
+		check(null, "MySQL");
 		//check("pg", "PostgreSQL");
 		//check("ms", "SQL Server");
 		//
 		//
-		check("oracle", "Oracle 11G");
+		//check("oracle", "Oracle 11G");
+
 		//check("td", "TDengine");
 		//check("db2", "DB2");
 
@@ -50,8 +53,19 @@ public class MetadataApplication extends SpringBootServletInitializer {
 		if(null != ds) {
 			DataSourceHolder.setDataSource(ds);
 		}
+		seq = null;
+		if("oracle".equals(ds)){
+			seq = "SIMPLE_SEQ";
+			if(null != service.query("USER_SEQUENCES","SEQUENCE_NAME:" + seq)) {
+				service.execute("DROP SEQUENCE " + seq);
+			}
+			String sql = "CREATE SEQUENCE "+seq+" MINVALUE 0 START WITH 0 NOMAXVALUE INCREMENT BY 1 NOCYCLE CACHE 100";
+
+			service.execute(sql);
+		}
 		table();
 		tables();
+		view();
 		column();
 		tag();
 		index();
@@ -62,9 +76,24 @@ public class MetadataApplication extends SpringBootServletInitializer {
 		System.out.println("-------------------------------- start  stable  ------------------------------------------");
 
 		ConfigTable.IS_SQL_DELIMITER_OPEN = true;
+		Table table = service.metadata().table("HR_DEPARTMENT");
+		if(null != table){
+			service.ddl().drop(table);
+		}
+		table = new Table("HR_DEPARTMENT");
+		table.addColumn("ID", "INT").setPrimaryKey(true).setAutoIncrement(true);
+		table.addColumn("NM", "varchar(50)");
+		table.addColumn("REG_TIME", "datetime");
+		table.addColumn("DATA_STATUS", "int");
+		table.addColumn("QTY", "int");
+		service.ddl().create(table);
+
 		DataRow row = new DataRow();
 		row.put("NM","TEST");
 		row.put("AGE","20");
+		if(null != seq){
+			row.put("ID", "${"+seq+".NEXTVAL}");
+		}
 
 		try {
 			//AGE 属性在表中不存在,直接插入会SQL异常
@@ -76,12 +105,21 @@ public class MetadataApplication extends SpringBootServletInitializer {
 		ConfigTable.IS_AUTO_CHECK_METADATA = true;
 		//开启检测后，会先检测表结构，将不表中未出现的列过滤
 		row.remove("ID");
+
+		if(null != seq){
+			row.put("ID", "${"+seq+".NEXTVAL}");
+		}
+
 		service.insert("HR_DEPARTMENT", row);
 		row.put("TMP_COLUMN","TMP");
 		service.save("HR_DEPARTMENT", row);
 
 
 		row.remove("ID");
+		if(null != seq){
+			row.put("ID", "${"+seq+".NEXTVAL}");
+		}
+
 		//相同的表结构会有一段时间缓存，不会每次都读取物理表
 		service.insert("HR_DEPARTMENT", row);
 
@@ -104,7 +142,7 @@ public class MetadataApplication extends SpringBootServletInitializer {
 		//所有表(不包含列、索引等结构)
 		LinkedHashMap<String, Table> tbls = service.metadata().tables();
 		//表结构(不包含列、索引等结构)
-		Table table = service.metadata().table("HR_DEPARTMENT");
+		table = service.metadata().table("HR_DEPARTMENT");
 		LinkedHashMap<String, Column> columns = table.getColumns();
 		System.out.println(table.getName()+" 属性:");
 		for(Column column:columns.values()){
@@ -135,7 +173,17 @@ public class MetadataApplication extends SpringBootServletInitializer {
 		System.out.println("-------------------------------- start index  --------------------------------------------");
 		System.out.println("-------------------------------- end index  ---------------------------------------------");
 	}
-
+	public static void view() throws Exception{
+		View view = service.metadata().view("V_HR_DEPARTMENT");
+		if(null != view){
+			service.ddl().drop(view);
+		}
+		view = new View("V_HR_DEPARTMENT");
+		view.setDefinition("SELECT * FROM HR_DEPARTMENT");
+		service.ddl().create(view);
+		Map<String,View> views = service.metadata().views();
+		System.out.println(views);
+	}
 	public static void tables() throws Exception{
 		System.out.println("-------------------------------- start tables  --------------------------------------------");
 		LinkedHashMap<String,Table> tables = service.metadata().tables();

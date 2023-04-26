@@ -32,6 +32,7 @@ import java.util.Map;
 public class DMLApplication {
 
 	private static AnylineService service;
+	private static String seq = null;
 	private static Logger log = LoggerFactory.getLogger(DMLApplication.class);
 	public static void main(String[] args) throws Exception{
 
@@ -40,11 +41,11 @@ public class DMLApplication {
 		ConfigurableApplicationContext context = application.run(args);
 
 		service = (AnylineService)SpringContextUtil.getBean("anyline.service");
-		check(null, "MySQL");
+		//check(null, "MySQL");
 		//check("pg", "PostgreSQL");
 		//check("ms", "SQL Server");
 		//check("ms2000", "SQL Server 2000");
-		//check("oracle", "Oracle 11G");
+		check("oracle", "Oracle 11G");
 		//check("db2", "DB2");
 
 	}
@@ -53,6 +54,16 @@ public class DMLApplication {
 		System.out.println("\n=============================== START " + title + "=========================================\n");
 		if(null != ds) {
 			DataSourceHolder.setDataSource(ds);
+		}
+		seq = null;
+		if("oracle".equals(ds)){
+			seq = "SIMPLE_SEQ";
+			if(null != service.query("USER_SEQUENCES","SEQUENCE_NAME:" + seq)) {
+				service.execute("DROP SEQUENCE " + seq);
+			}
+			String sql = "CREATE SEQUENCE "+seq+" MINVALUE 0 START WITH 0 NOMAXVALUE INCREMENT BY 1 NOCYCLE CACHE 100";
+			org.postgresql.geometric.PGpoint s;
+			service.execute(sql);
 		}
 		date();
 		insert();
@@ -81,6 +92,9 @@ public class DMLApplication {
 		row.put("YMD", new Date());
 		row.put("YMD_HMS", new Date());
 		row.put("HMS", new Date());
+		if(null != seq){
+			row.put("ID", "${"+seq+".NEXTVAL}");
+		}
 		service.insert("CRM_DATE", row);
 	}
 	public static void insert() throws Exception{
@@ -113,6 +127,9 @@ public class DMLApplication {
 		row.put("NM","ZH");
 		row.put("my","10.1"); //money
 		row.put("REG_TIME", new Date());
+		if(null != seq){
+			row.put("ID", "${"+seq+".NEXTVAL}");
+		}
 		row.setOverride(true);
 		ServiceProxy.save("HR_EMPLOYEE", row);
 
@@ -120,6 +137,9 @@ public class DMLApplication {
 		//在有主键值的情况下执行save最终会调用update
 		ServiceProxy.save("HR_EMPLOYEE", row);
 		row.remove("ID");
+		if(null != seq){
+			row.put("ID", "${"+seq+".NEXTVAL}");
+		}
 		//如果没有主键值则执行insert
 		service.save("HR_EMPLOYEE", row);
 
@@ -132,6 +152,9 @@ public class DMLApplication {
 		}
 		//注意因为没有主键值，所有以下两行都可以执行insert
 		//区别是save需要逐行执行,因为需要逐行检测主键值, insert会批量执行
+		if(null != seq){
+			set.put("ID", "${"+seq+".NEXTVAL}");
+		}
 		service.insert("HR_EMPLOYEE", set);
 		service.save("HR_EMPLOYEE", set);
 
