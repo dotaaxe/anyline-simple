@@ -6,7 +6,7 @@ import org.anyline.data.entity.Index;
 import org.anyline.data.entity.PrimaryKey;
 import org.anyline.data.entity.Table;
 import org.anyline.data.jdbc.ds.DataSourceHolder;
-import org.anyline.data.jdbc.ds.DynamicDataSourceRegister;
+
 import org.anyline.entity.DataRow;
 import org.anyline.entity.MultiPoint;
 import org.anyline.entity.Point;
@@ -46,8 +46,8 @@ public class DDLApplication {
 		check("pg", "PostgreSQL");
 		//check("ms", "SQL Server");
 		//check("ms2000", "SQL Server 2000");
-		//check("oracle", "Oracle 11G");
-		check("db2", "DB2");
+		check("oracle", "Oracle 11G");
+		//check("db2", "DB2");
 
 	}
 	public static void check(String ds, String title) throws Exception{
@@ -86,7 +86,7 @@ public class DDLApplication {
 		}
 		//修改表名
 
-		Table table = service.metadata().table("A_TEST");
+		Table table = service.metadata().table("a_test");
 		if(null != table){
 			log.warn("删除表:"+table.getName());
 			service.ddl().drop(table);

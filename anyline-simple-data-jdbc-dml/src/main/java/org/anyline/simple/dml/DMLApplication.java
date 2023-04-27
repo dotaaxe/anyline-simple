@@ -42,11 +42,11 @@ public class DMLApplication {
 
 		service = (AnylineService)SpringContextUtil.getBean("anyline.service");
 		//check(null, "MySQL");
-		//check("pg", "PostgreSQL");
-		//check("ms", "SQL Server");
+		check("pg", "PostgreSQL");
+		check("ms", "SQL Server");
 		//check("ms2000", "SQL Server 2000");
 		check("oracle", "Oracle 11G");
-		//check("db2", "DB2");
+		check("db2", "DB2");
 
 	}
 
@@ -143,6 +143,7 @@ public class DMLApplication {
 		//如果没有主键值则执行insert
 		service.save("HR_EMPLOYEE", row);
 
+
 		DataSet set = new DataSet();
 		for(int i=0; i<3; i++){
 			DataRow item = new DataRow();
@@ -150,6 +151,7 @@ public class DMLApplication {
 			item.put("DEPARTMENT_ID", i%2);
 			set.add(item);
 		}
+
 		//注意因为没有主键值，所有以下两行都可以执行insert
 		//区别是save需要逐行执行,因为需要逐行检测主键值, insert会批量执行
 		if(null != seq){

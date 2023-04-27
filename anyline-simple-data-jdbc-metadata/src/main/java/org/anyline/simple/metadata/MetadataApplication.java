@@ -5,7 +5,7 @@ import org.anyline.data.entity.Index;
 import org.anyline.data.entity.Table;
 import org.anyline.data.entity.View;
 import org.anyline.data.jdbc.ds.DataSourceHolder;
-import org.anyline.data.jdbc.ds.DynamicDataSourceRegister;
+
 import org.anyline.entity.DataRow;
 import org.anyline.service.AnylineService;
 import org.anyline.util.ConfigTable;
@@ -37,7 +37,7 @@ public class MetadataApplication extends SpringBootServletInitializer {
 		service = (AnylineService)context.getBean("anyline.service");
 
 		check(null, "MySQL");
-		//check("pg", "PostgreSQL");
+		check("pg", "PostgreSQL");
 		//check("ms", "SQL Server");
 		//
 		//
@@ -76,17 +76,22 @@ public class MetadataApplication extends SpringBootServletInitializer {
 		System.out.println("-------------------------------- start  stable  ------------------------------------------");
 
 		ConfigTable.IS_SQL_DELIMITER_OPEN = true;
-		Table table = service.metadata().table("HR_DEPARTMENT");
-		if(null != table){
-			service.ddl().drop(table);
+		Table table = service.metadata().table("hr_department");
+		try {
+			if(null != table){
+				service.ddl().drop(table);
+			}
+			table = new Table("hr_department");
+			table.addColumn("ID", "INT").setPrimaryKey(true).setAutoIncrement(true);
+			table.addColumn("NM", "varchar(50)");
+			table.addColumn("REG_TIME", "datetime");
+			table.addColumn("DATA_STATUS", "int");
+			table.addColumn("QTY", "int");
+			service.ddl().create(table);
+		}catch (Exception e){
+			e.printStackTrace();
 		}
-		table = new Table("HR_DEPARTMENT");
-		table.addColumn("ID", "INT").setPrimaryKey(true).setAutoIncrement(true);
-		table.addColumn("NM", "varchar(50)");
-		table.addColumn("REG_TIME", "datetime");
-		table.addColumn("DATA_STATUS", "int");
-		table.addColumn("QTY", "int");
-		service.ddl().create(table);
+
 
 		DataRow row = new DataRow();
 		row.put("NM","TEST");
@@ -97,7 +102,7 @@ public class MetadataApplication extends SpringBootServletInitializer {
 
 		try {
 			//AGE 属性在表中不存在,直接插入会SQL异常
-			service.insert("HR_DEPARTMENT", row);
+			service.insert("hr_department", row);
 		}catch (Exception e){
 			log.error("AGE 属性在表中不存在,直接插入会SQL异常:"+e.getMessage());
 		}
@@ -110,9 +115,9 @@ public class MetadataApplication extends SpringBootServletInitializer {
 			row.put("ID", "${"+seq+".NEXTVAL}");
 		}
 
-		service.insert("HR_DEPARTMENT", row);
+		service.insert("hr_department", row);
 		row.put("TMP_COLUMN","TMP");
-		service.save("HR_DEPARTMENT", row);
+		service.save("hr_department", row);
 
 
 		row.remove("ID");
@@ -121,13 +126,13 @@ public class MetadataApplication extends SpringBootServletInitializer {
 		}
 
 		//相同的表结构会有一段时间缓存，不会每次都读取物理表
-		service.insert("HR_DEPARTMENT", row);
+		service.insert("hr_department", row);
 
 		row.put("REG_TIME","");						//datetime 类型转换失败会按null处理
 		row.put("AGE",1);							//数据库中没有的列 不会参与更新
 		row.put("QTY","");							//int 类型转换失败会按null处理
 		row.put("DATA_STATUS","1");					//int 类型转换成int
-		service.save("HR_DEPARTMENT", row);
+		service.save("hr_department", row);
 
 		//所有表名,支持模糊匹配
 		List<String> tables = service.tables();
@@ -142,7 +147,7 @@ public class MetadataApplication extends SpringBootServletInitializer {
 		//所有表(不包含列、索引等结构)
 		LinkedHashMap<String, Table> tbls = service.metadata().tables();
 		//表结构(不包含列、索引等结构)
-		table = service.metadata().table("HR_DEPARTMENT");
+		table = service.metadata().table("hr_department");
 		LinkedHashMap<String, Column> columns = table.getColumns();
 		System.out.println(table.getName()+" 属性:");
 		for(Column column:columns.values()){
@@ -174,12 +179,22 @@ public class MetadataApplication extends SpringBootServletInitializer {
 		System.out.println("-------------------------------- end index  ---------------------------------------------");
 	}
 	public static void view() throws Exception{
-		View view = service.metadata().view("V_HR_DEPARTMENT");
+		Table table = service.metadata().table("hr_department");
+		if(null == table){
+			table = new Table("hr_department");
+			table.addColumn("ID", "INT").setPrimaryKey(true).setAutoIncrement(true);
+			table.addColumn("NM", "varchar(50)");
+			table.addColumn("REG_TIME", "datetime");
+			table.addColumn("DATA_STATUS", "int");
+			table.addColumn("QTY", "int");
+			service.ddl().create(table);
+		}
+		View view = service.metadata().view("v_hr_department");
 		if(null != view){
 			service.ddl().drop(view);
 		}
-		view = new View("V_HR_DEPARTMENT");
-		view.setDefinition("SELECT * FROM HR_DEPARTMENT");
+		view = new View("v_hr_department");
+		view.setDefinition("SELECT * FROM hr_department");
 		service.ddl().create(view);
 		Map<String,View> views = service.metadata().views();
 		System.out.println(views);
@@ -209,9 +224,9 @@ public class MetadataApplication extends SpringBootServletInitializer {
 	}
 	public static void column() throws Exception{
 		System.out.println("-------------------------------- start column  -------------------------------------------");
-		Column col = service.metadata().column("HR_DEPARTMENT","ID");
+		Column col = service.metadata().column("hr_department","ID");
 		log.warn("column: ID, type:{}", col.getFullType());
-		LinkedHashMap<String,Column> columns = service.metadata().columns("HR_DEPARTMENT");
+		LinkedHashMap<String,Column> columns = service.metadata().columns("hr_department");
 		for(Column column: columns.values()){
 			log.warn("column:{}\ttype:{}\tauto increment:{}",column.getName(), column.getFullType(), column.isAutoIncrement()==1);
 		}

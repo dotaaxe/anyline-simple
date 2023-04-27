@@ -2,7 +2,7 @@ package org.anyline.simple;
 
 
 import org.anyline.data.jdbc.ds.DataSourceHolder;
-import org.anyline.data.jdbc.ds.DynamicDataSourceRegister;
+
 import org.anyline.service.AnylineService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

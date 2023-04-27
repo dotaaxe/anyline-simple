@@ -2,7 +2,7 @@ package org.anyline.simple.delete;
 
 
 import org.anyline.data.jdbc.ds.DataSourceHolder;
-import org.anyline.data.jdbc.ds.DynamicDataSourceRegister;
+
 import org.anyline.data.param.ConfigStore;
 import org.anyline.data.param.init.DefaultConfigStore;
 import org.anyline.entity.Compare;

@@ -47,8 +47,8 @@
             <artifactId>anyline-data-jdbc-db2</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.microsoft.sqlserver.jdbc</groupId>
-            <artifactId>sqljdbc4</artifactId>
+            <groupId>com.microsoft.sqlserver</groupId>
+            <artifactId>mssql-jdbc</artifactId>
         </dependency>
     </dependencies>
 </project>

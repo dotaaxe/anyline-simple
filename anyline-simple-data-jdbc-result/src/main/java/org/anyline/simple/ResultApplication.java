@@ -1,7 +1,6 @@
 package org.anyline.simple;
 
 
-import org.anyline.data.jdbc.ds.DynamicDataSourceRegister;
 import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
 import org.anyline.service.AnylineService;

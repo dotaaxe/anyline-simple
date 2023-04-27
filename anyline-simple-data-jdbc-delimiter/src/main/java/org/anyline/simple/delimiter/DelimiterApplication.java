@@ -1,6 +1,6 @@
 package org.anyline.simple.delimiter;
 
-import org.anyline.data.jdbc.ds.DynamicDataSourceRegister;
+
 import org.anyline.service.AnylineService;
 import org.anyline.util.ConfigTable;
 import org.springframework.boot.SpringApplication;
