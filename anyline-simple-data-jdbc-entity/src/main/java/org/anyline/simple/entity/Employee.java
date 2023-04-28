@@ -12,67 +12,48 @@ import java.util.List;
 public class Employee extends BaseEntity{
 
     private Long id;
-    @Column(name = "NM")
-    private String name;
-    private String userName;
+
+    @Column(name = "NAME", length = 10)
+    private String nm;
+
+    @Column(name = "CODE", length = 10)
+    private String workCode;
     //对应date类型
-    private LocalDate ymd;
+    private LocalDate birthday;
+
+    //如果属性上没有注解会 会根据 ConfigTable.ENTITY_FIELD_COLUMN_MAP 转换;
+    //默认"camel_"属性小驼峰转下划线 joinYmd > join_ymd
+    private String joinYmd;
+
+    //这一列在数据库中没有
     @Transient
     private int age;
+
     //对应数据库blob类型
     private byte[] remark;
+
     //对应数据库blob类型
-    private String dblob;
-    private Department ejson;
+    private String description;
+
+    //对应数据库JSON
+    private Department department;
+
     //这个属性在数据库中不存在
     private String tmpCol;
 
     // 对应数据库中的json类型 注意这里不要用String接收 否则在返回给前端调用toJson时会把引号 转义
     // 应该根据json格式定义一个类，如果不想定义可以用Object类型(会实例化一个LinkedHashMap赋值给Object)
-    private Object djson;
+    private Object other;
 
 
-    //如果属性上没有注解会 会根据 ConfigTable.ENTITY_FIELD_COLUMN_MAP 进程转换;
-    //默认"camel_"属性小驼峰转下划线 joinYmd > join_ymd
-
-    private String joinYmd;
-    private List<Department> ejsons;
+    //工作经历 对应[json]集合类型
+    private List<Experience> experiences;
     //对应数据类型point
-    private Double[] loc;
+    private Double[] workLocation;
+
     //对应数据类型point
-    private Point pt;
+    private Point homeLocation;
 
-
-
-
-    public List<Department> getEjsons() {
-        return ejsons;
-    }
-
-    public void setEjsons(List<Department> ejsons) {
-        this.ejsons = ejsons;
-    }
-
-    public String getDblob() {
-        return dblob;
-    }
-
-    public void setDblob(String dblob) {
-        this.dblob = dblob;
-    }
-
-    public byte[] getRemark() {
-        return remark;
-    }
-
-    public void setRemark(byte[] remark) {
-        this.remark = remark;
-    }
-
-
-    public void setDjson(String djson) {
-        this.djson = djson;
-    }
 
     public Long getId() {
         return id;
@@ -82,20 +63,28 @@ public class Employee extends BaseEntity{
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getNm() {
+        return nm;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNm(String nm) {
+        this.nm = nm;
     }
 
-    public int getAge() {
-        return age;
+    public String getWorkCode() {
+        return workCode;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setWorkCode(String workCode) {
+        this.workCode = workCode;
+    }
+
+    public LocalDate getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(LocalDate birthday) {
+        this.birthday = birthday;
     }
 
     public String getJoinYmd() {
@@ -106,12 +95,36 @@ public class Employee extends BaseEntity{
         this.joinYmd = joinYmd;
     }
 
-    public Department getEjson() {
-        return ejson;
+    public int getAge() {
+        return age;
     }
 
-    public void setEjson(Department ejson) {
-        this.ejson = ejson;
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public byte[] getRemark() {
+        return remark;
+    }
+
+    public void setRemark(byte[] remark) {
+        this.remark = remark;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 
     public String getTmpCol() {
@@ -122,43 +135,35 @@ public class Employee extends BaseEntity{
         this.tmpCol = tmpCol;
     }
 
-    public Object getDjson() {
-        return djson;
+    public Object getOther() {
+        return other;
     }
 
-    public void setDjson(Object djson) {
-        this.djson = djson;
+    public void setOther(Object other) {
+        this.other = other;
     }
 
-    public String getUserName() {
-        return userName;
+    public List<Experience> getExperiences() {
+        return experiences;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setExperiences(List<Experience> experiences) {
+        this.experiences = experiences;
     }
 
-    public LocalDate getYmd() {
-        return ymd;
+    public Double[] getWorkLocation() {
+        return workLocation;
     }
 
-    public void setYmd(LocalDate ymd) {
-        this.ymd = ymd;
+    public void setWorkLocation(Double[] workLocation) {
+        this.workLocation = workLocation;
     }
 
-    public Point getPt() {
-        return pt;
+    public Point getHomeLocation() {
+        return homeLocation;
     }
 
-    public void setPt(Point pt) {
-        this.pt = pt;
-    }
-
-    public Double[] getLoc() {
-        return loc;
-    }
-
-    public void setLoc(Double[] loc) {
-        this.loc = loc;
+    public void setHomeLocation(Point homeLocation) {
+        this.homeLocation = homeLocation;
     }
 }
