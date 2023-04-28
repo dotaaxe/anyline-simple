@@ -52,7 +52,7 @@ anyline-simple-data-condition
 
 刚pull下来的项目
 先install anyline-simple-dependency(用来设置基础依赖)
-再install anyline-simple(编译到前项目下所有的module)
+才可以运行其他代码
 
 
 如果还是缺少依赖的话 请联系QQ群(86020680)的管理员
