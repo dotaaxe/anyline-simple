@@ -22,4 +22,7 @@ public class UserService {
         service.insert("SSO_USER", row);
         throw new RuntimeException("test exception");
     }
+    public int count(String table){
+        return service.count(table);
+    }
 }
