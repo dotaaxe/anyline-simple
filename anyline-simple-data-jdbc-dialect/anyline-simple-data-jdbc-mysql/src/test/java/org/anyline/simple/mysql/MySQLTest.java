@@ -1,7 +1,7 @@
 package org.anyline.simple.mysql;
 
 import org.anyline.entity.*;
-import org.anyline.data.jdbc.adapter.JDBCAdapter;
+import org.anyline.data.adapter.JDBCAdapter;
 import org.anyline.data.entity.Table;
 import org.anyline.data.param.ConfigStore;
 import org.anyline.data.param.init.DefaultConfigStore;
