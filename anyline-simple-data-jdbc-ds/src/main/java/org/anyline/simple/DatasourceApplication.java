@@ -8,6 +8,7 @@ import org.anyline.entity.DataRow;
 import org.anyline.proxy.ServiceProxy;
 import org.anyline.service.AnylineService;
 import org.anyline.util.ConfigTable;
+import org.anyline.util.FileUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -15,8 +16,10 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 
+import java.io.File;
 import java.util.Hashtable;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 @SpringBootApplication
@@ -37,8 +40,7 @@ public class DatasourceApplication extends SpringBootServletInitializer {
                 有没有切换成功参考dao输出的日志[SQL:*][thread:*][ds:crm]
      *********************************************************************************************************************************************************/
 
-	public static void main(String[] args) {
-
+	public static void main(String[] args) { 
 		ConfigTable.IS_MULTIPLE_SERVICE = false;
 		SpringApplication application = new SpringApplication(DatasourceApplication.class);
 
