@@ -5,7 +5,7 @@ import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
 import org.anyline.entity.PageNavi;
 import org.anyline.entity.DefaultPageNavi;
-import org.anyline.entity.adapter.KeyAdapter;
+import org.anyline.adapter.KeyAdapter;
 import org.anyline.service.AnylineService;
 import org.anyline.util.LogUtil;
 import org.slf4j.Logger;
