@@ -46,7 +46,7 @@ public class DMLApplication {
 		check("ms", "SQL Server");
 		//check("ms2000", "SQL Server 2000");
 		check("oracle", "Oracle 11G");
-		check("db2", "DB2");
+		//check("db2", "DB2");
 
 	}
 
@@ -87,7 +87,7 @@ public class DMLApplication {
 		table.addColumn("HMS", "TIME");
 		service.ddl().save(table);
 
-		ConfigTable.IS_AUTO_CHECK_METADATA = true;
+		//ConfigTable.IS_AUTO_CHECK_METADATA = true;
 		DataRow row = new DataRow();
 		row.put("YMD", new Date());
 		row.put("YMD_HMS", new Date());
