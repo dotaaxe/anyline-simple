@@ -6,14 +6,13 @@ import org.anyline.data.param.init.DefaultConfigStore;
 import org.anyline.entity.*;
 import org.anyline.proxy.ServiceProxy;
 import org.anyline.service.AnylineService;
-import org.anyline.util.Base64Util;
-import org.anyline.util.BeanUtil;
-import org.anyline.util.ConfigTable;
-import org.anyline.util.DateUtil;
+import org.anyline.util.*;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -34,9 +33,8 @@ public class EntityApplication {
         return new DefaultConfigStore();
     }
 
-
     public static void main(String[] args) throws Exception{
-        //ConfigTable.IS_AUTO_CHECK_METADATA = true;
+        ConfigTable.IS_AUTO_CHECK_METADATA = true;
         SpringApplication application = new SpringApplication(EntityApplication.class);
         ConfigurableApplicationContext context = application.run(args);
         service = (AnylineService)context.getBean("anyline.service");
@@ -96,7 +94,7 @@ public class EntityApplication {
         service.save("HR_EMPLOYEE", em);
 
         Employee employee = ServiceProxy.select(Employee.class);
-
+        System.out.println(BeanUtil.object2json(employee));
         //当前类上没有表注解但父类上有 保存时取父类注解值
         ChildEntity child = new ChildEntity();
         child.setNm("张三");
