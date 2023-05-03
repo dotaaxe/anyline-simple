@@ -1,6 +1,7 @@
 package org.anyline.simple.entity;
 
 
+import org.anyline.data.adapter.JDBCAdapter;
 import org.anyline.data.param.ConfigStore;
 import org.anyline.data.param.init.DefaultConfigStore;
 import org.anyline.entity.*;
@@ -8,11 +9,9 @@ import org.anyline.proxy.ServiceProxy;
 import org.anyline.service.AnylineService;
 import org.anyline.util.*;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -37,13 +36,13 @@ public class EntityApplication {
         SpringApplication application = new SpringApplication(EntityApplication.class);
         ConfigurableApplicationContext context = application.run(args);
         service = (AnylineService)context.getBean("anyline.service");
+        sql();
         init();
         json();
         test();
         point();
         blob();
         xml();
-        sql();
         empty();
         camel();
 
@@ -71,8 +70,11 @@ public class EntityApplication {
         table.addColumn("TITLES"        , "json"         ); // List<String>    :titles        头衔s
         table.addColumn("LABELS"        , "json"         ); // List<String>    :labels        标签s
         table.addColumn("OTHER"         , "json"         ); // Object          :other         其他信息
+        table.addColumn("MAP"           , "json"         ); // Map             :map           其他信息
         table.addColumn("WORK_LOCATION" , "point"        ); // Double[]        :workLocation  工作定位
         table.addColumn("HOME_LOCATION" , "point"        ); // Point           :homeLocation  家定位
+        table.addColumn("CREATE_TIME"   , "TIMESTAMP"    ).setDefaultValue(JDBCAdapter.SQL_BUILD_IN_VALUE.CURRENT_TIME);
+        table.addColumn("REG_TIME"      , "TIMESTAMP"    ).setDefaultValue(JDBCAdapter.SQL_BUILD_IN_VALUE.CURRENT_TIME);
 
         service.ddl().create(table);
 
@@ -111,6 +113,10 @@ public class EntityApplication {
         em.setWorkLocation(new Double[]{121.0,35.0});
         //家庭住址
         em.setHomeLocation(new Point(120.10, 36.12));
+        Map map = new HashMap();
+        map.put("专业","计算机");
+        map.put("学历","本科");
+        em.setMap(map);
 
         service.save("HR_EMPLOYEE", em);
 
@@ -118,7 +124,7 @@ public class EntityApplication {
         System.out.println(BeanUtil.object2json(employee));
         //当前类上没有表注解但父类上有 保存时取父类注解值
         ChildEntity child = new ChildEntity();
-        child.setNm("张三");
+        child.setName("张三");
         service.insert(child);
 
         DataSet set = service.querys("HR_EMPLOYEE",0,9);
@@ -155,7 +161,7 @@ public class EntityApplication {
         service.insert(e);
         e.setCreateTime(null);
         e.setId(1L);
-        // e.setName("test");
+        e.setNm("test");
         service.update(e);
 
         employee = list.get(0);
@@ -182,6 +188,7 @@ public class EntityApplication {
 
         employee.setId(123L);
         service.delete(employee);
+        System.out.println(BeanUtil.object2json(list));
         service.delete(list);
 
         list = new EntitySet<>();
@@ -209,14 +216,14 @@ public class EntityApplication {
         service.update("sync_task", task, "LAST_EXE_QTY");
     }
     public static void point(){
-        //ConfigTable.IS_AUTO_SPLIT_ARRAY = false;
-        Employee e =  ServiceProxy.select(Employee.class, "LOC IS NOT NULL");
-        BeanUtil.setFieldValue(e, "ymd", DateUtil.parse("2020-01-01"));
+        ConfigTable.IS_AUTO_SPLIT_ARRAY = false;
+        Employee e =  ServiceProxy.select(Employee.class, "WORK_LOCATION IS NOT NULL");
+        BeanUtil.setFieldValue(e, "join_ymd", DateUtil.parse("2020-01-01"));
         System.out.println(BeanUtil.object2json(e));
         //System.out.println(BeanUtil.concat(e.getLoc()));
         service.save(e);
 
-        DataRow row = service.query("HR_EMPLOYEE", "LOC IS NOT NULL");
+        DataRow row = service.query("HR_EMPLOYEE", "WORK_LOCATION IS NOT NULL");
         System.out.println(row);
         service.save(row);
 
@@ -267,7 +274,7 @@ public class EntityApplication {
     public static void json(){
         ConfigTable.IS_AUTO_CHECK_METADATA = true;
         Employee employee = new Employee();
-       // employee.setName("A");
+        employee.setNm("A");
         employee.setTmpCol("111"); //数据库中没有这一列,开启了IS_AUTO_CHECK_METADATA后 可以把不存在的列过滤掉
 
         ServiceProxy.save(employee);
@@ -335,7 +342,8 @@ public class EntityApplication {
         System.out.println(e.toJSON());
 
         //因为DataRow中没有类型限制所以 按原样(byte[])取出
-        System.out.println(new String(e.getBytes("des")));
+        System.out.println(new String(e.getBytes("REMARK")));
+        System.out.println(e.getString("REMARK"));
 
 
         //为什么不直接把str.getBytes()保存到blob
@@ -351,6 +359,7 @@ public class EntityApplication {
         System.out.println(BeanUtil.object2json(e));
     }
     public static void sql(){
+        //DataRow row = service.query("SELECT * FROM HR_EMPLOYEE");
         String sql = "SELECT * FROM HR_EMPLOYEE WHERE CODE = ':CODE' AND ID IN (:ID) AND CODE > ':CODE'";
         //url   http://127.0.0.1?name=张
         Employee e = ServiceProxy.select(sql, Employee.class , condition(true,"NAME:%name%")

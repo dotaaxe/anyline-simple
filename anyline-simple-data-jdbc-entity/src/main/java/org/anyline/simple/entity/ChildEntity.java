@@ -2,13 +2,13 @@ package org.anyline.simple.entity;
 
 //不注解表名，找父类的
 public class ChildEntity extends BaseEntity{
-    private String nm;
+    private String name;
 
-    public String getNm() {
-        return nm;
+    public String getName() {
+        return name;
     }
 
-    public void setNm(String nm) {
-        this.nm = nm;
+    public void setName(String name) {
+        this.name = name;
     }
 }

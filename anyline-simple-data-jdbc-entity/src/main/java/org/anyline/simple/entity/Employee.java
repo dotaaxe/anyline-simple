@@ -38,6 +38,7 @@ public class Employee extends BaseEntity{
 
     //对应数据库JSON
     private Department department;
+    private Map map;
 
     //这个属性在数据库中不存在
     private String tmpCol;
@@ -199,4 +200,11 @@ public class Employee extends BaseEntity{
         this.labels = labels;
     }
 
+    public Map getMap() {
+        return map;
+    }
+
+    public void setMap(Map map) {
+        this.map = map;
+    }
 }
