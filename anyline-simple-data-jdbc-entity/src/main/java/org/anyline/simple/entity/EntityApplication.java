@@ -15,8 +15,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 
 @ComponentScan(basePackages = {"org.anyline"})
@@ -60,14 +59,17 @@ public class EntityApplication {
         table = new org.anyline.data.entity.Table("HR_EMPLOYEE");
         //注意以下数据类型
         table.addColumn("ID"            , "BIGINT").setAutoIncrement(true).setPrimaryKey(true);
-        table.addColumn("NAME"          , "varchar(50)"  ); // String          :nm            姓名
-        table.addColumn("CODE"          , "varchar(50)"  ); // String          :workCode      工号
-        table.addColumn("BIRTHDAY"      , "DATE"         ); // Date            :birthday      出生日期
+        table.addColumn("NAME"          , "varchar(50)"  ); // String          : nm            姓名
+        table.addColumn("CODE"          , "varchar(50)"  ); // String          : workCode      工号
+        table.addColumn("BIRTHDAY"      , "DATE"         ); // Date            : birthday      出生日期
         table.addColumn("JOIN_YMD"      , "varchar(10)"  ); // String          :joinYmd       入职日期
         table.addColumn("REMARK"        , "blob"         ); // byte[]          :remark        备注
         table.addColumn("DESCRIPTION"   , "blob"         ); // String          :description   详细信息
         table.addColumn("DEPARTMENT"    , "json"         ); // Department      :department    部门
+        table.addColumn("POSTS"         , "json"         ); // Map<String,Post>:posts         职务s
         table.addColumn("EXPERIENCES"   , "json"         ); // List<Experience>:experiences   工作经历
+        table.addColumn("TITLES"        , "json"         ); // List<String>    :titles        头衔s
+        table.addColumn("LABELS"        , "json"         ); // List<String>    :labels        标签s
         table.addColumn("OTHER"         , "json"         ); // Object          :other         其他信息
         table.addColumn("WORK_LOCATION" , "point"        ); // Double[]        :workLocation  工作定位
         table.addColumn("HOME_LOCATION" , "point"        ); // Point           :homeLocation  家定位
@@ -83,12 +85,31 @@ public class EntityApplication {
         em.setRemark("张三备注".getBytes());
         em.setDescription("张三详细信息");
         em.setDepartment(new Department("DF01", "财务一部"));
+
+        //工作经历
         List<Experience> experiences = new ArrayList<>();
         experiences.add(new Experience( 1, DateUtil.parse("2020-01-01"),  DateUtil.parse("2022-02-02"), "前台", "中国银行"));
         experiences.add(new Experience( 1, DateUtil.parse("2022-02-03"),  DateUtil.parse("2023-02-05"), "财务", "交通银行"));
         em.setExperiences(experiences);
+
+        //职务
+        Map<String,Post> posts = new HashMap<>();
+        posts.put("财务经理", new Post("财务经理", 100.11, DateUtil.parse("2010-01-01")));
+        posts.put("市场部主任", new Post("市场部主任", 200.11, DateUtil.parse("2020-02-02")));
+        em.setPosts(posts);
+        //头衔
+        List<String> titles = new ArrayList<>();
+        titles.add("先进工作者");
+        titles.add("劳动模范");
+        em.setTitles(titles);
+        //标签
+        String[] labels = new String[]{"好人","工作积极"};
+        em.setLabels(labels);
+        //其他信息
         em.setOther("{\"爱好\":\"跑步\",\"籍贯\":\"山东\"}");
+        //工作地
         em.setWorkLocation(new Double[]{121.0,35.0});
+        //家庭住址
         em.setHomeLocation(new Point(120.10, 36.12));
 
         service.save("HR_EMPLOYEE", em);
