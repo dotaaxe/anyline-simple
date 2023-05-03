@@ -7,6 +7,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @Table(name="hr_employee")
 public class Employee extends BaseEntity{
@@ -48,11 +49,18 @@ public class Employee extends BaseEntity{
 
     //工作经历 对应[json]集合类型
     private List<Experience> experiences;
+    //职务 对应{json}类型
+    private Map<String,Post> posts;
+
+    //头衔 对应[json]类型
+    private List<String> titles;
+    private String[] labels;
     //对应数据类型point
     private Double[] workLocation;
 
     //对应数据类型point
     private Point homeLocation;
+
 
 
     public Long getId() {
@@ -166,4 +174,29 @@ public class Employee extends BaseEntity{
     public void setHomeLocation(Point homeLocation) {
         this.homeLocation = homeLocation;
     }
+
+    public Map<String, Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(Map<String, Post> posts) {
+        this.posts = posts;
+    }
+
+    public List<String> getTitles() {
+        return titles;
+    }
+
+    public void setTitles(List<String> titles) {
+        this.titles = titles;
+    }
+
+    public String[] getLabels() {
+        return labels;
+    }
+
+    public void setLabels(String[] labels) {
+        this.labels = labels;
+    }
+
 }
