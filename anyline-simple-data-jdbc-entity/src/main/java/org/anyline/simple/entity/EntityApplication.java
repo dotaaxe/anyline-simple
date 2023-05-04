@@ -122,6 +122,8 @@ public class EntityApplication {
 
         Employee employee = ServiceProxy.select(Employee.class);
         System.out.println(BeanUtil.object2json(employee));
+        EntitySet<Employee> es = service.selects(Employee.class);
+        System.out.println(BeanUtil.object2json(es));
         //当前类上没有表注解但父类上有 保存时取父类注解值
         ChildEntity child = new ChildEntity();
         child.setName("张三");
