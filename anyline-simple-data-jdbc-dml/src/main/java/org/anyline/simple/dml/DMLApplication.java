@@ -99,7 +99,7 @@ public class DMLApplication {
 	}
 	public static void insert() throws Exception{
 
-		ConfigTable.IS_AUTO_CHECK_METADATA = true;
+		//ConfigTable.IS_AUTO_CHECK_METADATA = true;
 		System.out.println("\n-------------------------------- start insert  --------------------------------------------\n");
 
 		Table table = service.metadata().table("HR_EMPLOYEE");
@@ -118,6 +118,7 @@ public class DMLApplication {
 		table.addColumn("my","money").setComment("金额");
 		table.addColumn("REG_TIME","DATETIME").setComment("日期");
 		table.addColumn("DEPARTMENT_ID","INT");
+		table.addColumn("SALARY","FLOAT(10,2)");
 		service.ddl().save(table);
 
 
@@ -127,6 +128,7 @@ public class DMLApplication {
 		row.put("REG_TIME", "2020-01-01");
 		row.put("NM","ZH");
 		row.put("age","");
+		row.put("SALARY", 12.2d);
 		row.put("my","10.1"); //money
 		row.put("REG_TIME", new Date());
 		if(null != seq){

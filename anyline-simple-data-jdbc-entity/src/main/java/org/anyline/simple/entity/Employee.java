@@ -30,6 +30,8 @@ public class Employee extends BaseEntity{
     @Transient
     private int age;
 
+    private float salary;
+
     //对应数据库blob类型
     private byte[] remark;
 
@@ -207,4 +209,13 @@ public class Employee extends BaseEntity{
     public void setMap(Map map) {
         this.map = map;
     }
+
+    public float getSalary() {
+        return salary;
+    }
+
+    public void setSalary(float salary) {
+        this.salary = salary;
+    }
+
 }

@@ -36,8 +36,8 @@ public class EntityApplication {
         SpringApplication application = new SpringApplication(EntityApplication.class);
         ConfigurableApplicationContext context = application.run(args);
         service = (AnylineService)context.getBean("anyline.service");
-        sql();
         init();
+        sql();
         json();
         test();
         point();
@@ -61,18 +61,19 @@ public class EntityApplication {
         table.addColumn("NAME"          , "varchar(50)"  ); // String          : nm            姓名
         table.addColumn("CODE"          , "varchar(50)"  ); // String          : workCode      工号
         table.addColumn("BIRTHDAY"      , "DATE"         ); // Date            : birthday      出生日期
-        table.addColumn("JOIN_YMD"      , "varchar(10)"  ); // String          :joinYmd       入职日期
-        table.addColumn("REMARK"        , "blob"         ); // byte[]          :remark        备注
-        table.addColumn("DESCRIPTION"   , "blob"         ); // String          :description   详细信息
-        table.addColumn("DEPARTMENT"    , "json"         ); // Department      :department    部门
-        table.addColumn("POSTS"         , "json"         ); // Map<String,Post>:posts         职务s
-        table.addColumn("EXPERIENCES"   , "json"         ); // List<Experience>:experiences   工作经历
-        table.addColumn("TITLES"        , "json"         ); // List<String>    :titles        头衔s
-        table.addColumn("LABELS"        , "json"         ); // List<String>    :labels        标签s
-        table.addColumn("OTHER"         , "json"         ); // Object          :other         其他信息
-        table.addColumn("MAP"           , "json"         ); // Map             :map           其他信息
-        table.addColumn("WORK_LOCATION" , "point"        ); // Double[]        :workLocation  工作定位
-        table.addColumn("HOME_LOCATION" , "point"        ); // Point           :homeLocation  家定位
+        table.addColumn("JOIN_YMD"      , "varchar(10)"  ); // String          : joinYmd       入职日期
+        table.addColumn("SALARY"        , "float(10,2)"  ); // float           : salary        工资
+        table.addColumn("REMARK"        , "blob"         ); // byte[]          : remark        备注
+        table.addColumn("DESCRIPTION"   , "blob"         ); // String          : description   详细信息
+        table.addColumn("DEPARTMENT"    , "json"         ); // Department      : department    部门
+        table.addColumn("POSTS"         , "json"         ); // Map<String,Post>: posts         职务s
+        table.addColumn("EXPERIENCES"   , "json"         ); // List<Experience>: experiences   工作经历
+        table.addColumn("TITLES"        , "json"         ); // List<String>    : titles        头衔s
+        table.addColumn("LABELS"        , "json"         ); // List<String>    : labels        标签s
+        table.addColumn("OTHER"         , "json"         ); // Object          : other         其他信息
+        table.addColumn("MAP"           , "json"         ); // Map             : map           其他信息
+        table.addColumn("WORK_LOCATION" , "point"        ); // Double[]        : workLocation  工作定位
+        table.addColumn("HOME_LOCATION" , "point"        ); // Point           : homeLocation  家定位
         table.addColumn("CREATE_TIME"   , "TIMESTAMP"    ).setDefaultValue(JDBCAdapter.SQL_BUILD_IN_VALUE.CURRENT_TIME);
         table.addColumn("REG_TIME"      , "TIMESTAMP"    ).setDefaultValue(JDBCAdapter.SQL_BUILD_IN_VALUE.CURRENT_TIME);
 
@@ -87,6 +88,7 @@ public class EntityApplication {
         em.setRemark("张三备注".getBytes());
         em.setDescription("张三详细信息");
         em.setDepartment(new Department("DF01", "财务一部"));
+        em.setSalary(10000.12f);
 
         //工作经历
         List<Experience> experiences = new ArrayList<>();
