@@ -65,7 +65,7 @@ public class DMLApplication {
 			org.postgresql.geometric.PGpoint s;
 			service.execute(sql);
 		}
-		date();
+		//date();
 		insert();
 		query();
 		page();
@@ -121,10 +121,12 @@ public class DMLApplication {
 		service.ddl().save(table);
 
 
-
+		ConfigTable.IS_INSERT_EMPTY_COLUMN = true;
+		ConfigTable.IS_UPDATE_EMPTY_COLUMN = true;
 		DataRow row = new DataRow();
 		row.put("REG_TIME", "2020-01-01");
 		row.put("NM","ZH");
+		row.put("age","");
 		row.put("my","10.1"); //money
 		row.put("REG_TIME", new Date());
 		if(null != seq){
