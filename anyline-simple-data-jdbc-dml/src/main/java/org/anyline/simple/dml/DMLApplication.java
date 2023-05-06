@@ -9,6 +9,8 @@ import org.anyline.entity.Compare;
 import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
 import org.anyline.entity.data.Column;
+import org.anyline.entity.metadata.Convert;
+import org.anyline.entity.metadata.init.DefaultConvert;
 import org.anyline.proxy.ServiceProxy;
 import org.anyline.service.AnylineService;
 import org.anyline.util.ConfigTable;
@@ -118,7 +120,7 @@ public class DMLApplication {
 		table.addColumn("my","money").setComment("金额");
 		table.addColumn("REG_TIME","DATETIME").setComment("日期");
 		table.addColumn("DEPARTMENT_ID","INT");
-		table.addColumn("SALARY","FLOAT(10,2)");
+		table.addColumn("performance","FLOAT(10,2)");
 		service.ddl().save(table);
 
 
@@ -128,7 +130,7 @@ public class DMLApplication {
 		row.put("REG_TIME", "2020-01-01");
 		row.put("NM","ZH");
 		row.put("age","");
-		row.put("SALARY", 12.2d);
+		row.put("performance", 12.2d);
 		row.put("my","10.1"); //money
 		row.put("REG_TIME", new Date());
 		if(null != seq){
