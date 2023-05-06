@@ -2,9 +2,7 @@ package org.anyline.simple.entity;
 
 import org.anyline.entity.Point;
 
-import javax.persistence.Column;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -63,6 +61,13 @@ public class Employee extends BaseEntity{
 
     //对应数据类型point
     private Point homeLocation;
+
+    //多对多关系  一个在多个部门任职
+    @ManyToMany
+    @JoinTable(name = "HR_EMPLOYEE_DEPARTMENT"                          //中间关联表
+            , joinColumns = @JoinColumn(name="EMPLOYEE_ID")             //关联表中与当前表关联的外键
+            , inverseJoinColumns = @JoinColumn(name="DEPARTMENT_ID"))   //关联表中与当前表关联的外键
+    private List<Department> departments;
 
 
 
