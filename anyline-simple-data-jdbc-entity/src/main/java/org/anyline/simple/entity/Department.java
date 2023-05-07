@@ -1,6 +1,10 @@
 package org.anyline.simple.entity;
 
+import javax.persistence.Table;
+
+@Table(name="hr_department")
 public class Department {
+    private Long id;
     private String code;
     private String name;
 
