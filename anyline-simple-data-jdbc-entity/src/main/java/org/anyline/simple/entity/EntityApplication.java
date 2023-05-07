@@ -51,6 +51,8 @@ public class EntityApplication {
 
     public static void init() throws Exception{
         ConfigTable.IS_AUTO_CHECK_METADATA = true;
+        ConfigTable.ENTITY_FIELD_DEPENDENCY = 3;
+        //职员表
         org.anyline.data.entity.Table table = service.metadata().table("HR_EMPLOYEE");
         if(null != table){
             service.ddl().drop(table);
@@ -76,8 +78,38 @@ public class EntityApplication {
         table.addColumn("HOME_LOCATION" , "point"        ); // Point           : homeLocation  家定位
         table.addColumn("CREATE_TIME"   , "TIMESTAMP"    ).setDefaultValue(JDBCAdapter.SQL_BUILD_IN_VALUE.CURRENT_TIME);
         table.addColumn("REG_TIME"      , "TIMESTAMP"    ).setDefaultValue(JDBCAdapter.SQL_BUILD_IN_VALUE.CURRENT_TIME);
-
         service.ddl().create(table);
+
+        //部门表
+        table = service.metadata().table("HR_DEPARTMENT");
+        if(null != table){
+            service.ddl().drop(table);
+        }
+        table = new org.anyline.data.entity.Table("HR_DEPARTMENT");
+        table.addColumn("ID"            , "BIGINT").setAutoIncrement(true).setPrimaryKey(true);
+        table.addColumn("NAME"          , "varchar(50)"  ); // String          : name      名称
+        table.addColumn("CODE"          , "varchar(50)"  ); // String          : code      编号
+        service.ddl().create(table);
+
+        //职员部门关系表
+        table = service.metadata().table("HR_EMPLOYEE_DEPARTMENT");
+        if(null != table){
+            service.ddl().drop(table);
+        }
+        table = new org.anyline.data.entity.Table("HR_EMPLOYEE_DEPARTMENT");
+        table.addColumn("ID"            , "BIGINT"  ).setAutoIncrement(true).setPrimaryKey(true);
+        table.addColumn("EMPLOYEE_ID"   , "BIGINT"  ); // LONG          : employeeId        职员ID
+        table.addColumn("DEPARTMENT_ID" , "BIGINT"  ); // LONG          : departmentId      部门ID
+        service.ddl().create(table);
+
+        Department dept = new Department();
+        dept.setName("财务部");
+        dept.setCode("FI01");
+        service.insert(dept);
+        dept = new Department();
+        dept.setName("人力资源部");
+        dept.setCode("HR01");
+        service.insert(dept);
 
         Employee em = new Employee();
         em.setNm("张三");
@@ -122,6 +154,15 @@ public class EntityApplication {
 
         service.save("HR_EMPLOYEE", em);
 
+        DataRow emdep = new DataRow();
+        emdep.put("EMPLOYEE_ID", 1);
+        emdep.put("DEPARTMENT_ID",1);
+        service.insert("HR_EMPLOYEE_DEPARTMENT", emdep);
+        emdep = new DataRow();
+        emdep.put("EMPLOYEE_ID", 1);
+        emdep.put("DEPARTMENT_ID",2);
+        service.insert("HR_EMPLOYEE_DEPARTMENT", emdep);
+
         Employee employee = ServiceProxy.select(Employee.class);
         System.out.println(BeanUtil.object2json(employee));
         EntitySet<Employee> es = service.selects(Employee.class);
@@ -130,6 +171,7 @@ public class EntityApplication {
         ChildEntity child = new ChildEntity();
         child.setName("张三");
         service.insert(child);
+
 
         DataSet set = service.querys("HR_EMPLOYEE",0,9);
         System.out.println(set.toJSON());

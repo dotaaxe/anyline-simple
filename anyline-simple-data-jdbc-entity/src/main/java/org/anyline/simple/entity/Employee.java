@@ -1,8 +1,12 @@
 package org.anyline.simple.entity;
 
 import org.anyline.entity.Point;
+import org.anyline.util.ClassUtil;
 
 import javax.persistence.*;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -67,7 +71,47 @@ public class Employee extends BaseEntity{
     @JoinTable(name = "HR_EMPLOYEE_DEPARTMENT"                          //中间关联表
             , joinColumns = @JoinColumn(name="EMPLOYEE_ID")             //关联表中与当前表关联的外键
             , inverseJoinColumns = @JoinColumn(name="DEPARTMENT_ID"))   //关联表中与当前表关联的外键
-    private List<Department> departments;
+    private List<Department> departments;//查部门完整信息
+
+
+    @ManyToMany
+    @JoinTable(name = "HR_EMPLOYEE_DEPARTMENT"                          //中间关联表
+            , joinColumns = @JoinColumn(name="EMPLOYEE_ID")             //关联表中与当前表关联的外键
+            , inverseJoinColumns = @JoinColumn(name="DEPARTMENT_ID"))   //关联表中与当前表关联的外键
+    private List<Long> departmentIds;//只查部门主键
+
+    public static void main(String[] args) throws Exception{
+
+        Class clazz = Employee.class;
+        List<Field> fields = ClassUtil.getFieldsByAnnotation(clazz, "ManyToMany");
+        for(Field field:fields){
+            String joinTable_name = ClassUtil.parseAnnotationFieldValue(field, "JoinTable.name");
+            String joinColumn_name = null;
+            String inverseJoinColumn_name = null;
+            Annotation anJoinTable = ClassUtil.getFieldAnnotation(field, "JoinTable");
+            if(null != anJoinTable) {
+                Method methodJoinColumns = anJoinTable.annotationType().getMethod("joinColumns");
+                if(null != methodJoinColumns) {
+                    Object[] ojoinColumns = (Object[]) methodJoinColumns.invoke(anJoinTable);
+                    if (null != ojoinColumns && ojoinColumns.length > 0) {
+                        Annotation joinColumn = (Annotation) ojoinColumns[0];
+                        joinColumn_name = (String) joinColumn.annotationType().getMethod("name").invoke(joinColumn);
+                    }
+                }
+                Method methodInverseJoinColumns = anJoinTable.annotationType().getMethod("inverseJoinColumns");
+                if(null != methodInverseJoinColumns){
+                    Object[] ojoinColumns = (Object[]) methodInverseJoinColumns.invoke(anJoinTable);
+                    if (null != ojoinColumns && ojoinColumns.length > 0) {
+                        Annotation joinColumn = (Annotation) ojoinColumns[0];
+                        inverseJoinColumn_name = (String) joinColumn.annotationType().getMethod("name").invoke(joinColumn);
+                    }
+                }
+            }
+            System.out.println(joinTable_name);
+            System.out.println(joinColumn_name);
+            System.out.println(inverseJoinColumn_name);
+        }
+    }
 
 
 
