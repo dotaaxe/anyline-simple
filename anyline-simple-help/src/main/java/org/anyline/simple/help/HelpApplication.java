@@ -7,12 +7,14 @@ import org.anyline.data.entity.Column;
 import org.anyline.data.entity.Table;
 import org.anyline.service.AnylineService;
 import org.anyline.util.BasicUtil;
+import org.anyline.util.SnowflakeWorker;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 
 import javax.sql.DataSource;
@@ -20,10 +22,7 @@ import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {"org.anyline"})
@@ -40,15 +39,65 @@ public class HelpApplication {
 
 		ConfigurableApplicationContext context = application.run(args);
 
-		service = context.getBean(AnylineService.class);
+		service = (AnylineService)context.getBean("anyline.service");
 		jdbc = context.getBean(JdbcTemplate.class);
 		DataSourceHolder.setDataSource("td");
 		ds = jdbc.getDataSource();
 		con = DataSourceUtils.getConnection(ds);
-		td();
+		//td();
 		//tdtags();
+		 convert();
 	}
+	public static void convert(){
+		String[] types = (
+				"String\n" +
+						"Long\n" +
+						"long\n" +
+						"java.util.Date\n" +
+						"java.sql.Date\n" +
+						"java.sql.Time\n" +
+						"java.sql.Timestamp\n" +
+						"java.time.Year\n" +
+						"java.time.YearMonth\n" +
+						"java.time.Month\n" +
+						"java.time.LocalDate\n" +
+						"java.time.LocalTime\n" +
+						"java.time.LocalDateTime" ).split("\n");
+		for(String t1:types){
+			for(String t2:types){
+				t1 = t1.trim();
+				t2 = t2.trim();
+				if(!t1.equals(t2)){
+					String str = t1.replace(".","_")+"2"+t2.replace(".","_")+"(" + t1+".class, " + t2+".class){\n"
+						+"\t@Override\n"
+						+ "\tpublic Object exe(Object value, Object def) throws ConvertException {\n\t}\n},";
+					System.out.println(str);
+				}
+			}
+		}
+		List list = new ArrayList();
+		System.out.println(list.getClass());
+		int i = 1;
+		Object o = i;
+		System.out.println(o.getClass());
+		//Short S = (Short)o;
+		char c = (char)i;
+		double d = 12;
+		o = d;
+		Double dd = (Double)o;
+		System.out.println(dd.getClass());
+		//System.out.println(S.getClass());
+	}
+	/*
+	javaSQLTimestamp_javaSQLTimestampstamp(java.sql.Timestamp.class, java.sql.Time.class){
+	@Override
+	public Object exe(Object value, Object def) throws ConvertException {
+		Date date = DateUtil.parse(value);
+		return DateUtil.sqlTime(date);
+	}
+},*/
 	public static void tdtags() throws Exception{
+		DataSourceTransactionManager s;
 		String sql = "DESCRIBE s_table_user";
 		List<Map<String,Object>> list = jdbc.queryForList(sql);
 		for(Map<String,Object> map:list){
