@@ -2,8 +2,10 @@ package org.anyline.simple.entity;
 
 import org.anyline.entity.Point;
 import org.anyline.util.ClassUtil;
+import org.anyline.util.FileUtil;
 
 import javax.persistence.*;
+import java.io.File;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -233,6 +235,22 @@ public class Employee extends BaseEntity{
 
     public void setSalary(float salary) {
         this.salary = salary;
+    }
+
+    public List<Department> getDepartments() {
+        return departments;
+    }
+
+    public void setDepartments(List<Department> departments) {
+        this.departments = departments;
+    }
+
+    public List<Long> getDepartmentIds() {
+        return departmentIds;
+    }
+
+    public void setDepartmentIds(List<Long> departmentIds) {
+        this.departmentIds = departmentIds;
     }
 
 }

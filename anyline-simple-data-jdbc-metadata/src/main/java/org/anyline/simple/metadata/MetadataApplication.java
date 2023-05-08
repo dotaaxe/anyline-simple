@@ -36,12 +36,10 @@ public class MetadataApplication extends SpringBootServletInitializer {
 
 		service = (AnylineService)context.getBean("anyline.service");
 
-		check(null, "MySQL");
-		check("pg", "PostgreSQL");
+		//check(null, "MySQL");
+		//check("pg", "PostgreSQL");
 		//check("ms", "SQL Server");
-		//
-		//
-		//check("oracle", "Oracle 11G");
+		check("oracle", "Oracle 11G");
 
 		//check("td", "TDengine");
 		//check("db2", "DB2");
@@ -56,16 +54,16 @@ public class MetadataApplication extends SpringBootServletInitializer {
 		seq = null;
 		if("oracle".equals(ds)){
 			seq = "SIMPLE_SEQ";
-			if(null != service.query("USER_SEQUENCES","SEQUENCE_NAME:" + seq)) {
+			if(service.querys("USER_SEQUENCES","SEQUENCE_NAME:" + seq).size()>0) {
 				service.execute("DROP SEQUENCE " + seq);
 			}
 			String sql = "CREATE SEQUENCE "+seq+" MINVALUE 0 START WITH 0 NOMAXVALUE INCREMENT BY 1 NOCYCLE CACHE 100";
 
 			service.execute(sql);
 		}
+		view();
 		table();
 		tables();
-		view();
 		column();
 		tag();
 		index();
@@ -187,6 +185,7 @@ public class MetadataApplication extends SpringBootServletInitializer {
 			table.addColumn("REG_TIME", "datetime");
 			table.addColumn("DATA_STATUS", "int");
 			table.addColumn("QTY", "int");
+			table.addColumn("REG_DATE", "DATE");
 			service.ddl().create(table);
 		}
 		View view = service.metadata().view("v_hr_department");
@@ -195,6 +194,7 @@ public class MetadataApplication extends SpringBootServletInitializer {
 		}
 		view = new View("v_hr_department");
 		view.setDefinition("SELECT * FROM hr_department");
+		view.setComment("视图备注");
 		service.ddl().create(view);
 		Map<String,View> views = service.metadata().views();
 		System.out.println(views);

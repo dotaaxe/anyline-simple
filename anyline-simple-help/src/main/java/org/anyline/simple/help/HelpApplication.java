@@ -51,42 +51,43 @@ public class HelpApplication {
 	public static void convert(){
 		String[] types = (
 				"String\n" +
-						"Long\n" +
-						"long\n" +
 						"java.util.Date\n" +
 						"java.sql.Date\n" +
 						"java.sql.Time\n" +
 						"java.sql.Timestamp\n" +
-						"java.time.Year\n" +
-						"java.time.YearMonth\n" +
-						"java.time.Month\n" +
 						"java.time.LocalDate\n" +
 						"java.time.LocalTime\n" +
-						"java.time.LocalDateTime" ).split("\n");
+						"java.time.LocalDateTime\n"+
+						"oracle.sql.DATE\n"+
+						"oracle.sql.TIMESTAMP\n"+
+						"oracle.sql.TIMESTAMPTZ\n"+
+						"oracle.sql.TIMESTAMPLTZ\n"+
+						"oracle.sql.DATE\n"
+		).split("\n");
 		for(String t1:types){
 			for(String t2:types){
 				t1 = t1.trim();
 				t2 = t2.trim();
+				if(t1.contains("oracle") && t2.contains("oracle")){
+					continue;
+				}
+				if(!t1.contains("oracle") && !t2.contains("oracle")){
+					continue;
+				}
 				if(!t1.equals(t2)){
-					String str = t1.replace(".","_")+"2"+t2.replace(".","_")+"(" + t1+".class, " + t2+".class){\n"
-						+"\t@Override\n"
-						+ "\tpublic Object exe(Object value, Object def) throws ConvertException {\n\t}\n},";
+					String str = "ConvertAdapter.reg(new AbstractConvert("+t1+".class, "+t2+".class) {\n" +
+							"\t@Override\n" +
+							"\tpublic Object exe(Object value, Object def) throws ConvertException {\n" +
+							"\t\ttry {\n" +
+							"\t\t} catch (Exception e) {\n" +
+							"\t\t\treturn value;\n" +
+							"\t\t}\n" +
+							"\t}\n" +
+							"});";
 					System.out.println(str);
 				}
 			}
 		}
-		List list = new ArrayList();
-		System.out.println(list.getClass());
-		int i = 1;
-		Object o = i;
-		System.out.println(o.getClass());
-		//Short S = (Short)o;
-		char c = (char)i;
-		double d = 12;
-		o = d;
-		Double dd = (Double)o;
-		System.out.println(dd.getClass());
-		//System.out.println(S.getClass());
 	}
 	/*
 	javaSQLTimestamp_javaSQLTimestampstamp(java.sql.Timestamp.class, java.sql.Time.class){

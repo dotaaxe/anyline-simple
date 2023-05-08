@@ -40,11 +40,11 @@ public class DMLApplication {
 		ConfigurableApplicationContext context = application.run(args);
 
 		service = (AnylineService)SpringContextUtil.getBean("anyline.service");
-		check(null, "MySQL");
+		//check(null, "MySQL");
 		//check("pg", "PostgreSQL");
 		//check("ms", "SQL Server");
 		//check("ms2000", "SQL Server 2000");
-		//check("oracle", "Oracle 11G");
+		check("oracle", "Oracle 11G");
 		//check("db2", "DB2");
 
 	}
@@ -98,6 +98,7 @@ public class DMLApplication {
 	}
 	public static void insert() throws Exception{
 
+		DataRow r  = service.query("HR_EMPLOYEE");
 		//ConfigTable.IS_AUTO_CHECK_METADATA = true;
 		System.out.println("\n-------------------------------- start insert  --------------------------------------------\n");
 
@@ -116,11 +117,12 @@ public class DMLApplication {
 		table.addColumn("NM","varchar(50)").setComment("名称");
 		table.addColumn("my","money").setComment("金额");
 		table.addColumn("REG_TIME","DATETIME").setComment("日期");
+		table.addColumn("CREATE_TIME","DATE").setComment("日期");
 		table.addColumn("DEPARTMENT_ID","INT");
-		table.addColumn("performance","FLOAT(10,2)");
+		table.addColumn("performance","decimal(10,2)");
 		service.ddl().save(table);
 
-
+		ConfigTable.IS_AUTO_CHECK_METADATA = true;
 		ConfigTable.IS_INSERT_EMPTY_COLUMN = true;
 		ConfigTable.IS_UPDATE_EMPTY_COLUMN = true;
 		DataRow row = new DataRow();
@@ -129,20 +131,21 @@ public class DMLApplication {
 		row.put("age","");
 		row.put("performance", 12.2d);
 		row.put("my","10.1"); //money
-		row.put("REG_TIME", new Date());
+		row.put("CREATE_TIME", new Date());
+		row.put("DEPARTMENT_ID", 1);
 		if(null != seq){
 			row.put("ID", "${"+seq+".NEXTVAL}");
 		}
-		row.setOverride(true);
-		ServiceProxy.save("HR_EMPLOYEE", row);
+		//row.setOverride(true);
+		ServiceProxy.insert("HR_EMPLOYEE", row);
+
+		row = service.query("HR_EMPLOYEE");
 
 		//执行insert后row如果数据库自动生成ID这时会row中会有ID值
 		//在有主键值的情况下执行save最终会调用update
 		ServiceProxy.save("HR_EMPLOYEE", row);
 		row.remove("ID");
-		if(null != seq){
-			row.put("ID", "${"+seq+".NEXTVAL}");
-		}
+
 		//如果没有主键值则执行insert
 		service.save("HR_EMPLOYEE", row);
 

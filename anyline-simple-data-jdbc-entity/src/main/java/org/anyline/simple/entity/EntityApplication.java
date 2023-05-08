@@ -37,6 +37,7 @@ public class EntityApplication {
         ConfigurableApplicationContext context = application.run(args);
         service = (AnylineService)context.getBean("anyline.service");
         init();
+        dependency();
         sql();
         json();
         test();
@@ -51,7 +52,6 @@ public class EntityApplication {
 
     public static void init() throws Exception{
         ConfigTable.IS_AUTO_CHECK_METADATA = true;
-        ConfigTable.ENTITY_FIELD_SELECT_DEPENDENCY = 3;
         //职员表
         org.anyline.data.entity.Table table = service.metadata().table("HR_EMPLOYEE");
         if(null != table){
@@ -102,13 +102,23 @@ public class EntityApplication {
         table.addColumn("DEPARTMENT_ID" , "BIGINT"  ); // LONG          : departmentId      部门ID
         service.ddl().create(table);
 
+        //部门
         Department dept = new Department();
         dept.setName("财务部");
         dept.setCode("FI01");
+
         service.insert(dept);
         dept = new Department();
         dept.setName("人力资源部");
         dept.setCode("HR01");
+        service.insert(dept);
+        dept = new Department();
+        dept.setName("生产一部");
+        dept.setCode("PP01");
+        service.insert(dept);
+        dept = new Department();
+        dept.setName("生产二部");
+        dept.setCode("PP02");
         service.insert(dept);
 
         Employee em = new Employee();
@@ -153,6 +163,9 @@ public class EntityApplication {
         em.setMap(map);
 
         service.save("HR_EMPLOYEE", em);
+        em = new Employee();
+        em.setNm("李四");
+        service.save("HR_EMPLOYEE", em);
 
         DataRow emdep = new DataRow();
         emdep.put("EMPLOYEE_ID", 1);
@@ -162,11 +175,33 @@ public class EntityApplication {
         emdep.put("EMPLOYEE_ID", 1);
         emdep.put("DEPARTMENT_ID",2);
         service.insert("HR_EMPLOYEE_DEPARTMENT", emdep);
+        emdep = new DataRow();
+        emdep.put("EMPLOYEE_ID", 2);
+        emdep.put("DEPARTMENT_ID",3);
+        service.insert("HR_EMPLOYEE_DEPARTMENT", emdep);
+        emdep = new DataRow();
+        emdep.put("EMPLOYEE_ID", 2);
+        emdep.put("DEPARTMENT_ID",2);
+        service.insert("HR_EMPLOYEE_DEPARTMENT", emdep);
+    }
+    public static void dependency(){
+        /***************** 依赖查询 **********************/
+        ConfigTable.ENTITY_FIELD_SELECT_DEPENDENCY = 3;
+        ConfigTable.ENTITY_FIELD_SELECT_DEPENDENCY_COMPARE = Compare.IN;
 
         Employee employee = ServiceProxy.select(Employee.class);
         System.out.println(BeanUtil.object2json(employee));
         EntitySet<Employee> es = service.selects(Employee.class);
         System.out.println(BeanUtil.object2json(es));
+
+
+        /***************** 删除 **********************/
+        ConfigTable.ENTITY_FIELD_DELETE_DEPENDENCY = 1;
+        service.delete(employee);
+
+    }
+    public static void test(){
+
         //当前类上没有表注解但父类上有 保存时取父类注解值
         ChildEntity child = new ChildEntity();
         child.setName("张三");
@@ -210,7 +245,7 @@ public class EntityApplication {
         e.setNm("test");
         service.update(e);
 
-        employee = list.get(0);
+        Employee employee = list.get(0);
         employee.setAge(100);
         service.save(employee);
         employee = new Employee();
@@ -246,8 +281,6 @@ public class EntityApplication {
         }
         service.insert(list);
         System.out.println(BeanUtil.object2json(list));
-    }
-    public static void test(){
         DataRow t = service.query("sync_task(max(id))");
         SyncTask task = ServiceProxy.select(SyncTask.class);
         task = (SyncTask)service.select("sync_task", SyncTask.class, "id:1");
