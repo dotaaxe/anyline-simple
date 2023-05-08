@@ -51,7 +51,7 @@ public class EntityApplication {
 
     public static void init() throws Exception{
         ConfigTable.IS_AUTO_CHECK_METADATA = true;
-        ConfigTable.ENTITY_FIELD_DEPENDENCY = 3;
+        ConfigTable.ENTITY_FIELD_SELECT_DEPENDENCY = 3;
         //职员表
         org.anyline.data.entity.Table table = service.metadata().table("HR_EMPLOYEE");
         if(null != table){
