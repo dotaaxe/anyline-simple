@@ -7,6 +7,7 @@ import org.anyline.data.entity.Column;
 import org.anyline.data.entity.Table;
 import org.anyline.service.AnylineService;
 import org.anyline.util.BasicUtil;
+import org.anyline.util.ClassUtil;
 import org.anyline.util.SnowflakeWorker;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -18,6 +19,8 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 
 import javax.sql.DataSource;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
@@ -33,7 +36,9 @@ public class HelpApplication {
 	private static JdbcTemplate jdbc;
 	private static DataSource ds = null;
 	private static Connection con = null;
+
 	public static void main(String[] args) throws Exception{
+
 
 		SpringApplication application = new SpringApplication(HelpApplication.class);
 
@@ -41,12 +46,27 @@ public class HelpApplication {
 
 		service = (AnylineService)context.getBean("anyline.service");
 		jdbc = context.getBean(JdbcTemplate.class);
-		DataSourceHolder.setDataSource("td");
+		//DataSourceHolder.setDataSource("pg");
 		ds = jdbc.getDataSource();
 		con = DataSourceUtils.getConnection(ds);
 		//td();
 		//tdtags();
-		 convert();
+		//convert();
+		type();
+	}
+	public static void type(){
+		List<Map<String,Object>> maps = service.maps("type_check");
+		for(Map map:maps) {
+			for (Object key : map.keySet()) {
+				Object value = map.get(key);
+				System.out.print(key+":");
+				if(null != value){
+					System.out.println(ClassUtil.type(value.getClass()));
+				}else {
+					System.out.println();
+				}
+			}
+		}
 	}
 	public static void convert(){
 		String[] types = (

@@ -19,7 +19,7 @@ public class DmApplication {
 
 		ConfigurableApplicationContext context = application.run(args);
 		AnylineService service = (AnylineService) context.getBean("anyline.service");
-		DataSourceHolder.setDataSource("jt");
+		//DataSourceHolder.setDataSource("jt");
 
 		DataSet set = service.querys("all_tables",0,10);
 		set = service.querys("all_tables",0,10);
