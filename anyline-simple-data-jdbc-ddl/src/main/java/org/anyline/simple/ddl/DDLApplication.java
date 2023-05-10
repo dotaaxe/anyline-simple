@@ -66,9 +66,11 @@ public class DDLApplication {
 	}
 	public static void type() throws Exception{
 		Table table = service.metadata().table("a_test");
-		if(null == table){
-			table = new Table("a_test");
+		if(null != table){
+			service.ddl().drop(table);
 		}
+		table = new Table("a_test");
+
 		table.setComment("表备注");
 		Column column = new Column();
 		column.setName("a");
