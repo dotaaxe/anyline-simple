@@ -1,7 +1,5 @@
 package org.anyline.simple.jar;
 
-import com.sun.org.apache.bcel.internal.classfile.ClassParser;
-import com.sun.org.apache.bcel.internal.classfile.JavaClass;
 import org.anyline.util.FileUtil;
 
 import java.io.File;
