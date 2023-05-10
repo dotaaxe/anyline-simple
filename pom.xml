@@ -149,6 +149,7 @@
         <module>anyline-simple-data-jdbc-proxy</module>
         <module>anyline-simple-jar</module>
         <module>anyline-simple-data-jdbc-listener</module>
+        <module>anyline-simple-data-jdbc-validate</module>
 
     </modules>
 </project>

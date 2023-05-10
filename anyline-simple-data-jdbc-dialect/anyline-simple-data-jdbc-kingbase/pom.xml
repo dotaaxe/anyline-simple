@@ -30,5 +30,10 @@
             <scope>system</scope>
             <systemPath>${pom.basedir}/src/main/lib/kingbase8-8.2.0.jar</systemPath>
         </dependency>
+        <!--<dependency>
+            <groupId>kingbase</groupId>
+            <artifactId>kingbase8</artifactId>
+            <version>8</version>
+        </dependency>-->
     </dependencies>
 </project>
