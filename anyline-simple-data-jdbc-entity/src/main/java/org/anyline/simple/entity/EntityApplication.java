@@ -59,23 +59,25 @@ public class EntityApplication {
         }
         table = new org.anyline.data.entity.Table("HR_EMPLOYEE");
         //注意以下数据类型
-        table.addColumn("ID"            , "BIGINT").setAutoIncrement(true).setPrimaryKey(true);
-        table.addColumn("NAME"          , "varchar(50)"  ); // String          : nm            姓名
-        table.addColumn("CODE"          , "varchar(50)"  ); // String          : workCode      工号
-        table.addColumn("BIRTHDAY"      , "DATE"         ); // Date            : birthday      出生日期
-        table.addColumn("JOIN_YMD"      , "varchar(10)"  ); // String          : joinYmd       入职日期
-        table.addColumn("SALARY"        , "float(10,2)"  ); // float           : salary        工资
-        table.addColumn("REMARK"        , "blob"         ); // byte[]          : remark        备注
-        table.addColumn("DESCRIPTION"   , "blob"         ); // String          : description   详细信息
-        table.addColumn("DEPARTMENT"    , "json"         ); // Department      : department    部门
-        table.addColumn("POSTS"         , "json"         ); // Map<String,Post>: posts         职务s
-        table.addColumn("EXPERIENCES"   , "json"         ); // List<Experience>: experiences   工作经历
-        table.addColumn("TITLES"        , "json"         ); // List<String>    : titles        头衔s
-        table.addColumn("LABELS"        , "json"         ); // List<String>    : labels        标签s
-        table.addColumn("OTHER"         , "json"         ); // Object          : other         其他信息
-        table.addColumn("MAP"           , "json"         ); // Map             : map           其他信息
-        table.addColumn("WORK_LOCATION" , "point"        ); // Double[]        : workLocation  工作定位
-        table.addColumn("HOME_LOCATION" , "point"        ); // Point           : homeLocation  家定位
+        table.addColumn("ID"            , "BIGINT"       ).setComment("主键").setAutoIncrement(true).setPrimaryKey(true);
+        table.addColumn("NAME"          , "varchar(50)"  ).setComment("姓名")     ; // String          : nm
+        table.addColumn("CODE"          , "varchar(50)"  ).setComment("工号")     ; // String          : workCode
+        table.addColumn("BIRTHDAY"      , "DATE"         ).setComment("出生日期")  ; // Date            : birthday
+        table.addColumn("JOIN_YMD"      , "varchar(10)"  ).setComment("入职日期")  ; // String          : joinYmd
+        table.addColumn("SALARY"        , "float(10,2)"  ).setComment("工资")     ; // float           : salary
+        table.addColumn("REMARK"        , "blob"         ).setComment("备注")     ; // byte[]          : remark
+        table.addColumn("DESCRIPTION"   , "blob"         ).setComment("详细信息")  ; // String          : description
+        table.addColumn("DEPARTMENT"    , "json"         ).setComment("部门")     ; // Department      : department
+        table.addColumn("POSTS"         , "json"         ).setComment("职务s")    ; // Map<String,Post>: posts
+        table.addColumn("EXPERIENCES"   , "json"         ).setComment("工作经历")  ; // List<Experience>: experiences
+        table.addColumn("TITLES"        , "json"         ).setComment("头衔s")    ; // List<String>    : titles
+        table.addColumn("LABELS"        , "json"         ).setComment("标签s")    ; // List<String>    : labels
+        table.addColumn("OTHER"         , "json"         ).setComment("其他信息")  ; // Object          : other
+        table.addColumn("MAP"           , "json"         ).setComment("其他信息")  ; // Map             : map
+        table.addColumn("WORK_LOCATION" , "point"        ).setComment("工作定位")  ; // Double[]        : workLocation
+        table.addColumn("HOME_LOCATION" , "point"        ).setComment("住址定准")  ; // Point           : homeLocation*/
+        table.addColumn("DATA_STATUS"   , "int"          ).setComment("状态").setDefaultValue(1);
+        //注意SQL Server中一个表只能有一列TIMESTAMP
         table.addColumn("CREATE_TIME"   , "TIMESTAMP"    ).setDefaultValue(JDBCAdapter.SQL_BUILD_IN_VALUE.CURRENT_TIME);
         table.addColumn("REG_TIME"      , "TIMESTAMP"    ).setDefaultValue(JDBCAdapter.SQL_BUILD_IN_VALUE.CURRENT_TIME);
         service.ddl().create(table);
