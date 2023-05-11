@@ -2,7 +2,6 @@ package org.anyline.simple;
 
 
 import org.anyline.data.jdbc.ds.DataSourceHolder;
-
 import org.anyline.service.AnylineService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -10,7 +9,9 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Import;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {"org.anyline"})
@@ -52,7 +53,13 @@ public class TransactionApplication extends SpringBootServletInitializer {
 			//动态注册一个数据源
 			//数据要设置更多参数 放到map里
 			String url = "jdbc:mysql://192.168.220.100:3306/simple_sso?useUnicode=true&characterEncoding=UTF8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true";
-			DataSourceHolder.reg("sso", "com.zaxxer.hikari.HikariDataSource", "com.mysql.cj.jdbc.Driver", url, "root", "root");
+			Map<String,Object> params = new HashMap<>();
+			params.put("url", url);
+			params.put("poool", "com.zaxxer.hikari.HikariDataSource");
+			params.put("driver", "com.mysql.cj.jdbc.Driver");
+			params.put("user", "root");
+			params.put("password", "root");
+			DataSourceHolder.reg("sso", params);
 		}catch (Exception e){
 			e.printStackTrace();
 		}
