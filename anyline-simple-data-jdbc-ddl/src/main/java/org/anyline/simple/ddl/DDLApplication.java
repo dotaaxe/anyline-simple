@@ -46,8 +46,8 @@ public class DDLApplication {
 		//check("pg", "PostgreSQL");
 		//check("ms", "SQL Server");
 		//check("ms2000", "SQL Server 2000");
-		//check("oracle", "Oracle 11G");
-		check("dm8", "达梦8");
+		check("oracle", "Oracle 11G");
+		//check("dm8", "达梦8");
 		//check("db2", "DB2");
 
 	}

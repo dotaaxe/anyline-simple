@@ -49,7 +49,6 @@ public class DatasourceApplication extends SpringBootServletInitializer {
 
 		//切换数据源
 		ds(service);
-
 	}
 	//切换数据源 以及动态注册数据源
 	public static void ds(AnylineService service){
@@ -113,7 +112,6 @@ public class DatasourceApplication extends SpringBootServletInitializer {
 
 
 
-
 		//覆盖一个数据源
 		/**************************************************************************************************************************
 		 *
@@ -128,7 +126,9 @@ public class DatasourceApplication extends SpringBootServletInitializer {
 		}catch (Exception e){
 			e.printStackTrace();
 		}
+
 		//注意这里的sso实际已经指向了simple_crm数据库了
 		service.query("<sso>crm_customer");
+
 	}
 }
