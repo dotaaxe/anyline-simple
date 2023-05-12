@@ -2,6 +2,7 @@ package org.anyline.simple;
 
 
 import org.anyline.data.jdbc.ds.DataSourceHolder;
+import org.anyline.entity.DataSet;
 import org.anyline.service.AnylineService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -31,11 +32,12 @@ public class TransactionApplication extends SpringBootServletInitializer {
      *********************************************************************************************************************************************************/
 
 	public static void main(String[] args) {
-
+		String json = "[{\"factory\":\"l82c9v019f6acebf1d2dd5d5f4d1e0e5089297b69d2a305c8139\",\"sd\":\"l8v012c99f6acebf1d2d0ca5740564add16f942380c56661c051\",\"receive\":\"德州春晓\",\"symd\":\"2023-05-09\",\"rymd\":\"\",\"remark\":\"\",\"items\":[{\"pci\":\"l82c99v01f6acebf1d2d32e60dd2c71c4a3c8603d8850f94a0ff\",\"color\":\"l8v012c99f6acebf1d2d991a5f1b7e78696119acc231ccaeaaad\",\"bm\":\"lv0182c99f6acebf1d2d7a0e9303142d7f072dfdd936dc57bade\",\"qty\":\"644\"}]}]";
+		DataSet set = DataSet.parseJson(json);
 		SpringApplication application = new SpringApplication(TransactionApplication.class);
 
 		ConfigurableApplicationContext context = application.run(args);
-
+		
 		//测试切换数据源
 		AnylineService service = (AnylineService)context.getBean("anyline.service");
 		ds(service);
@@ -53,6 +55,15 @@ public class TransactionApplication extends SpringBootServletInitializer {
 			//动态注册一个数据源
 			//数据要设置更多参数 放到map里
 			String url = "jdbc:mysql://192.168.220.100:3306/simple_sso?useUnicode=true&characterEncoding=UTF8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true";
+
+
+/*
+			HikariDataSource ds = new com.zaxxer.hikari.HikariDataSource();
+			ds.setJdbcUrl(url);
+			ds.setDriverClassName("com.mysql.cj.jdbc.Driver");
+			ds.setUsername("root");
+			ds.setPassword("root");
+			DataSourceHolder.reg("sso", ds);*/
 			Map<String,Object> params = new HashMap<>();
 			params.put("url", url);
 			params.put("poool", "com.zaxxer.hikari.HikariDataSource");
@@ -60,6 +71,7 @@ public class TransactionApplication extends SpringBootServletInitializer {
 			params.put("user", "root");
 			params.put("password", "root");
 			DataSourceHolder.reg("sso", params);
+
 		}catch (Exception e){
 			e.printStackTrace();
 		}
