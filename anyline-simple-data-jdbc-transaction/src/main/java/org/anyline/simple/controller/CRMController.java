@@ -1,23 +1,19 @@
 package org.anyline.simple.controller;
 
 import org.anyline.controller.impl.AnylineController;
-import org.anyline.data.jdbc.ds.DataSourceHolder;
 import org.anyline.entity.DataRow;
-import org.anyline.simple.service.CustomerService;
-import org.anyline.simple.service.EmployeeService;
+import org.anyline.simple.service.CRMService;
 import org.anyline.util.BasicUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.sql.DataSource;
-
 @RestController
-@RequestMapping("cust")
-public class CustomerController extends AnylineController {
+@RequestMapping("crm")
+public class CRMController extends AnylineController {
 
     @Autowired
-    private CustomerService service;
+    private CRMService service;
     @RequestMapping("a")
     public String add(){
         int qty = service.count("<crm>crm_customer");
