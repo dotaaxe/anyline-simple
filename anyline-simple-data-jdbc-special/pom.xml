@@ -11,6 +11,6 @@
         <relativePath>../anyline-simple-start-mysql</relativePath>
     </parent>
 
-    <artifactId>anyline-simple-jdbc-special</artifactId>
+    <artifactId>anyline-simple-data-jdbc-special</artifactId>
     <description>部分不常用的操作</description>
 </project>
