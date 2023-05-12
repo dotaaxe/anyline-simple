@@ -27,7 +27,7 @@ public class DSController extends AnylineController {
         try {
             DataRow row = new DataRow();
             row.put("NM", BasicUtil.getRandomString(10));
-            service.insert(ds, row);
+            service.insert(ds, row, getInt("flag"));
         }catch (Exception e){
             e.printStackTrace();
         }

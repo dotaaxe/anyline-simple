@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-@Component("user.service")
+@Component("sso.service")
 public class SSOService {
 
     @Autowired(required = false)
