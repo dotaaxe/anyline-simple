@@ -8,18 +8,20 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-@Component("user.service")
-public class UserService {
+@Component("ds.service")
+public class DSService {
 
     @Autowired(required = false)
     @Qualifier("anyline.service")
     protected AnylineService service;
 
-    @Transactional(value = "anyline.transaction.sso")
-    public void insert(DataRow row){
-        DataSourceHolder.setDataSource("sso");
-        service.insert("SSO_USER", row);
-        DataSourceHolder.setDefaultDataSource();
+    public void insert(String ds, DataRow row){
+        try {
+            DataSourceHolder.setDataSource(ds);
+            service.insert("SSO_USER", row);
+        }catch (Exception e){
+
+        }
         throw new RuntimeException("test exception");
     }
     public int count(String table){
