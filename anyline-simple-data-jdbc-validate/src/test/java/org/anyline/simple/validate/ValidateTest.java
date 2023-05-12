@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import java.util.Map;
 
@@ -25,9 +26,32 @@ public class ValidateTest {
     @Qualifier("anyline.service")
     private AnylineService service;
 
+    @Autowired(required = false)
+    public void setAdapters(Map<String, DataSourceTransactionManager> map){
+        for (DataSourceTransactionManager adapter:map.values()){
+            System.out.println(adapter);
+        }
+    }
     @Test
+    public void check() throws Exception {
+        check(null, "MySQL");
+        check("pg", "PostgreSQL");
+        check("oracle", "Oracle 11G");
+        check("ms", "SQL Server 2005+");
+        check("dm8", "达梦8");
+    }
+    public void check(String ds, String type) throws Exception {
+        System.out.println("======================== start validate " + type + " ================================");
+        if(null == ds){
+            DataSourceHolder.setDefaultDataSource();
+        }else {
+            DataSourceHolder.setDataSource(ds);
+        }
+        ddl();
+        System.out.println("======================== finish validate " + type + " ================================");
+    }
     public void ddl() throws Exception{
-        DataSourceHolder.setDataSource("oracle");
+        //pg,ms,oracle,db2,ms2000,cms,dm8
         Table table = service.metadata().table("HR_EMPLOYEE");
         if(null != table){
             log.warn("删除表:"+table.getName());
@@ -77,10 +101,25 @@ public class ValidateTest {
         Assertions.assertEquals(table.getComment(), "新职员基础信息");
         Assertions.assertEquals(table.getColumn("ALIAS").getComment(), "别名");
 
+        //修改列备注
         Column col = new Column("ALIAS");
         col.setTableName("HR_EMPLOYEE");
         col.setComment("新别名");
         service.ddl().save(col);
+
+        table = service.metadata().table("HR_EMPLOYEE");
+        Assertions.assertEquals(table.getColumn("ALIAS").getComment(), "新别名");
+
+        //修改列数据类型
+        col = new Column("ALIAS");
+        col.setTableName("HR_EMPLOYEE");
+        col.setType("varchar(20)");
+        service.ddl().save(col);
+        table = service.metadata().table("HR_EMPLOYEE");
+
+        Assertions.assertEquals(table.getColumn("ALIAS").getPrecision(), 20);
+
+
     }
     private void createTable() throws Exception{
         Table table = new org.anyline.data.entity.Table("HR_EMPLOYEE").setComment("职员基础信息");
@@ -93,8 +132,9 @@ public class ValidateTest {
         table.addColumn("SALARY"        , "float(10,2)"  ).setComment("工资")     ; // float           : salary
         table.addColumn("REMARK"        , "blob"         ).setComment("备注")     ; // byte[]          : remark
         table.addColumn("DATA_STATUS"   , "int"          ).setComment("状态").setDefaultValue(1);
-        //注意SQL Server中一个表只能有一列TIMESTAMP
-        table.addColumn("CREATE_TIME"   , "TIMESTAMP"    ).setDefaultValue(JDBCAdapter.SQL_BUILD_IN_VALUE.CURRENT_TIME);
+        //注意SQL Server中一个表只能有一列TIMESTAMP， 不能设置默认值
+        table.addColumn("CREATE_TIME"   , "DATETIME"    ).setComment("创建时间").setDefaultValue(JDBCAdapter.SQL_BUILD_IN_VALUE.CURRENT_TIME);
+        table.addColumn("UPDATE_TIME"   , "TIMESTAMP"   ).setComment("更新时间");
         service.ddl().create(table);
         Index index = new Index();
         index.addColumn("NAME");
