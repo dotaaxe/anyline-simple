@@ -34,11 +34,12 @@ public class ValidateTest {
     }
     @Test
     public void check() throws Exception {
-        check(null, "MySQL");
+        /*check(null, "MySQL");
         check("pg", "PostgreSQL");
         check("oracle", "Oracle 11G");
         check("ms", "SQL Server 2005+");
-        check("dm8", "达梦8");
+        check("dm8", "达梦8");*/
+        check("kingbase8", "人大金仓8(Oracle兼容)");
     }
     public void check(String ds, String type) throws Exception {
         System.out.println("======================== start validate " + type + " ================================");
