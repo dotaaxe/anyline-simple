@@ -150,6 +150,7 @@
         <module>anyline-simple-jar</module>
         <module>anyline-simple-data-jdbc-listener</module>
         <module>anyline-simple-data-jdbc-validate</module>
+        <module>anyline-simple-data-jdbc-dialect/anyline-simple-data-jdbc-opengauss</module>
 
     </modules>
 </project>
