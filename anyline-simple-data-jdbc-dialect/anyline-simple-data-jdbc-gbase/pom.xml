@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.anyline</groupId>
+        <artifactId>anyline-simple-data-jdbc-dialect</artifactId>
+        <version>8.6.3-SNAPSHOT</version>
+    </parent>
+    <artifactId>anyline-simple-data-jdbc-gbase</artifactId>
+
+
+    <dependencies>
+        <dependency>
+            <groupId>org.anyline</groupId>
+            <artifactId>anyline-data-jdbc-gbase</artifactId>
+            <version>8.6.3-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.gbase</groupId>
+            <artifactId>gbase</artifactId>
+            <version>9.5.0.1</version>
+            <scope>system</scope>
+            <systemPath>${pom.basedir}/src/main/lib/gbase-connector-java-9.5.0.1-build1-bin.jar</systemPath>
+        </dependency>
+    </dependencies>
+</project>
