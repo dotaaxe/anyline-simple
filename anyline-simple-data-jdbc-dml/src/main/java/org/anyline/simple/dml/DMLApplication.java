@@ -61,8 +61,7 @@ public class DMLApplication {
 				service.execute("DROP SEQUENCE " + seq);
 			}
 			String sql = "CREATE SEQUENCE "+seq+" MINVALUE 0 START WITH 0 NOMAXVALUE INCREMENT BY 1 NOCYCLE CACHE 100";
-			org.postgresql.geometric.PGpoint s;
-			service.execute(sql);
+ 			service.execute(sql);
 		}
 		//date();
 		insert();
