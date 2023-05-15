@@ -7,9 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Component("def.service")
 public class DefaultService extends org.anyline.service.init.DefaultService {
-    @Transactional(value = "transactionManager")
+    @Transactional
     public void insert(DataRow row){
-        DataSourceHolder.startTransaction();
         insert("HR_EMPLOYEE", row);
         throw new RuntimeException("test exception");
     }
