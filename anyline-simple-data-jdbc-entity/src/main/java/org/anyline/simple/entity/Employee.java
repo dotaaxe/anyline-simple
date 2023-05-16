@@ -59,13 +59,15 @@ public class Employee extends BaseEntity{
     //职务 对应{json}类型
     private Map<String,Post> posts;
 
-    //头衔 对应[json]类型
+    //头衔 对应[json]类型 数据库中保存["A","B","C"]格式
     private List<String> titles;
     private String[] labels;
+    private int[] scores;
 
-    //对应varchar
+    //对应varchar 数据库中保存A,B,C格式
     private List<String> ctitles;
     private String[] clabels;
+    private int[] cscores;
 
     //对应数据类型point
     private Double[] workLocation;
@@ -264,6 +266,22 @@ public class Employee extends BaseEntity{
 
     public void setCtitles(List<String> ctitles) {
         this.ctitles = ctitles;
+    }
+
+    public int[] getScores() {
+        return scores;
+    }
+
+    public void setScores(int[] scores) {
+        this.scores = scores;
+    }
+
+    public int[] getCscores() {
+        return cscores;
+    }
+
+    public void setCscores(int[] cscores) {
+        this.cscores = cscores;
     }
 
     public String[] getClabels() {

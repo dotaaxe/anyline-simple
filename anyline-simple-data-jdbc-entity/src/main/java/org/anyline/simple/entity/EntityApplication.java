@@ -32,8 +32,6 @@ public class EntityApplication {
     }
 
     public static void main(String[] args) throws Exception{
-
-
         ConfigTable.IS_AUTO_CHECK_METADATA = true;
         SpringApplication application = new SpringApplication(EntityApplication.class);
         ConfigurableApplicationContext context = application.run(args);
@@ -74,8 +72,10 @@ public class EntityApplication {
         table.addColumn("EXPERIENCES"   , "json"         ).setComment("工作经历")  ; // List<Experience>: experiences
         table.addColumn("TITLES"        , "json"         ).setComment("头衔s")    ; // List<String>    : titles
         table.addColumn("LABELS"        , "json"         ).setComment("标签s")    ; // String[]        : labels
+        table.addColumn("SCORES"        , "json"         ).setComment("成绩s")    ; // int[]           : scores
         table.addColumn("CTITLES"       , "varchar(255)" ).setComment("头衔s")    ; // List<String>    : ctitles
         table.addColumn("CLABELS"       , "varchar(255)" ).setComment("标签s")    ; // String[]        : clabels
+        table.addColumn("CSCORES"       , "varchar(255)" ).setComment("成绩s")    ; // int[]           : cscores
         table.addColumn("OTHER"         , "json"         ).setComment("其他信息")  ; // Object          : other
         table.addColumn("MAP"           , "json"         ).setComment("其他信息")  ; // Map             : map
         table.addColumn("WORK_LOCATION" , "point"        ).setComment("工作定位")  ; // Double[]        : workLocation
@@ -158,7 +158,12 @@ public class EntityApplication {
         //标签
         String[] labels = new String[]{"好人","工作积极"};
         em.setLabels(labels);
-        //em.setClabels(labels);
+        em.setClabels(labels);
+        //成绩
+        int[] scores = new int[]{95,98};
+        em.setScores(scores);
+        em.setCscores(scores);
+
         //其他信息
         em.setOther("{\"爱好\":\"跑步\",\"籍贯\":\"山东\"}");
         //工作地
@@ -170,6 +175,22 @@ public class EntityApplication {
         map.put("学历","本科");
         em.setMap(map);
 
+        List<Long> deptIds = new ArrayList<>();
+        deptIds.add(1L);
+        deptIds.add(2L);
+        em.setDepartmentIds(deptIds);
+
+        List<Department> depts = new ArrayList<>();
+        Department d1 = new Department();
+        d1.setId(10L);
+        Department d2 = new Department();
+        d2.setId(20L);
+        depts.add(d1);
+        depts.add(d2);
+        em.setDepartments(depts);
+
+        ConfigTable.ENTITY_FIELD_INSERT_DEPENDENCY = 1;
+        service.save("HR_EMPLOYEE", em);
         service.save("HR_EMPLOYEE", em);
         em = ServiceProxy.select(Employee.class);
         System.out.println(BeanUtil.object2json(em));
