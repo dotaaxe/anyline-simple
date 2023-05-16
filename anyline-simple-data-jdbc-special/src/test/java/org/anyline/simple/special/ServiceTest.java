@@ -13,8 +13,7 @@ import org.junit.platform.commons.logging.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @SpringBootTest
 public class ServiceTest {
@@ -165,5 +164,14 @@ public class ServiceTest {
         System.out.println(result);
         result = set.getRows("NAME","张%");
         System.out.println(result);
+    }
+
+    @Test
+    public void map(){
+        Map<String,String> map = new HashMap<>();
+        map.put("ID","1");
+        map.put("upStatus", "2");
+        service.update("HR_EMPLOYEE", map, "up_Status");
+        service.insert("HR_EMPLOYEE", map);
     }
 }
