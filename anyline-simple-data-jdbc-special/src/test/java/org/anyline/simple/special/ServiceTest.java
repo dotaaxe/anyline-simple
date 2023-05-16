@@ -169,8 +169,9 @@ public class ServiceTest {
     @Test
     public void map(){
         Map<String,String> map = new HashMap<>();
+        ConfigTable.IS_UPPER_KEY = false;
         map.put("ID","1");
-        map.put("upStatus", "2");
+        map.put("up_Status", "2");
         service.update("HR_EMPLOYEE", map, "up_Status");
         service.insert("HR_EMPLOYEE", map);
     }

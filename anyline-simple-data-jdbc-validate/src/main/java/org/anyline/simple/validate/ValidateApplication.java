@@ -6,21 +6,22 @@ import org.anyline.data.entity.Index;
 import org.anyline.data.entity.PrimaryKey;
 import org.anyline.data.entity.Table;
 import org.anyline.data.jdbc.ds.DataSourceHolder;
+import org.anyline.data.jdbc.kingbase.KingbaseOracleAdapter;
 import org.anyline.entity.DataRow;
 import org.anyline.service.AnylineService;
-import org.anyline.util.BasicUtil;
-import org.anyline.util.ConfigTable;
-import org.anyline.util.DateUtil;
-import org.anyline.util.SpringContextUtil;
+import org.anyline.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Primary;
 
 import java.util.LinkedHashMap;
-
+import java.util.List;
+import java.util.Map;
+@Primary
 @SpringBootApplication
 @ComponentScan(basePackages = {"org.anyline"})
 //
@@ -54,7 +55,27 @@ public class ValidateApplication {
 		/*for(String datasource:DataSourceHolder.list()){
 			check(datasource,datasource);
 		}*/
-
+		//columnType();
+		check("oracle", "Oracle 11G");
+	}
+	public static void columnType(){
+		DataSourceHolder.setDataSource("kingbase8");
+		LinkedHashMap<String,Column> cols = service.metadata().columns("chk_column");
+		for(Column column:cols.values()) {
+			System.out.println("type:"+column.getTypeName()+",class:"+column.getJavaType()+",jdbc:"+column.getJdbcType());
+		}
+		List<Map<String,Object>> maps = service.maps("chk_column");
+		for(Map map:maps) {
+			for (Object key : map.keySet()) {
+				Object value = map.get(key);
+				System.out.print(key+":");
+				if(null != value){
+					System.out.println(ClassUtil.type(value.getClass()));
+				}else {
+					System.out.println();
+				}
+			}
+		}
 	}
 	public static void check(String ds, String title) throws Exception{
 		System.out.println("\n=============================== START " + title + "=========================================\n");

@@ -55,7 +55,7 @@ public class HelpApplication {
 		type();
 	}
 	public static void type(){
-		List<Map<String,Object>> maps = service.maps("type_check");
+		List<Map<String,Object>> maps = service.maps("chk_column");
 		for(Map map:maps) {
 			for (Object key : map.keySet()) {
 				Object value = map.get(key);
