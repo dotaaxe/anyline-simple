@@ -32,6 +32,8 @@ public class EntityApplication {
     }
 
     public static void main(String[] args) throws Exception{
+
+
         ConfigTable.IS_AUTO_CHECK_METADATA = true;
         SpringApplication application = new SpringApplication(EntityApplication.class);
         ConfigurableApplicationContext context = application.run(args);
@@ -71,7 +73,9 @@ public class EntityApplication {
         table.addColumn("POSTS"         , "json"         ).setComment("职务s")    ; // Map<String,Post>: posts
         table.addColumn("EXPERIENCES"   , "json"         ).setComment("工作经历")  ; // List<Experience>: experiences
         table.addColumn("TITLES"        , "json"         ).setComment("头衔s")    ; // List<String>    : titles
-        table.addColumn("LABELS"        , "json"         ).setComment("标签s")    ; // List<String>    : labels
+        table.addColumn("LABELS"        , "json"         ).setComment("标签s")    ; // String[]        : labels
+        table.addColumn("CTITLES"       , "varchar(255)" ).setComment("头衔s")    ; // List<String>    : ctitles
+        table.addColumn("CLABELS"       , "varchar(255)" ).setComment("标签s")    ; // String[]        : clabels
         table.addColumn("OTHER"         , "json"         ).setComment("其他信息")  ; // Object          : other
         table.addColumn("MAP"           , "json"         ).setComment("其他信息")  ; // Map             : map
         table.addColumn("WORK_LOCATION" , "point"        ).setComment("工作定位")  ; // Double[]        : workLocation
@@ -150,9 +154,11 @@ public class EntityApplication {
         titles.add("先进工作者");
         titles.add("劳动模范");
         em.setTitles(titles);
+        em.setCtitles(titles);
         //标签
         String[] labels = new String[]{"好人","工作积极"};
         em.setLabels(labels);
+        //em.setClabels(labels);
         //其他信息
         em.setOther("{\"爱好\":\"跑步\",\"籍贯\":\"山东\"}");
         //工作地
@@ -165,6 +171,8 @@ public class EntityApplication {
         em.setMap(map);
 
         service.save("HR_EMPLOYEE", em);
+        em = ServiceProxy.select(Employee.class);
+        System.out.println(BeanUtil.object2json(em));
         em = new Employee();
         em.setNm("李四");
         service.save("HR_EMPLOYEE", em);
