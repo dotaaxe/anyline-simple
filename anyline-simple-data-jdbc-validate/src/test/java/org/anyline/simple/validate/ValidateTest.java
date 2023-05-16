@@ -34,12 +34,13 @@ public class ValidateTest {
     }
     @Test
     public void check() throws Exception {
-        /*check(null, "MySQL");
+        check(null, "MySQL");
+        /*
         check("pg", "PostgreSQL");
         check("oracle", "Oracle 11G");
         check("ms", "SQL Server 2005+");
-        check("dm8", "达梦8");*/
-        check("kingbase8", "人大金仓8(Oracle兼容)");
+        check("dm8", "达梦8");
+        check("kingbase8", "人大金仓8(Oracle兼容)");*/
     }
     public void check(String ds, String type) throws Exception {
         System.out.println("======================== start validate " + type + " ================================");
@@ -97,6 +98,7 @@ public class ValidateTest {
         //修改表结构
         table.setComment("新职员基础信息");
         table.addColumn("ALIAS", "varchar(10)").setComment("别名");
+        table.addColumn("SLICE_COL", "varchar(10)").setComment("片段测试");
         service.ddl().save(table);
         table = service.metadata().table("HR_EMPLOYEE");
         Assertions.assertEquals(table.getComment(), "新职员基础信息");
