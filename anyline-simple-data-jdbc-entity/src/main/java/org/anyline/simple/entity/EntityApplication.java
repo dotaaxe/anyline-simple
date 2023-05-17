@@ -108,27 +108,26 @@ public class EntityApplication {
         table.addColumn("DEPARTMENT_ID" , "BIGINT"  ); // LONG          : departmentId      部门ID
         service.ddl().create(table);
 
+        //考勤记录
+        table = service.metadata().table("HR_ATTENDANCE_RECORD");
+        if(null != table){
+            service.ddl().drop(table);
+        }
+        table = new org.anyline.data.entity.Table("HR_EMPLOYEE_DEPARTMENT");
+        table.addColumn("ID"            , "BIGINT"  ).setAutoIncrement(true).setPrimaryKey(true);
+        table.addColumn("EMPLOYEE_ID"   , "BIGINT"  ); // LONG          : employeeId        职员ID
+        table.addColumn("DEPARTMENT_ID" , "BIGINT"  ); // LONG          : departmentId      部门ID
+        service.ddl().create(table);
+
+
         //部门
-        Department dept = new Department();
-        dept.setName("财务部");
-        dept.setCode("FI01");
+        service.insert(new Department("FI01","财务部"));
+        service.insert(new Department("HR01","人力资源部"));
+        service.insert(new Department("PP01","生产一部"));
+        service.insert(new Department("PP02","生产二部"));
+        service.insert(new Department("QC01","质量组"));
 
-        service.insert(dept);
-        dept = new Department();
-        dept.setName("人力资源部");
-        dept.setCode("HR01");
-        service.insert(dept);
-        dept = new Department();
-        dept.setName("生产一部");
-        dept.setCode("PP01");
-        service.insert(dept);
-        dept = new Department();
-        dept.setName("生产二部");
-        dept.setCode("PP02");
-        service.insert(dept);
-
-        Employee em = new Employee();
-        em.setNm("张三");
+        Employee em = new Employee("张三");
         em.setAge(30);
         em.setWorkCode("A10");
         em.setBirthday(LocalDate.of(2001,12,10));
@@ -175,45 +174,44 @@ public class EntityApplication {
         map.put("学历","本科");
         em.setMap(map);
 
+        //所在部门IDS
         List<Long> deptIds = new ArrayList<>();
         deptIds.add(1L);
         deptIds.add(2L);
         em.setDepartmentIds(deptIds);
 
+        //所在部门S
         List<Department> depts = new ArrayList<>();
-        Department d1 = new Department();
-        d1.setId(10L);
-        Department d2 = new Department();
-        d2.setId(20L);
-        depts.add(d1);
-        depts.add(d2);
+        depts.add(new Department(1L, "FI01", "财务部"));
+        depts.add(new Department(2L));
+        depts.add(new Department(3L));
         em.setDepartments(depts);
 
+        //考勤记录
+        List<AttendanceRecord> records = new ArrayList<>();
+        records.add(new AttendanceRecord(new Date()));
+        records.add(new AttendanceRecord(DateUtil.addDay(-1)));
+        records.add(new AttendanceRecord(DateUtil.addDay(-2)));
+        em.setRecords(records);
+
         ConfigTable.ENTITY_FIELD_INSERT_DEPENDENCY = 1;
-        service.save("HR_EMPLOYEE", em);
-        service.save("HR_EMPLOYEE", em);
+        service.save("HR_EMPLOYEE", em); //insert
+        service.save("HR_EMPLOYEE", em); //update
         em = ServiceProxy.select(Employee.class);
         System.out.println(BeanUtil.object2json(em));
         em = new Employee();
         em.setNm("李四");
         service.save("HR_EMPLOYEE", em);
 
-        DataRow emdep = new DataRow();
-        emdep.put("EMPLOYEE_ID", 1);
-        emdep.put("DEPARTMENT_ID",1);
-        service.insert("HR_EMPLOYEE_DEPARTMENT", emdep);
-        emdep = new DataRow();
-        emdep.put("EMPLOYEE_ID", 1);
-        emdep.put("DEPARTMENT_ID",2);
-        service.insert("HR_EMPLOYEE_DEPARTMENT", emdep);
-        emdep = new DataRow();
-        emdep.put("EMPLOYEE_ID", 2);
-        emdep.put("DEPARTMENT_ID",3);
-        service.insert("HR_EMPLOYEE_DEPARTMENT", emdep);
-        emdep = new DataRow();
-        emdep.put("EMPLOYEE_ID", 2);
-        emdep.put("DEPARTMENT_ID",2);
-        service.insert("HR_EMPLOYEE_DEPARTMENT", emdep);
+        //职员 部门关系(与上面的ManyToMany作用一样)
+        service.insert("HR_EMPLOYEE_DEPARTMENT", employeeDepartment(2,2));
+        service.insert("HR_EMPLOYEE_DEPARTMENT", employeeDepartment(2,3));
+    }
+    public static DataRow employeeDepartment(int employee, int department){
+        DataRow row = new DataRow();
+        row.put("EMPLOYEE_ID", employee);
+        row.put("DEPARTMENT_ID", department);
+        return row;
     }
     public static void dependency(){
         /***************** 依赖查询 **********************/
