@@ -99,6 +99,8 @@ public class ValidateTest {
         table.setComment("新职员基础信息");
         table.addColumn("ALIAS", "varchar(10)").setComment("别名");
         table.addColumn("SLICE_COL", "varchar(10)").setComment("片段测试");
+        table.getColumn("NAME").delete();
+        table.getColumn("CODE").setType("varchar(300)").setComment("新备注");
         service.ddl().save(table);
         table = service.metadata().table("HR_EMPLOYEE");
         Assertions.assertEquals(table.getComment(), "新职员基础信息");
