@@ -91,9 +91,32 @@ public class Employee extends BaseEntity{
     private List<Long> departmentIds;//只查部门主键
 
 
+    //考勤记录
+    @OneToMany(mappedBy = "EMPLOYEE_ID")
+    private List<AttendanceRecord> records = null;                      //
 
+
+    public Employee(){}
+    public Employee(String name){
+        this.nm = name;
+    }
+    public Employee(Long id){
+        this.id = id;
+    }
+    public Employee(Long id, String name){
+        this.id = id;
+        this.nm = name;
+    }
     public Long getId() {
         return id;
+    }
+
+    public List<AttendanceRecord> getRecords() {
+        return records;
+    }
+
+    public void setRecords(List<AttendanceRecord> records) {
+        this.records = records;
     }
 
     public void setId(Long id) {
