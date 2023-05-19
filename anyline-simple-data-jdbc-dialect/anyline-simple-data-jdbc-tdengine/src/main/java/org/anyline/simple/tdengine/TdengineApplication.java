@@ -35,11 +35,6 @@ public class TdengineApplication {
 
         try {
             table();
-
-            DataRow row = new DataRow();
-            row.put( "ID", new Date());
-            service.insert("a_test", row);
-
             mtable();
             column();
             mcolumn();
@@ -307,7 +302,7 @@ public class TdengineApplication {
         //第一个字段必须是 TIMESTAMP，并且系统自动将其设为主键
         table.addColumn("ID", "TIMESTAMP");
         //用NCHAR  不要用 VARCHAR(BINARY类型的别名)
-        table.addColumn("CODE","NCHAR(10)");
+        table.addColumn("CODE","NCHAR(10)").setComment("编号");
         table.addColumn("age","int");
 
         service.ddl().save(table);
