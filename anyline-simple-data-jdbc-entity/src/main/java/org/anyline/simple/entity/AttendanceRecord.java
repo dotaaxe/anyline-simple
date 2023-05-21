@@ -10,6 +10,7 @@ public class AttendanceRecord {
     private Long id;
     @Column(name = "EMPLOYEE_ID")
     private Long employee;
+    @Column(name = "RECORD_TIME")
     private Date date;
 
     public AttendanceRecord(){

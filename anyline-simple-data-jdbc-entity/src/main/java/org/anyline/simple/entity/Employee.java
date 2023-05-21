@@ -96,6 +96,10 @@ public class Employee extends BaseEntity{
     private List<AttendanceRecord> records = null;                      //
 
 
+    //考勤记录
+    @OneToMany(mappedBy = "EMPLOYEE_ID")
+    private AttendanceRecord[] recordArray  = null;                      //
+
     public Employee(){}
     public Employee(String name){
         this.nm = name;
@@ -113,6 +117,14 @@ public class Employee extends BaseEntity{
 
     public List<AttendanceRecord> getRecords() {
         return records;
+    }
+
+    public AttendanceRecord[] getRecordArray() {
+        return recordArray;
+    }
+
+    public void setRecordArray(AttendanceRecord[] recordArray) {
+        this.recordArray = recordArray;
     }
 
     public void setRecords(List<AttendanceRecord> records) {
