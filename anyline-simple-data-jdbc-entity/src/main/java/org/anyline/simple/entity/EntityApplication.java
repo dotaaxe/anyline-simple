@@ -36,6 +36,8 @@ public class EntityApplication {
         SpringApplication application = new SpringApplication(EntityApplication.class);
         ConfigurableApplicationContext context = application.run(args);
         service = (AnylineService)context.getBean("anyline.service");
+
+        service.deletes("HR_EMPLOYEE", "id", "1");
         init();
         dependency();
         sql();
@@ -113,10 +115,10 @@ public class EntityApplication {
         if(null != table){
             service.ddl().drop(table);
         }
-        table = new org.anyline.data.entity.Table("HR_EMPLOYEE_DEPARTMENT");
+        table = new org.anyline.data.entity.Table("HR_ATTENDANCE_RECORD");
         table.addColumn("ID"            , "BIGINT"  ).setAutoIncrement(true).setPrimaryKey(true);
         table.addColumn("EMPLOYEE_ID"   , "BIGINT"  ); // LONG          : employeeId        职员ID
-        table.addColumn("DEPARTMENT_ID" , "BIGINT"  ); // LONG          : departmentId      部门ID
+        table.addColumn("RECORD_TIME" , "DATETIME"  ); // LONG          : date      考勤时间
         service.ddl().create(table);
 
 
@@ -324,7 +326,9 @@ public class EntityApplication {
         service.update("sync_task", task, "LAST_EXE_QTY");
     }
     public static void point(){
-        ConfigTable.IS_AUTO_SPLIT_ARRAY = false;
+        //是否把数组集合参数拆开，默认需要拆开
+        // 不需要拆开的情况DataRow 中保存了double[] 对应数据库中的Point 这种情况尽量不要用double而是用org.anyline.entity.Point,这样就可以默认IS_AUTO_SPLIT_ARRAY=true
+        //ConfigTable.IS_AUTO_SPLIT_ARRAY = false;
         Employee e =  ServiceProxy.select(Employee.class, "WORK_LOCATION IS NOT NULL");
         BeanUtil.setFieldValue(e, "join_ymd", DateUtil.parse("2020-01-01"));
         System.out.println(BeanUtil.object2json(e));
