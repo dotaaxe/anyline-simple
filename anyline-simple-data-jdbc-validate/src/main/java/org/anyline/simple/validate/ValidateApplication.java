@@ -8,6 +8,7 @@ import org.anyline.data.entity.Table;
 import org.anyline.data.jdbc.ds.DataSourceHolder;
 import org.anyline.data.jdbc.kingbase.KingbaseOracleAdapter;
 import org.anyline.entity.DataRow;
+import org.anyline.proxy.ServiceProxy;
 import org.anyline.service.AnylineService;
 import org.anyline.util.*;
 import org.slf4j.Logger;
@@ -24,7 +25,6 @@ import java.util.Map;
 @Primary
 @SpringBootApplication
 @ComponentScan(basePackages = {"org.anyline"})
-//
 public class ValidateApplication {
 
 	private static AnylineService service;
@@ -51,6 +51,7 @@ public class ValidateApplication {
 		check("gbase", "南大通用");
 		check("opengauss", "高斯");
 		check("oscar", "神州通用");
+		check("informix", "Informix");
 		*/
 		/*for(String datasource:DataSourceHolder.list()){
 			check(datasource,datasource);
@@ -59,7 +60,6 @@ public class ValidateApplication {
 		check("oracle", "Oracle 11G");
 	}
 	public static void columnType(){
-		DataSourceHolder.setDataSource("kingbase8");
 		LinkedHashMap<String,Column> cols = service.metadata().columns("chk_column");
 		for(Column column:cols.values()) {
 			System.out.println("type:"+column.getTypeName()+",class:"+column.getJavaType()+",jdbc:"+column.getJdbcType());
@@ -78,6 +78,9 @@ public class ValidateApplication {
 		}
 	}
 	public static void check(String ds, String title) throws Exception{
+		ServiceProxy.service("oracle").count("crm_user");
+
+
 		System.out.println("\n=============================== START " + title + "=========================================\n");
 		if(null != ds) {
 			DataSourceHolder.setDataSource(ds);

@@ -6,6 +6,8 @@ import org.anyline.data.entity.Index;
 import org.anyline.data.entity.PrimaryKey;
 import org.anyline.data.entity.Table;
 import org.anyline.data.jdbc.ds.DataSourceHolder;
+import org.anyline.entity.DataRow;
+import org.anyline.entity.DataSet;
 import org.anyline.service.AnylineService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -23,24 +25,32 @@ public class ValidateTest {
 
     private static Logger log = LoggerFactory.getLogger(ValidateTest.class);
     @Autowired
-    @Qualifier("anyline.service")
     private AnylineService service;
 
-    @Autowired(required = false)
-    public void setAdapters(Map<String, DataSourceTransactionManager> map){
-        for (DataSourceTransactionManager adapter:map.values()){
-            System.out.println(adapter);
-        }
-    }
     @Test
     public void check() throws Exception {
+/*
         check(null, "MySQL");
-        /*
+        check("cms", "MySQL");
         check("pg", "PostgreSQL");
+        check("ms", "SQL Server");
+        check("ms2000", "SQL Server 2000");
         check("oracle", "Oracle 11G");
-        check("ms", "SQL Server 2005+");
         check("dm8", "达梦8");
-        check("kingbase8", "人大金仓8(Oracle兼容)");*/
+        check("db2", "DB2");
+        check("kingbase8", "人大金仓8(Oracle兼容)");
+        check("gbase", "南大通用");
+        check("opengauss", "高斯");
+        check("oscar", "神州通用");
+        check("informix", "Informix");
+		*/
+		/*for(String datasource:DataSourceHolder.list()){
+			check(datasource,datasource);
+		}*/
+        //columnType();
+       //
+        check("informix", "Informix");
+
     }
     public void check(String ds, String type) throws Exception {
         System.out.println("======================== start validate " + type + " ================================");
@@ -49,9 +59,47 @@ public class ValidateTest {
         }else {
             DataSourceHolder.setDataSource(ds);
         }
-        ddl();
+        //ddl();
+       // dml();
+        meta();
         System.out.println("======================== finish validate " + type + " ================================");
     }
+    public void meta(){
+        Map<String,Table> tables = service.metadata().tables();
+        for(String name:tables.keySet()){
+            Table table = tables.get(name);
+            System.out.println("table:"+table.getName());
+        }
+        Table table = service.metadata().table("HR_EMPLOYEE");
+        Map<String, Column> columns = table.getColumns();
+        for(String name:columns.keySet()){
+            Column column = columns.get(name);
+            System.out.println("column:"+column.getName() + "\ntype:" + column.getTypeName() + " length:" + column.getPrecision() + " scale:"+column.getScale());
+        }
+        PrimaryKey pk = table.getPrimaryKey();
+        if(null != pk){
+            System.out.println(table.getName()+"主键:"+pk.getName());
+            Map<String,Column> cols = pk.getColumns();
+            for(String name:cols.keySet()){
+                Column column = cols.get(name);
+                System.out.println("column:"+column.getName());
+            }
+        }
+    }
+    public void dml(){
+        DataSet set = new DataSet();
+        for(int i=0; i<3; i++){
+            DataRow row = new DataRow();
+            row.put("CODE","C"+i);
+            row.put("NAME", "N"+i);
+            set.add(row);
+          //  service.insert("HR_EMPLOYEE", row);
+        }
+        service.insert("HR_EMPLOYEE", set);
+        set = service.querys("HR_EMPLOYEE");
+        System.out.println(set);
+    }
+
     public void ddl() throws Exception{
         //pg,ms,oracle,db2,ms2000,cms,dm8
         Table table = service.metadata().table("HR_EMPLOYEE");
@@ -97,7 +145,7 @@ public class ValidateTest {
 
         //修改表结构
         table.setComment("新职员基础信息");
-        table.addColumn("ALIAS", "varchar(10)").setComment("别名");
+        table.addColumn("ALIAS", "varchar(10)").setComment("别名").setDefaultValue("def alias");
         table.addColumn("SLICE_COL", "varchar(10)").setComment("片段测试");
         table.getColumn("NAME").delete();
         table.getColumn("CODE").setType("varchar(300)").setComment("新备注");

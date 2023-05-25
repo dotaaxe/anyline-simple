@@ -40,8 +40,8 @@ public class DatasourceApplication extends SpringBootServletInitializer {
                 有没有切换成功参考dao输出的日志[SQL:*][thread:*][ds:crm]
      *********************************************************************************************************************************************************/
 
-	public static void main(String[] args) { 
-		ConfigTable.IS_MULTIPLE_SERVICE = false;
+	public static void main(String[] args) {
+		//ConfigTable.IS_MULTIPLE_SERVICE = false;
 		SpringApplication application = new SpringApplication(DatasourceApplication.class);
 
 		ConfigurableApplicationContext context = application.run(args);
@@ -90,13 +90,16 @@ public class DatasourceApplication extends SpringBootServletInitializer {
 			Map params = new Hashtable<>();
 			params.put("url", url);
 			params.put("type", "com.zaxxer.hikari.HikariDataSource");
-			params.put("driver-class-name", "com.mysql.cj.jdbc.Driver");
-			params.put("user-name", "root");
+			params.put("driverClassName", "com.mysql.cj.jdbc.Driver");
+			params.put("userName", "root");
 			params.put("password", "root");
 			DataSourceHolder.reg("sso2", params);
 		}catch (Exception e){
 			e.printStackTrace();
 		}
+		AnylineService service_sso = ServiceProxy.service("sso");
+		service_sso.query("sso_user");
+		service_sso.query("sso_user");
 		service.query("<sso>sso_user");
 		//固定数据源
 		DataSourceHolder.setDataSource("crm");
