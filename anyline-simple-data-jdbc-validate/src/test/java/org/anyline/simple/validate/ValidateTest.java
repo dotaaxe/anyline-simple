@@ -49,7 +49,8 @@ public class ValidateTest {
 		}*/
         //columnType();
        //
-        check("informix", "Informix");
+        //check("informix", "Informix");
+        check(null, "MySQL");
 
     }
     public void check(String ds, String type) throws Exception {
@@ -60,7 +61,7 @@ public class ValidateTest {
             DataSourceHolder.setDataSource(ds);
         }
         //ddl();
-       // dml();
+        dml();
         meta();
         System.out.println("======================== finish validate " + type + " ================================");
     }
@@ -88,6 +89,7 @@ public class ValidateTest {
     }
     public void dml(){
         DataSet set = new DataSet();
+        set = service.querys("HR_EMPLOYEE");
         for(int i=0; i<3; i++){
             DataRow row = new DataRow();
             row.put("CODE","C"+i);
@@ -95,6 +97,7 @@ public class ValidateTest {
             set.add(row);
           //  service.insert("HR_EMPLOYEE", row);
         }
+        service.execute("DELETE FROM HR_EMPLOYEE");
         service.insert("HR_EMPLOYEE", set);
         set = service.querys("HR_EMPLOYEE");
         System.out.println(set);

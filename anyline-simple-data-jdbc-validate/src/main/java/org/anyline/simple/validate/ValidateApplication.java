@@ -38,26 +38,24 @@ public class ValidateApplication {
 
 		service = (AnylineService) SpringContextUtil.getBean("anyline.service");
 
-/*
-		check(null, "MySQL");
-		check("cms", "MySQL");
-		check("pg", "PostgreSQL");
-		check("ms", "SQL Server");
-		check("ms2000", "SQL Server 2000");
-		check("oracle", "Oracle 11G");
-		check("dm8", "达梦8");
-		check("db2", "DB2");
-		check("kingbase8", "人大金仓8(Oracle兼容)");
-		check("gbase", "南大通用");
-		check("opengauss", "高斯");
-		check("oscar", "神州通用");
+
+		//check(null, "MySQL");
+		//check("cms", "MySQL");
+		//check("pg", "PostgreSQL");
+		//check("ms", "SQL Server");
+		//check("ms2000", "SQL Server 2000");
+		//check("oracle", "Oracle 11G");
+		//check("dm8", "达梦8");
+		//check("db2", "DB2");
+		//check("kingbase8", "人大金仓8(Oracle兼容)");
+		//check("gbase", "南大通用");
+		//check("opengauss", "高斯");
+		//check("oscar", "神州通用");
 		check("informix", "Informix");
-		*/
+
 		/*for(String datasource:DataSourceHolder.list()){
 			check(datasource,datasource);
 		}*/
-		//columnType();
-		check("oracle", "Oracle 11G");
 	}
 	public static void columnType(){
 		LinkedHashMap<String,Column> cols = service.metadata().columns("chk_column");
@@ -78,19 +76,22 @@ public class ValidateApplication {
 		}
 	}
 	public static void check(String ds, String title) throws Exception{
-		ServiceProxy.service("oracle").count("crm_user");
+
 
 
 		System.out.println("\n=============================== START " + title + "=========================================\n");
 		if(null != ds) {
 			DataSourceHolder.setDataSource(ds);
 		}
-		type();
+		//type();
 		table();
-		column();
-		index();
-		exception();
-		clear();
+		table();
+		table();
+
+		//column();
+		//index();
+		//exception();
+		//clear();
 		System.out.println("\n=============================== END " + title + "=========================================\n");
 	}
 	public static void type() throws Exception{
@@ -107,21 +108,22 @@ public class ValidateApplication {
 	}
 	public static void table() throws Exception{
 		System.out.println("\n-------------------------------- start table  --------------------------------------------\n");
-
+		ConfigTable.IS_OPEN_PRIMARY_TRANSACTION_MANAGER = false;
+		ConfigTable.IS_MULTIPLE_SERVICE = false;
 
 		LinkedHashMap<String,Table> tables = service.metadata().tables();
-		log.warn("检索表数量:"+tables.size());
+		log.info("检索表数量:"+tables.size());
 		for(Table table:tables.values()){
-			log.warn("表:"+table.getName());
+			log.info("表:"+table.getName());
 		}
 		//修改表名
 
 		Table table = service.metadata().table("a_test");
 		if(null != table){
-			log.warn("删除表:"+table.getName());
+			log.info("删除表:"+table.getName());
 			service.ddl().drop(table);
 		}
-		log.warn("创建表");
+		log.info("创建表");
 		table = new Table();
 		table.setName("A_TEST");
 		table.setComment("表备注");
@@ -141,10 +143,10 @@ public class ValidateApplication {
 
 		table = service.metadata().table("A_TEST");
 		if(null != table) {
-			log.warn("查询表结构:" + table.getName());
+			log.info("查询表结构:" + table.getName());
 			LinkedHashMap<String, Column> columns = table.getColumns();
 			for (Column column : columns.values()) {
-				log.warn("列:" + column.toString());
+				log.info("列:" + column.toString());
 			}
 		}
 
@@ -193,7 +195,7 @@ public class ValidateApplication {
 		service.ddl().save(table);
 		//修改表名
 		table.update().setName("test_pk_"+ DateUtil.format("yyyyMMddHHmmss"));
-		service.ddl().save(table);
+		//service.ddl().save(table);
 
 		System.out.println("\n-------------------------------- end table  ----------------------------------------------\n");
 	}
@@ -230,7 +232,7 @@ public class ValidateApplication {
 		column.setScale(0);
 		column.setDefaultValue("1");
 		//添加新列
-		log.warn("添加列");
+		log.info("添加列");
 		service.ddl().save(column);
 
 		//修改列
@@ -239,14 +241,14 @@ public class ValidateApplication {
 		column.setTypeName("varchar(10)");
 		column.setComment("测试备注1"+ DateUtil.format());
 		column.setDefaultValue("2");
-		log.warn("修改列");
+		log.info("修改列");
 		service.ddl().save(column);
 
 		//修改列名2种方式
 		//注意:修改列名时，不要直接设置name属性,修改数据类型时，不要直接设置typeName属性,因为需要原属性
 		// 1.可以设置newName属性(注意setNewName返回的是update)
 		column.setNewName("B_TEST").setTypeName("varchar(20)");
-		log.warn("修改列名");
+		log.info("修改列名");
 		service.ddl().save(column);
 
 
@@ -254,7 +256,7 @@ public class ValidateApplication {
 		// 2.可以在update基础上修改
 		//如果设置了update, 后续所有更新应该在update上执行
 		column.update().setName("C_TEST").setPosition(0).setTypeName("VARCHAR(20)");
-		log.warn("修改列名");
+		log.info("修改列名");
 		service.ddl().save(column);
 
 		column = new Column();
@@ -268,7 +270,7 @@ public class ValidateApplication {
 		column.setCatalog("c");
 		column.setSchema("s");
 
-		log.warn("删除列");
+		log.info("删除列");
 		service.ddl().drop(column);*/
 
 		Table tab = new Table("c_test");
@@ -311,7 +313,7 @@ service.clearColumnCache();
 		}catch (Exception e){
 			log.error(e.getMessage());
 		}
-		log.warn("表中有数据的情况下修改列数据类型");
+		log.info("表中有数据的情况下修改列数据类型");
 		column = new Column();
 		column.setTable("A_TEST");
 		column.setName("A_CHAR");
