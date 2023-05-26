@@ -5,6 +5,7 @@ import com.zaxxer.hikari.pool.HikariProxyPreparedStatement;
 import oracle.jdbc.OraclePreparedStatement;
 import org.anyline.data.entity.Table;
 import org.anyline.service.AnylineService;
+import org.anyline.util.SpringContextUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -19,10 +20,7 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Types;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,7 +32,7 @@ public class OracleApplication {
     public static void main(String[] args) throws Exception{
         SpringApplication application = new SpringApplication(OracleApplication.class);
         ConfigurableApplicationContext ctx = application.run(args);
-         //jdbc = ctx.getBean(JdbcTemplate.class);
+        jdbc = SpringContextUtil.getBean(JdbcTemplate.class);
          //jdbc.execute("TRUNCATE TABLE CRM_USER");
         //ids();
         //params();
@@ -42,9 +40,14 @@ public class OracleApplication {
        // names2();
         //oracle();
        // n();
+        try {
+            String version =  jdbc.getDataSource().getConnection().getMetaData().getDatabaseProductVersion();
+            System.out.println(version);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
     public static void ids(){
-
         System.out.println("-------------ids---------------------");
         String sql =" INSERT INTO CRM_USER (ID, NAME) \n " +
                 " SELECT SIMPLE_SEQ.nextval , M.*\n " +
