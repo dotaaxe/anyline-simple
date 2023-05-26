@@ -32,8 +32,8 @@ public class TdengineApplication {
         ConfigTable.IS_DDL_AUTO_DROP_COLUMN = true;
 
         ConfigTable.IS_AUTO_CHECK_METADATA = true;
-
         try {
+            clear();
             table();
             mtable();
             column();
@@ -43,7 +43,6 @@ public class TdengineApplication {
         }catch (Exception e){
             e.printStackTrace();
         }
-        clear();
     }
     public static void dml(){
 
@@ -52,7 +51,7 @@ public class TdengineApplication {
         row.put("CODE","C");
         row.put("age", 10);
 
-        service.insert("a_test", row);
+        service.insert("s_table_user_1", row);
 
         DataSet set = new DataSet();
         for(int i=0; i<10; i++){
@@ -99,12 +98,14 @@ public class TdengineApplication {
     public static void clear() throws Exception{
 
         Table table = service.metadata().table("a_test");
-        log.warn(LogUtil.format("查看表Column(不含Tag)",34));
-        for(Column col:table.getColumns().values()){
-            log.warn(LogUtil.format(col.toString(),34));
-        }
-        service.ddl().drop(new Table("a_test"));
+        if(null != table) {
+            log.warn(LogUtil.format("查看表Column(不含Tag)", 34));
+            for (Column col : table.getColumns().values()) {
+                log.warn(LogUtil.format(col.toString(), 34));
+            }
+            service.ddl().drop(new Table("a_test"));
 
+        }
         MasterTable stable = service.metadata().mtable("s_table_user");
         log.warn(LogUtil.format("查看超表Column(不含Tag)",34));
         if(null != stable) {
@@ -155,8 +156,7 @@ public class TdengineApplication {
     }
     public static void column() throws Exception{
         System.out.println("\n-------------------------------- start column  --------------------------------------------\n");
-
-        LinkedHashMap<String, Column> columns = service.metadata().columns("a_test");
+        LinkedHashMap<String, Column> columns = service.metadata().columns("s_table_user");
         log.warn(LogUtil.format("查看表Column(不含Tag)",34));
         for(Column col:columns.values()){
             log.warn(LogUtil.format(col.toString(),34));
@@ -164,7 +164,7 @@ public class TdengineApplication {
         Column column = new Column();
         column.setName("add_column");
         column.setTypeName("int");
-        column.setTable("a_test");
+        column.setTable("s_table_user");
         log.warn(LogUtil.format("表添加Column:"+column.toString(),34));
         service.ddl().save(column);
 
@@ -281,12 +281,31 @@ public class TdengineApplication {
 
         LinkedHashMap<String,Table> tables = service.metadata().tables();
         log.warn(LogUtil.format("检索表数量:"+tables.size(),34));
+        int qty = 0;
         for(Table table:tables.values()){
             log.warn("表:"+table.getName());
+            if(qty++ > 10){
+                break;
+            }
         }
 
 
-        Table table = service.metadata().table("a_test");
+        Table table = service.metadata().table("s_table_user");
+        if(null != table){
+            service.ddl().drop(table);
+        }
+
+        //数据类型参考这里 https://docs.taosdata.com/taos-sql/data-type/
+        log.warn(LogUtil.format("创建表,第一个字段必须是 TIMESTAMP，并且系统自动将其设为主键",34));
+        table = new Table("s_table_user");
+        //第一个字段必须是 TIMESTAMP，并且系统自动将其设为主键
+        table.addColumn("ID", "TIMESTAMP");
+        //用NCHAR  不要用 VARCHAR(BINARY类型的别名)
+        table.addColumn("CODE","NCHAR(10)").setComment("编号");
+        table.addColumn("age","int");
+        service.ddl().save(table);
+
+        table = service.metadata().table("s_table_user");
         if(null != table){
             log.warn(LogUtil.format("查询表结构:"+table.getName(),34));
             LinkedHashMap<String,Column> columns = table.getColumns();
@@ -296,16 +315,6 @@ public class TdengineApplication {
             log.warn(LogUtil.format("删除表",34));
             service.ddl().drop(table);
         }
-        //数据类型参考这里 https://docs.taosdata.com/taos-sql/data-type/
-        log.warn(LogUtil.format("创建表,第一个字段必须是 TIMESTAMP，并且系统自动将其设为主键",34));
-        table = new Table("a_test");
-        //第一个字段必须是 TIMESTAMP，并且系统自动将其设为主键
-        table.addColumn("ID", "TIMESTAMP");
-        //用NCHAR  不要用 VARCHAR(BINARY类型的别名)
-        table.addColumn("CODE","NCHAR(10)").setComment("编号");
-        table.addColumn("age","int");
-
-        service.ddl().save(table);
 
         System.out.println("\n-------------------------------- end table  --------------------------------------------\n");
     }
