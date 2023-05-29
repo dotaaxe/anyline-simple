@@ -29,6 +29,7 @@ public class HelloTest {
 
     @Test
     public void init() throws Exception{
+
         //先创建个表
         Table table = service.metadata().table("crm_user");
         if(null != table){
@@ -39,12 +40,16 @@ public class HelloTest {
         table.addColumn(column);
         table.addColumn("CODE","varchar(10)");
         table.addColumn("NAME","varchar(10)");
+        table.addColumn("LNG","DECIMAL(10,7)");
         service.ddl().create(table);
 
         DataRow test = new DataRow();
         test.put("NAME",  "1,2,3".split(","));
+        test.put("LNG", new BigDecimal("123.123"));
         service.save("crm_user", test);
 
+        test = service.query("crm_user");
+        System.out.println(test);
 
         //插入数据
         DataRow row = new DataRow();
