@@ -23,6 +23,7 @@ import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -38,6 +39,13 @@ public class OracleTest {
     private String schema   = null          ; // ORACLE中可以相当于数据库名
     private String table    = "CRM_USER"    ; // 表名
 
+    @Test
+    public void version() throws SQLException {
+        String name = jdbc.getDataSource().getConnection().getMetaData().getDatabaseProductName();
+        String version = jdbc.getDataSource().getConnection().getMetaData().getDatabaseProductVersion();
+        System.out.println(name);
+        System.out.println(version);
+    }
 
     @Test
     public void ddl() throws Exception{
