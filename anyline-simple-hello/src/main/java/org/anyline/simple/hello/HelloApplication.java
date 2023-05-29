@@ -7,6 +7,7 @@ import org.anyline.entity.DataSet;
 import org.anyline.entity.PageNavi;
 import org.anyline.entity.DefaultPageNavi;
 import org.anyline.service.AnylineService;
+import org.anyline.util.BasicUtil;
 import org.anyline.util.BeanUtil;
 import org.anyline.util.ConfigTable;
 import org.springframework.boot.SpringApplication;
@@ -57,6 +58,21 @@ public class HelloApplication {
 
         set = service.querys("SELECT * FROM bs_dict where id > 1 limit 10");
         System.out.println(set);*/
+        int qty = 1000;
+        DataSet set = new DataSet();
+        for(int i=0; i<qty; i++){
+            DataRow row = new DataRow();
+            row.put("ID", i);
+            row.put("BASE_ID", BasicUtil.getRandomNumber(0,qty-1));
+            set.add(row);
+        }
+        set.dispatchs(set,"ID:BASE_ID");
+        System.out.println("执行完成");
+        for(DataRow row:set){
+            System.out.println(row);
+        }
+        System.out.println(set);
+
     }
 
 }
