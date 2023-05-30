@@ -8,6 +8,7 @@ import org.anyline.data.entity.Table;
 import org.anyline.data.jdbc.ds.DataSourceHolder;
 import org.anyline.data.jdbc.kingbase.KingbaseOracleAdapter;
 import org.anyline.entity.DataRow;
+import org.anyline.entity.Point;
 import org.anyline.proxy.ServiceProxy;
 import org.anyline.service.AnylineService;
 import org.anyline.util.*;
@@ -32,6 +33,7 @@ public class ValidateApplication {
 
 	public static void main(String[] args) throws Exception{
 
+		ConfigTable.IS_MULTIPLE_SERVICE = false;
 		SpringApplication application = new SpringApplication(ValidateApplication.class);
 
 		ConfigurableApplicationContext context = application.run(args);
@@ -39,7 +41,7 @@ public class ValidateApplication {
 		service = (AnylineService) SpringContextUtil.getBean("anyline.service");
 
 
-		//check(null, "MySQL");
+		check(null, "MySQL");
 		//check("cms", "MySQL");
 		//check("pg", "PostgreSQL");
 		//check("ms", "SQL Server");
@@ -51,7 +53,7 @@ public class ValidateApplication {
 		//check("gbase", "南大通用");
 		//check("opengauss", "高斯");
 		//check("oscar", "神州通用");
-		check("informix", "Informix");
+		//check("informix", "Informix");
 
 		/*for(String datasource:DataSourceHolder.list()){
 			check(datasource,datasource);
@@ -84,15 +86,13 @@ public class ValidateApplication {
 			DataSourceHolder.setDataSource(ds);
 		}
 		//type();
-		table();
-		table();
-		table();
+		//table();
 
 		//column();
 		//index();
 		//exception();
 		//clear();
-		System.out.println("\n=============================== END " + title + "=========================================\n");
+ 		System.out.println("\n=============================== END " + title + "=========================================\n");
 	}
 	public static void type() throws Exception{
 		Table table = service.metadata().table("a_test");
