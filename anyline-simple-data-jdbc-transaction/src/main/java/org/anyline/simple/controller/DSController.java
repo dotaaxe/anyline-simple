@@ -4,13 +4,10 @@ import org.anyline.controller.impl.AnylineController;
 import org.anyline.data.jdbc.ds.DataSourceHolder;
 import org.anyline.entity.DataRow;
 import org.anyline.simple.service.DSService;
-import org.anyline.simple.service.SSOService;
 import org.anyline.util.BasicUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("ds")
@@ -27,7 +24,7 @@ public class DSController extends AnylineController {
         try {
             DataRow row = new DataRow();
             row.put("NM", BasicUtil.getRandomString(10));
-            service.insert(ds, row, getInt("flag"));
+            service.insert(ds, row);
         }catch (Exception e){
             e.printStackTrace();
         }
