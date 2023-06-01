@@ -5,9 +5,12 @@ import org.anyline.data.adapter.JDBCAdapter;
 import org.anyline.data.param.ConfigStore;
 import org.anyline.data.param.init.DefaultConfigStore;
 import org.anyline.entity.*;
+import org.anyline.entity.geometry.Point;
 import org.anyline.proxy.ServiceProxy;
 import org.anyline.service.AnylineService;
-import org.anyline.util.*;
+import org.anyline.util.BeanUtil;
+import org.anyline.util.ConfigTable;
+import org.anyline.util.DateUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -37,7 +40,6 @@ public class EntityApplication {
         ConfigurableApplicationContext context = application.run(args);
         service = (AnylineService)context.getBean("anyline.service");
 
-        service.deletes("HR_EMPLOYEE", "id", "1");
         init();
         dependency();
         sql();
@@ -48,8 +50,15 @@ public class EntityApplication {
         xml();
         empty();
         camel();
-
+        metadata();
         System.exit(0);
+    }
+    public static void metadata(){
+        ConfigTable.IS_AUTO_CHECK_METADATA = true;
+        String sql = "SELECT * FROM HR_EMPLOYEE";
+        //对于直接提供SQL的情况,不根据系统表检测metadata
+        Employee e = ServiceProxy.select(sql, Employee.class);
+        System.out.println(BeanUtil.object2json(e));
     }
 
     public static void init() throws Exception{

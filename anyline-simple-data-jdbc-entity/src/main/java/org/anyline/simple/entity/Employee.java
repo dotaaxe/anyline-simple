@@ -1,14 +1,8 @@
 package org.anyline.simple.entity;
 
-import org.anyline.entity.Point;
-import org.anyline.util.ClassUtil;
-import org.anyline.util.FileUtil;
+import org.anyline.entity.geometry.Point;
 
 import javax.persistence.*;
-import java.io.File;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -92,12 +86,12 @@ public class Employee extends BaseEntity{
 
 
     //考勤记录
-    @OneToMany(mappedBy = "EMPLOYEE_ID")
+    @OneToMany(mappedBy = "EMPLOYEE_ID")                                // 关联表中与当前表关联的外键(这里可以是列名也可以是AttendanceRecord属性名)
     private List<AttendanceRecord> records = null;                      //
 
 
     //考勤记录
-    @OneToMany(mappedBy = "EMPLOYEE_ID")
+    @OneToMany(mappedBy = "EMPLOYEE_ID")                                 //关联表中与当前表关联的外键(这里可以是列名也可以是AttendanceRecord属性名)
     private AttendanceRecord[] recordArray  = null;                      //
 
     public Employee(){}
