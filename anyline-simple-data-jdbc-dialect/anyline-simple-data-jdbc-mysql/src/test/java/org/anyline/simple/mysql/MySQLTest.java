@@ -1,10 +1,10 @@
 package org.anyline.simple.mysql;
 
-import org.anyline.entity.*;
 import org.anyline.data.adapter.JDBCAdapter;
 import org.anyline.data.entity.Table;
 import org.anyline.data.param.ConfigStore;
 import org.anyline.data.param.init.DefaultConfigStore;
+import org.anyline.entity.*;
 import org.anyline.service.AnylineService;
 import org.anyline.util.BasicUtil;
 import org.anyline.util.ConfigTable;
@@ -238,7 +238,22 @@ public class MySQLTest {
         Assertions.assertEquals(qty, set.size());
 
     }
-
+    @Test
+    public void geometry() throws Exception{
+        DataRow row = service.query("bs_geometry");
+        //Geometry point = GeometryParser.parse(row.getBytes("WORK_LOCATION"));
+        //Geometry line = GeometryParser.parse(row.getBytes("WORK_TRACE"));
+        //System.out.println(point);
+        System.out.println(row);
+        Object point = row.get("WORK_LOCATION");
+        System.out.println("WORK_LOCATION:"+point);
+        Object line = row.get("WORK_TRACE");
+        System.out.println("WORK_TRACE:"+line);
+        Object polygon = row.get("WORK_AREA");
+        System.out.println("WORK_AREA:"+polygon);
+        Object polygons = row.get("WORK_AREAS");
+        System.out.println("WORK_AREAS:"+polygons);
+     }
     @Test
     public void help() throws Exception{
         Connection con = jdbc.getDataSource().getConnection();
