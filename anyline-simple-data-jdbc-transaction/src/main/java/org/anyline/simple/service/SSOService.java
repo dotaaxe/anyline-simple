@@ -16,7 +16,6 @@ public class SSOService {
     protected AnylineService service;
 
     @Transactional(value = "anyline.transaction.sso")
-    //@Transactional(value = "#{tm.name}")
     public void insert(DataRow row){
         try {
             DataSourceHolder.setDataSource("sso");
