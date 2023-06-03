@@ -40,6 +40,7 @@ public class EntityApplication {
         ConfigurableApplicationContext context = application.run(args);
         service = (AnylineService)context.getBean("anyline.service");
 
+        test();
         init();
         dependency();
         sql();
@@ -247,6 +248,9 @@ public class EntityApplication {
         child.setName("张三");
         service.insert(child);
 
+        Department dept = new Department();
+        dept.setName("财务部");
+        service.insert(dept);
 
         DataSet set = service.querys("HR_EMPLOYEE",0,9);
         System.out.println(set.toJSON());
