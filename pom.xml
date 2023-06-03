@@ -153,6 +153,7 @@
         <module>anyline-simple-data-jdbc-dialect/anyline-simple-data-jdbc-opengauss</module>
         <module>anyline-simple-data-jdbc-dialect/anyline-simple-data-jdbc-gbase</module>
         <module>anyline-simple-data-jdbc-dialect/anyline-simple-data-jdbc-oscar</module>
+        <module>anyline-simple-data-jdbc-dialect/anyline-simple-data-jdbc-informix</module>
 
     </modules>
 </project>
