@@ -240,6 +240,8 @@ public class MySQLTest {
     }
     @Test
     public void geometry() throws Exception{
+
+        ConfigTable.IS_PRINT_EXCEPTION_STACK_TRACE = true;
         DataRow row = service.query("bs_geometry");
         //Geometry point = GeometryParser.parse(row.getBytes("WORK_LOCATION"));
         //Geometry line = GeometryParser.parse(row.getBytes("WORK_TRACE"));
@@ -253,6 +255,9 @@ public class MySQLTest {
         System.out.println("WORK_AREA:"+polygon);
         Object polygons = row.get("WORK_AREAS");
         System.out.println("WORK_AREAS:"+polygons);
+        System.out.println("WORK_POINTS:"+row.get("WORK_POINTS"));
+        System.out.println("WORK_TRACES:"+row.get("WORK_TRACES"));
+        System.out.println("WORK_AREASS:"+row.get("WORK_AREASS"));
      }
     @Test
     public void help() throws Exception{
