@@ -2,6 +2,7 @@ package org.anyline.simple.special;
 
 import org.anyline.data.param.ConfigStore;
 import org.anyline.data.param.init.DefaultConfigStore;
+import org.anyline.entity.Compare;
 import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
 import org.anyline.service.AnylineService;
@@ -115,7 +116,7 @@ public class ServiceTest {
         try {
             //注意:为了避免整表删除,values必须提供否则会抛出异常
             //整表删除请调用service.execute("DELETE FROM HR_EMPLOYEE");
-            service.deletes("HR_EMPLOYEE", "ID");
+           // service.deletes("HR_EMPLOYEE", "ID");
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -123,6 +124,8 @@ public class ServiceTest {
         service.deletes("HR_EMPLOYEE", "ID", "100");
         //DELETE FROM HR_EMPLOYEE WHERE ID IN(100,200)
         service.deletes("HR_EMPLOYEE", "ID", "100","200");
+
+        service.deletes("HR_EMPLOYEE", "ID", 1,2);
 
         List<String> ids = new ArrayList<>();
         //注意:为了避免整表删除,ids必须提供否则会抛出异常
@@ -136,7 +139,7 @@ public class ServiceTest {
         DataRow row = new DataRow();
         row.put("ID","1");
         row.put("NM", "ZH");
-        service.delete("HR_EMPLOYEE", row, "ID","NM");
+        service.delete("HR_EMPLOYEE", row, "ID","NAME");
 
         //DELETE FROM HR_EMPLOYEE WHERE ID = 1 AND CODE = 20
         service.delete("HR_EMPLOYEE","ID","1", "CODE:20");
@@ -156,7 +159,6 @@ public class ServiceTest {
         row.put("NAME", "张三");
         set.add(row);
 
-
         //value可以是正则表达式,也可以是SQL通配符
         DataSet result = set.select.like("NAME","张%");
         System.out.println(result);
@@ -174,5 +176,12 @@ public class ServiceTest {
         map.put("up_Status", "2");
         service.update("HR_EMPLOYEE", map, "up_Status");
         service.insert("HR_EMPLOYEE", map);
+    }
+    @Test
+    public void or(){
+        ConfigStore configs = new DefaultConfigStore();
+        configs.and("ID", 1).or("NM","ZH").ors("SEX","1");
+        configs.and(Compare.LIKE, "nm","zh");
+        service.querys("HR_EMPLOYEE", configs);
     }
 }
