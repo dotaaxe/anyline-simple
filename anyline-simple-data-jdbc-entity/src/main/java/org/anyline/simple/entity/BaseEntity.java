@@ -7,6 +7,7 @@ import java.io.Serializable;
 @Table(name="hr_employee")
 public abstract class BaseEntity implements Serializable {
     public static String CREATE_TIME = "create_time";
+    private Long id;
     @Column(name = "REG_TIME", updatable = false)
     public String create_time;
 
