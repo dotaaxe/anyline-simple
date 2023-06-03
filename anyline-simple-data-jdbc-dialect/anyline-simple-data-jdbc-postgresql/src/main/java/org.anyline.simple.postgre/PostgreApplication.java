@@ -1,9 +1,8 @@
 package org.anyline.simple.postgre;
 
+import org.anyline.adapter.KeyAdapter;
 import org.anyline.data.entity.Table;
 import org.anyline.entity.DataRow;
-import org.anyline.entity.DataSet;
-import org.anyline.adapter.KeyAdapter;
 import org.anyline.service.AnylineService;
 import org.anyline.util.BasicUtil;
 import org.anyline.util.BeanUtil;
@@ -31,6 +30,7 @@ public class PostgreApplication {
         DataRow.DEFAULT_PRIMARY_KEY = "id";
         init();
         dml();
+
        // metadata();
         //type();
         System.exit(0);
