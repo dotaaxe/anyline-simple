@@ -472,6 +472,8 @@ public class MySQLGeometryAdapter {
         ByteBuffer buffer = new ByteBuffer(len, multiPolygon.getEndian());
         head(buffer, multiPolygon);
         for(Polygon polygon:polygons){
+            buffer.put(polygon.getEndian());
+            buffer.put(polygon.getType());
             wkb(buffer, polygon);
         }
         return buffer.bytes();
