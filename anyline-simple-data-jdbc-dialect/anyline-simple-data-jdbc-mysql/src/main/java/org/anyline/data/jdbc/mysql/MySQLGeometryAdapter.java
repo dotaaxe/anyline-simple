@@ -458,10 +458,21 @@ public class MySQLGeometryAdapter {
     X5(经度)         8(267-274)   15              00 00 00 00 00 00 2E 40
     Y5(纬度)         8(275-282)   15              00 00 00 00 00 00 2E 40
     */
-    public byte[] wkb(MultiPolygon multiPolygon){
+    public static byte[] wkb(MultiPolygon multiPolygon){
         int len = 13;
-        List<Polygon> polygons = multiPolygon.getLines();
+        List<Polygon> polygons = multiPolygon.polygons();
+        for(Polygon polygon:polygons){
+            len += 9;
+            List<Ring> rings = polygon.rings();
+            for(Ring ring:rings){
+                len += 4;
+                len += ring.points().size()*16;
+            }
+        }
         ByteBuffer buffer = new ByteBuffer(len, multiPolygon.getEndian());
+        for(Polygon polygon:polygons){
+            wkb(buffer, polygon);
+        }
         return buffer.bytes();
     }
     /**
@@ -555,6 +566,12 @@ public class MySQLGeometryAdapter {
         }
         ByteBuffer buffer = new ByteBuffer(len, polygon.getEndian());
         head(buffer, polygon);
+        wkb(buffer, polygon);
+        return buffer.bytes();
+    }
+
+    public static byte[] wkb(ByteBuffer buffer, Polygon polygon){
+        List<Ring> rings = polygon.rings();
         buffer.put(rings.size());
         for(Ring ring:rings){
             wkb(buffer, ring);
@@ -562,6 +579,7 @@ public class MySQLGeometryAdapter {
         byte[] bytes = buffer.bytes();
         return bytes;
     }
+
     public static void wkb(ByteBuffer buffer, Ring ring){
         List<Point> points = ring.points();
         buffer.put(points.size());
