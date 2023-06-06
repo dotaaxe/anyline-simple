@@ -1,15 +1,11 @@
 package org.anyline.simple.ddl;
 
-import javafx.scene.control.Tab;
 import org.anyline.data.entity.Column;
 import org.anyline.data.entity.Index;
 import org.anyline.data.entity.PrimaryKey;
 import org.anyline.data.entity.Table;
 import org.anyline.data.jdbc.ds.DataSourceHolder;
-
 import org.anyline.entity.DataRow;
-import org.anyline.entity.MultiPoint;
-import org.anyline.entity.Point;
 import org.anyline.service.AnylineService;
 import org.anyline.util.BasicUtil;
 import org.anyline.util.ConfigTable;
@@ -21,7 +17,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Import;
 
 import java.util.LinkedHashMap;
 
@@ -42,11 +37,11 @@ public class DDLApplication {
 		service = (AnylineService)SpringContextUtil.getBean("anyline.service");
 
 		//check(null, "MySQL");
-		//check("cms", "MySQL");
+		check("cms", "MySQL");
 		//check("pg", "PostgreSQL");
 		//check("ms", "SQL Server");
 		//check("ms2000", "SQL Server 2000");
-		check("oracle", "Oracle 11G");
+		//check("oracle", "Oracle 11G");
 		//check("dm8", "达梦8");
 		//check("db2", "DB2");
 
@@ -56,10 +51,10 @@ public class DDLApplication {
 		if(null != ds) {
 			DataSourceHolder.setDataSource(ds);
 		}
-		type();
-		table();
-		column();
-		index();
+		//type();
+		//table();
+		//column();
+		//index();
 		exception();
 		clear();
 		System.out.println("\n=============================== END " + title + "=========================================\n");
@@ -253,41 +248,35 @@ public class DDLApplication {
 
 	}
 	public static void exception() throws Exception{
+		String tab = "A_EXCEPTION";
+		String col = "A_CHAR2INT";
 		System.out.println("\n-------------------------------- start exception  ----------------------------------------\n");
-		//ConfigTable.AFTER_ALTER_COLUMN_EXCEPTION_ACTION
+		ConfigTable.AFTER_ALTER_COLUMN_EXCEPTION_ACTION				= 1000			;   // DDL修改列异常后 0:中断修改 1:删除列 n:总行数小于多少时更新值否则触发另一个监听
 		// 0:中断执行
 		// 1:直接修正
 		// n:行数<n时执行修正  >n时触发另一个监听(默认返回false)
+		Table table = service.metadata().table(tab);
+		if(null != table){
+			service.ddl().drop(table);
+		}
+		table = new Table(tab);
+		table.addColumn("ID", "INT").setPrimaryKey(true).setAutoIncrement(true);
+		table.addColumn(col, "VARCHAR(20)");
+		service.ddl().create(table);
 
-		Column column = new Column();
-		column.setTable("A_TEST");
-		column.setName("A_CHAR");
-		column.setTypeName("varchar(50)");
-		//添加 新列
-		service.ddl().save(column);
-service.clearColumnCache();
 		//表中有数据的情况下
 		DataRow row = new DataRow();
 		//自增列有可能引起异常
 		try {
-			row.put("ID", BasicUtil.getRandomNumber(0, 100000));
-			row.put("A_CHAR", "123A");
-			row.setIsNew(true);
-			service.save("A_TEST", row);
-		}catch (Exception e){
-			log.error(e.getMessage());
-		}
-		try {
-			row = new DataRow();
-			row.put("A_CHAR", "123A");
-			service.save("A_TEST", row);
+			row.put(col, "123A");
+			service.save(tab, row);
 		}catch (Exception e){
 			log.error(e.getMessage());
 		}
 		log.warn("表中有数据的情况下修改列数据类型");
-		column = new Column();
-		column.setTable("A_TEST");
-		column.setName("A_CHAR");
+		Column column = new Column();
+		column.setTable(tab);
+		column.setName(col);
 		//这一列原来是String类型 现在改成int类型
 		//如果值不能成功实现殷式转换(如123A转换成int)会触发一次默认的DDListener.afterAlterException
 		//如果afterAlterException返回true，会再执行一次alter column如果还失败就会抛出异常
