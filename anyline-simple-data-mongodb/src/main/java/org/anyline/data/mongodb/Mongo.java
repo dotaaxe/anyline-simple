@@ -1,4 +1,4 @@
-package org.anyline.data.jdbc.mongodb;
+package org.anyline.data.mongodb;
 
 import com.mongodb.MongoClient;
 import com.mongodb.MongoCredential;

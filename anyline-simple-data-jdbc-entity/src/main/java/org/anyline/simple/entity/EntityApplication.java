@@ -133,7 +133,7 @@ public class EntityApplication {
 
 
         //部门
-        service.insert(new Department("FI01","财务部"));
+        service.insert(new Department("FI01","财务部").setId(112L));
         service.insert(new Department("HR01","人力资源部"));
         service.insert(new Department("PP01","生产一部"));
         service.insert(new Department("PP02","生产二部"));
@@ -317,7 +317,7 @@ public class EntityApplication {
         service.delete(list);
 
         list = new EntitySet<>();
-        for(int i=0; i<3;i++) {
+        for(int i=0; i<1;i++) {
             employee = new Employee();
             // employee.setName("test-"+i);
             employee.setJoinYmd(DateUtil.format("yyyy-MM-dd"));

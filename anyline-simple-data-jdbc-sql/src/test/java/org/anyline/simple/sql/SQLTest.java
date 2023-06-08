@@ -4,7 +4,6 @@ import org.anyline.data.param.ConfigStore;
 import org.anyline.data.param.init.DefaultConfigStore;
 import org.anyline.entity.Compare;
 import org.anyline.entity.DataRow;
-import org.anyline.entity.DataSet;
 import org.anyline.service.AnylineService;
 import org.anyline.util.ConfigTable;
 import org.junit.jupiter.api.Test;
@@ -12,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @SpringBootTest
@@ -129,6 +130,14 @@ public class SQLTest {
         service.execute(sql,"CODE:C001", "++ID:");
         //如果ID没有提供参数值，则整个SQL不执行
 
+        sql = "UPDATE ::TABLE SET CODE = :CODE WHERE ID IN(:IDS)";
+        List<String> ids = new ArrayList<>();
+        ids.add("1");
+        ids.add("2");
+        service.execute(sql, service.condition()
+                .param("TABLE", "CRM_USER")
+                .param("CODE","1")
+                .param("IDS", ids) );
     }
 
     /********************************************************************
@@ -171,4 +180,5 @@ public class SQLTest {
 
         service.save("CRM_USER", row);
     }
+
 }

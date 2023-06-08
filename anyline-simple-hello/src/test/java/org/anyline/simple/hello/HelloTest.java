@@ -8,18 +8,13 @@ import org.anyline.entity.Compare;
 import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
 import org.anyline.service.AnylineService;
-import org.anyline.util.BeanUtil;
-import org.anyline.util.NumberUtil;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.logging.Logger;
 import org.junit.platform.commons.logging.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.LinkedHashMap;
 
 @SpringBootTest
 public class HelloTest {
@@ -96,7 +91,7 @@ public class HelloTest {
         //当前schema中没有的表 greedy=rue 可以查到其他schema中的表
         table = service.metadata().table(true,"art_comment");
         if(null != table) {
-            System.out.println( table.getName(true));
+            System.out.println(table.getName(true));
         }
 
         ConfigStore configs = new DefaultConfigStore();

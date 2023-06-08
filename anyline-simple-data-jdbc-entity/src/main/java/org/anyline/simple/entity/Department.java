@@ -12,8 +12,9 @@ public class Department {
         return id;
     }
 
-    public void setId(Long id) {
+    public Department setId(Long id) {
         this.id = id;
+        return this;
     }
 
     public Department(){

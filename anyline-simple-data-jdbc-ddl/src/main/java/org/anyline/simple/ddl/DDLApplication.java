@@ -1,9 +1,6 @@
 package org.anyline.simple.ddl;
 
-import org.anyline.data.entity.Column;
-import org.anyline.data.entity.Index;
-import org.anyline.data.entity.PrimaryKey;
-import org.anyline.data.entity.Table;
+import org.anyline.data.entity.*;
 import org.anyline.data.jdbc.ds.DataSourceHolder;
 import org.anyline.entity.DataRow;
 import org.anyline.service.AnylineService;
@@ -19,6 +16,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {"org.anyline"})
@@ -36,8 +34,8 @@ public class DDLApplication {
 
 		service = (AnylineService)SpringContextUtil.getBean("anyline.service");
 
-		//check(null, "MySQL");
-		check("cms", "MySQL");
+		check(null, "MySQL");
+		//check("cms", "MySQL");
 		//check("pg", "PostgreSQL");
 		//check("ms", "SQL Server");
 		//check("ms2000", "SQL Server 2000");
@@ -51,13 +49,71 @@ public class DDLApplication {
 		if(null != ds) {
 			DataSourceHolder.setDataSource(ds);
 		}
-		//type();
-		//table();
-		//column();
-		//index();
-		exception();
+		/*type();
+		table();
+		view();
+		column();
+		index();
+		exception();*/
+		foreign();
 		clear();
 		System.out.println("\n=============================== END " + title + "=========================================\n");
+	}
+	//外键
+	public static void foreign() throws Exception{
+
+		Table tb = service.metadata().table("TAB_B");
+		if(null != tb){
+			service.ddl().drop(tb);
+		}
+		Table ta = service.metadata().table("TAB_A");
+		if(null != ta){
+			service.ddl().drop(ta);
+		}
+		//创建组合主键
+		ta = new Table("TAB_A");
+		ta.addColumn("ID", "int").setPrimaryKey(true);
+		ta.addColumn("CODE", "varchar(10)").setPrimaryKey(true);
+		ta.addColumn("NAME", "varchar(10)");
+		service.ddl().create(ta);
+
+
+		tb = new Table("TAB_B");
+		tb.addColumn("ID", "int").setPrimaryKey(true).setAutoIncrement(true);
+		tb.addColumn("AID", "int");
+		tb.addColumn("ACODE", "varchar(10)");
+		service.ddl().create(tb);
+		//创建组合外键
+		ForeignKey foreign = new ForeignKey("fkb_id_code");
+		foreign.setTable("TAB_B");
+		foreign.setReference("TAB_A");
+		foreign.addColumn("AID","ID");
+		foreign.addColumn("ACODE","CODE");
+		service.ddl().add(foreign);
+
+		//查询组合外键
+		LinkedHashMap<String, ForeignKey> foreigns = service.metadata().foreigns("TAB_B");
+		for(ForeignKey item:foreigns.values()){
+			System.out.println("外键:"+item.getName());
+			System.out.println("表:"+item.getTableName());
+			System.out.println("依赖表:"+item.getReference().getName());
+			LinkedHashMap<String,Column> columns = item.getColumns();
+			for(Column column:columns.values()){
+				System.out.println("列:"+column.getName()+"("+column.getReference()+")");
+			}
+		}
+		//根据列查询外键
+		foreign = service.metadata().foreign("TAB_B", "AID","ACODE");
+		System.out.println("外键:"+foreign.getName());
+		System.out.println("表:"+foreign.getTableName());
+		System.out.println("依赖表:"+foreign.getReference().getName());
+		LinkedHashMap<String,Column> columns = foreign.getColumns();
+		for(Column column:columns.values()){
+			System.out.println("列:"+column.getName()+"("+column.getReference()+")");
+		}
+	}
+	public static void view(){
+		View view = new View("v");
 	}
 	public static void type() throws Exception{
 		Table table = service.metadata().table("a_test");
@@ -248,6 +304,7 @@ public class DDLApplication {
 
 	}
 	public static void exception() throws Exception{
+
 		String tab = "A_EXCEPTION";
 		String col = "A_CHAR2INT";
 		System.out.println("\n-------------------------------- start exception  ----------------------------------------\n");
@@ -264,6 +321,11 @@ public class DDLApplication {
 		table.addColumn(col, "VARCHAR(20)");
 		service.ddl().create(table);
 
+		table.addColumn("CODE", "INT");
+		service.ddl().save(table);
+		table = service.metadata().table(tab);
+		table.addColumn("CODE", "INT");
+		service.ddl().save(table);
 		//表中有数据的情况下
 		DataRow row = new DataRow();
 		//自增列有可能引起异常
@@ -290,9 +352,14 @@ public class DDLApplication {
 		System.out.println("\n-------------------------------- start index  --------------------------------------------\n");
 
 		Table tab = new Table("B_TEST");
-		tab.addColumn("ID", "INT");
+		if(null != tab){
+			service.ddl().drop(tab);
+		}
+		tab = new Table("B_TEST");
+		tab.addColumn("ID", "INT").setAutoIncrement(true).setPrimaryKey(true);
 		tab.addColumn("CODE", "INT");
 		service.ddl().save(tab);
+
 		LinkedHashMap<String, Index> indexs = service.metadata().indexs("crm_user");
 		for(Index item:indexs.values()){
 			System.out.println("所引:"+item.getName());
@@ -307,7 +374,9 @@ public class DDLApplication {
 
 			System.out.println("删除索引:" + item.getName());
 			try {
-				service.ddl().drop(item);
+				if(!item.isPrimary()) {
+					service.ddl().drop(item);
+				}
 			}catch (Exception e){
 				log.error(e.getMessage());
 			}
@@ -324,6 +393,15 @@ public class DDLApplication {
 			service.ddl().add(index);
 		}
 
+		indexs = service.metadata().indexs("A_TEST");
+		for(Index idx: indexs.values()){
+			System.out.println("\n剩余索引:"+idx.getName());
+			Map<String,Column> columns = idx.getColumns();
+			for(String col:columns.keySet()){
+				System.out.println("column:"+col);
+			}
+		}
+
 		System.out.println("\n-------------------------------- end index  ----------------------------------------------\n");
 	}
 
@@ -337,4 +415,7 @@ public class DDLApplication {
 		}catch (Exception e){}
 		System.out.println("\n=============================== START clear =========================================\n");
 	}
+
+
+
 }

@@ -5,6 +5,7 @@ import org.anyline.data.entity.Table;
 import org.anyline.data.param.ConfigStore;
 import org.anyline.data.param.init.DefaultConfigStore;
 import org.anyline.entity.*;
+import org.anyline.entity.geometry.*;
 import org.anyline.service.AnylineService;
 import org.anyline.util.BasicUtil;
 import org.anyline.util.ConfigTable;
@@ -240,24 +241,50 @@ public class MySQLTest {
     }
     @Test
     public void geometry() throws Exception{
-
         ConfigTable.IS_PRINT_EXCEPTION_STACK_TRACE = true;
-        DataRow row = service.query("bs_geometry");
-        //Geometry point = GeometryParser.parse(row.getBytes("WORK_LOCATION"));
-        //Geometry line = GeometryParser.parse(row.getBytes("WORK_TRACE"));
-        //System.out.println(point);
-        System.out.println(row);
-        Object point = row.get("WORK_LOCATION");
-        System.out.println("WORK_LOCATION:"+point);
-        Object line = row.get("WORK_TRACE");
-        System.out.println("WORK_TRACE:"+line);
-        Object polygon = row.get("WORK_AREA");
-        System.out.println("WORK_AREA:"+polygon);
-        Object polygons = row.get("WORK_AREAS");
-        System.out.println("WORK_AREAS:"+polygons);
-        System.out.println("WORK_POINTS:"+row.get("WORK_POINTS"));
-        System.out.println("WORK_TRACES:"+row.get("WORK_TRACES"));
-        System.out.println("WORK_AREASS:"+row.get("WORK_AREASS"));
+        Table table = service.metadata().table("bs_geometry");
+        if(null != table){
+            service.ddl().drop(table);
+        }
+        table = new Table("bs_geometry");
+        table.addColumn("ID", "BIGINT").setAutoIncrement(true).setPrimaryKey(true);
+        table.addColumn("C_POINT", "POINT");
+        table.addColumn("C_LINESTRING", "LINESTRING");
+        table.addColumn("C_Polygon", "Polygon");
+        table.addColumn("C_MultiPoint", "MultiPoint");
+        table.addColumn("C_MultiLine", "MultiLine");
+        table.addColumn("C_MultiPolygon", "MultiPolygon");
+        table.addColumn("C_GeometryCollection", "GeometryCollection");
+        service.ddl().create(table);
+        DataRow row = new DataRow();
+        //点
+        row.put("C_POINT", new Point(120.1,36.2));
+
+        //线
+        LineString line = new LineString();
+        line.add(new Point(1,1)).add(new Point(2,2)).add(new Point(3,3));
+        row.put("C_LINESTRING", line);
+
+        //面
+        Polygon polygon = new Polygon();
+        Ring out = new Ring();
+        out.add(new Point(1,1)).add(new Point(2,2)).add(new Point(3, 6)).add(new Point(1,1));
+        polygon.add(out);
+        row.put("C_Polygon", polygon);
+
+        //多点
+        MultiPoint points = new MultiPoint();
+        points.add(new Point(1, 2)).add(new Point(3,6));
+        row.put("C_MultiPoint", points);
+
+        //多线
+
+        //多面
+
+        //集合
+        service.save("bs_geometry", row);
+        row = service.query("bs_geometry");
+
      }
     @Test
     public void help() throws Exception{

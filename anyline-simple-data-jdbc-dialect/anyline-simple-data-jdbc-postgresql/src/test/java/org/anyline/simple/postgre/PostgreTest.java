@@ -36,6 +36,27 @@ public class PostgreTest {
 
 
     @Test
+    public void geometry() throws Exception{
+        ConfigTable.IS_PRINT_EXCEPTION_STACK_TRACE = true;
+        DataRow row = service.query("bs_geometry");
+        //Geometry point = GeometryParser.parse(row.getBytes("WORK_LOCATION"));
+        //Geometry line = GeometryParser.parse(row.getBytes("WORK_TRACE"));
+        //System.out.println(point);
+        System.out.println(row);
+        Object point = row.get("WORK_LOCATION");
+        System.out.println("WORK_LOCATION:"+point);
+        Object line = row.get("WORK_TRACE");
+        System.out.println("WORK_TRACE:"+line);
+        Object polygon = row.get("WORK_AREA");
+        System.out.println("WORK_AREA:"+polygon);
+        Object polygons = row.get("WORK_AREAS");
+        System.out.println("WORK_AREAS:"+polygons);
+        System.out.println("WORK_POINTS:"+row.get("WORK_POINTS"));
+        System.out.println("WORK_TRACES:"+row.get("WORK_TRACES"));
+        System.out.println("WORK_AREASS:"+row.get("WORK_AREASS"));
+        System.out.println("WORK_COL:"+row.get("WORK_COL"));
+    }
+    @Test
     public void ddl() throws Exception{
         ConfigTable.IS_THROW_SQL_UPDATE_EXCEPTION = true; //遇到SQL异常直接抛出
         //检测表结构
