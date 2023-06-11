@@ -1,7 +1,7 @@
 package org.anyline.simple.map;
 
 
-import org.anyline.entity.Coordinate;
+import org.anyline.entity.geometry.Coordinate;
 import org.anyline.map.MapProxy;
 import org.anyline.util.BeanUtil;
 import org.springframework.boot.SpringApplication;
