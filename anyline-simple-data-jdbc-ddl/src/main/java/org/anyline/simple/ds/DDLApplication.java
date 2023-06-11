@@ -1,5 +1,6 @@
-package org.anyline.simple.ddl;
+package org.anyline.simple.ds;
 
+import com.zaxxer.hikari.HikariDataSource;
 import org.anyline.data.entity.*;
 import org.anyline.data.jdbc.ds.DataSourceHolder;
 import org.anyline.entity.DataRow;
@@ -15,6 +16,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 
+import java.time.LocalTime;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -49,15 +51,50 @@ public class DDLApplication {
 		if(null != ds) {
 			DataSourceHolder.setDataSource(ds);
 		}
-		/*type();
-		table();
-		view();
-		column();
-		index();
-		exception();*/
-		foreign();
-		clear();
+		//check();
+	    //type();
+		//table();
+		//view();
+		//column();
+		//index();
+		//exception();
+		//foreign();
+		trigger();
+		//clear();
 		System.out.println("\n=============================== END " + title + "=========================================\n");
+	}
+	public static void trigger() throws Exception{
+		Table tb = service.metadata().table("TAB_USER", false);
+		if(null != tb){
+			service.ddl().drop(tb);
+		}
+		tb = new Table("TAB_USER");
+		tb.addColumn("ID","INT").setAutoIncrement(true).setPrimaryKey(true);
+		tb.addColumn("CODE", "varchar(10)");
+		service.ddl().create(tb);
+
+		Trigger trigger = new Trigger();
+		trigger.setName("TR_USER");
+		trigger.setTime(org.anyline.entity.data.Trigger.TIME.AFTER);
+		trigger.addEvent(org.anyline.entity.data.Trigger.EVENT.INSERT);
+		trigger.setTable("TAB_USER");
+		trigger.setDefinition("UPDATE aa SET code = 1 WHERE id = NEW.id;");
+		service.ddl().create(trigger);
+
+		trigger = service.metadata().trigger("TR_USER");
+		if(null != trigger){
+			System.out.println("TRIGGER TABLE:"+trigger.getTableName());
+			System.out.println("TRIGGER NAME:"+trigger.getName());
+			System.out.println("TRIGGER TIME:"+trigger.getTime());
+			System.out.println("TRIGGER EVENT:"+trigger.getEvents());
+			System.out.println("TRIGGER define:"+trigger.getDefinition());
+			service.ddl().drop(trigger);
+		}
+	}
+	public static void check() throws Exception{
+		for(int i=0; i<100;i++){
+			type();
+		}
 	}
 	//外键
 	public static void foreign() throws Exception{
@@ -72,8 +109,8 @@ public class DDLApplication {
 		}
 		//创建组合主键
 		ta = new Table("TAB_A");
-		ta.addColumn("ID", "int").setPrimaryKey(true);
-		ta.addColumn("CODE", "varchar(10)").setPrimaryKey(true);
+		ta.addColumn("ID", "int").setNullable(false).setPrimaryKey(true);
+		ta.addColumn("CODE", "varchar(10)").setNullable(false).setPrimaryKey(true);
 		ta.addColumn("NAME", "varchar(10)");
 		service.ddl().create(ta);
 
@@ -104,12 +141,14 @@ public class DDLApplication {
 		}
 		//根据列查询外键
 		foreign = service.metadata().foreign("TAB_B", "AID","ACODE");
-		System.out.println("外键:"+foreign.getName());
-		System.out.println("表:"+foreign.getTableName());
-		System.out.println("依赖表:"+foreign.getReference().getName());
-		LinkedHashMap<String,Column> columns = foreign.getColumns();
-		for(Column column:columns.values()){
-			System.out.println("列:"+column.getName()+"("+column.getReference()+")");
+		if(null != foreign) {
+			System.out.println("外键:" + foreign.getName());
+			System.out.println("表:" + foreign.getTableName());
+			System.out.println("依赖表:" + foreign.getReference().getName());
+			LinkedHashMap<String, Column> columns = foreign.getColumns();
+			for (Column column : columns.values()) {
+				System.out.println("列:" + column.getName() + "(" + column.getReference() + ")");
+			}
 		}
 	}
 	public static void view(){
@@ -121,13 +160,17 @@ public class DDLApplication {
 			service.ddl().drop(table);
 		}
 		table = new Table("a_test");
-
 		table.setComment("表备注");
-		Column column = new Column();
-		column.setName("a");
-		column.setTypeName("int");
-		table.addColumn(column);
+		table.addColumn("ID", "INT").setAutoIncrement(true).setPrimaryKey(true);
+			table.addColumn("REG_TIME", "TIME");
 		service.ddl().save(table);
+		DataRow row = new DataRow();
+		row.put("REG_TIME", LocalTime.now());
+		service.insert("a_test", row);
+		HikariDataSource ds = (HikariDataSource )DataSourceHolder.getDataSource();
+		System.out.println("================活动(未释放)："+ds.getHikariPoolMXBean().getActiveConnections());
+		System.out.println("================空闲(可用)："+ds.getHikariPoolMXBean().getIdleConnections());
+
 	}
 	public static void table() throws Exception{
 		System.out.println("\n-------------------------------- start table  --------------------------------------------\n");

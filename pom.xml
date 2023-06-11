@@ -80,6 +80,10 @@
         <module>anyline-simple-data-jdbc-dialect/anyline-simple-data-jdbc-timescale</module>
         <module>anyline-simple-data-jdbc-dialect/anyline-simple-data-jdbc-neo4j</module>
         <module>anyline-simple-data-jdbc-dialect/anyline-simple-data-jdbc-oceanbase</module>
+        <module>anyline-simple-data-jdbc-dialect/anyline-simple-data-jdbc-opengauss</module>
+        <module>anyline-simple-data-jdbc-dialect/anyline-simple-data-jdbc-gbase</module>
+        <module>anyline-simple-data-jdbc-dialect/anyline-simple-data-jdbc-oscar</module>
+        <module>anyline-simple-data-jdbc-dialect/anyline-simple-data-jdbc-informix</module>
 
         <module>anyline-simple-data-mongodb</module>
 
@@ -150,10 +154,6 @@
         <module>anyline-simple-jar</module>
         <module>anyline-simple-data-jdbc-listener</module>
         <module>anyline-simple-data-jdbc-validate</module>
-        <module>anyline-simple-data-jdbc-dialect/anyline-simple-data-jdbc-opengauss</module>
-        <module>anyline-simple-data-jdbc-dialect/anyline-simple-data-jdbc-gbase</module>
-        <module>anyline-simple-data-jdbc-dialect/anyline-simple-data-jdbc-oscar</module>
-        <module>anyline-simple-data-jdbc-dialect/anyline-simple-data-jdbc-informix</module>
 
     </modules>
 </project>

@@ -4,6 +4,7 @@ import org.anyline.entity.geometry.Point;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
 
@@ -68,6 +69,8 @@ public class Employee extends BaseEntity{
 
     //对应数据类型point
     private Point homeLocation;
+
+    private LocalTime localTime;
 
     //多对多关系  一个在多个部门任职
     @ManyToMany
@@ -319,5 +322,13 @@ public class Employee extends BaseEntity{
 
     public void setClabels(String[] clabels) {
         this.clabels = clabels;
+    }
+
+    public LocalTime getLocalTime() {
+        return localTime;
+    }
+
+    public void setLocalTime(LocalTime localTime) {
+        this.localTime = localTime;
     }
 }

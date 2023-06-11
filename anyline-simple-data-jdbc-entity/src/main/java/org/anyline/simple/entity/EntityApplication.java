@@ -17,6 +17,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.*;
 
 
@@ -40,8 +41,8 @@ public class EntityApplication {
         ConfigurableApplicationContext context = application.run(args);
         service = (AnylineService)context.getBean("anyline.service");
 
-        test();
         init();
+        test();
         dependency();
         sql();
         json();
@@ -92,6 +93,7 @@ public class EntityApplication {
         table.addColumn("MAP"           , "json"         ).setComment("其他信息")  ; // Map             : map
         table.addColumn("WORK_LOCATION" , "point"        ).setComment("工作定位")  ; // Double[]        : workLocation
         table.addColumn("HOME_LOCATION" , "point"        ).setComment("住址定准")  ; // Point           : homeLocation*/
+        table.addColumn("LOCAL_TIME", "time");
         table.addColumn("DATA_STATUS"   , "int"          ).setComment("状态").setDefaultValue(1);
         //注意SQL Server中一个表只能有一列TIMESTAMP
         table.addColumn("CREATE_TIME"   , "TIMESTAMP"    ).setDefaultValue(JDBCAdapter.SQL_BUILD_IN_VALUE.CURRENT_TIME);
@@ -107,6 +109,7 @@ public class EntityApplication {
         table.addColumn("ID"            , "BIGINT").setAutoIncrement(true).setPrimaryKey(true);
         table.addColumn("NAME"          , "varchar(50)"  ); // String          : name      名称
         table.addColumn("CODE"          , "varchar(50)"  ); // String          : code      编号
+        table.addColumn("local_time", "time");
         service.ddl().create(table);
 
         //职员部门关系表
@@ -130,14 +133,12 @@ public class EntityApplication {
         table.addColumn("EMPLOYEE_ID"   , "BIGINT"  ); // LONG          : employeeId        职员ID
         table.addColumn("RECORD_TIME" , "DATETIME"  ); // LONG          : date      考勤时间
         service.ddl().create(table);
-
-
         //部门
-        service.insert(new Department("FI01","财务部").setId(112L));
-        service.insert(new Department("HR01","人力资源部"));
-        service.insert(new Department("PP01","生产一部"));
-        service.insert(new Department("PP02","生产二部"));
-        service.insert(new Department("QC01","质量组"));
+        service.insert(new Department("FI01","财务部").setId(112L).setLocalTime(LocalTime.of(10,12)));
+        service.insert(new Department("HR01","人力资源部").setLocalTime(LocalTime.of(10,12)));
+        service.insert(new Department("PP01","生产一部").setLocalTime(LocalTime.of(10,12)));
+        service.insert(new Department("PP02","生产二部").setLocalTime(LocalTime.of(10,12)));
+        service.insert(new Department("QC01","质量组").setLocalTime(LocalTime.of(10,12)));
 
         Employee em = new Employee("张三");
         em.setAge(30);

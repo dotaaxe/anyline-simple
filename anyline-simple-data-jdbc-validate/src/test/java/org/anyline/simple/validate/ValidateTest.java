@@ -1,10 +1,7 @@
 package org.anyline.simple.validate;
 
 import org.anyline.data.adapter.JDBCAdapter;
-import org.anyline.data.entity.Column;
-import org.anyline.data.entity.Index;
-import org.anyline.data.entity.PrimaryKey;
-import org.anyline.data.entity.Table;
+import org.anyline.data.entity.*;
 import org.anyline.data.jdbc.ds.DataSourceHolder;
 import org.anyline.data.param.ConfigStore;
 import org.anyline.data.param.init.DefaultConfigStore;
@@ -12,7 +9,7 @@ import org.anyline.entity.Compare;
 import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
 import org.anyline.entity.DefaultPageNavi;
-import org.anyline.entity.geometry.Line;
+import org.anyline.entity.geometry.LineString;
 import org.anyline.entity.geometry.Point;
 import org.anyline.service.AnylineService;
 import org.anyline.util.ConfigTable;
@@ -23,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 @SpringBootTest
@@ -70,12 +68,66 @@ public class ValidateTest {
         }
         new DefaultConfigStore().setPageNavi(new DefaultPageNavi());
         ddl();
+        foreign();
         dml();
         meta();
         geometry();
         System.out.println("======================== finish validate " + type + " ================================");
     }
 
+    //外键
+    public void foreign() throws Exception{
+
+        Table tb = service.metadata().table("TAB_B");
+        if(null != tb){
+            service.ddl().drop(tb);
+        }
+        Table ta = service.metadata().table("TAB_A");
+        if(null != ta){
+            service.ddl().drop(ta);
+        }
+        //创建组合主键
+        ta = new Table("TAB_A");
+        ta.addColumn("ID", "int").setPrimaryKey(true);
+        ta.addColumn("CODE", "varchar(10)").setPrimaryKey(true);
+        ta.addColumn("NAME", "varchar(10)");
+        service.ddl().create(ta);
+
+
+        tb = new Table("TAB_B");
+        tb.addColumn("ID", "int").setPrimaryKey(true).setAutoIncrement(true);
+        tb.addColumn("AID", "int");
+        tb.addColumn("ACODE", "varchar(10)");
+        service.ddl().create(tb);
+        //创建组合外键
+        ForeignKey foreign = new ForeignKey("fkb_id_code");
+        foreign.setTable("TAB_B");
+        foreign.setReference("TAB_A");
+        foreign.addColumn("AID","ID");
+        foreign.addColumn("ACODE","CODE");
+        service.ddl().add(foreign);
+
+        //查询组合外键
+        LinkedHashMap<String, ForeignKey> foreigns = service.metadata().foreigns("TAB_B");
+        for(ForeignKey item:foreigns.values()){
+            System.out.println("外键:"+item.getName());
+            System.out.println("表:"+item.getTableName());
+            System.out.println("依赖表:"+item.getReference().getName());
+            LinkedHashMap<String,Column> columns = item.getColumns();
+            for(Column column:columns.values()){
+                System.out.println("列:"+column.getName()+"("+column.getReference()+")");
+            }
+        }
+        //根据列查询外键
+        foreign = service.metadata().foreign("TAB_B", "AID","ACODE");
+        System.out.println("外键:"+foreign.getName());
+        System.out.println("表:"+foreign.getTableName());
+        System.out.println("依赖表:"+foreign.getReference().getName());
+        LinkedHashMap<String,Column> columns = foreign.getColumns();
+        for(Column column:columns.values()){
+            System.out.println("列:"+column.getName()+"("+column.getReference()+")");
+        }
+    }
     public void geometry(){
         try {
             ConfigTable.IS_AUTO_CHECK_METADATA = true;
@@ -105,7 +157,7 @@ public class ValidateTest {
         DataRow row = service.query("bs_geometry");
         System.out.println(row);
         row = new DataRow();
-        Line line = new Line();
+        LineString line = new LineString();
         line.add(new Point(120,36)).add(new Point(121,37));
         row.put("WORK_TRACE", line);
         service.insert("bs_geometry", row);
@@ -194,7 +246,6 @@ public class ValidateTest {
         //索引(包含主键)
         Map<String, Index> indexes = table.getIndexs();
         //Assertions.assertEquals(indexes.size(), 2);
-
         //修改表结构
         table.setComment("新职员基础信息");
         table.addColumn("ALIAS", "varchar(10)").setComment("别名").setDefaultValue("def alias");

@@ -5,6 +5,7 @@ import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
 import org.anyline.entity.DefaultPageNavi;
 import org.anyline.entity.PageNavi;
+import org.anyline.entity.data.Table;
 import org.anyline.service.AnylineService;
 import org.anyline.util.BeanUtil;
 import org.anyline.util.ConfigTable;
@@ -26,6 +27,7 @@ public class HelloApplication {
 
         AnylineService service = (AnylineService) ctx.getBean("anyline.service");
 
+        Table table = service.metadata().table("a_test");
 
         DataSet set = service.querys("bs_dict");
         service.querys("bs_dict(ID,GROUP_CODE,CODE,NM,VAL)");
@@ -54,6 +56,9 @@ public class HelloApplication {
 
         set = service.querys("SELECT * FROM bs_dict where id > 1 limit 10");
         System.out.println(set);
+
+        row = service.query("bs_dict", "ORDER BY ID DESC");
+        System.out.println(row);
     }
 
 }

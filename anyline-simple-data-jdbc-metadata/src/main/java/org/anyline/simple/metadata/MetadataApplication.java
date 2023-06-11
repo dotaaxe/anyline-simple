@@ -5,7 +5,6 @@ import org.anyline.data.entity.Index;
 import org.anyline.data.entity.Table;
 import org.anyline.data.entity.View;
 import org.anyline.data.jdbc.ds.DataSourceHolder;
-
 import org.anyline.entity.DataRow;
 import org.anyline.service.AnylineService;
 import org.anyline.util.ConfigTable;
@@ -16,7 +15,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Import;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -30,16 +28,16 @@ public class MetadataApplication extends SpringBootServletInitializer {
 	private static AnylineService service = null;
 	private static String seq = null;
 	public static void main(String[] args) throws Exception{
-
+		org.postgresql.util.PGobject s;
 		SpringApplication application = new SpringApplication(MetadataApplication.class);
 		ConfigurableApplicationContext context = application.run(args);
 
 		service = (AnylineService)context.getBean("anyline.service");
 
-		//check(null, "MySQL");
+		check(null, "MySQL");
 		//check("pg", "PostgreSQL");
 		//check("ms", "SQL Server");
-		check("oracle", "Oracle 11G");
+		//check("oracle", "Oracle 11G");
 
 		//check("td", "TDengine");
 		//check("db2", "DB2");
@@ -213,7 +211,6 @@ public class MetadataApplication extends SpringBootServletInitializer {
 		if(null != table) {
 			System.out.println(table.getCatalog() + ":" + table.getSchema() + ":" + table.getName());
 		}
-
 		//当前schema中没有的表 greedy=rue 可以查到其他schema中的表
 		table = service.metadata().table(true,"art_comment");
 		if(null != table) {

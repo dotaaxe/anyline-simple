@@ -55,7 +55,7 @@ public class TransactionApplication extends SpringBootServletInitializer {
 		try {
 			//动态注册一个数据源
 			//数据要设置更多参数 放到map里
-			String url = "jdbc:mysql://192.168.220.100:3306/simple_sso?useUnicode=true&characterEncoding=UTF8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true";
+			String url = "jdbc:mysql://localhost:13306/simple_sso?useUnicode=true&characterEncoding=UTF8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true";
 
 
 /*

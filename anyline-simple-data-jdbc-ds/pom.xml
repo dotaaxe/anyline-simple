@@ -12,4 +12,12 @@
     <artifactId>anyline-simple-data-jdbc-ds</artifactId>
     <packaging>jar</packaging>
     <description>多数据源操作</description>
+    <dependencies>
+        <!-- https://mvnrepository.com/artifact/com.alibaba/druid -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>1.2.18</version>
+        </dependency>
+    </dependencies>
 </project>

@@ -40,7 +40,7 @@ public class DocTest {
         String pwd = "root";
         String driver = "com.mysql.cj.jdbc.Driver";
         String pool = "com.zaxxer.hikari.HikariDataSource";
-        String url = "jdbc:mysql://192.168.220.100:3306/simple?useUnicode=true&characterEncoding=UTF8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true";
+        String url = "jdbc:mysql://localhost:13306/simple?useUnicode=true&characterEncoding=UTF8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true";
         DataSourceHolder.reg("default", pool, driver, url, user, pwd);
 */
         //模板文件

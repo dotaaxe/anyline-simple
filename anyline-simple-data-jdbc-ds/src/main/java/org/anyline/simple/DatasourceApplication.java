@@ -1,6 +1,7 @@
 package org.anyline.simple;
 
 
+import com.alibaba.druid.pool.DruidDataSource;
 import org.anyline.data.entity.Column;
 import org.anyline.data.entity.Table;
 import org.anyline.data.jdbc.ds.DataSourceHolder;
@@ -8,7 +9,6 @@ import org.anyline.entity.DataRow;
 import org.anyline.proxy.ServiceProxy;
 import org.anyline.service.AnylineService;
 import org.anyline.util.ConfigTable;
-import org.anyline.util.FileUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -16,10 +16,9 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 
-import java.io.File;
+import java.time.LocalTime;
 import java.util.Hashtable;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 @SpringBootApplication
@@ -44,9 +43,9 @@ public class DatasourceApplication extends SpringBootServletInitializer {
 		//ConfigTable.IS_MULTIPLE_SERVICE = false;
 		SpringApplication application = new SpringApplication(DatasourceApplication.class);
 
+		ConfigTable.IS_PRINT_EXCEPTION_STACK_TRACE = true;
 		ConfigurableApplicationContext context = application.run(args);
 		AnylineService service = (AnylineService)context.getBean("anyline.service");
-
 		//切换数据源
 		ds(service);
 	}
@@ -83,7 +82,7 @@ public class DatasourceApplication extends SpringBootServletInitializer {
 		service.query("<erp>mm_material");
 		try {
 			//动态注册一个数据源(配置文件中配置过的将被这里覆盖)
-			String url = "jdbc:mysql://192.168.220.100:3306/simple_sso?useUnicode=true&characterEncoding=UTF8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true";
+			String url = "jdbc:mysql://localhost:13306/simple_sso?useUnicode=true&characterEncoding=UTF8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true";
 			DataSourceHolder.reg("sso", "com.zaxxer.hikari.HikariDataSource", "com.mysql.cj.jdbc.Driver", url, "root", "root");
 
 			//如果需要设置更多参数 放到map里 参数名参考连接池类型(就是连接池配置文件中用的参数名)
@@ -123,8 +122,8 @@ public class DatasourceApplication extends SpringBootServletInitializer {
 		 *                         否则会 抛出异常
 		 *
 		 ***************************************************************************************************************************/
+		String url = "jdbc:mysql://localhost:13306/simple_crm?useUnicode=true&characterEncoding=UTF8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true";
 		try {
-			String url = "jdbc:mysql://192.168.220.100:3306/simple_crm?useUnicode=true&characterEncoding=UTF8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true";
 			DataSourceHolder.reg("sso", "com.zaxxer.hikari.HikariDataSource", "com.mysql.cj.jdbc.Driver", url, "root", "root");
 		}catch (Exception e){
 			e.printStackTrace();
@@ -132,6 +131,58 @@ public class DatasourceApplication extends SpringBootServletInitializer {
 
 		//注意这里的sso实际已经指向了simple_crm数据库了
 		service.query("<sso>crm_customer");
+		try {
+			///druid数据源
+			DruidDataSource ds_druid1 = new DruidDataSource();
+			ds_druid1.setUrl(url);
+			ds_druid1.setDriverClassName("com.mysql.cj.jdbc.Driver");
+			ds_druid1.setUsername("root");
+			ds_druid1.setPassword("root");
+			DataSourceHolder.reg("ds_druid1", ds_druid1);
+			DataSourceHolder.setDataSource("ds_druid1");
+			service.query("crm_customer");
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		try {
+			//动态注册一个数据源(配置文件中配置过的将被这里覆盖)
+			DataSourceHolder.reg("ds_druid2", "com.alibaba.druid.pool.DruidDataSource", "com.mysql.cj.jdbc.Driver", url, "root", "root");
+
+			DataSourceHolder.setDataSource("ds_druid2");
+			service.query("crm_customer");
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		try {
+			//如果需要设置更多参数 放到map里 参数名参考连接池类型(就是连接池配置文件中用的参数名)
+			Map params = new Hashtable<>();
+			params.put("url", url);
+			params.put("type", com.alibaba.druid.pool.DruidDataSource.class);
+			params.put("driverClass", "com.mysql.cj.jdbc.Driver");
+			params.put("userName", "root");
+			params.put("password", "root");
+			params.put("beanName", "ds_druid3");
+			DataSourceHolder.reg("ds_druid3", params);
+			DataSourceHolder.setDataSource("ds_druid3");
+			service.query("crm_customer");
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+	}
+
+	public static void check(AnylineService service) throws Exception{
+		Table table = service.metadata().table("a_test");
+		if(null != table){
+			service.ddl().drop(table);
+		}
+		table = new Table("a_test");
+		table.setComment("表备注");
+		table.addColumn("ID", "INT").setAutoIncrement(true).setPrimaryKey(true);
+		table.addColumn("REG_TIME", "TIME");
+		service.ddl().save(table);
+		DataRow row = new DataRow();
+		row.put("REG_TIME", LocalTime.now());
+		//service.insert("a_test", row);
 
 	}
 }
