@@ -1,6 +1,6 @@
 package org.anyline.simple.qq.map;
 
-import org.anyline.entity.Coordinate;
+import org.anyline.entity.geometry.Coordinate;
 import org.anyline.qq.map.util.QQMapClient;
 import org.anyline.qq.map.util.QQMapConfig;
 import org.anyline.util.BeanUtil;
