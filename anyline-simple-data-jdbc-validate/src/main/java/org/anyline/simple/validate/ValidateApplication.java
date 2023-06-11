@@ -83,7 +83,7 @@ public class ValidateApplication {
 			DataSourceHolder.setDataSource(ds);
 		}
 		//type();
-		//table();
+		table();
 
 		//column();
 		//index();
@@ -122,7 +122,7 @@ public class ValidateApplication {
 		}
 		log.info("创建表");
 		table = new Table();
-		table.setName("A_TEST");
+		table.setName("a_test");
 		table.setComment("表备注");
 		table.addColumn("ID", "int").setPrimaryKey(true).setAutoIncrement(true).setComment("主键说明");
 
@@ -187,12 +187,21 @@ public class ValidateApplication {
 		Column pcol = table.addColumn("PKID", "int");
 		PrimaryKey pk = new PrimaryKey();
 		pk.addColumn(pcol);
-		//修改主键
+		//修改主键(新列)
 		table.setPrimaryKey(pk);
 		service.ddl().save(table);
+
+		pk = new PrimaryKey();
+		pk.addColumn("ID");
+		//修改主键(现有列)
+		table.setPrimaryKey(pk);
+		service.ddl().save(table);
+
+
+
 		//修改表名
 		table.update().setName("test_pk_"+ DateUtil.format("yyyyMMddHHmmss"));
-		//service.ddl().save(table);
+		service.ddl().save(table);
 
 		System.out.println("\n-------------------------------- end table  ----------------------------------------------\n");
 	}
