@@ -1,8 +1,7 @@
 import org.anyline.baidu.map.util.BaiduMapClient;
 import org.anyline.baidu.map.util.BaiduMapConfig;
-import org.anyline.entity.Coordinate;
+import org.anyline.entity.geometry.Coordinate;
 import org.anyline.util.BeanUtil;
-import org.anyline.util.GISUtil;
 
 
 public class BaiduMapApplication {

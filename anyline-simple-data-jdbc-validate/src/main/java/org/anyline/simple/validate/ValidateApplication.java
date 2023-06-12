@@ -1,10 +1,7 @@
 package org.anyline.simple.validate;
 
 
-import org.anyline.data.entity.Column;
-import org.anyline.data.entity.Index;
-import org.anyline.data.entity.PrimaryKey;
-import org.anyline.data.entity.Table;
+import org.anyline.data.entity.*;
 import org.anyline.data.jdbc.ds.DataSourceHolder;
 import org.anyline.entity.DataRow;
 import org.anyline.service.AnylineService;
@@ -88,7 +85,9 @@ public class ValidateApplication {
 		//column();
 		//index();
 		//exception();
-		//clear();
+		foreign();
+		view();
+		trigger();
  		System.out.println("\n=============================== END " + title + "=========================================\n");
 	}
 	public static void type() throws Exception{
@@ -300,7 +299,7 @@ public class ValidateApplication {
 		column.setTypeName("varchar(50)");
 		//添加 新列
 		service.ddl().save(column);
-service.clearColumnCache();
+		service.clearColumnCache();
 		//表中有数据的情况下
 		DataRow row = new DataRow();
 		//自增列有可能引起异常
@@ -373,14 +372,95 @@ service.clearColumnCache();
 		System.out.println("\n-------------------------------- end index  ----------------------------------------------\n");
 	}
 
-	public static void clear(){
-		System.out.println("\n=============================== START clear =========================================\n");
-		try {
-			service.ddl().drop(new Table("a_test"));
-			service.ddl().drop(new Table("b_test"));
-			service.ddl().drop(new Table("c_test"));
-			service.ddl().drop(new Table("i_test"));
-		}catch (Exception e){}
-		System.out.println("\n=============================== START clear =========================================\n");
+	public static void trigger() throws Exception{
+		Table tb = service.metadata().table("TAB_USER", false);
+		if(null != tb){
+			service.ddl().drop(tb);
+		}
+		tb = new Table("TAB_USER");
+		tb.addColumn("ID","INT").setAutoIncrement(true).setPrimaryKey(true);
+		tb.addColumn("CODE", "varchar(10)");
+		service.ddl().create(tb);
+
+		Trigger trigger = new Trigger();
+		trigger.setName("TR_USER");
+		trigger.setTime(org.anyline.entity.data.Trigger.TIME.AFTER);
+		trigger.addEvent(org.anyline.entity.data.Trigger.EVENT.INSERT);
+		trigger.setTable("TAB_USER");
+		trigger.setDefinition("UPDATE aa SET code = 1 WHERE id = NEW.id;");
+		service.ddl().create(trigger);
+
+		trigger = service.metadata().trigger("TR_USER");
+		if(null != trigger){
+			System.out.println("TRIGGER TABLE:"+trigger.getTableName());
+			System.out.println("TRIGGER NAME:"+trigger.getName());
+			System.out.println("TRIGGER TIME:"+trigger.getTime());
+			System.out.println("TRIGGER EVENT:"+trigger.getEvents());
+			System.out.println("TRIGGER define:"+trigger.getDefinition());
+			service.ddl().drop(trigger);
+		}
+	}
+	public static void check() throws Exception{
+		for(int i=0; i<100;i++){
+			type();
+		}
+	}
+	//外键
+	public static void foreign() throws Exception{
+
+		Table tb = service.metadata().table("TAB_B");
+		if(null != tb){
+			service.ddl().drop(tb);
+		}
+		Table ta = service.metadata().table("TAB_A");
+		if(null != ta){
+			service.ddl().drop(ta);
+		}
+		//创建组合主键
+		ta = new Table("TAB_A");
+		ta.addColumn("ID", "int").setNullable(false).setPrimaryKey(true);
+		ta.addColumn("CODE", "varchar(10)").setNullable(false).setPrimaryKey(true);
+		ta.addColumn("NAME", "varchar(10)");
+		service.ddl().create(ta);
+
+
+		tb = new Table("TAB_B");
+		tb.addColumn("ID", "int").setPrimaryKey(true).setAutoIncrement(true);
+		tb.addColumn("AID", "int");
+		tb.addColumn("ACODE", "varchar(10)");
+		service.ddl().create(tb);
+		//创建组合外键
+		ForeignKey foreign = new ForeignKey("fkb_id_code");
+		foreign.setTable("TAB_B");
+		foreign.setReference("TAB_A");
+		foreign.addColumn("AID","ID");
+		foreign.addColumn("ACODE","CODE");
+		service.ddl().add(foreign);
+
+		//查询组合外键
+		LinkedHashMap<String, ForeignKey> foreigns = service.metadata().foreigns("TAB_B");
+		for(ForeignKey item:foreigns.values()){
+			System.out.println("外键:"+item.getName());
+			System.out.println("表:"+item.getTableName());
+			System.out.println("依赖表:"+item.getReference().getName());
+			LinkedHashMap<String,Column> columns = item.getColumns();
+			for(Column column:columns.values()){
+				System.out.println("列:"+column.getName()+"("+column.getReference()+")");
+			}
+		}
+		//根据列查询外键
+		foreign = service.metadata().foreign("TAB_B", "AID","ACODE");
+		if(null != foreign) {
+			System.out.println("外键:" + foreign.getName());
+			System.out.println("表:" + foreign.getTableName());
+			System.out.println("依赖表:" + foreign.getReference().getName());
+			LinkedHashMap<String, Column> columns = foreign.getColumns();
+			for (Column column : columns.values()) {
+				System.out.println("列:" + column.getName() + "(" + column.getReference() + ")");
+			}
+		}
+	}
+	public static void view(){
+		View view = new View("v");
 	}
 }
