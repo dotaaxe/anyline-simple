@@ -1,9 +1,9 @@
 package org.anyline.simple.validate;
 
 
-import org.anyline.data.entity.*;
 import org.anyline.data.jdbc.ds.DataSourceHolder;
 import org.anyline.entity.DataRow;
+import org.anyline.entity.data.*;
 import org.anyline.service.AnylineService;
 import org.anyline.util.*;
 import org.slf4j.Logger;

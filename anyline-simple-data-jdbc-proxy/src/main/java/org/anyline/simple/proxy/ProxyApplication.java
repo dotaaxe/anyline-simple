@@ -1,7 +1,7 @@
 package org.anyline.simple.proxy;
 
 
-import org.anyline.data.entity.Table;
+import org.anyline.entity.data.Table;
 import org.anyline.data.jdbc.ds.DataSourceHolder;
 
 import org.anyline.data.param.ConfigStore;

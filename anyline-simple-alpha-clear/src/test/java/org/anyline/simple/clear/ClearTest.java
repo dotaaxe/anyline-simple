@@ -1,9 +1,9 @@
 package org.anyline.simple.clear;
 
-import org.anyline.data.entity.Column;
-import org.anyline.data.entity.Table;
 import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
+import org.anyline.entity.data.Column;
+import org.anyline.entity.data.Table;
 import org.anyline.service.AnylineService;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.logging.Logger;

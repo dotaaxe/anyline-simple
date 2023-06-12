@@ -2,8 +2,8 @@ package org.anyline.simple;
 
 
 import com.alibaba.druid.pool.DruidDataSource;
-import org.anyline.data.entity.Column;
-import org.anyline.data.entity.Table;
+import org.anyline.entity.data.Column;
+import org.anyline.entity.data.Table;
 import org.anyline.data.jdbc.ds.DataSourceHolder;
 import org.anyline.entity.DataRow;
 import org.anyline.proxy.ServiceProxy;

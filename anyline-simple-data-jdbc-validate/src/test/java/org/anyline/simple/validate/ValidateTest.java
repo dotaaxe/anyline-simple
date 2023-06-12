@@ -1,7 +1,7 @@
 package org.anyline.simple.validate;
 
 import org.anyline.data.adapter.JDBCAdapter;
-import org.anyline.data.entity.*;
+import org.anyline.entity.data.*;
 import org.anyline.data.jdbc.ds.DataSourceHolder;
 import org.anyline.data.param.ConfigStore;
 import org.anyline.data.param.init.DefaultConfigStore;
@@ -278,7 +278,7 @@ public class ValidateTest {
 
     }
     private void createTable() throws Exception{
-        Table table = new org.anyline.data.entity.Table("HR_EMPLOYEE").setComment("职员基础信息");
+        Table table = new org.anyline.entity.data.Table("HR_EMPLOYEE").setComment("职员基础信息");
         //注意以下数据类型
         table.addColumn("ID"            , "BIGINT"       ).setComment("主键").setAutoIncrement(true).setPrimaryKey(true);
         table.addColumn("NAME"          , "varchar(50)"  ).setComment("姓名")     ; // String          : nm

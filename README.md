@@ -58,7 +58,7 @@ anyline-simple-data-condition
 如果还是缺少依赖的话 请联系QQ群(86020680)的管理员
 或者直接pull源码 https://gitee.com/anyline/anyline
 也是先install anyline-dependency
-再install anyline
+ 
 
 
 先创建数据库

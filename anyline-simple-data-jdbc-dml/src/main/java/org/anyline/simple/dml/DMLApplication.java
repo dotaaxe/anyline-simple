@@ -1,13 +1,14 @@
 package org.anyline.simple.dml;
 
 
-import org.anyline.data.entity.Table;
 import org.anyline.data.jdbc.ds.DataSourceHolder;
 import org.anyline.data.param.ConfigStore;
 import org.anyline.data.param.init.DefaultConfigStore;
 import org.anyline.entity.Compare;
 import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
+import org.anyline.entity.data.Column;
+import org.anyline.entity.data.Table;
 import org.anyline.proxy.ServiceProxy;
 import org.anyline.service.AnylineService;
 import org.anyline.util.ConfigTable;
@@ -18,12 +19,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Import;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {"org.anyline"})
@@ -187,9 +184,9 @@ public class DMLApplication {
 
 		configs.and("ID","9,0".split(","));
 		configs.and("NM","a,b".split(","));
-		org.anyline.data.entity.Column ctype = service.metadata().column("HR_EMPLOYEE","TYPES");
+		Column ctype = service.metadata().column("HR_EMPLOYEE","TYPES");
 		if(null == ctype){
-			ctype = new org.anyline.data.entity.Column("HR_EMPLOYEE","TYPES").setType("varchar(100)");
+			ctype = new Column("HR_EMPLOYEE","TYPES").setType("varchar(100)");
 			service.ddl().add(ctype);
 		}
 		configs.and(Compare.FIND_IN_SET, "TYPES", "9");

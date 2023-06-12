@@ -6,16 +6,12 @@
         <artifactId>anyline-simple-start-mvc-mysql</artifactId>
         <groupId>org.anyline</groupId>
         <version>8.6.3-SNAPSHOT</version>
-        <relativePath></relativePath>
+        <relativePath>../anyline-simple-start-mvc-mysql/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>anyline-simple-doc</artifactId>
 
-    <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-    </properties>
     <dependencies>
         <dependency>
             <groupId>org.anyline</groupId>

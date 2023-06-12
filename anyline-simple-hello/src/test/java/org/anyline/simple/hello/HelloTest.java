@@ -1,7 +1,7 @@
 package org.anyline.simple.hello;
 
-import org.anyline.data.entity.Column;
-import org.anyline.data.entity.Table;
+import org.anyline.entity.data.Column;
+import org.anyline.entity.data.Table;
 import org.anyline.data.param.ConfigStore;
 import org.anyline.data.param.init.DefaultConfigStore;
 import org.anyline.entity.Compare;

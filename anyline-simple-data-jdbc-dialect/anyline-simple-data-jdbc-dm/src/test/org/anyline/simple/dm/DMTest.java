@@ -5,7 +5,7 @@ import org.anyline.entity.DataSet;
 import org.anyline.entity.PageNavi;
 import org.anyline.entity.DefaultPageNavi;
 import org.anyline.data.adapter.JDBCAdapter;
-import org.anyline.data.entity.Table;
+import org.anyline.entity.data.Table;
 import org.anyline.data.param.ConfigStore;
 import org.anyline.data.param.init.DefaultConfigStore;
 import org.anyline.data.jdbc.prepare.RunPrepare;

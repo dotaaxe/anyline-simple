@@ -1,9 +1,9 @@
 package org.anyline.simple.doc;
 
-import org.anyline.data.entity.Column;
-import org.anyline.data.entity.Database;
-import org.anyline.data.entity.Index;
-import org.anyline.data.entity.Table;
+import org.anyline.entity.data.Column;
+import org.anyline.entity.data.Database;
+import org.anyline.entity.data.Index;
+import org.anyline.entity.data.Table;
 import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
 import org.anyline.office.docx.entity.WDocument;

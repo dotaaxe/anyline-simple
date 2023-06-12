@@ -1,9 +1,9 @@
 package org.anyline.simple.metadata;
 
-import org.anyline.data.entity.Column;
-import org.anyline.data.entity.Index;
-import org.anyline.data.entity.Table;
-import org.anyline.data.entity.View;
+import org.anyline.entity.data.Column;
+import org.anyline.entity.data.Index;
+import org.anyline.entity.data.Table;
+import org.anyline.entity.data.View;
 import org.anyline.data.jdbc.ds.DataSourceHolder;
 import org.anyline.entity.DataRow;
 import org.anyline.service.AnylineService;

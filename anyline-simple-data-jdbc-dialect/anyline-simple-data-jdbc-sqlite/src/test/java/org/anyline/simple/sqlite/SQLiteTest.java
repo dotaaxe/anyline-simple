@@ -2,7 +2,7 @@ package org.anyline.simple.sqlite;
 
 import org.anyline.data.adapter.JDBCAdapter;
 import org.anyline.entity.*;
-import org.anyline.data.entity.Table;
+import org.anyline.entity.data.Table;
 import org.anyline.data.param.ConfigStore;
 import org.anyline.data.param.init.DefaultConfigStore;
 import org.anyline.service.AnylineService;

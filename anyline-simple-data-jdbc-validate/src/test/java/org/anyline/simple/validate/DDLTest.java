@@ -1,6 +1,6 @@
 package org.anyline.simple.validate;
-import org.anyline.data.entity.Column;
-import org.anyline.data.entity.Table;
+import org.anyline.entity.data.Column;
+import org.anyline.entity.data.Table;
 import org.anyline.data.jdbc.ds.DataSourceHolder;
 import org.anyline.service.AnylineService;
 import org.springframework.beans.factory.annotation.Autowired;

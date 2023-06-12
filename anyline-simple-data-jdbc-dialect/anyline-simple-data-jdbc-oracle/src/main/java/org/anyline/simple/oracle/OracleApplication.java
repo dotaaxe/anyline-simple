@@ -3,7 +3,7 @@ package org.anyline.simple.oracle;
 
 import com.zaxxer.hikari.pool.HikariProxyPreparedStatement;
 import oracle.jdbc.OraclePreparedStatement;
-import org.anyline.data.entity.Table;
+import org.anyline.entity.data.Table;
 import org.anyline.service.AnylineService;
 import org.anyline.util.SpringContextUtil;
 import org.springframework.boot.SpringApplication;

@@ -1,7 +1,7 @@
 package org.anyline.simple.gbase;
 
-import org.anyline.data.entity.Column;
-import org.anyline.data.entity.Table;
+import org.anyline.entity.data.Column;
+import org.anyline.entity.data.Table;
 import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
 import org.anyline.service.AnylineService;

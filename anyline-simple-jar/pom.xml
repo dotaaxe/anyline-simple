@@ -6,6 +6,7 @@
         <artifactId>anyline-simple-start</artifactId>
         <groupId>org.anyline</groupId>
         <version>8.6.3-SNAPSHOT</version>
+        <relativePath>../anyline-simple-start/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -14,17 +15,8 @@
         <dependency>
             <groupId>org.anyline</groupId>
             <artifactId>anyline-core</artifactId>
-            <version>8.6.3-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>org.anyline</groupId>
-            <artifactId>anyline-core</artifactId>
         </dependency>
     </dependencies>
 
-    <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-    </properties>
 
 </project>

@@ -2,7 +2,7 @@ package org.anyline.simple.oracle;
 
 import org.anyline.entity.*;
 import org.anyline.data.adapter.JDBCAdapter;
-import org.anyline.data.entity.Table;
+import org.anyline.entity.data.Table;
 import org.anyline.data.jdbc.oracle.OracleAdapter;
 import org.anyline.data.param.ConfigStore;
 import org.anyline.data.param.init.DefaultConfigStore;

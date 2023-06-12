@@ -3,8 +3,8 @@ package org.anyline.simple.help;
 
 import org.anyline.entity.DataRow;
 import org.anyline.data.jdbc.ds.DataSourceHolder;
-import org.anyline.data.entity.Column;
-import org.anyline.data.entity.Table;
+import org.anyline.entity.data.Column;
+import org.anyline.entity.data.Table;
 import org.anyline.service.AnylineService;
 import org.anyline.util.BasicUtil;
 import org.anyline.util.ClassUtil;
