@@ -1,15 +1,14 @@
-package org.anyline.simple.oracle;
+package org.anyline.data.jdbc.informix;
 
 import org.anyline.data.adapter.JDBCAdapter;
-import org.anyline.data.jdbc.oracle.OracleAdapter;
 import org.anyline.data.param.ConfigStore;
 import org.anyline.data.param.init.DefaultConfigStore;
 import org.anyline.entity.*;
 import org.anyline.entity.data.Table;
+import org.anyline.entity.geometry.*;
 import org.anyline.service.AnylineService;
 import org.anyline.util.BasicUtil;
 import org.anyline.util.ConfigTable;
-import org.anyline.util.DateUtil;
 import org.anyline.util.LogUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -19,32 +18,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest
-public class OracleTest {
-    private Logger log = LoggerFactory.getLogger(OracleTest.class);
+public class InformixTest {
+    private Logger log = LoggerFactory.getLogger(InformixTest.class);
+
     @Autowired
     private AnylineService service          ;
     @Autowired
     private JdbcTemplate jdbc               ;
-    private String catalog  = null          ; // ORACLE不支持
-    private String schema   = null          ; // ORACLE中可以相当于数据库名
+    private String catalog  = null          ; //
+    private String schema   = null          ; //相当于数据库名  查数据库列表 是用SHOW SCHEMAS 但JDBC con.getCatalog()返回数据库名 而con.getSchema()返回null
     private String table    = "CRM_USER"    ; // 表名
 
-    @Test
-    public void version() throws SQLException {
-        String name = jdbc.getDataSource().getConnection().getMetaData().getDatabaseProductName();
-        String version = jdbc.getDataSource().getConnection().getMetaData().getDatabaseProductVersion();
-        System.out.println(name);
-        System.out.println(version);
-    }
 
     @Test
     public void ddl() throws Exception{
@@ -56,7 +47,7 @@ public class OracleTest {
             service.ddl().drop(table);
         }
         //也可以直接删除(需要数据库支持 IF EXISTS)
-        //service.ddl().drop(new Table(catalog, schema, this.table));
+        service.ddl().drop(new Table(catalog, schema, this.table));
 
         //再查询一次
         table = service.metadata().table(catalog, schema, this.table);
@@ -72,7 +63,7 @@ public class OracleTest {
         table.addColumn("NAME", "VARCHAR(50)").setComment("名称");
         //默认当前时间 如果要适配多种数据库 用 SQL_BUILD_IN_VALUE.CURRENT_TIME
         table.addColumn("REG_TIME", "datetime").setComment("注册时间").setDefaultValue(JDBCAdapter.SQL_BUILD_IN_VALUE.CURRENT_TIME);
-        table.addColumn("DATA_VERSION", "DECIMAL(10,2)", false, 1.1).setComment("数据版本");
+        table.addColumn("DATA_VERSION", "double", false, 1.1).setComment("数据版本");
 
         //创建表
         service.ddl().create(table);
@@ -80,109 +71,48 @@ public class OracleTest {
         //再查询一次
         table = service.metadata().table(catalog, schema, this.table);
         Assertions.assertNotNull(table);
-
-        if(null != service.query("USER_SEQUENCES","SEQUENCE_NAME:SIMPLE_SEQ")) {
-            service.execute("DROP SEQUENCE SIMPLE_SEQ");
-        }
-        String sql = "CREATE SEQUENCE SIMPLE_SEQ MINVALUE 0 START WITH 0 NOMAXVALUE INCREMENT BY 1 NOCYCLE CACHE 100";
-
-        service.execute(sql);
-
     }
     @Test
     public void dml() throws Exception{
-        int qty = 0;
-        ConfigTable.IS_AUTO_CHECK_METADATA = true;
-        DataSet set = null;
-        DataRow row = null;
 
-        //序列查询
+        DataSet set = new DataSet();
+        for(int i=1; i<10; i++){
+            DataRow row = new DataRow();
+            //只插入NAME  ID自动生成 REG_TIME 默认当时时间
+            row.put("NAME", "N"+i);
+            set.add(row);
+        }
+        int qty = service.insert(table, set);
+        log.warn(LogUtil.format("[批量插入][影响行数:{}][生成主键:{}]", 36), qty, set.getStrings("ID"));
+        Assertions.assertEquals(qty , 9);
 
-        BigDecimal next = service.sequence("SIMPLE_SEQ");
-        DataRow nexts = service.sequences("SIMPLE_SEQ", "SIMPLE_SEQ2");
-        BigDecimal cur = service.sequence(false,"SIMPLE_SEQ");
-        DataRow curs = service.sequences(false, "SIMPLE_SEQ", "SIMPLE_SEQ2");
-
-        row = new DataRow();
-        row.put("ID", "${SIMPLE_SEQ.NEXTVAL}");
+        DataRow row = new DataRow();
         row.put("NAME", "N");
         //当前时间，如果要适配多种数据库环境尽量用SQL_BUILD_IN_VALUE,如果数据库明确可以写以根据不同数据库写成: row.put("REG_TIME","${now()}"); sysdate,getdate()等等
         row.put("REG_TIME", JDBCAdapter.SQL_BUILD_IN_VALUE.CURRENT_TIME);
         qty = service.insert(table, row);
-        set = service.querys(table);
-        row = new DataRow();
-        row.put("ID", "${SIMPLE_SEQ.NEXTVAL}");
-        row.put("NAME", "N");
-        row.put("REG_TIME", new java.sql.Timestamp(System.currentTimeMillis()));
-        qty = service.insert(table, row);
-
-        row = new DataRow();
-        row.put("ID", "${SIMPLE_SEQ.NEXTVAL}");
-        row.put("NAME", "N");
-        row.put("REG_TIME", new java.sql.Date(System.currentTimeMillis()));
-        qty = service.insert(table, row);
-
-        ConfigTable.IS_AUTO_CHECK_METADATA = false;
-        row = new DataRow();
-        row.put("ID", "${SIMPLE_SEQ.NEXTVAL}");
-        row.put("NAME", "N");
-        row.put("REG_TIME", new java.util.Date());
-        qty = service.insert(table, row);
-        DataSet tmps = service.querys(table);
-        tmps.put("ID", "${SIMPLE_SEQ.NEXTVAL}");
-        service.insert(table, tmps);
-
-        //日期类型 插入String 值  如果不开启IS_AUTO_CHECK_METADATA会抛出异常
-        row = new DataRow();
-        row.put("ID", "${SIMPLE_SEQ.NEXTVAL}");
-        row.put("NAME", "N");
-        row.put("REG_TIME", DateUtil.format("yyyy-MM-dd HH:mm:ss"));
-        qty = service.insert(table, row);
-
         log.warn(LogUtil.format("[单行插入][影响行数:{}][生成主键:{}]", 36), qty, row.getId());
         Assertions.assertEquals(qty , 1);
-
-        set = new DataSet();
-        for(int i=1; i<10; i++){
-            row = new DataRow();
-            row.put("ID", "${SIMPLE_SEQ.NEXTVAL}");
-            row.put("NAME", "N"+i);
-            set.add(row);
-        }
-        qty = service.insert(table, set);
-        //默认情况下多行插入不返回序列号
-        log.warn(LogUtil.format("[批量插入][影响行数:{}][默认情况下多行插入不返回序列号]", 36), qty);
-        Assertions.assertEquals(qty , set.size());
-
-        //如果需要返回序列号,在插入数据前会从数据库中提取序列值
-        OracleAdapter.IS_GET_SEQUENCE_VALUE_BEFORE_INSERT = true;
-        qty = service.insert(table, set);
-        log.warn(LogUtil.format("[批量插入][影响行数:{}][生成主键:{}]", 36), qty, set.getStrings("ID"));
-        Assertions.assertEquals(qty , set.size());
-
-
-
-        set = service.querys("CRM_USER(ID,NAME)");
-        log.warn(LogUtil.format("[批量插入][result:{}]", 36), set.toJSON());
-        Assertions.assertEquals(set.size() , 19);
-
+        Assertions.assertNotNull(row.getId());
 
 
         //查询全部数据
         set = service.querys(table);
         log.warn(LogUtil.format("[query result][查询数量:{}]", 36), set.size());
         log.warn("[多行查询数据]:{}",set.toJSON());
-        Assertions.assertEquals(set.size() , 19);
+        Assertions.assertEquals(set.size() , 10);
 
         //只查一行
-        row = service.query(table, "ORDER BY ID");
+        row = service.query(table);
         log.warn("[单行查询数据]:{}",row.toJSON());
         Assertions.assertNotNull(row);
+        Assertions.assertEquals(row.getId(), "1");
 
         //查最后一行
         row = service.query(table, "ORDER BY ID DESC");
         log.warn("[单行查询数据]:{}",row.toJSON());
         Assertions.assertNotNull(row);
+        Assertions.assertEquals(row.getInt("ID",10), 10);
 
         //更新
         //put覆盖了Map.put返回Object
@@ -214,8 +144,8 @@ public class OracleTest {
         set = service.querys(table, page);
         log.warn(LogUtil.format("[分页查询][共{}行 第{}/{}页]", 36), page.getTotalRow(), page.getCurPage(), page.getTotalPage());
         log.warn(set.toJSON());
-        Assertions.assertEquals(page.getTotalPage() , 7);
-        Assertions.assertEquals(page.getTotalRow() , 19);
+        Assertions.assertEquals(page.getTotalPage() , 4);
+        Assertions.assertEquals(page.getTotalRow() , 10);
 
         //模糊查询
         set = service.querys("CRM_USER", "NAME:%N%");
@@ -256,11 +186,12 @@ public class OracleTest {
 
         set = service.querys("CRM_USER", condition);
         log.warn(LogUtil.format("[后台构建查询条件][result:{}]", 36), set.toJSON());
-        //Assertions.assertEquals(set.size() , 2);
+        Assertions.assertEquals(set.size() , 2);
 
         qty = service.count(table);
         log.warn(LogUtil.format("[总数统计][count:{}]", 36), qty);
-        Assertions.assertEquals(qty , 19);
+        Assertions.assertEquals(qty , 10);
+
 
         //根据默认主键ID更新
         row.put("CODE",1001);
@@ -297,17 +228,65 @@ public class OracleTest {
         log.warn("[根据ID删除][删除数量:{}]", qty);
         Assertions.assertEquals(qty, 1);
 
-        set = service.querys(table, "ID:1");
-        qty = service.delete(table, "ID","1");
+        set = service.querys(table, "ID:2");
+        qty = service.delete(table, "ID","2");
         log.warn("[根据条件删除][删除数量:{}]", qty);
         Assertions.assertEquals(qty, set.size());
+
 
         set = service.querys(table, "ID IN(2,3)");
         qty = service.deletes(table, "ID","2","3");
         log.warn("[根据条件删除][删除数量:{}]", qty);
         Assertions.assertEquals(qty, set.size());
-    }
 
+    }
+    @Test
+    public void geometry() throws Exception{
+        ConfigTable.IS_PRINT_EXCEPTION_STACK_TRACE = true;
+        Table table = service.metadata().table("bs_geometry");
+        if(null != table){
+            service.ddl().drop(table);
+        }
+        table = new Table("bs_geometry");
+        table.addColumn("ID", "BIGINT").setAutoIncrement(true).setPrimaryKey(true);
+        table.addColumn("C_POINT", "POINT");
+        table.addColumn("C_LINESTRING", "LINESTRING");
+        table.addColumn("C_Polygon", "Polygon");
+        table.addColumn("C_MultiPoint", "MultiPoint");
+        table.addColumn("C_MultiLine", "MultiLine");
+        table.addColumn("C_MultiPolygon", "MultiPolygon");
+        table.addColumn("C_GeometryCollection", "GeometryCollection");
+        service.ddl().create(table);
+        DataRow row = new DataRow();
+        //点
+        row.put("C_POINT", new Point(120.1,36.2));
+
+        //线
+        LineString line = new LineString();
+        line.add(new Point(1,1)).add(new Point(2,2)).add(new Point(3,3));
+        row.put("C_LINESTRING", line);
+
+        //面
+        Polygon polygon = new Polygon();
+        Ring out = new Ring();
+        out.add(new Point(1,1)).add(new Point(2,2)).add(new Point(3, 6)).add(new Point(1,1));
+        polygon.add(out);
+        row.put("C_Polygon", polygon);
+
+        //多点
+        MultiPoint points = new MultiPoint();
+        points.add(new Point(1, 2)).add(new Point(3,6));
+        row.put("C_MultiPoint", points);
+
+        //多线
+
+        //多面
+
+        //集合
+        service.save("bs_geometry", row);
+        row = service.query("bs_geometry");
+
+    }
     @Test
     public void help() throws Exception{
         Connection con = jdbc.getDataSource().getConnection();

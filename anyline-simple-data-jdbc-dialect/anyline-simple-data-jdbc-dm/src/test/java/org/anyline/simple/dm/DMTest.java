@@ -1,14 +1,10 @@
 package org.anyline.simple.dm;
 
-import org.anyline.entity.DataRow;
-import org.anyline.entity.DataSet;
-import org.anyline.entity.PageNavi;
-import org.anyline.entity.DefaultPageNavi;
 import org.anyline.data.adapter.JDBCAdapter;
-import org.anyline.entity.data.Table;
 import org.anyline.data.param.ConfigStore;
 import org.anyline.data.param.init.DefaultConfigStore;
-import org.anyline.data.jdbc.prepare.RunPrepare;
+import org.anyline.entity.*;
+import org.anyline.entity.data.Table;
 import org.anyline.service.AnylineService;
 import org.anyline.util.BasicUtil;
 import org.anyline.util.ConfigTable;
@@ -40,6 +36,19 @@ public class DMTest {
 
 
     @Test
+    public void test(){
+        for(int i=11; i<100; i++) {
+            Table table_new = service.metadata().table(table);
+            table_new.addColumn("test_char"+i, "varchar(10)");
+            try {
+                table_new.setSchema(schema);
+                service.ddl().save(table_new);
+            } catch (Exception e) {
+                log.error("errorInfo={}", e.getMessage());
+            }
+        }
+    }
+    @Test
     public void ddl() throws Exception{
         ConfigTable.IS_THROW_SQL_UPDATE_EXCEPTION = true; //遇到SQL异常直接抛出
         //检测表结构
@@ -57,7 +66,6 @@ public class DMTest {
 
         //定义表结构
         table = new Table(catalog, schema, this.table);
-
         //添加列
         //自增长列 如果要适配多种数据库 setAutoIncrement 有必须的话可以设置起始值与增量 setAutoIncrement(int seed, int step)
         table.addColumn("ID", "INT", false, null).setComment("主键").setAutoIncrement(true).setPrimaryKey(true);
@@ -205,7 +213,7 @@ public class DMTest {
         qty = service.update(row);
         log.warn(LogUtil.format("[根据临时主键更新][count:{}]", 36), qty);
 
-        //显示指定更新列的情况下才会更新主键与默认主键
+        //显示指定更新列的情况下才会更新主键与默认主键,自增列会抛出异常：试图修改自增列[ID]
         qty = service.update(row,"NAME","CODE","ID");
         log.warn(LogUtil.format("[更新指定列][count:{}]", 36), qty);
 

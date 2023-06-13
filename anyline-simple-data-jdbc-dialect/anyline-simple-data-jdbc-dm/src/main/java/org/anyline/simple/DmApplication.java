@@ -1,18 +1,13 @@
 package org.anyline.simple;
 
 import org.anyline.entity.DataSet;
-import org.anyline.data.jdbc.ds.DataSourceHolder;
 import org.anyline.service.AnylineService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"org.anyline"})
 public class DmApplication {
-
-
 
 	public static void main(String[] args) {
 		SpringApplication application = new SpringApplication(DmApplication.class);
