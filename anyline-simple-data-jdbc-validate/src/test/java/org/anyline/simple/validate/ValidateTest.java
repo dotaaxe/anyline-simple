@@ -127,6 +127,13 @@ public class ValidateTest {
         for(Column column:columns.values()){
             System.out.println("列:"+column.getName()+"("+column.getReference()+")");
         }
+
+        //删除复合主外键
+        foreign = new ForeignKey();
+        foreign.setTable("TAB_B");
+        foreign.addColumn("AID", null);
+        foreign.addColumn("ACODE", null);
+        service.ddl().drop(foreign);
     }
     public void geometry(){
         try {
@@ -204,11 +211,11 @@ public class ValidateTest {
         System.out.println(set);
     }
 
-    public void ddl() throws Exception{
+    public void ddl() throws Exception {
         //pg,ms,oracle,db2,ms2000,cms,dm8
         Table table = service.metadata().table("HR_EMPLOYEE");
-        if(null != table){
-            log.warn("删除表:"+table.getName());
+        if (null != table) {
+            log.warn("删除表:" + table.getName());
             service.ddl().drop(table);
         }
         table = service.metadata().table("HR_EMPLOYEE");
@@ -221,7 +228,7 @@ public class ValidateTest {
         createTable();
 
         table = service.metadata().table("HR_EMPLOYEE");
-        if(null == table){
+        if (null == table) {
             table = service.metadata().table("hr_employee");
         }
         Assertions.assertNotNull(table);
@@ -261,6 +268,8 @@ public class ValidateTest {
         Column col = new Column("ALIAS");
         col.setTableName("HR_EMPLOYEE");
         col.setComment("新别名");
+        col.setType("varchar(255)");
+
         service.ddl().save(col);
 
         table = service.metadata().table("HR_EMPLOYEE");
@@ -275,8 +284,8 @@ public class ValidateTest {
 
         Assertions.assertEquals(table.getColumn("ALIAS").getPrecision(), 20);
 
-
     }
+
     private void createTable() throws Exception{
         Table table = new org.anyline.entity.data.Table("HR_EMPLOYEE").setComment("职员基础信息");
         //注意以下数据类型
