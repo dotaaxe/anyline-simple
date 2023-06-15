@@ -80,14 +80,14 @@ public class ValidateApplication {
 			DataSourceHolder.setDataSource(ds);
 		}
 		//type();
-		table();
+		//table();
 
-		//column();
+		column();
 		//index();
 		//exception();
-		foreign();
-		view();
-		trigger();
+		//foreign();
+		//view();
+		//trigger();
  		System.out.println("\n=============================== END " + title + "=========================================\n");
 	}
 	public static void type() throws Exception{
@@ -137,7 +137,7 @@ public class ValidateApplication {
 		service.ddl().save(table);
 
 
-		table = service.metadata().table("A_TEST");
+		table = service.metadata().table("a_test");
 		if(null != table) {
 			log.info("查询表结构:" + table.getName());
 			LinkedHashMap<String, Column> columns = table.getColumns();
@@ -207,19 +207,21 @@ public class ValidateApplication {
 	public static void column() throws Exception{
 		System.out.println("\n-------------------------------- start column  -------------------------------------------\n");
 
-		Table table = service.metadata().table("A_TEST");
-		if(null == table) {
-			table = new Table();
-			table.setName("A_TEST");
-			table.setComment("表备注");
-			table.addColumn("ID", "int").setPrimaryKey(true).setAutoIncrement(true).setComment("主键说明");
-
-			table.addColumn("NAME","varchar(50)").setComment("名称");
-			table.addColumn("A_CHAR","varchar(50)");
-			table.addColumn("DEL_COL","varchar(50)");
-			service.ddl().save(table);
-
+		Table table = service.metadata().table("a_test");
+		if(null != table){
+			service.ddl().drop(table);
 		}
+		table = new Table();
+		table.setName("a_test");
+		table.setComment("表备注");
+		table.addColumn("ID", "int").setPrimaryKey(true).setAutoIncrement(true).setComment("主键说明");
+
+		table.addColumn("NAME","varchar(50)").setComment("名称");
+		table.addColumn("A_CHAR","varchar(50)");
+		table.addColumn("DEL_COL","varchar(50)");
+		service.ddl().save(table);
+
+
 		//添加列
 		String tmp = "NEW_"+BasicUtil.getRandomNumberString(3);
 		table.addColumn(tmp, "int");
@@ -230,7 +232,7 @@ public class ValidateApplication {
 		service.ddl().save(table);
 
 		Column column = new Column();
-		column.setTable("A_TEST");
+		column.setTable("a_test");
 		column.setName("A_CHAR");
 		column.setTypeName("int");	//没有数据的情况下修改数据类型
 		column.setPrecision(0);
@@ -267,16 +269,14 @@ public class ValidateApplication {
 		column = new Column();
 		column.setName("c_test").setNewName("d_test");
 		column.setTypeName("varchar(1)");
-		column.setTableName("A_TEST");
+		column.setTableName("a_test");
 		service.ddl().save(column);
-/*
-		column = new Column("id");
-		column.setTable("t");
-		column.setCatalog("c");
-		column.setSchema("s");
+
+		column = new Column("CODE");
+		column.setTable("a_test");
 
 		log.info("删除列");
-		service.ddl().drop(column);*/
+		service.ddl().drop(column);
 
 		Table tab = new Table("c_test");
 		tab.addColumn("ID", "int");
@@ -294,7 +294,7 @@ public class ValidateApplication {
 		// n:行数<n时执行修正  >n时触发另一个监听(默认返回false)
 
 		Column column = new Column();
-		column.setTable("A_TEST");
+		column.setTable("a_test");
 		column.setName("A_CHAR");
 		column.setTypeName("varchar(50)");
 		//添加 新列
@@ -307,20 +307,20 @@ public class ValidateApplication {
 			row.put("ID", BasicUtil.getRandomNumber(0, 100000));
 			row.put("A_CHAR", "123A");
 			row.setIsNew(true);
-			service.save("A_TEST", row);
+			service.save("a_test", row);
 		}catch (Exception e){
 			log.error(e.getMessage());
 		}
 		try {
 			row = new DataRow();
 			row.put("A_CHAR", "123A");
-			service.save("A_TEST", row);
+			service.save("a_test", row);
 		}catch (Exception e){
 			log.error(e.getMessage());
 		}
 		log.info("表中有数据的情况下修改列数据类型");
 		column = new Column();
-		column.setTable("A_TEST");
+		column.setTable("a_test");
 		column.setName("A_CHAR");
 		//这一列原来是String类型 现在改成int类型
 		//如果值不能成功实现殷式转换(如123A转换成int)会触发一次默认的DDListener.afterAlterException
