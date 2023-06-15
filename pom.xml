@@ -93,9 +93,9 @@
         <!--针对Entity的操作-->
         <module>anyline-simple-data-jdbc-entity</module>
 
-        <!--ThingsBoard-->
+        <!--ThingsBoard
         <module>anyline-simple-thingsboard</module>
-
+-->
         <!--百度地图-->
         <module>anyline-simple-baidu/anyline-simple-baidu-map</module>
         <module>anyline-simple-baidu/anyline-simple-baidu-ocr</module>
