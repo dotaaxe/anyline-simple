@@ -1,18 +1,17 @@
 package org.anyline.simple.doc;
 
+import org.anyline.entity.DataRow;
+import org.anyline.entity.DataSet;
 import org.anyline.entity.data.Column;
 import org.anyline.entity.data.Database;
 import org.anyline.entity.data.Index;
 import org.anyline.entity.data.Table;
-import org.anyline.entity.DataRow;
-import org.anyline.entity.DataSet;
 import org.anyline.office.docx.entity.WDocument;
 import org.anyline.office.docx.entity.Wtable;
 import org.anyline.service.AnylineService;
 import org.anyline.util.BasicUtil;
 import org.anyline.util.BeanUtil;
 import org.anyline.util.FileUtil;
-import org.anyline.util.HtmlUtil;
 import org.dom4j.Element;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.logging.Logger;
@@ -131,7 +130,7 @@ public class DocTest {
                 LinkedHashMap<String, Index> indexs = service.metadata().indexs(table);
                 for (Index item : indexs.values()) {
                     builder.append("<div>");
-                    builder.append(item.getTable());
+                    builder.append(item.getTable(false));
                     builder.append(".").append(item.getName()).append("(");
                     LinkedHashMap<String, Column> columns = item.getColumns();
                     index = 0;
