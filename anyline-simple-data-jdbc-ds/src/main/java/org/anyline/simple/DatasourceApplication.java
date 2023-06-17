@@ -2,10 +2,11 @@ package org.anyline.simple;
 
 
 import com.alibaba.druid.pool.DruidDataSource;
+import org.anyline.data.jdbc.ds.DataSourceHolder;
+import org.anyline.data.jdbc.util.DataSourceUtil;
+import org.anyline.entity.DataRow;
 import org.anyline.entity.data.Column;
 import org.anyline.entity.data.Table;
-import org.anyline.data.jdbc.ds.DataSourceHolder;
-import org.anyline.entity.DataRow;
 import org.anyline.proxy.ServiceProxy;
 import org.anyline.service.AnylineService;
 import org.anyline.util.ConfigTable;
@@ -15,7 +16,12 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
+import javax.sql.DataSource;
 import java.time.LocalTime;
 import java.util.Hashtable;
 import java.util.LinkedHashMap;
@@ -47,7 +53,42 @@ public class DatasourceApplication extends SpringBootServletInitializer {
 		ConfigurableApplicationContext context = application.run(args);
 		AnylineService service = (AnylineService)context.getBean("anyline.service");
 		//切换数据源
-		ds(service);
+		//ds(service);
+		temporary();
+	}
+
+	/**
+	 * 临时数据源，用完后被GC自动回收，默认不支持事务
+	 */
+	public static  void temporary(){
+		String url = "jdbc:mysql://localhost:13306/simple?useUnicode=true&characterEncoding=UTF8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true";
+		DruidDataSource ds = new DruidDataSource();
+		ds.setUrl(url);
+		ds.setDriverClassName("com.mysql.cj.jdbc.Driver");
+		ds.setUsername("root");
+		ds.setPassword("root");
+		AnylineService service = ServiceProxy.temporary(ds);
+		LinkedHashMap<String, Table> tables = service.metadata().tables();
+		for(String key:tables.keySet()){
+			System.out.println(key);
+		}
+
+		DataSource ds1 = DataSourceUtil.build("com.zaxxer.hikari.HikariDataSource", "com.mysql.cj.jdbc.Driver", url, "root", "root");
+	    service = ServiceProxy.temporary(ds1);
+		tables = service.metadata().tables();
+		for(String key:tables.keySet()){
+			System.out.println(key);
+		}
+		//如果需要管理事务
+		DataSourceTransactionManager dstm = new DataSourceTransactionManager(ds1);
+		DefaultTransactionDefinition definition = new DefaultTransactionDefinition();
+		// 定义事务传播方式 以及 其他参数都在definition中设置
+		definition.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+		TransactionStatus status = dstm.getTransaction(definition);
+		//service.insert();
+		dstm.commit(status);
+
+
 	}
 	//切换数据源 以及动态注册数据源
 	public static void ds(AnylineService service){
