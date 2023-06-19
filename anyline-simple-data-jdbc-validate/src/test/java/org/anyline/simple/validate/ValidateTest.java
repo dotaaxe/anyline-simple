@@ -1,7 +1,6 @@
 package org.anyline.simple.validate;
 
 import org.anyline.data.adapter.JDBCAdapter;
-import org.anyline.entity.data.*;
 import org.anyline.data.jdbc.ds.DataSourceHolder;
 import org.anyline.data.param.ConfigStore;
 import org.anyline.data.param.init.DefaultConfigStore;
@@ -9,6 +8,7 @@ import org.anyline.entity.Compare;
 import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
 import org.anyline.entity.DefaultPageNavi;
+import org.anyline.entity.data.*;
 import org.anyline.entity.geometry.LineString;
 import org.anyline.entity.geometry.Point;
 import org.anyline.service.AnylineService;
@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -32,31 +33,26 @@ public class ValidateTest {
 
     @Test
     public void check() throws Exception {
-/*
-        check(null, "MySQL");
-        check("cms", "MySQL");
-        check("pg", "PostgreSQL");
-        check("ms", "SQL Server");
-        check("ms2000", "SQL Server 2000");
-        check("oracle", "Oracle 11G");
-        check("dm8", "达梦8");
-        check("db2", "DB2");
-        check("kingbase8", "人大金仓8(Oracle兼容)");
-        check("gbase", "南大通用");
-        check("opengauss", "高斯");
-        check("oscar", "神州通用");
-        check("informix", "Informix");
-		*/
+        ConfigTable.IS_PRINT_EXCEPTION_STACK_TRACE = true;
+
+        // check(null, "MySQL");
+         //check("cms", "MySQL");
+         //check("pg", "PostgreSQL");
+         //check("ms", "SQL Server");
+        // check("ms2000", "SQL Server 2000");
+         check("oracle", "Oracle 11G");
+         check("dm8", "达梦8");
+        // check("db2", "DB2");
+        // check("kingbase8", "人大金仓8(Oracle兼容)");
+        // check("gbase", "南大通用");
+        // check("opengauss", "高斯");
+        // check("oscar", "神州通用");
+        // check("informix", "Informix");
+
 		/*for(String datasource:DataSourceHolder.list()){
 			check(datasource,datasource);
 		}*/
-        //columnType();
-       //
-        //check("informix", "Informix");
-        check(null, "MySQL");
-        check("pg", "PostgreSQL");
-        check("cms", "MySQL");
-        check("ms", "SQL Server");
+
 
     }
     public void check(String ds, String type) throws Exception {
@@ -66,15 +62,81 @@ public class ValidateTest {
         }else {
             DataSourceHolder.setDataSource(ds);
         }
-        new DefaultConfigStore().setPageNavi(new DefaultPageNavi());
+
+      text();
+      /*
+      generatedKeyHolder();
+      primary();
         ddl();
         foreign();
         dml();
         meta();
-        geometry();
+        geometry();*/
         System.out.println("======================== finish validate " + type + " ================================");
     }
+    public void text() throws Exception{
 
+        Table tab = service.metadata().table("TAB_TXT");
+        if(null != tab){
+            service.ddl().drop(tab);
+        }
+        tab = new Table("TAB_TXT");
+        tab.addColumn("ID", "INT").setAutoIncrement(true).setPrimaryKey(true);
+        tab.addColumn("CODE", "INT");
+        tab.addColumn("REMARK", "TEXT");
+        tab.addColumn("CREATETIME", "datetime");
+        service.ddl().save(tab);
+        DataRow row = new DataRow();
+        if("oracle".equalsIgnoreCase(DataSourceHolder.curDataSource())) {
+            row.put("ID", 1);
+        }
+        row.put("CODE",1);
+        row.put("REMARK", "中文ABC123!@^%$#");
+        service.insert("TAB_TXT", row);
+        DataSet set = service.querys("TAB_TXT", new DefaultConfigStore().setPageNavi(new DefaultPageNavi(0)),"ORDER BY createtime DESC");
+        System.out.println(set);
+    }
+    @Test
+    public void generatedKeyHolder() throws Exception{
+        Table tab = service.metadata().table("TAB_ID");
+        if(null != tab){
+            service.ddl().drop(tab);
+        }
+        tab = new Table("TAB_ID");
+        tab.addColumn("CODE", "int");
+        service.save(tab);
+
+        DataRow row = new DataRow();
+        row.setPrimaryKey(new ArrayList<>());
+        row.put("CODE",1);
+        service.insert("TAB_ID", row);
+        System.out.println(row);
+
+    }
+    //主键
+    public void primary() throws Exception{
+        Table tab = service.metadata().table("TAB_PK");
+        if(null != tab){
+            service.ddl().drop(tab);
+        }
+        //创建一个主键的表
+        tab = new Table("TAB_PK");
+        tab.addColumn("ID", "int").setPrimaryKey(true);
+        tab.addColumn("NAME", "varchar(10)");
+        service.save(tab);
+        tab = service.metadata().table("TAB_PK");
+        tab.addColumn("CODE", "INT");
+        tab.getColumn("ID").setPrimaryKey(false).setNullable(true);
+        //修改成组合主键
+        PrimaryKey pk = new PrimaryKey();
+        pk.addColumn("NAME").addColumn("CODE"); //其中一列CODE是新加的列
+        tab.setPrimaryKey(pk);
+
+        // 因为CODE原来不存在 所以先添加一列CODE
+        // 再删除原主键  ALTER TABLE simple.public.tab_a DROP CONSTRAINT pk_tab_a
+        // 最后创建新主键    ALTER TABLE simple.public.tab_a ADD PRIMARY KEY (ID,NAME,CODE)
+        service.ddl().alter(tab);
+    }
     //外键
     public void foreign() throws Exception{
 
