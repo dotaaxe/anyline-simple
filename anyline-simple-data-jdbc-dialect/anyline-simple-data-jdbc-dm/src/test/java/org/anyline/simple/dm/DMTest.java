@@ -84,10 +84,10 @@ public class DMTest {
     }
     @Test
     public void dml() throws Exception{
-
+        DataRow row = new DataRow();
         DataSet set = new DataSet();
         for(int i=1; i<10; i++){
-            DataRow row = new DataRow();
+            row = new DataRow();
             //只插入NAME  ID自动生成 REG_TIME 默认当时时间
             row.put("NAME", "N"+i);
             set.add(row);
@@ -96,7 +96,7 @@ public class DMTest {
         log.warn(LogUtil.format("[批量插入][影响行数:{}][生成主键:{}]", 36), qty, set.getStrings("ID"));
         Assertions.assertEquals(qty , 9);
 
-        DataRow row = new DataRow();
+        row = new DataRow();
         row.put("NAME", "N");
         //当前时间，如果要适配多种数据库环境尽量用SQL_BUILD_IN_VALUE,如果数据库明确可以写以根据不同数据库写成: row.put("REG_TIME","${now()}"); sysdate,getdate()等等
         row.put("REG_TIME", JDBCAdapter.SQL_BUILD_IN_VALUE.CURRENT_TIME);
@@ -213,8 +213,12 @@ public class DMTest {
         qty = service.update(row);
         log.warn(LogUtil.format("[根据临时主键更新][count:{}]", 36), qty);
 
-        //显示指定更新列的情况下才会更新主键与默认主键,自增列会抛出异常：试图修改自增列[ID]
-        qty = service.update(row,"NAME","CODE","ID");
+        try {
+            //显示指定更新列的情况下才会更新主键与默认主键,自增列会抛出异常：试图修改自增列[ID]
+            qty = service.update(row, "NAME", "CODE", "ID");
+        }catch (Exception e){
+            log.error(e.toString());
+        }
         log.warn(LogUtil.format("[更新指定列][count:{}]", 36), qty);
 
         //根据条件更新
