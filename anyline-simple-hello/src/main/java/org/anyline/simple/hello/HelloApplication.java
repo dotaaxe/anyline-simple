@@ -14,6 +14,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 
 @ComponentScan(basePackages = {"org.anyline"})
 @SpringBootApplication
@@ -28,6 +33,15 @@ public class HelloApplication {
         AnylineService service = (AnylineService) ctx.getBean("anyline.service");
 
         Table table = service.metadata().table("a_test");
+
+        List<Map<String,Object>> list = new ArrayList<>();
+        Map<String,Object> map = new HashMap<>();
+        map.put("GROUP_CODE", "1234");
+        list.add(map);
+        List<String> cols = new ArrayList<>();
+        cols.add("GROUP_CODE");
+        service.insert("bs_dict", list, cols);
+
 
         DataSet set = service.querys("bs_dict");
         service.querys("bs_dict(ID,GROUP_CODE,CODE,NM,VAL)");
