@@ -19,6 +19,8 @@ public class DefaultListener implements DMListener {
     /**
      * 创建插入相关的SQL之前调用<br/>
      * 要修改插入内容可以在这一步实现,注意不是在beforeInsert
+     * @param runtime  包含数据源(key)、适配器、JDBCTemplate、dao
+     * @param random 用来标记同一组SQL、执行结构、参数等
      * @param dest 表
      * @param obj 实体
      * @param checkPrimary 是否需要检查重复主键,默认不检查
@@ -26,7 +28,7 @@ public class DefaultListener implements DMListener {
      * @return 如果返回false 则中断执行
      */
     @Override
-    public boolean prepareInsert(JDBCRuntime runtime , String dest, Object obj, boolean checkPrimary, List<String> columns){
+    public boolean prepareInsert(JDBCRuntime runtime, String random,  String dest, Object obj, boolean checkPrimary, List<String> columns){
         if(obj instanceof DataRow){
             DataRow row = (DataRow)obj;
             row.put("REG_TIME", DateUtil.format());
@@ -36,19 +38,23 @@ public class DefaultListener implements DMListener {
     /**
      * 创建查相关的SQL之前调用,包括slect exists count等<br/>
      * 要修改查询条件可以在这一步实现,注意不是在beforeQuery
+     * @param runtime  包含数据源(key)、适配器、JDBCTemplate、dao
+     * @param random 用来标记同一组SQL、执行结构、参数等
      * @param prepare  prepare
      * @param configs 查询条件配置
      * @param conditions 查询条件
      * @return 如果返回false 则中断执行
      */
     @Override
-    public boolean prepareQuery(JDBCRuntime runtime ,RunPrepare prepare, ConfigStore configs, String... conditions) {
+    public boolean prepareQuery(JDBCRuntime runtime, String random, RunPrepare prepare, ConfigStore configs, String... conditions) {
         configs.and("ID > 1");
         return true;
     }
     /**
      * 创建更新相关的SQL之前调用<br/>
      * 要修改更新内容或条件可以在这一步实现,注意不是在beforeUpdate
+     * @param runtime  包含数据源(key)、适配器、JDBCTemplate、dao
+     * @param random 用来标记同一组SQL、执行结构、参数等
      * @param dest 表
      * @param obj Entity或DtaRow
      * @param checkPrimary 是否需要检查重复主键,默认不检查
@@ -57,7 +63,7 @@ public class DefaultListener implements DMListener {
      * @return 如果返回false 则中断执行
      */
     @Override
-    public boolean prepareUpdate(JDBCRuntime runtime ,String dest, Object obj, ConfigStore configs, boolean checkPrimary, List<String> columns) {
+    public boolean prepareUpdate(JDBCRuntime runtime, String random, String dest, Object obj, ConfigStore configs, boolean checkPrimary, List<String> columns) {
         if(obj instanceof DataRow){
             DataRow row = (DataRow)obj;
             row.put("UPT_TIME", DateUtil.format());
@@ -69,13 +75,15 @@ public class DefaultListener implements DMListener {
      * 注意不是beforeDelete<br/>
      * 注意beforeBuildDelete有两个函数需要实现<br/>
      * service.delete(DataRow);
+     * @param runtime  包含数据源(key)、适配器、JDBCTemplate、dao
+     * @param random 用来标记同一组SQL、执行结构、参数等
      * @param dest 表
      * @param obj entity或DataRow
      * @param columns 删除条件的我
      * @return 如果返回false 则中断执行
      */
     @Override
-    public boolean prepareDelete(JDBCRuntime runtime ,String dest, Object obj, String ... columns){
+    public boolean prepareDelete(JDBCRuntime runtime, String random, String dest, Object obj, String ... columns){
         if(obj instanceof DataRow){
             DataRow row = (DataRow)obj;
             row.put("UPT_TIME", DateUtil.format());
@@ -90,24 +98,29 @@ public class DefaultListener implements DMListener {
      * 注意不是beforeDelete<br/>
      * 注意beforeBuildDelete有两个函数需要实现<br/>
      * service.delete("CRM_USER", "ID", "1", "2", "3");
+     * @param runtime  包含数据源(key)、适配器、JDBCTemplate、dao
+     * @param random 用来标记同一组SQL、执行结构、参数等
      * @param table 表
      * @param key key
      * @param values values
      * @return 如果返回false 则中断执行
      */
     @Override
-    public boolean prepareDelete(JDBCRuntime runtime ,String table, String key, Object values){
+    public boolean prepareDelete(JDBCRuntime runtime, String random, String table, String key, Object values){
         return false;
     }
 
     /**
      * 查询完成后调用
+     * @param runtime  包含数据源(key)、适配器、JDBCTemplate、dao
+     * @param random 用来标记同一组SQL、执行结构、参数等
      * @param run 执行SQL及参数值
+     * @param success SQL是否成功执行
      * @param set 查询结果
      * @param millis 耗时(毫秒)
      */
     @Override
-    public void afterQuery(JDBCRuntime runtime ,Run run, DataSet set, long millis) {
+    public void afterQuery(JDBCRuntime runtime, String random, Run run, boolean success,  DataSet set, long millis) {
         System.out.println(run.getFinalQuery());
         System.out.println(run.getValues());
     }
