@@ -54,18 +54,18 @@ public class HelpApplication {
 		//tdtags();
 		//convert();
 		//type();
-		//dm8();
+		dm8();
 
 		//data(); //准备测试数据
-		for(int i=0; i<100; i++){
+		/*for(int i=0; i<100; i++){
 			memory();
-		}
+		}*/
 	}
 	public static void memory(){
 		int total = service.count("A_TEST_Q");
 		int page = (total -1)/ 2000;
 		for(int p=0; p<page; p++){
-			service.querys("A_TEST_Q", new DefaultPageNavi(p, 2000).setLazy(100000000));
+			service.maps("A_TEST_Q", new DefaultPageNavi(p, 2000).setLazy(100000000));
 			System.out.println("可用内存:"+LogUtil.format(Runtime.getRuntime().freeMemory()/1024/1024, 31));
 		}
 	}
@@ -98,6 +98,8 @@ public class HelpApplication {
 		//索引
 		sql = "SELECT M.*, F.COMMENTS AS COLUMN_COMMENT FROM USER_TAB_COLUMNS    M \n" +
 				"LEFT JOIN USER_COL_COMMENTS F ON M.TABLE_NAME = F.TABLE_NAME AND M.COLUMN_NAME = F.COLUMN_NAME\n" ;
+		//索引
+		sql ="SELECT *  from DBA_IND_COLUMNS";
 		DataSet set = service.querys(sql, 0, 10);
 		for(DataRow row:set){
 			System.out.println("\n-------------------------------------------");

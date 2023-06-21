@@ -1,6 +1,7 @@
 package org.anyline.simple.listener;
 
-import org.anyline.data.listener.init.BasicDMListener;
+import org.anyline.data.jdbc.ds.JDBCRuntime;
+import org.anyline.data.listener.DMListener;
 import org.anyline.data.param.ConfigStore;
 import org.anyline.data.prepare.RunPrepare;
 import org.anyline.data.run.Run;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component()
-public class DefaultListener extends BasicDMListener {
+public class DefaultListener implements DMListener {
 
 
     /**
@@ -24,7 +25,8 @@ public class DefaultListener extends BasicDMListener {
      * @param columns 需要抛入的列 如果不指定  则根据实体属性解析
      * @return 如果返回false 则中断执行
      */
-    public boolean beforeBuildInsert(String dest, Object obj, boolean checkPrimary, List<String> columns){
+    @Override
+    public boolean prepareInsert(JDBCRuntime runtime , String dest, Object obj, boolean checkPrimary, List<String> columns){
         if(obj instanceof DataRow){
             DataRow row = (DataRow)obj;
             row.put("REG_TIME", DateUtil.format());
@@ -40,7 +42,7 @@ public class DefaultListener extends BasicDMListener {
      * @return 如果返回false 则中断执行
      */
     @Override
-    public boolean beforeBuildQuery(RunPrepare prepare, ConfigStore configs, String... conditions) {
+    public boolean prepareQuery(JDBCRuntime runtime ,RunPrepare prepare, ConfigStore configs, String... conditions) {
         configs.and("ID > 1");
         return true;
     }
@@ -55,7 +57,7 @@ public class DefaultListener extends BasicDMListener {
      * @return 如果返回false 则中断执行
      */
     @Override
-    public boolean beforeBuildUpdate(String dest, Object obj, ConfigStore configs, boolean checkPrimary, List<String> columns) {
+    public boolean prepareUpdate(JDBCRuntime runtime ,String dest, Object obj, ConfigStore configs, boolean checkPrimary, List<String> columns) {
         if(obj instanceof DataRow){
             DataRow row = (DataRow)obj;
             row.put("UPT_TIME", DateUtil.format());
@@ -72,7 +74,8 @@ public class DefaultListener extends BasicDMListener {
      * @param columns 删除条件的我
      * @return 如果返回false 则中断执行
      */
-    public boolean beforeBuildDelete(String dest, Object obj, String ... columns){
+    @Override
+    public boolean prepareDelete(JDBCRuntime runtime ,String dest, Object obj, String ... columns){
         if(obj instanceof DataRow){
             DataRow row = (DataRow)obj;
             row.put("UPT_TIME", DateUtil.format());
@@ -92,7 +95,8 @@ public class DefaultListener extends BasicDMListener {
      * @param values values
      * @return 如果返回false 则中断执行
      */
-    public boolean beforeBuildDelete(String table, String key, Object values){
+    @Override
+    public boolean prepareDelete(JDBCRuntime runtime ,String table, String key, Object values){
         return false;
     }
 
@@ -103,7 +107,7 @@ public class DefaultListener extends BasicDMListener {
      * @param millis 耗时(毫秒)
      */
     @Override
-    public void afterQuery(Run run, DataSet set, long millis) {
+    public void afterQuery(JDBCRuntime runtime ,Run run, DataSet set, long millis) {
         System.out.println(run.getFinalQuery());
         System.out.println(run.getValues());
     }
