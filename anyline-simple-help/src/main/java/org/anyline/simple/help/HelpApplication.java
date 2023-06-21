@@ -1,32 +1,33 @@
 package org.anyline.simple.help;
 
 
-import org.anyline.entity.DataRow;
 import org.anyline.data.jdbc.ds.DataSourceHolder;
+import org.anyline.entity.DataRow;
+import org.anyline.entity.DataSet;
+import org.anyline.entity.DefaultPageNavi;
 import org.anyline.entity.data.Column;
 import org.anyline.entity.data.Table;
 import org.anyline.service.AnylineService;
 import org.anyline.util.BasicUtil;
 import org.anyline.util.ClassUtil;
-import org.anyline.util.SnowflakeWorker;
+import org.anyline.util.LogUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 
 import javax.sql.DataSource;
-import java.lang.reflect.Field;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {"org.anyline"})
@@ -46,14 +47,80 @@ public class HelpApplication {
 
 		service = (AnylineService)context.getBean("anyline.service");
 		jdbc = context.getBean(JdbcTemplate.class);
-		//DataSourceHolder.setDataSource("pg");
+		DataSourceHolder.setDataSource("dm8");
 		ds = jdbc.getDataSource();
 		con = DataSourceUtils.getConnection(ds);
 		//td();
 		//tdtags();
 		//convert();
-		type();
+		//type();
+		//dm8();
+
+		//data(); //准备测试数据
+		for(int i=0; i<100; i++){
+			memory();
+		}
 	}
+	public static void memory(){
+		int total = service.count("A_TEST_Q");
+		int page = (total -1)/ 2000;
+		for(int p=0; p<page; p++){
+			service.querys("A_TEST_Q", new DefaultPageNavi(p, 2000).setLazy(100000000));
+			System.out.println("可用内存:"+LogUtil.format(Runtime.getRuntime().freeMemory()/1024/1024, 31));
+		}
+	}
+	public static void data() throws Exception{
+		Table table = service.metadata().table("A_TEST_Q");
+		if(null == table){
+			table = new Table("A_TEST_Q");
+			table.addColumn("ID","INT").setAutoIncrement(true).setPrimaryKey(true);
+			for(int i=0; i<100;i++){
+				table.addColumn("C"+i, "varchar(100)");
+			}
+			service.ddl().save(table);
+		}
+
+		for(int i=0; i<1000; i++){
+			DataSet set = new DataSet();
+			for(int j=0; j<100; j++){
+				DataRow row = new DataRow();
+				for(int c=0; c<10; c++){
+					row.put("C"+c, "VALUE"+c);
+				}
+				set.add(row);
+			}
+			service.insert("A_TEST_Q", set);
+		}
+	}
+	public static void dm8(){
+		//主键
+		String sql = "SELECT A.*, '---------', B.* FROM ALL_CONSTRAINTS A, ALL_CONS_COLUMNS B WHERE   B.OWNER =A.OWNER AND A.TABLE_NAME     =B.TABLE_NAME";
+		//索引
+		sql = "SELECT M.*, F.COMMENTS AS COLUMN_COMMENT FROM USER_TAB_COLUMNS    M \n" +
+				"LEFT JOIN USER_COL_COMMENTS F ON M.TABLE_NAME = F.TABLE_NAME AND M.COLUMN_NAME = F.COLUMN_NAME\n" ;
+		DataSet set = service.querys(sql, 0, 10);
+		for(DataRow row:set){
+			System.out.println("\n-------------------------------------------");
+			for(String key:row.keySet()){
+				Object value = row.get(key);
+				String type = "";
+				if(null != value){
+					type = value.getClass().getName();
+				}
+				System.out.println(BasicUtil.fillLChar(key," ", 30)+"\t=\t"+value+"\t["+type+"]");
+			}
+			System.out.println(" ");
+		}
+		set = new DataSet();
+		for(int i=0;i<10;i ++){
+			DataRow row = new DataRow();
+			row.put("CODE","C"+i);
+			row.put("NAME","N"+i);
+			set.add(row);
+		}
+		service.insert("HR_EMPLOYEE", set);
+	}
+
 	public static void type(){
 		List<Map<String,Object>> maps = service.maps("chk_column");
 		for(Map map:maps) {
