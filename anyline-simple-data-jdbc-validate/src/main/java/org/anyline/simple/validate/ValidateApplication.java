@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 @Primary
 @SpringBootApplication
-@ComponentScan(basePackages = {"org.anyline"})
+@ComponentScan("org.anyline")
 public class ValidateApplication {
 
 	private static AnylineService service;
@@ -269,7 +269,7 @@ public class ValidateApplication {
 		column = new Column();
 		column.setName("c_test").setNewName("d_test");
 		column.setTypeName("varchar(1)");
-		column.setTableName("a_test");
+		column.setTable("a_test");
 		service.ddl().save(column);
 
 		column = new Column("CODE");
@@ -299,7 +299,7 @@ public class ValidateApplication {
 		column.setTypeName("varchar(50)");
 		//添加 新列
 		service.ddl().save(column);
-		service.clearColumnCache();
+
 		//表中有数据的情况下
 		DataRow row = new DataRow();
 		//自增列有可能引起异常
@@ -392,7 +392,7 @@ public class ValidateApplication {
 
 		trigger = service.metadata().trigger("TR_USER");
 		if(null != trigger){
-			System.out.println("TRIGGER TABLE:"+trigger.getTableName());
+			System.out.println("TRIGGER TABLE:"+trigger.getTableName(true));
 			System.out.println("TRIGGER NAME:"+trigger.getName());
 			System.out.println("TRIGGER TIME:"+trigger.getTime());
 			System.out.println("TRIGGER EVENT:"+trigger.getEvents());
@@ -441,7 +441,7 @@ public class ValidateApplication {
 		LinkedHashMap<String, ForeignKey> foreigns = service.metadata().foreigns("TAB_B");
 		for(ForeignKey item:foreigns.values()){
 			System.out.println("外键:"+item.getName());
-			System.out.println("表:"+item.getTableName());
+			System.out.println("表:"+item.getTableName(true));
 			System.out.println("依赖表:"+item.getReference().getName());
 			LinkedHashMap<String,Column> columns = item.getColumns();
 			for(Column column:columns.values()){
@@ -452,7 +452,7 @@ public class ValidateApplication {
 		foreign = service.metadata().foreign("TAB_B", "AID","ACODE");
 		if(null != foreign) {
 			System.out.println("外键:" + foreign.getName());
-			System.out.println("表:" + foreign.getTableName());
+			System.out.println("表:" + foreign.getTableName(true));
 			System.out.println("依赖表:" + foreign.getReference().getName());
 			LinkedHashMap<String, Column> columns = foreign.getColumns();
 			for (Column column : columns.values()) {
