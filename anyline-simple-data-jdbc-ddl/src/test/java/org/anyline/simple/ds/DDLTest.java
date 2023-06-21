@@ -7,6 +7,7 @@ import org.anyline.data.jdbc.ds.JDBCRuntime;
 import org.anyline.data.jdbc.ds.RuntimeHolder;
 import org.anyline.data.jdbc.oracle.OracleAdapter;
 import org.anyline.data.jdbc.util.SQLAdapterUtil;
+import org.anyline.data.run.Run;
 import org.anyline.entity.DataRow;
 import org.anyline.entity.data.*;
 import org.anyline.service.AnylineService;
@@ -252,9 +253,9 @@ public class DDLTest {
         table.addColumn("CODE", "VARCHAR(10)").setDefaultValue("ABC");
         //如果确定数据库类型直接创建adapter实例
         JDBCAdapter adapter = new OracleAdapter();
-        List<String> sqls = adapter.buildCreateRunSQL(table);
-        for(String sql:sqls){
-            System.out.println(sql);
+        List<Run> sqls = adapter.buildCreateRunSQL(table);
+        for(Run sql:sqls){
+            System.out.println(sql.getFinalUpdate());
         }
 
         //如果在运行时有多个数据库可以通过SQLAdapterUtil辅助确定数据库类型
@@ -263,8 +264,8 @@ public class DDLTest {
         adapter = SQLAdapterUtil.getAdapter(runtime.datasource(), runtime.getTemplate());
 
         sqls = adapter.buildCreateRunSQL(table);
-        for(String sql:sqls){
-            System.out.println(sql);
+        for(Run sql:sqls){
+            System.out.println(sql.getFinalUpdate());
         }
 
     }
@@ -395,7 +396,7 @@ public class DDLTest {
         }
         log.warn("创建表");
         table = new Table();
-        table.setName("A_TEST");
+        table.setName("a_test");
         table.setComment("表备注");
         table.addColumn("ID", "int").setPrimaryKey(true).setAutoIncrement(true).setComment("主键说明");
 
@@ -411,7 +412,7 @@ public class DDLTest {
         service.ddl().save(table);
 
 
-        table = service.metadata().table("A_TEST");
+        table = service.metadata().table("a_test");
         if(null != table) {
             log.warn("查询表结构:" + table.getName());
             LinkedHashMap<String, Column> columns = table.getColumns();
@@ -469,22 +470,27 @@ public class DDLTest {
 
         System.out.println("\n-------------------------------- end table  ----------------------------------------------\n");
     }
+    @Test
     public void column() throws Exception{
         System.out.println("\n-------------------------------- start column  -------------------------------------------\n");
 
-        Table table = service.metadata().table("A_TEST");
-        if(null == table) {
-            table = new Table();
-            table.setName("A_TEST");
-            table.setComment("表备注");
-            table.addColumn("ID", "int").setPrimaryKey(true).setAutoIncrement(true).setComment("主键说明");
-
-            table.addColumn("NAME","varchar(50)").setComment("名称");
-            table.addColumn("A_CHAR","varchar(50)");
-            table.addColumn("DEL_COL","varchar(50)");
-            service.ddl().save(table);
-
+        Table table = service.metadata().table("a_test");
+        if(null != table){
+            service.ddl().drop(table);
         }
+
+        table = new Table();
+        table.setName("a_test");
+        table.setComment("表备注");
+        table.addColumn("ID", "int").setPrimaryKey(true).setAutoIncrement(true).setComment("主键说明");
+
+        table.addColumn("NAME","varchar(50)").setComment("名称");
+        table.addColumn("A_CHAR","varchar(50)");
+        table.addColumn("DEL_COL","varchar(50)");
+        service.ddl().save(table);
+
+        table = service.metadata().table("a_test");
+
         //添加列
         String tmp = "NEW_"+BasicUtil.getRandomNumberString(3);
         table.addColumn(tmp, "int");
@@ -494,15 +500,24 @@ public class DDLTest {
         dcol.delete();
         service.ddl().save(table);
 
-        Column column = new Column();
-        column.setTable("A_TEST");
+        //修改列属性
+        Column column = table.getColumn("NAME");
+        column.setTypeName("int");	//没有数据的情况下修改数据类型
+        column.setPrecision(0);
+        column.setScale(0);
+        column.setDefaultValue("1");
+        column.setNullable(false);
+        service.save(column);
+
+        column = new Column();
+        column.setTable("a_test");
         column.setName("A_CHAR");
         column.setTypeName("int");	//没有数据的情况下修改数据类型
         column.setPrecision(0);
         column.setScale(0);
         column.setDefaultValue("1");
-        //添加新列
-        log.warn("添加列");
+        column.setNullable(false);
+
         service.ddl().save(column);
 
         //修改列
@@ -532,7 +547,7 @@ public class DDLTest {
         column = new Column();
         column.setName("c_test").setNewName("d_test");
         column.setTypeName("varchar(1)");
-        column.setTable("A_TEST");
+        column.setTable("a_test");
         service.ddl().save(column);
 /*
 		column = new Column("id");
@@ -641,7 +656,7 @@ public class DDLTest {
             service.ddl().add(index);
         }
 
-        indexs = service.metadata().indexs("A_TEST");
+        indexs = service.metadata().indexs("a_test");
         for(Index idx: indexs.values()){
             System.out.println("\n剩余索引:"+idx.getName());
             Map<String,Column> columns = idx.getColumns();
