@@ -7,6 +7,7 @@ import org.anyline.data.prepare.RunPrepare;
 import org.anyline.data.run.Run;
 import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
+import org.anyline.entity.data.ACTION.SWITCH;
 import org.anyline.util.DateUtil;
 import org.springframework.stereotype.Component;
 
@@ -28,12 +29,12 @@ public class DefaultListener implements DMListener {
      * @return 如果返回false 则中断执行
      */
     @Override
-    public boolean prepareInsert(JDBCRuntime runtime, String random,  String dest, Object obj, boolean checkPrimary, List<String> columns){
+    public SWITCH prepareInsert(JDBCRuntime runtime, String random, String dest, Object obj, boolean checkPrimary, List<String> columns){
         if(obj instanceof DataRow){
             DataRow row = (DataRow)obj;
             row.put("REG_TIME", DateUtil.format());
         }
-        return true;
+        return SWITCH.CONTINUE;
     }
     /**
      * 创建查相关的SQL之前调用,包括slect exists count等<br/>
@@ -46,9 +47,9 @@ public class DefaultListener implements DMListener {
      * @return 如果返回false 则中断执行
      */
     @Override
-    public boolean prepareQuery(JDBCRuntime runtime, String random, RunPrepare prepare, ConfigStore configs, String... conditions) {
+    public SWITCH prepareQuery(JDBCRuntime runtime, String random, RunPrepare prepare, ConfigStore configs, String... conditions) {
         configs.and("ID > 1");
-        return true;
+        return SWITCH.CONTINUE;
     }
     /**
      * 创建更新相关的SQL之前调用<br/>
@@ -63,12 +64,12 @@ public class DefaultListener implements DMListener {
      * @return 如果返回false 则中断执行
      */
     @Override
-    public boolean prepareUpdate(JDBCRuntime runtime, String random, String dest, Object obj, ConfigStore configs, boolean checkPrimary, List<String> columns) {
+    public SWITCH prepareUpdate(JDBCRuntime runtime, String random, String dest, Object obj, ConfigStore configs, boolean checkPrimary, List<String> columns) {
         if(obj instanceof DataRow){
             DataRow row = (DataRow)obj;
             row.put("UPT_TIME", DateUtil.format());
         }
-        return true;
+        return SWITCH.CONTINUE;
     }
     /**
      * 创建删除SQL前调用(根据Entity/DataRow),修改删除条件可以在这一步实现<br/>
@@ -83,15 +84,15 @@ public class DefaultListener implements DMListener {
      * @return 如果返回false 则中断执行
      */
     @Override
-    public boolean prepareDelete(JDBCRuntime runtime, String random, String dest, Object obj, String ... columns){
+    public SWITCH prepareDelete(JDBCRuntime runtime, String random, String dest, Object obj, String ... columns){
         if(obj instanceof DataRow){
             DataRow row = (DataRow)obj;
             row.put("UPT_TIME", DateUtil.format());
             if(row.getInt("ROLE_ID", 0) == 99){
-                return false;
+                return SWITCH.BREAK;
             }
         }
-        return true;
+        return SWITCH.CONTINUE;
     }
     /**
      * 创建删除SQL前调用(根据条件),修改删除条件可以在这一步实现<br/>
@@ -106,8 +107,8 @@ public class DefaultListener implements DMListener {
      * @return 如果返回false 则中断执行
      */
     @Override
-    public boolean prepareDelete(JDBCRuntime runtime, String random, String table, String key, Object values){
-        return false;
+    public SWITCH prepareDelete(JDBCRuntime runtime, String random, String table, String key, Object values){
+        return SWITCH.CONTINUE;
     }
 
     /**
@@ -120,8 +121,9 @@ public class DefaultListener implements DMListener {
      * @param millis 耗时(毫秒)
      */
     @Override
-    public void afterQuery(JDBCRuntime runtime, String random, Run run, boolean success,  DataSet set, long millis) {
+    public SWITCH afterQuery(JDBCRuntime runtime, String random, Run run, boolean success,  DataSet set, long millis) {
         System.out.println(run.getFinalQuery());
         System.out.println(run.getValues());
+        return SWITCH.CONTINUE;
     }
 }

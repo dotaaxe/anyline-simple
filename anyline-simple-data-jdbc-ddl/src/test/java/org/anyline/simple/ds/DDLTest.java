@@ -37,7 +37,6 @@ public class DDLTest {
     private JdbcTemplate jdbc               ;
 
 
-    @Test
     public void check(String ds, String title) throws Exception{
         System.out.println("\n=============================== START " + title + "=========================================\n");
         if(null != ds) {
