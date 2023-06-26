@@ -38,8 +38,8 @@ public class DMLApplication {
 
 		service = (AnylineService)SpringContextUtil.getBean("anyline.service");
 		check(null, "MySQL");
-		check("pg", "PostgreSQL");
-		check("ms", "SQL Server");
+		//check("pg", "PostgreSQL");
+		//check("ms", "SQL Server");
 		//check("ms2000", "SQL Server 2000");
 		//check("oracle", "Oracle 11G");
 		//check("db2", "DB2");
@@ -60,6 +60,7 @@ public class DMLApplication {
 			String sql = "CREATE SEQUENCE "+seq+" MINVALUE 0 START WITH 0 NOMAXVALUE INCREMENT BY 1 NOCYCLE CACHE 100";
  			service.execute(sql);
 		}
+		init();
 		//date();
 		insert();
 		query();
@@ -67,20 +68,35 @@ public class DMLApplication {
 		delete();
 		System.out.println("\n=============================== END " + title + "=========================================\n");
 	}
+	public static void init(){
+		try {
+			Table table = service.metadata().table("CRM_USER");
+			if (null != table) {
+				service.ddl().drop(table);
+			}
+			table = new Table("CRM_USER");
+			table.addColumn("ID", "INT").setAutoIncrement(true).setPrimaryKey(true);
+			table.addColumn("CODE", "varchar(20)");
+			table.addColumn("NAME", "varchar(20)");
+			table.addColumn("AGE", "int");
+			table.addColumn("YMD", "DATE");
+			table.addColumn("YMD_HMS", "DATETIME");
+			table.addColumn("HMS", "TIME");
+			table.addColumn("L","LONG").setComment("long");
+			table.addColumn("NM","varchar(50)").setComment("名称");
+			table.addColumn("my","money").setComment("金额");
+			table.addColumn("REG_TIME","DATETIME").setComment("日期");
+			table.addColumn("CREATE_TIME","DATE").setComment("日期");
+			table.addColumn("DEPARTMENT_ID","INT");
+			table.addColumn("performance","decimal(10,2)");
+			service.ddl().save(table);
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+	}
 	//日期类型
 	public static void date() throws Exception{
-
-		Table table = service.metadata().table("CRM_DATE");
-		if(null != table){
-			service.ddl().drop(table);
-		}
-		table = new Table("CRM_DATE");
-		table.addColumn("ID", "int").setPrimaryKey(true).setAutoIncrement(true);
-		table.addColumn("CODE", "VARCHAR(10)");
-		table.addColumn("YMD", "DATE");
-		table.addColumn("YMD_HMS", "DATETIME");
-		table.addColumn("HMS", "TIME");
-		service.ddl().save(table);
+ 
 
 		//ConfigTable.IS_AUTO_CHECK_METADATA = true;
 		DataRow row = new DataRow();
@@ -94,29 +110,10 @@ public class DMLApplication {
 	}
 	public static void insert() throws Exception{
 
-		DataRow r  = service.query("HR_EMPLOYEE");
+		DataRow r  = service.query("CRM_USER");
 		//ConfigTable.IS_AUTO_CHECK_METADATA = true;
 		System.out.println("\n-------------------------------- start insert  --------------------------------------------\n");
 
-		Table table = service.metadata().table("HR_EMPLOYEE");
-		if(null != table) {
-			service.ddl().drop(table);
-		}
-		table = new Table();
-		table.setName("HR_EMPLOYEE");
-		table.setComment("表备注");
-		table.addColumn("ID", "int").setPrimaryKey(true).setAutoIncrement(true).setComment("主键说明");
-
-		table.addColumn("CODE","varchar(50)").setComment("编号");
-		table.addColumn("AGE","int").setComment("年龄");
-		table.addColumn("L","LONG").setComment("long");
-		table.addColumn("NM","varchar(50)").setComment("名称");
-		table.addColumn("my","money").setComment("金额");
-		table.addColumn("REG_TIME","DATETIME").setComment("日期");
-		table.addColumn("CREATE_TIME","DATE").setComment("日期");
-		table.addColumn("DEPARTMENT_ID","INT");
-		table.addColumn("performance","decimal(10,2)");
-		service.ddl().save(table);
 
 		ConfigTable.IS_AUTO_CHECK_METADATA = true;
 		ConfigTable.IS_INSERT_EMPTY_COLUMN = true;
@@ -133,17 +130,17 @@ public class DMLApplication {
 			row.put("ID", "${"+seq+".NEXTVAL}");
 		}
 		//row.setOverride(true);
-		ServiceProxy.insert("HR_EMPLOYEE", row);
+		ServiceProxy.insert("CRM_USER", row);
 
-		row = service.query("HR_EMPLOYEE");
+		row = service.query("CRM_USER");
 
 		//执行insert后row如果数据库自动生成ID这时会row中会有ID值
 		//在有主键值的情况下执行save最终会调用update
-		ServiceProxy.save("HR_EMPLOYEE", row);
+		ServiceProxy.save("CRM_USER", row);
 		row.remove("ID");
 
 		//如果没有主键值则执行insert
-		service.save("HR_EMPLOYEE", row);
+		service.save("CRM_USER", row);
 
 
 		DataSet set = new DataSet();
@@ -159,16 +156,17 @@ public class DMLApplication {
 		if(null != seq){
 			set.put("ID", "${"+seq+".NEXTVAL}");
 		}
-		service.insert("HR_EMPLOYEE", set);
-		service.save("HR_EMPLOYEE", set);
+		service.insert("CRM_USER", set);
+		service.save("CRM_USER", set);
 
 		System.out.println("\n-------------------------------- end insert  ----------------------------------------------\n");
 	}
 
 	public static void query() throws Exception{
 		System.out.println("\n-------------------------------- start query  --------------------------------------------\n");
-		//查询情况比较灵活请参考  anyline-simple-query中的controller 约定格式参考 http://doc.anyline.org/s?id=1059
-		//经常继承AnylineController 调用其中的里的condition()生成ConfigStore
+		//查询情况比较灵活请参考
+		// web环境不需要new DefaultConfigStore 参考 anyline-simple-query中的controller
+		//经常继承AnylineController 调用其中的里的condition()生成ConfigStore condition约定格式参考 http://doc.anyline.org/s?id=1059
 		ConfigStore configs = new DefaultConfigStore();
 		//查询总行数
 		int qty = service.count("CRM_USER");
@@ -184,9 +182,14 @@ public class DMLApplication {
 
 		configs.and("ID","9,0".split(","));
 		configs.and("NM","a,b".split(","));
-		Column ctype = service.metadata().column("HR_EMPLOYEE","TYPES");
+		configs.and(Compare.NOT_LIKE ,"NM", "ZH");
+		//如果传入的值为空，则生成 WHERE CODE IS NULL
+		configs.and(Compare.EMPTY_VALUE_SWITCH.NULL, "CODE" , "");
+		//如果传入的值为空，按原样处理 会生成 NM=''或NM IS NULL
+		configs.and(Compare.EMPTY_VALUE_SWITCH.SRC, "NM" ,null);
+		Column ctype = service.metadata().column("CRM_USER","TYPES");
 		if(null == ctype){
-			ctype = new Column("HR_EMPLOYEE","TYPES").setType("varchar(100)");
+			ctype = new Column("CRM_USER","TYPES").setType("varchar(100)");
 			service.ddl().add(ctype);
 		}
 		configs.and(Compare.FIND_IN_SET, "TYPES", "9");
@@ -200,8 +203,7 @@ public class DMLApplication {
 		//configs.ors(Compare.FIND_IN_SET_OR, "TYPES", "4,5,6".split(","));
 		//configs.ors(Compare.FIND_IN_SET_AND, "TYPES", "4,5,6".split(","));
 		//find_in_set 只在mysql中有实现 FIND_IN_SET(?,TYPES)
-		service.querys("HR_EMPLOYEE", configs
-		);
+		service.querys("CRM_USER", configs, "ID:");
 
 		System.out.println("\n-------------------------------- end query  ----------------------------------------------\n");
 	}
