@@ -139,7 +139,7 @@ public class ServiceTest {
         DataRow row = new DataRow();
         row.put("ID","1");
         row.put("NM", "ZH");
-        service.delete("HR_EMPLOYEE", row, "ID","NAME");
+        service.delete("HR_EMPLOYEE", row, "ID","NM");
 
         //DELETE FROM HR_EMPLOYEE WHERE ID = 1 AND CODE = 20
         service.delete("HR_EMPLOYEE","ID","1", "CODE:20");

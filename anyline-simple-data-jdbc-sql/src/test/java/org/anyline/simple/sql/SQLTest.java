@@ -2,10 +2,13 @@ package org.anyline.simple.sql;
 
 import org.anyline.data.param.ConfigStore;
 import org.anyline.data.param.init.DefaultConfigStore;
+import org.anyline.data.prepare.RunPrepare;
 import org.anyline.entity.Compare;
 import org.anyline.entity.DataRow;
 import org.anyline.service.AnylineService;
 import org.anyline.util.ConfigTable;
+import org.anyline.util.regular.Regular;
+import org.anyline.util.regular.RegularUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -130,7 +133,16 @@ public class SQLTest {
         service.execute(sql,"CODE:C001", "++ID:");
         //如果ID没有提供参数值，则整个SQL不执行
 
-        sql = "UPDATE ::TABLE SET CODE = :CODE WHERE ID IN(:IDS)";
+    }
+    @Test
+    public void replace() throws Exception{
+        String SQL_PARAM_VARIABLE_REGEX = "(\\S+)\\s*\\(?(\\s*:+\\w+)(\\s|'|\\)|%|\\,)?";
+        //(\S+)\s*\(?(\s*:+\w+)(\s|'|\)|%|\,)?
+        String sql = null;
+        sql = "UPDATE ::TABLE SET CODE = :CODE WHERE ID IN( ::IDS)";
+        // UPDATE ::TABLE , UPDATE, ::TABLE , " "
+        // IN(::IDS), IN(:, :IDS, )
+        List<List<String>>  keys = RegularUtil.fetchs(sql, RunPrepare.SQL_PARAM_VARIABLE_REGEX, Regular.MATCH_MODE.CONTAIN);
         List<String> ids = new ArrayList<>();
         ids.add("1");
         ids.add("2");
@@ -138,6 +150,9 @@ public class SQLTest {
                 .param("TABLE", "CRM_USER")
                 .param("CODE","1")
                 .param("IDS", ids) );
+        sql = "SELECT * FROM CRM_USER WHERE ID IN(::ids)";
+        keys = RegularUtil.fetchs(sql, RunPrepare.SQL_PARAM_VARIABLE_REGEX, Regular.MATCH_MODE.CONTAIN);
+        service.querys(sql, new DefaultConfigStore().param("ids", "1,2,3"));
     }
 
     /********************************************************************
