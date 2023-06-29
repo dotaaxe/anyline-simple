@@ -79,6 +79,8 @@ public class ServiceTest {
 
     @Test
     public void query(){
+        service.query("bs_dict", "+id:null"); // ID IS NULL
+        service.query("bs_dict", "+id:");     // ID IS NULL
         //关于几个 空值 的查询条件
         ConfigStore store = new DefaultConfigStore();
         store.and("+ID", null);                // ID IS NULL
@@ -88,6 +90,7 @@ public class ServiceTest {
         store.and("+VAL", new String[]{});           // VAL IS NULL
         DataSet set = service.querys("bs_dict(ID,GROUP_CODE,CODE,NM,VAL)", store);
 
+
         List<Integer> ids = new ArrayList<>();
         ids.add(1);
         ids.add(2);
@@ -95,7 +98,6 @@ public class ServiceTest {
         //反例 这里不能这样直接拼上，因为list.toString返回的结果会有空格[1, 2, 3]
         service.query("bs_dict","ID:"+ids, "(id>0 and age>10)");
         service.query("bs_dict","ID:"+BeanUtil.list2string(ids));
-
     }
     @Test
     public void update(){

@@ -1,12 +1,11 @@
 package org.anyline.simple.neo4j;
 
+import org.anyline.adapter.KeyAdapter;
 import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
-import org.anyline.entity.PageNavi;
 import org.anyline.entity.DefaultPageNavi;
-import org.anyline.adapter.KeyAdapter;
+import org.anyline.entity.PageNavi;
 import org.anyline.service.AnylineService;
-import org.anyline.util.BasicUtil;
 import org.anyline.util.BeanUtil;
 import org.anyline.util.LogUtil;
 import org.junit.jupiter.api.Assertions;
@@ -15,7 +14,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 
@@ -38,6 +36,10 @@ public class Neo4jTest {
     private String schema   = null          ; //
     private String table    = "CRM_USER"    ; // 表名
 
+    /**
+     * 注意版本号   4.0的驱动 操作不到 5.x的服务器
+     *
+     */
 
     @Test
     public void dml() throws Exception{
