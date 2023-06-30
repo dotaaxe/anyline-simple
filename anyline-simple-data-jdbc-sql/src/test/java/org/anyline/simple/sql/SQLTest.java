@@ -42,7 +42,7 @@ public class SQLTest {
         //详细的查询条件构造方式 参考 anyline-simple-data-condition
         ConfigTable.IS_AUTO_CHECK_METADATA = true;
         String sql = "";
-
+        // #{} 表示占位符  ${}直接替换
         conditions.param("CODES","1,2,3".split(","));
         sql = "SELECT * FROM CRM_USER WHERE 1=1 AND CODE='in:1' AND id in (SELECT id from CRM_USER WHERE CODE in (:CODES))";
         service.query(sql, conditions);
@@ -73,13 +73,14 @@ public class SQLTest {
         sql = "SELECT * FROM CRM_USER WHERE ID IN(:IDS)";
         conditions.param("IDS", "1,2,3".split(","));
         service.querys(sql, conditions);
-        //SELECT * FROM CRM_USER WHERE ID IN(?,?,?)
+        //SELECT * FROM CRM_USER WHERE CODE = ? AND ID IN(?,?,?)
 
         //:PARAM_CODE 与 {PARAM_CODE} 效果一致但不能混用
         //会生成占位符 "PARAM_CODE:100" 与SQL中的占位符能匹配成功 会把值100赋值给占位符
         sql = "SELECT * FROM CRM_USER WHERE CODE = :PARAM_CODE AND NAME != :PARAM_CODE AND FIND_IN_SET(:PARAM_CODE, CODE)";
         service.querys(sql, conditions);
         service.querys(sql, "PARAM_CODE:111");
+        //SELECT * FROM CRM_USER WHERE CODE = ? AND NAME != ? AND FIND_IN_SET(?, CODE)
 
         sql = "SELECT * FROM CRM_USER WHERE CODE = #{PARAM_CODE}";
         service.querys(sql, "PARAM_CODE:100");
@@ -91,7 +92,7 @@ public class SQLTest {
         //在一些比较复杂的情况,简单占位符胜任不了时 会用到
         sql = "SELECT * FROM CRM_USER WHERE CODE = ::PARAM_CODE";
         service.querys(sql, "PARAM_CODE:100");
-        //生成SQL SELECT * FROM CRM_USER WHERE CODE = 1
+        //生成SQL SELECT * FROM CRM_USER WHERE CODE = 100
 
 
         sql = "SELECT * FROM CRM_USER WHERE CODE = ${PARAM_CODE}";
