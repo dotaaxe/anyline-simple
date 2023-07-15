@@ -30,15 +30,16 @@ public class SQLTest {
      *
      *                        请注意 不要被误导  init()中 只是举例说明sql的用法 只有复杂的SQL才需要这样实现
      *                        尽量用${key} #{key}的格式  与mybatis兼容
-     *                        ${key} = ::{key}
+     *                        ${key} = ::key
      *                        #{key} = :key
      *                        正常情况下有可以通过suggest()中的方式实现查询
      *
      ************************************************************************************************************/
     @Test
     public void init() throws Exception{
+        service.query("CRM_USER", "++ID:");
+        service.exists("CRM_USER", "++ID:");
         ConfigStore conditions = new DefaultConfigStore();
-        conditions.param("PARAM_CODE", 222);
         //详细的查询条件构造方式 参考 anyline-simple-data-condition
         ConfigTable.IS_AUTO_CHECK_METADATA = true;
         String sql = "";
@@ -155,7 +156,15 @@ public class SQLTest {
         keys = RegularUtil.fetchs(sql, RunPrepare.SQL_PARAM_VARIABLE_REGEX, Regular.MATCH_MODE.CONTAIN);
         service.querys(sql, new DefaultConfigStore().param("ids", "1,2,3"));
     }
-
+    @Test
+    public void test(){
+        String sql = "SELECT * FROM CRM_USER AS M LEFT JOIN CRM_USER AS F ON M.ID = F.ID";
+        ConfigStore configs = new DefaultConfigStore();
+        configs.and(Compare.NOT_EQUAL, "M", "ID", "0");
+        configs.or(Compare.GREAT, "M.ID","2");
+        service.querys("CRM_USER", configs);
+        service.querys(sql, configs);
+    }
     /********************************************************************
      *
      *                        init()中的SQL 最好应该这样写
@@ -196,5 +205,6 @@ public class SQLTest {
 
         service.save("CRM_USER", row);
     }
+
 
 }

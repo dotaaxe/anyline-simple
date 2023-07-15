@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.anyline</groupId>
         <artifactId>anyline-simple-start-mvc-mysql</artifactId>
-        <version>8.6.3-SNAPSHOT</version>
+        <version>8.6.5-SNAPSHOT</version>
         <relativePath>../anyline-simple-start-mvc-mysql</relativePath>
     </parent>
 

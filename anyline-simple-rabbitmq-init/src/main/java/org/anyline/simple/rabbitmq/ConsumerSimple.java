@@ -2,8 +2,8 @@ package org.anyline.simple.rabbitmq;
 
 import com.rabbitmq.client.*;
 import org.anyline.data.adapter.JDBCAdapter;
-import org.anyline.entity.data.Table;
 import org.anyline.entity.DataRow;
+import org.anyline.metadata.Table;
 import org.anyline.service.AnylineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

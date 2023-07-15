@@ -7,16 +7,16 @@
     <parent>
         <groupId>org.anyline</groupId>
         <artifactId>anyline-simple-data-jdbc-dialect</artifactId>
-        <version>8.6.3-SNAPSHOT</version>
+        <version>8.6.5-SNAPSHOT</version>
     </parent>
     <groupId>org.anyline</groupId>
     <artifactId>anyline-simple-data-jdbc-postgresql</artifactId>
-    <version>8.6.3-SNAPSHOT</version>
+    <version>8.6.5-SNAPSHOT</version>
     <dependencies>
         <dependency>
             <groupId>org.anyline</groupId>
             <artifactId>anyline-data-jdbc-postgresql</artifactId>
-            <version>8.6.3-SNAPSHOT</version>
+            <version>8.6.5-SNAPSHOT</version>
         </dependency>
     </dependencies>
 </project>

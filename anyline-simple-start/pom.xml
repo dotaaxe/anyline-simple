@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.anyline</groupId>
         <artifactId>anyline-simple-dependency</artifactId>
-        <version>8.6.3-SNAPSHOT</version>
+        <version>8.6.5-SNAPSHOT</version>
         <relativePath>../anyline-simple-dependency/pom.xml</relativePath>
     </parent>
     <artifactId>anyline-simple-start</artifactId>
