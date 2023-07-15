@@ -9,7 +9,7 @@ import org.anyline.data.jdbc.oracle.OracleAdapter;
 import org.anyline.data.jdbc.util.SQLAdapterUtil;
 import org.anyline.data.run.Run;
 import org.anyline.entity.DataRow;
-import org.anyline.entity.data.*;
+import org.anyline.metadata.*;
 import org.anyline.service.AnylineService;
 import org.anyline.util.BasicUtil;
 import org.anyline.util.ConfigTable;
@@ -280,8 +280,8 @@ public class DDLTest {
 
         Trigger trigger = new Trigger();
         trigger.setName("TR_USER");
-        trigger.setTime(org.anyline.entity.data.Trigger.TIME.AFTER);
-        trigger.addEvent(org.anyline.entity.data.Trigger.EVENT.INSERT);
+        trigger.setTime(org.anyline.metadata.Trigger.TIME.AFTER);
+        trigger.addEvent(org.anyline.metadata.Trigger.EVENT.INSERT);
         trigger.setTable("TAB_USER");
         trigger.setDefinition("UPDATE aa SET code = 1 WHERE id = NEW.id;");
         service.ddl().create(trigger);

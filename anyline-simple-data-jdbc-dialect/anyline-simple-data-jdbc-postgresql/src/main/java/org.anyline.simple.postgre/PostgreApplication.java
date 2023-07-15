@@ -1,7 +1,7 @@
 package org.anyline.simple.postgre;
 
 import org.anyline.adapter.KeyAdapter;
-import org.anyline.entity.data.Table;
+import org.anyline.metadata.Table;
 import org.anyline.entity.DataRow;
 import org.anyline.service.AnylineService;
 import org.anyline.util.BasicUtil;

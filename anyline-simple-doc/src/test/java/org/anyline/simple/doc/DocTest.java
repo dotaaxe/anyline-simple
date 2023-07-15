@@ -2,10 +2,10 @@ package org.anyline.simple.doc;
 
 import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
-import org.anyline.entity.data.Column;
-import org.anyline.entity.data.Database;
-import org.anyline.entity.data.Index;
-import org.anyline.entity.data.Table;
+import org.anyline.metadata.Column;
+import org.anyline.metadata.Database;
+import org.anyline.metadata.Index;
+import org.anyline.metadata.Table;
 import org.anyline.office.docx.entity.WDocument;
 import org.anyline.office.docx.entity.Wtable;
 import org.anyline.service.AnylineService;

@@ -2,8 +2,8 @@ package org.anyline.simple.oscar;
 
 
 import org.anyline.data.adapter.JDBCAdapter;
-import org.anyline.entity.data.Index;
-import org.anyline.entity.data.Table;
+import org.anyline.metadata.Index;
+import org.anyline.metadata.Table;
 import org.anyline.service.AnylineService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -22,7 +22,7 @@ public class OscarApplication {
     }
     public static void init() throws Exception{
 
-        Table table = new org.anyline.entity.data.Table("HR_EMPLOYEE").setComment("");
+        Table table = new org.anyline.metadata.Table("HR_EMPLOYEE").setComment("");
         //注意以下数据类型
         table.addColumn("ID"            , "BIGINT"       ).setComment("主键").setAutoIncrement(true).setPrimaryKey(true);
         table.addColumn("NAME"          , "varchar(50)"  ).setComment("姓名")     ; // String          : nm

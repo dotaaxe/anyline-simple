@@ -2,7 +2,7 @@ package org.anyline.simple.timescale;
 
 import org.anyline.data.adapter.JDBCAdapter;
 import org.anyline.entity.*;
-import org.anyline.entity.data.Table;
+import org.anyline.metadata.Table;
 import org.anyline.data.param.ConfigStore;
 import org.anyline.data.param.init.DefaultConfigStore;
 import org.anyline.service.AnylineService;

@@ -1,6 +1,6 @@
 package org.anyline.simple.entity;
 
-import org.anyline.entity.metadata.Convert;
+import org.anyline.metadata.type.Convert;
 import org.anyline.util.DateUtil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

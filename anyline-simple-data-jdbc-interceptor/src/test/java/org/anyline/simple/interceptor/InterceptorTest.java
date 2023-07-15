@@ -1,6 +1,6 @@
 package org.anyline.simple.interceptor;
 
-import org.anyline.entity.data.Table;
+import org.anyline.metadata.Table;
 import org.anyline.service.AnylineService;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;

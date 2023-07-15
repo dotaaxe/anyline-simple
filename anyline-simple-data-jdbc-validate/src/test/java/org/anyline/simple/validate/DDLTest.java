@@ -1,13 +1,11 @@
 package org.anyline.simple.validate;
-import org.anyline.entity.data.Column;
-import org.anyline.entity.data.Table;
-import org.anyline.data.jdbc.ds.DataSourceHolder;
+
+import org.anyline.metadata.Column;
+import org.anyline.metadata.Table;
 import org.anyline.service.AnylineService;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-
-import java.util.Date;
-import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest

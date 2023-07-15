@@ -2,7 +2,7 @@ package org.anyline.simple.mysql;
 
 
 import org.anyline.entity.DataRow;
-import org.anyline.entity.data.Column;
+import org.anyline.metadata.Column;
 import org.anyline.service.AnylineService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

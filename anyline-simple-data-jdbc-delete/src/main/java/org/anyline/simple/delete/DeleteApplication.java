@@ -3,11 +3,6 @@ package org.anyline.simple.delete;
 
 import org.anyline.data.jdbc.ds.DataSourceHolder;
 
-import org.anyline.data.param.ConfigStore;
-import org.anyline.data.param.init.DefaultConfigStore;
-import org.anyline.entity.Compare;
-import org.anyline.entity.DataRow;
-import org.anyline.entity.DataSet;
 import org.anyline.service.AnylineService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

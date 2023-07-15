@@ -7,7 +7,7 @@ import org.anyline.data.prepare.RunPrepare;
 import org.anyline.data.run.Run;
 import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
-import org.anyline.entity.data.ACTION.SWITCH;
+import org.anyline.metadata.ACTION.SWITCH;
 import org.anyline.util.DateUtil;
 import org.springframework.stereotype.Component;
 

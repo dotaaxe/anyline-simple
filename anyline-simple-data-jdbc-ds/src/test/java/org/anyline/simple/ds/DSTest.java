@@ -2,7 +2,7 @@ package org.anyline.simple.ds;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.anyline.data.jdbc.ds.DataSourceHolder;
-import org.anyline.entity.data.Table;
+import org.anyline.metadata.Table;
 import org.anyline.service.AnylineService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

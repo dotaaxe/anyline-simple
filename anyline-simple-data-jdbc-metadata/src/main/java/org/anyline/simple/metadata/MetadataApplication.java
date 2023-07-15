@@ -1,11 +1,11 @@
 package org.anyline.simple.metadata;
 
-import org.anyline.entity.data.Column;
-import org.anyline.entity.data.Index;
-import org.anyline.entity.data.Table;
-import org.anyline.entity.data.View;
 import org.anyline.data.jdbc.ds.DataSourceHolder;
 import org.anyline.entity.DataRow;
+import org.anyline.metadata.Column;
+import org.anyline.metadata.Index;
+import org.anyline.metadata.Table;
+import org.anyline.metadata.View;
 import org.anyline.service.AnylineService;
 import org.anyline.util.ConfigTable;
 import org.slf4j.Logger;

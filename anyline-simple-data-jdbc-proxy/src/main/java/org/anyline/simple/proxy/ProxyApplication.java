@@ -1,14 +1,6 @@
 package org.anyline.simple.proxy;
 
 
-import org.anyline.entity.data.Table;
-import org.anyline.data.jdbc.ds.DataSourceHolder;
-
-import org.anyline.data.param.ConfigStore;
-import org.anyline.data.param.init.DefaultConfigStore;
-import org.anyline.entity.Compare;
-import org.anyline.entity.DataRow;
-import org.anyline.entity.DataSet;
 import org.anyline.proxy.ServiceProxy;
 import org.anyline.service.AnylineService;
 import org.anyline.util.ConfigTable;

@@ -66,11 +66,11 @@ public class EntityApplication {
     public static void init() throws Exception{
         ConfigTable.IS_AUTO_CHECK_METADATA = true;
         //职员表
-        org.anyline.entity.data.Table table = service.metadata().table("HR_EMPLOYEE");
+        org.anyline.metadata.Table table = service.metadata().table("HR_EMPLOYEE");
         if(null != table){
             service.ddl().drop(table);
         }
-        table = new org.anyline.entity.data.Table("HR_EMPLOYEE");
+        table = new org.anyline.metadata.Table("HR_EMPLOYEE");
         //注意以下数据类型
         table.addColumn("ID"            , "BIGINT"       ).setComment("主键").setAutoIncrement(true).setPrimaryKey(true);
         table.addColumn("NAME"          , "varchar(50)"  ).setComment("姓名")     ; // String          : nm
@@ -105,7 +105,7 @@ public class EntityApplication {
         if(null != table){
             service.ddl().drop(table);
         }
-        table = new org.anyline.entity.data.Table("HR_DEPARTMENT");
+        table = new org.anyline.metadata.Table("HR_DEPARTMENT");
         table.addColumn("ID"            , "BIGINT").setAutoIncrement(true).setPrimaryKey(true);
         table.addColumn("NAME"          , "varchar(50)"  ); // String          : name      名称
         table.addColumn("CODE"          , "varchar(50)"  ); // String          : code      编号
@@ -117,7 +117,7 @@ public class EntityApplication {
         if(null != table){
             service.ddl().drop(table);
         }
-        table = new org.anyline.entity.data.Table("HR_EMPLOYEE_DEPARTMENT");
+        table = new org.anyline.metadata.Table("HR_EMPLOYEE_DEPARTMENT");
         table.addColumn("ID"            , "BIGINT"  ).setAutoIncrement(true).setPrimaryKey(true);
         table.addColumn("EMPLOYEE_ID"   , "BIGINT"  ); // LONG          : employeeId        职员ID
         table.addColumn("DEPARTMENT_ID" , "BIGINT"  ); // LONG          : departmentId      部门ID
@@ -128,7 +128,7 @@ public class EntityApplication {
         if(null != table){
             service.ddl().drop(table);
         }
-        table = new org.anyline.entity.data.Table("HR_ATTENDANCE_RECORD");
+        table = new org.anyline.metadata.Table("HR_ATTENDANCE_RECORD");
         table.addColumn("ID"            , "BIGINT"  ).setAutoIncrement(true).setPrimaryKey(true);
         table.addColumn("EMPLOYEE_ID"   , "BIGINT"  ); // LONG          : employeeId        职员ID
         table.addColumn("RECORD_TIME" , "DATETIME"  ); // LONG          : date      考勤时间
