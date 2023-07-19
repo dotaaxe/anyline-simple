@@ -34,10 +34,10 @@ public class MetadataApplication extends SpringBootServletInitializer {
 
 		service = (AnylineService)context.getBean("anyline.service");
 
-		check(null, "MySQL");
+		//check(null, "MySQL");
 		//check("pg", "PostgreSQL");
 		//check("ms", "SQL Server");
-		//check("oracle", "Oracle 11G");
+		check("oracle", "Oracle 11G");
 
 		//check("td", "TDengine");
 		//check("db2", "DB2");
@@ -59,7 +59,7 @@ public class MetadataApplication extends SpringBootServletInitializer {
 
 			service.execute(sql);
 		}
-		view();
+		//view();
 		table();
 		tables();
 		column();
