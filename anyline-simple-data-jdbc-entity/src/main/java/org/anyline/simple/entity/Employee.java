@@ -8,7 +8,7 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
 
-@Table(name="hr_employee")
+@Table(name="HR_EMPLOYEE")
 public class Employee extends BaseEntity{
 
     private Long id;

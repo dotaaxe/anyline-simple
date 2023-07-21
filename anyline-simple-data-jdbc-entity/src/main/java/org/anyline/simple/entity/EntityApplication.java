@@ -40,7 +40,6 @@ public class EntityApplication {
         SpringApplication application = new SpringApplication(EntityApplication.class);
         ConfigurableApplicationContext context = application.run(args);
         service = (AnylineService)context.getBean("anyline.service");
-
         init();
         test();
         dependency();
@@ -262,7 +261,7 @@ public class EntityApplication {
         System.out.println(BeanUtil.object2json(list));
         System.out.println(BeanUtil.object2json(list.getNavi()));
 
-        String sql = "SELECT * FROM hr_employee";
+        String sql = "SELECT * FROM HR_EMPLOYEE";
         list = service.selects(sql, Employee.class);
 /*
         AnylineService<Employee> s = null;
@@ -419,14 +418,14 @@ public class EntityApplication {
        // employee.setName("张三");
         //属性是entity类型的 数据是json类型
         //employee.setEjson(dept);
-        //这里会执行SQL UPDATE hr_employee SET department ={"code":"A1","name":"财务部"}(java.lang.String)
+        //这里会执行SQL UPDATE HR_EMPLOYEE SET department ={"code":"A1","name":"财务部"}(java.lang.String)
         ServiceProxy.save(employee);
 
         //DataRow 与Entity效果类似
-        DataRow emp = ServiceProxy.query("hr_employee");
+        DataRow emp = ServiceProxy.query("HR_EMPLOYEE");
         System.out.println(emp.toJSON());
 
-        DataSet emps = ServiceProxy.querys("hr_employee");
+        DataSet emps = ServiceProxy.querys("HR_EMPLOYEE");
         System.out.println(emps.toJSON());
 
         emp.put("department", dept);
