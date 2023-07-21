@@ -3,7 +3,7 @@ package org.anyline.simple.entity;
 import javax.persistence.Table;
 import java.time.LocalTime;
 
-@Table(name="hr_department")
+@Table(name="HR_DEPARTMENT")
 public class Department {
     private Long id;
     private String code;
