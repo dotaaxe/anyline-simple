@@ -6,6 +6,7 @@ import org.anyline.data.run.Run;
 import org.anyline.metadata.ACTION;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -15,9 +16,15 @@ public class TableCreateInterceptor implements DDInterceptor {
      * 拦截哪一个DDL事件，如果需要拦截多个可以写多个拦截器也可以实现 List<ACTION.DDL> actions()
      * @return
      */
-    @Override
+    /*@Override
     public ACTION.DDL action() {
         return ACTION.DDL.TABLE_CREATE;
+    }*/
+    @Override
+    public List<ACTION.DDL> actions() {
+        List<ACTION.DDL> list = new ArrayList<>();
+        list.add(ACTION.DDL.TABLE_CREATE);
+        return list;
     }
 
     /**

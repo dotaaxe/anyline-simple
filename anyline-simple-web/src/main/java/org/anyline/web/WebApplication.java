@@ -9,7 +9,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.ConfigurableApplicationContext;
 
 
-//exclude:²»¼ÓÔØÓëÊı¾İ¿âÏà¹ØµÄÀà
+//exclude:ä¸åŠ è½½ä¸æ•°æ®åº“ç›¸å…³çš„ç±»
 @SpringBootApplication(exclude = { DataSourceAutoConfiguration.class, DataSourceTransactionManagerAutoConfiguration.class })
 public class WebApplication extends SpringBootServletInitializer {
 	@Override
