@@ -294,7 +294,7 @@ public class ValidateTest {
 
         table = service.metadata().table("HR_EMPLOYEE");
         if (null == table) {
-            table = service.metadata().table("hr_employee");
+            table = service.metadata().table("HR_EMPLOYEE");
         }
         Assertions.assertNotNull(table);
 
