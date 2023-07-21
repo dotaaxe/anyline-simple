@@ -5,6 +5,7 @@ import org.anyline.metadata.Column;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
+import java.util.LinkedHashMap;
 
 @Component
 public class EmployeeAdapter implements EntityAdapter {
@@ -15,5 +16,14 @@ public class EmployeeAdapter implements EntityAdapter {
     public Column column(Class clazz, Field field, String... annotations) {
         System.out.print("[class:"+clazz+"][field:"+field+"][在这里转换成列名]");
         return EntityAdapter.super.column(clazz, field, annotations);
+    }
+
+    @Override
+    public LinkedHashMap<String, Column> columns(Class clazz, MODE mode) {
+        LinkedHashMap<String, Column> columns = EntityAdapter.super.columns(clazz, mode);
+        if(mode == MODE.UPDATE){ //UPDATE 时不更新REG_ID
+            columns.remove("REG_ID");
+        }
+        return columns;
     }
 }
