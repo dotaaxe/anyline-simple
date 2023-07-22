@@ -1,29 +1,20 @@
 package org.anyline.simple.oracle;
 
 
-import com.zaxxer.hikari.pool.HikariProxyPreparedStatement;
 import oracle.jdbc.OraclePreparedStatement;
-import org.anyline.metadata.Table;
-import org.anyline.service.AnylineService;
 import org.anyline.util.SpringContextUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
-import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 @ComponentScan(basePackages = {"org.anyline"})
 @SpringBootApplication
@@ -52,9 +43,9 @@ public class OracleApplication {
         String sql =" INSERT INTO CRM_USER (ID, NAME) \n " +
                 " SELECT SIMPLE_SEQ.nextval , M.*\n " +
                 " FROM( \n" +
-                " \tSELECT 'A_IDS'  AS NAME   FROM DUAL \n " +
+                " \tSELECT 'A_IDS'  AS NAME   FROM DUMMY \n " +
                 " \tUNION ALL\n" +
-                " \tSELECT 'B_IDS'     AS NAME  FROM DUAL ) M ";
+                " \tSELECT 'B_IDS'     AS NAME  FROM DUMMY ) M ";
         System.out.println(sql);
         int qty = jdbc.update(sql);
         System.out.println("影响行数:"+qty);
@@ -67,9 +58,9 @@ public class OracleApplication {
         String sql ="  begin INSERT INTO CRM_USER (ID, NAME)   " +
                 " SELECT SIMPLE_SEQ.nextval , M.*  " +
                 " FROM(  " +
-                " SELECT 'a_param'  AS NAME   FROM DUAL " +
+                " SELECT 'a_param'  AS NAME   FROM DUMMY " +
                 " UNION ALL " +
-                " SELECT 'b_param'    AS NAME  FROM DUAL ) M; end;";
+                " SELECT 'b_param'    AS NAME  FROM DUMMY ) M; end;";
         System.out.println(sql);
         PreparedStatementCreator creator = new PreparedStatementCreator() {
             @Override
@@ -92,9 +83,9 @@ public class OracleApplication {
         String sql =" begin  INSERT INTO CRM_USER (ID, NAME)   " +
                 " SELECT SIMPLE_SEQ.nextval , M.*  " +
                 " FROM(  " +
-                " SELECT ?  AS NAME   FROM DUAL " +
+                " SELECT ?  AS NAME   FROM DUMMY " +
                 " UNION ALL " +
-                " SELECT ?    AS NAME  FROM DUAL ) M; end;";
+                " SELECT ?    AS NAME  FROM DUMMY ) M; end;";
         System.out.println(sql);
         PreparedStatementCreator creator = new PreparedStatementCreator() {
             @Override
@@ -128,9 +119,9 @@ public class OracleApplication {
         String sql ="BEGIN   INSERT INTO CRM_USER (ID, NAME)   " +
                 " SELECT SIMPLE_SEQ.nextval , M.*  " +
                 " FROM(  " +
-                " SELECT :P1  AS NAME   FROM DUAL " +
+                " SELECT :P1  AS NAME   FROM DUMMY " +
                 " UNION ALL " +
-                " SELECT :P2    AS NAME  FROM DUAL ) M; END; ";
+                " SELECT :P2    AS NAME  FROM DUMMY ) M; END; ";
         MapSqlParameterSource parameters = new MapSqlParameterSource()
                 .addValue("P1", "A")
                 .addValue("P2", "B");
