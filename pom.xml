@@ -155,6 +155,7 @@
         <module>anyline-simple-data-jdbc-listener</module>
         <module>anyline-simple-data-jdbc-validate</module>
         <module>anyline-simple-web</module>
+        <module>anyline-simple-data-jdbc-dialect/anyline-simple-data-jdbc-hana</module>
 
     </modules>
 </project>
