@@ -68,9 +68,16 @@ public class DatasourceApplication extends SpringBootServletInitializer {
 		ds.setUsername("root");
 		ds.setPassword("root");
 		AnylineService service = ServiceProxy.temporary(ds);
+		//AnylineService service = (AnylineService) SpringContextUtil.getBean("anyline.service");
+
 		LinkedHashMap<String, Table> tables = service.metadata().tables();
+		//测试有没有泄漏 没有发现
 		for(String key:tables.keySet()){
 			System.out.println(key);
+			for(int i=0; i<100;i++){
+				service.query(key);
+			}
+			service.metadata().table(key);
 		}
 
 		DataSource ds1 = DataSourceUtil.build("com.zaxxer.hikari.HikariDataSource", "com.mysql.cj.jdbc.Driver", url, "root", "root");
