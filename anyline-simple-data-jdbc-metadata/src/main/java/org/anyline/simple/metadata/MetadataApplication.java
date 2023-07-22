@@ -2,6 +2,7 @@ package org.anyline.simple.metadata;
 
 import org.anyline.data.jdbc.ds.DataSourceHolder;
 import org.anyline.entity.DataRow;
+import org.anyline.entity.DataSet;
 import org.anyline.metadata.Column;
 import org.anyline.metadata.Index;
 import org.anyline.metadata.Table;
@@ -33,17 +34,16 @@ public class MetadataApplication extends SpringBootServletInitializer {
 		ConfigurableApplicationContext context = application.run(args);
 
 		service = (AnylineService)context.getBean("anyline.service");
-
 		//check(null, "MySQL");
-		//check("pg", "PostgreSQL");
-		//check("ms", "SQL Server");
+		check("hana", "SAP HANA");
+		check("pg", "PostgreSQL");
+		check("ms", "SQL Server");
 		check("oracle", "Oracle 11G");
 
 		//check("td", "TDengine");
 		//check("db2", "DB2");
 
 	}
-
 	public static void check(String ds, String title) throws Exception{
 		System.out.println("=============================== START " + title + "=========================================");
 		if(null != ds) {
@@ -66,10 +66,10 @@ public class MetadataApplication extends SpringBootServletInitializer {
 		tag();
 		index();
 		exception();
-		System.out.println("=============================== END " + title + "=========================================");
+		System.out.println("==、============================= END " + title + "=========================================");
 	}
 	public static void table() throws Exception{
-		System.out.println("-------------------------------- start  stable  ------------------------------------------");
+		System.out.println("--、------------------------------ start  stable  ------------------------------------------");
 
 		ConfigTable.IS_SQL_DELIMITER_OPEN = true;
 		Table table = service.metadata().table("hr_department");
@@ -96,9 +96,10 @@ public class MetadataApplication extends SpringBootServletInitializer {
 			row.put("ID", "${"+seq+".NEXTVAL}");
 		}
 
+
 		try {
 			//AGE 属性在表中不存在,直接插入会SQL异常
-			service.insert("hr_department", row);
+		//	service.insert("hr_department", row);
 		}catch (Exception e){
 			log.error("AGE 属性在表中不存在,直接插入会SQL异常:"+e.getMessage());
 		}
@@ -129,6 +130,14 @@ public class MetadataApplication extends SpringBootServletInitializer {
 		row.put("QTY","");							//int 类型转换失败会按null处理
 		row.put("DATA_STATUS","1");					//int 类型转换成int
 		service.save("hr_department", row);
+
+		DataSet set = new DataSet();
+		for(int i=0; i<10; i++){
+			DataRow r = new DataRow();
+			r.put("NM", "n_"+i);
+			set.add(r);
+		}
+		service.insert("hr_department", set);
 
 		//所有表名,支持模糊匹配
 		List<String> tables = service.tables();
