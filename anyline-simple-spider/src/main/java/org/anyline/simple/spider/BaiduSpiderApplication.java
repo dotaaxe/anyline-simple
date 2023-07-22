@@ -1,8 +1,9 @@
 package org.anyline.simple.spider;
 
-import org.anyline.baidu.site.util.BaiduSeoClient;
-import org.anyline.baidu.site.util.BaiduSeoConfig;
-import org.anyline.baidu.site.util.SubmitResponse;
+import org.anyline.baidu.seo.util.BaiduSeoClient;
+import org.anyline.baidu.seo.util.BaiduSeoConfig;
+import org.anyline.baidu.seo.util.PushResponse;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class BaiduSpiderApplication {
         BaiduSeoClient client = BaiduSeoClient.getInstance();
         List<String> urls = new ArrayList<>();
         urls.add("https://www.anyline.org");
-        SubmitResponse response = client.submit(urls);
+        PushResponse response = client.push(urls);
         System.out.println("提交成功数量:"+response.getSuccess() + " 当天剩余额度:"+response.getRemain());
     }
 
