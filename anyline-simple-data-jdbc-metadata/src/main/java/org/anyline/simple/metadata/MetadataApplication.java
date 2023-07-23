@@ -29,13 +29,13 @@ public class MetadataApplication extends SpringBootServletInitializer {
 	private static AnylineService service = null;
 	private static String seq = null;
 	public static void main(String[] args) throws Exception{
-		org.postgresql.util.PGobject s;
 		SpringApplication application = new SpringApplication(MetadataApplication.class);
 		ConfigurableApplicationContext context = application.run(args);
+		ConfigTable.IS_METADATA_AUTO_CHECK_COLUMN_PRIMARY = true;
 
 		service = (AnylineService)context.getBean("anyline.service");
 		//check(null, "MySQL");
-		check("hana", "SAP HANA");
+		//check("hana", "SAP HANA");
 		check("pg", "PostgreSQL");
 		check("ms", "SQL Server");
 		check("oracle", "Oracle 11G");
