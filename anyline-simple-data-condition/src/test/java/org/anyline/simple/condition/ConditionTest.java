@@ -84,10 +84,10 @@ public class ConditionTest {
         ConfigStore c1 = new DefaultConfigStore();
         ConfigStore c2 = new DefaultConfigStore();
         c1.and("ID", "1").or("ID", "2");
-        c2.and("ID", "11").or("ID", "22");
+        c2.and("ID", "11").or("ID", "22").or("ID", "33");
         c.and(c1).and(c2);
         service.query("crm_user", c);
-        //WHERE(ID = 1 OR  ID = 2) AND (ID = 11 OR  ID = 22)
+        //WHERE(ID = 1 OR  ID = 2) AND (ID = 11 OR  ID = 22 OR ID = 33)
 
 
 
@@ -95,9 +95,9 @@ public class ConditionTest {
         c1 = new DefaultConfigStore();
         c2 = new DefaultConfigStore();
         c1.and("ID", "1").and("ID", "2");
-        c2.and("ID", "11").and("ID", "22");
+        c2.and("ID", "11").and("ID", "22").and("ID","33");
         c.and(c1).or(c2);
         service.query("crm_user", c);
-        //WHERE(ID = 1 AND  ID = 2) OR (ID = 11 AND  ID = 22)
+        //WHERE(ID = 1 AND  ID = 2) OR (ID = 11 AND ID = 22 AND ID = 33)
     }
 }
