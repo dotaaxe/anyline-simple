@@ -77,31 +77,45 @@ public class ConditionTest {
     public void or(){
         ConfigStore configs = new DefaultConfigStore();
         configs.and("ID", "1");
-        configs.or("ID","2").or("ID","3").or("ID","4");
+        configs.or("ID","2").or("ID","3").or("ID","6");
         service.query("crm_user", configs);
-        //WHERE(ID = 1 OR  ID = 2 OR  ID = 3 OR  ID = 4)
+        //WHERE(ID = 1 OR  ID = 2 OR  ID = 3 OR  ID = 6)
 
         configs = new DefaultConfigStore();
         configs.and("ID", "1");
-        configs.or("ID","2").or("ID","3").or("ID","4", true, true);
+        configs.or("ID","2").or("ID","3").or("ID","6", true, true);
         service.query("crm_user", configs);
-        //WHERE(ID = 4)
-        //因为最后一步要覆盖相同的条件,也就是相同的条件中只留下第一个，并且用4覆盖原有的值（这里留哪个没影响，因为他的值最后都会被4覆盖）
+        //WHERE(ID = 6)
+        //因为最后一步要覆盖相同的条件,也就是相同的条件中只留下第一个，并且用6覆盖原有的值（这里留哪个没影响，因为他的值最后都会被6覆盖）
 
         configs = new DefaultConfigStore();
         configs.and("ID", "1");
-        configs.or("ID","2").or("ID","3").or("ID","4", true, false);
+        configs.or("ID","2").or("ID","3").or("ID","6", true, false);
         service.query("crm_user", configs);
         //WHERE(ID = 1)
-        //因为最后一步要覆盖相同的条件，也就是相同的条件中只留下第一个，但并不覆盖值，所以并没有用4覆盖1
+        //因为最后一步要覆盖相同的条件，也就是相同的条件中只留下第一个，但并不覆盖值，所以并没有用6覆盖1
+
+        configs = new DefaultConfigStore();
+        configs.and("ID", "11,22".split(","));
+        configs.or("ID","2,3".split(",")).or(Compare.IN,"ID","6", true, false);
+        service.query("crm_user", configs);
+        //WHERE(ID = IN(11,22, 6)
+        //相同条件只留下第一个11，22值虽然不覆盖但因为IN可以接收多个值所以会追加成11,22,6
+
+        configs = new DefaultConfigStore();
+        configs.and("ID", "11,22".split(","));
+        configs.or("ID","3").or(Compare.IN,"ID","6", true, false);
+        service.query("crm_user", configs);
+        //WHERE(ID = IN(11,22, 6) AND ID = 3
+        //因为运算符不一致所以ID=3不会覆盖
 
         /**
          * or 表示当前条件 与前一个条件  形成 或关系
          */
         configs = new DefaultConfigStore();
-        configs.and("ID", "1").and("ID", "2").or("ID", "3").and("ID", "4");
+        configs.and("ID", "1").and("ID", "2").or("ID", "3").and("ID", "6");
         service.query("crm_user", configs);
-        //WHERE ID = 1 AND (ID = 2 OR  ID = 3) AND  ID = 4
+        //WHERE ID = 1 AND (ID = 2 OR  ID = 3) AND  ID = 6
 
         /**
          * ors 表示当前条件 与之前的全部条件  形成 或关系
@@ -116,23 +130,23 @@ public class ConditionTest {
         // 多个ors尽量不要用 看最后面的方式
         configs = new DefaultConfigStore();
         configs.and("ID", "1");
-        configs.ors("ID","2").ors("ID","3").ors("ID","4");
+        configs.ors("ID","2").ors("ID","3").ors("ID","6");
         service.query("crm_user", configs);
-        //WHERE((((ID = 1) OR  ID = 2) OR  ID = 3) OR  ID = 4) //是不是很乱
+        //WHERE((((ID = 1) OR  ID = 2) OR  ID = 3) OR  ID = 6) //是不是很乱
 
         configs = new DefaultConfigStore();
         configs.and("ID", "1");
-        configs.ors("ID","2").ors("ID","3").ors("ID","4", true, true);
+        configs.ors("ID","2").ors("ID","3").ors("ID","6", true, true);
         service.query("crm_user", configs);
-        //WHERE(ID = 4)
-        //因为最后一步要覆盖相同的条件,也就是相同的条件中只留下第一个，并且用4覆盖原有的值（这里留哪个没影响，因为他的值最后都会被4覆盖）
+        //WHERE(ID = 6)
+        //因为最后一步要覆盖相同的条件,也就是相同的条件中只留下第一个，并且用6覆盖原有的值（这里留哪个没影响，因为他的值最后都会被6覆盖）
 
         configs = new DefaultConfigStore();
         configs.and("ID", "1");
-        configs.ors("ID","2").ors("ID","3").ors("ID","4", true, false);
+        configs.ors("ID","2").ors("ID","3").ors("ID","6", true, false);
         service.query("crm_user", configs);
         //WHERE(ID = 1)
-        //因为最后一步要覆盖相同的条件，也就是相同的条件中只留下第一个，但并不覆盖值，所以并没有用4覆盖1
+        //因为最后一步要覆盖相同的条件，也就是相同的条件中只留下第一个，但并不覆盖值，所以并没有用6覆盖1
 
         /***************************************************************************************************************
          *
