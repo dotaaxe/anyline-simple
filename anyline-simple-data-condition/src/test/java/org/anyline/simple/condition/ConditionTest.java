@@ -11,15 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class ConditionTest {
     @Autowired
     private AnylineService service          ;
-    @Test
-    public void init(){
-        // ${}内的不解析，按原生SQL处理
-        // ${ID > 0}
-    }
 
-    /**
-     *
-     */
     @Test
     public void or(){
         ConfigStore configs = new DefaultConfigStore();
@@ -59,7 +51,8 @@ public class ConditionTest {
         service.query("crm_user", configs);
         //WHERE((ID = 1 AND  ID = 2) OR  ID = 3)
 
-        //多个ors尽量不要用 看最后面的方式
+        //(反例  反例 反例)
+        // 多个ors尽量不要用 看最后面的方式
         configs = new DefaultConfigStore();
         configs.and("ID", "1");
         configs.ors("ID","2").ors("ID","3").ors("ID","4");
