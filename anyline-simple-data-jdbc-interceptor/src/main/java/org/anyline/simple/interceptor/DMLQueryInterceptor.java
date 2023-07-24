@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class QueryInterceptor implements org.anyline.data.interceptor.QueryInterceptor {
+public class DMLQueryInterceptor implements org.anyline.data.interceptor.QueryInterceptor {
 
     @Override
     public ACTION.SWITCH prepare(JDBCRuntime runtime, RunPrepare prepare, ConfigStore configs, String... conditions) {

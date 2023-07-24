@@ -1,6 +1,9 @@
 package org.anyline.simple.interceptor;
 
 
+import org.anyline.entity.DataRow;
+import org.anyline.entity.DataSet;
+import org.anyline.metadata.Column;
 import org.anyline.metadata.Table;
 import org.anyline.service.AnylineService;
 import org.springframework.boot.SpringApplication;
@@ -25,9 +28,19 @@ public class InterceptorApplication {
         }
         table = new Table("DDL_TABLE");
         table.addColumn("ID", "INT");
+        table.addColumn("NAME", "VARCHAR(10)");
         service.ddl().create(table);
 
+        Column col = table.getColumn("NAME");
+        col.setNewName("NM");
+        service.ddl().alter(col);
 
-        service.query("DDL_TABLE");
+        service.ddl().rename(col, "RE_NAME");
+
+        DataRow row = new DataRow();
+        row.put("RE_NAME","TEST");
+        service.insert("DDL_TABLE", row);
+        DataSet set = service.querys("DDL_TABLE");
+        System.out.println(set);
     }
 }

@@ -40,7 +40,7 @@ public class TableCreateInterceptor implements DDInterceptor {
     public ACTION.SWITCH before(JDBCRuntime runtime, String random, ACTION.DDL action, Object metadata, List<Run> runs) {
         for (Run run:runs){
             String sql = run.getFinalUpdate();
-            System.out.print("TableCreateInterceptor:"+sql);
+            System.out.println("--------------TableCreateInterceptor("+action+")-------------------\n"+sql);
         }
         return ACTION.SWITCH.CONTINUE;
     }
