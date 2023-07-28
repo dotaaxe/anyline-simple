@@ -34,14 +34,14 @@ public class MetadataApplication extends SpringBootServletInitializer {
 		ConfigTable.IS_METADATA_AUTO_CHECK_COLUMN_PRIMARY = true;
 
 		service = (AnylineService)context.getBean("anyline.service");
-		//check(null, "MySQL");
+		check(null, "MySQL");
 		//check("hana", "SAP HANA");
 		check("pg", "PostgreSQL");
 		check("ms", "SQL Server");
 		check("oracle", "Oracle 11G");
 
 		//check("td", "TDengine");
-		//check("db2", "DB2");
+		//check("db2", "DB2"); nlolkoi
 
 	}
 	public static void check(String ds, String title) throws Exception{
@@ -88,14 +88,16 @@ public class MetadataApplication extends SpringBootServletInitializer {
 			e.printStackTrace();
 		}
 
-
+		List<String> ddls = service.metadata().ddl("hr_department");
+		for(String ddl:ddls){
+			System.out.println(ddl);
+		}
 		DataRow row = new DataRow();
 		row.put("NM","TEST");
 		row.put("AGE","20");
 		if(null != seq){
 			row.put("ID", "${"+seq+".NEXTVAL}");
 		}
-
 
 		try {
 			//AGE 属性在表中不存在,直接插入会SQL异常
