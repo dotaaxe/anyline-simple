@@ -1,10 +1,11 @@
 package org.anyline.simple.tdengine;
 
 
+import com.taosdata.jdbc.TSDBDriver;
 import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
-import org.anyline.entity.PageNavi;
 import org.anyline.entity.DefaultPageNavi;
+import org.anyline.entity.PageNavi;
 import org.anyline.metadata.*;
 import org.anyline.service.AnylineService;
 import org.anyline.util.ConfigTable;
@@ -16,7 +17,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 
-import java.util.*;
+import java.sql.*;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Properties;
 
 
 @ComponentScan(basePackages = {"org.anyline"})
@@ -24,8 +29,8 @@ import java.util.*;
 public class TdengineApplication {
     private static Logger log = LoggerFactory.getLogger(TdengineApplication.class);
     private static AnylineService service;
-
     public static void main(String[] args) throws Exception{
+        //test();
         SpringApplication application = new SpringApplication(TdengineApplication.class);
         ConfigurableApplicationContext context = application.run(args);
         service = context.getBean(AnylineService.class);
@@ -61,8 +66,6 @@ public class TdengineApplication {
             row.put("age", i*10);
             set.add(row);
         }
-        log.warn(LogUtil.format("批量插入数据",34));
-        service.insert("a_test", set);
 
 
         log.warn(LogUtil.format("直接插入子表",34));
@@ -77,33 +80,33 @@ public class TdengineApplication {
         service.insert("s_table_user", set);
 
 
-        int total = service.count("a_test");
+        int total = service.count("s_table_user");
         log.warn(LogUtil.format("统计数量:"+total,34));
         PageNavi navi = new DefaultPageNavi();
         navi.setTotalRow(total);
         navi.setCurPage(2);
         navi.setPageRows(3);
-        set = service.querys("a_test",navi);
+        set = service.querys("s_table_user", navi);
         log.warn(LogUtil.format("分页查询",34));
 
         System.out.println(set);
-        set = service.querys("a_test");
+        set = service.querys("s_table_user");
         System.out.println(set);
-        set = service.querys("a_test", "CODE:C0");
+        set = service.querys("s_table_user", "CODE:C0");
         System.out.println(set);
-        set = service.querys("a_test", "CODE LIKE 'C0%'");
+        set = service.querys("s_table_user", "CODE LIKE 'C0%'");
         System.out.println(set);
 
     }
     public static void clear() throws Exception{
 
-        Table table = service.metadata().table("a_test");
+        Table table = service.metadata().table("s_table_user");
         if(null != table) {
             log.warn(LogUtil.format("查看表Column(不含Tag)", 34));
             for (Column col : table.getColumns().values()) {
                 log.warn(LogUtil.format(col.toString(), 34));
             }
-            service.ddl().drop(new Table("a_test"));
+            service.ddl().drop(new Table("s_table_user"));
 
         }
         MasterTable stable = service.metadata().mtable("s_table_user");
@@ -169,8 +172,9 @@ public class TdengineApplication {
         service.ddl().save(column);
 
         log.warn(LogUtil.format("表修改column名:"+column.toString(),34));
-        column.update().setName("RENAME_COLUMN");
-        service.ddl().save(column);
+        //超表不支持修改列表
+        // column.update().setName("RENAME_COLUMN");
+        // service.ddl().save(column);
 
         log.warn(LogUtil.format("表删除column:"+column.toString(),34));
         service.ddl().drop(column);
@@ -317,5 +321,38 @@ public class TdengineApplication {
         }
 
         System.out.println("\n-------------------------------- end table  --------------------------------------------\n");
+    }
+    public static void test() throws Exception{
+
+        Statement stmt = getConn().createStatement();
+
+        //这样可以，只能查全表，不能加任何条件
+        //ResultSet resultSet = stmt.executeQuery("select * from s_table_user");
+        //这样就异常了
+        ResultSet resultSet = stmt.executeQuery("select * from s_table_user limit 1,2");
+
+        Timestamp ts = null;
+        int temperature = 0;
+        String humidity = "";
+        while(resultSet.next()){
+
+            ts = resultSet.getTimestamp(1);
+            temperature = resultSet.getInt(3);
+            humidity = resultSet.getString("code");
+
+            System.out.printf("%s, %d, %s\n", ts, temperature, humidity);
+        }
+    }
+    public static  Connection getConn() throws Exception{
+        Class.forName("com.taosdata.jdbc.TSDBDriver");
+        String jdbcUrl = "jdbc:TAOS://localhost:6030/simple?user=root&password=root";
+        Properties connProps = new Properties();
+        connProps.setProperty(TSDBDriver.PROPERTY_KEY_CHARSET, "UTF-8");
+        connProps.setProperty(TSDBDriver.PROPERTY_KEY_LOCALE, "en_US.UTF-8");
+        connProps.setProperty(TSDBDriver.PROPERTY_KEY_TIME_ZONE, "UTC-8");
+        connProps.setProperty("debugFlag", "135");
+        connProps.setProperty("maxSQLLength", "1048576");
+        Connection conn = DriverManager.getConnection(jdbcUrl, connProps);
+        return conn;
     }
 }
