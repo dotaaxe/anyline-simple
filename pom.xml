@@ -70,6 +70,8 @@
         <module>anyline-simple-data-jdbc-dialect/anyline-simple-data-jdbc-sqlite</module>
         <module>anyline-simple-data-jdbc-dialect/anyline-simple-data-jdbc-derby</module>
         <module>anyline-simple-data-jdbc-dialect/anyline-simple-data-jdbc-h2</module>
+        <module>anyline-simple-data-jdbc-dialect/anyline-simple-data-jdbc-hana</module>
+        <module>anyline-simple-data-jdbc-dialect/anyline-simple-data-jdbc-hive</module>
         <module>anyline-simple-data-jdbc-dialect/anyline-simple-data-jdbc-hsqldb</module>
         <module>anyline-simple-data-jdbc-dialect/anyline-simple-data-jdbc-tdengine</module>
         <module>anyline-simple-data-jdbc-dialect/anyline-simple-data-jdbc-mssql</module>
@@ -155,7 +157,6 @@
         <module>anyline-simple-data-jdbc-listener</module>
         <module>anyline-simple-data-jdbc-validate</module>
         <module>anyline-simple-web</module>
-        <module>anyline-simple-data-jdbc-dialect/anyline-simple-data-jdbc-hana</module>
 
     </modules>
 </project>
