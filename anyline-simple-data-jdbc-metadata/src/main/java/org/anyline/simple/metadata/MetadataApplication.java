@@ -35,10 +35,7 @@ public class MetadataApplication extends SpringBootServletInitializer {
 
 		service = (AnylineService)context.getBean("anyline.service");
 		//check(null, "MySQL");
-		System.out.println(DataSourceHolder.validate());
-		System.out.println(DataSourceHolder.validate("hana"));
-		System.out.println(DataSourceHolder.validate("oracle"));
-		System.out.println(DataSourceHolder.validate("pg"));
+		check("hive", "Apache Hive");
 		check("hana", "SAP HANA");
 		check("pg", "PostgreSQL");
 		check("ms", "SQL Server");
