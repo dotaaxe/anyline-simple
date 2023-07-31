@@ -61,12 +61,16 @@ public class DatasourceApplication extends SpringBootServletInitializer {
 	 * 临时数据源，用完后被GC自动回收，默认不支持事务
 	 */
 	public static  void temporary(){
-		String url = "jdbc:mysql://localhost:13306/simple?useUnicode=true&characterEncoding=UTF8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true";
+		String url = "jdbc:mysql://localhost:23306/simple?useUnicode=true&characterEncoding=UTF8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true";
 		DruidDataSource ds = new DruidDataSource();
 		ds.setUrl(url);
 		ds.setDriverClassName("com.mysql.cj.jdbc.Driver");
 		ds.setUsername("root");
 		ds.setPassword("root");
+		ds.setConnectionErrorRetryAttempts(3);
+		ds.setBreakAfterAcquireFailure(true);
+		ds.setConnectTimeout(3000);
+		ds.setMaxWait(30000);
 		AnylineService service = ServiceProxy.temporary(ds);
 		//AnylineService service = (AnylineService) SpringContextUtil.getBean("anyline.service");
 
