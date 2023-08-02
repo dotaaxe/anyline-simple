@@ -35,8 +35,8 @@ public class MetadataApplication extends SpringBootServletInitializer {
 
 		service = (AnylineService)context.getBean("anyline.service");
 		//check(null, "MySQL");
-		check("hive", "Apache Hive");
-		check("hana", "SAP HANA");
+		//check("hive", "Apache Hive");
+		//check("hana", "SAP HANA");
 		check("pg", "PostgreSQL");
 		check("ms", "SQL Server");
 		check("oracle", "Oracle 11G");
