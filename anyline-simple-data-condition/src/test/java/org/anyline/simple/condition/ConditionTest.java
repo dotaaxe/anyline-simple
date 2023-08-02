@@ -16,6 +16,7 @@ public class ConditionTest {
     @Test
     public void over(){
         ConfigStore configs = new DefaultConfigStore();
+
         configs.and("ID", "1");
         configs.and("ID","2");
         configs.and("ID","3");
