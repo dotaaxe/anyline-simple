@@ -19,7 +19,7 @@ public class EmployeeController extends AnylineController {
 
     @RequestMapping("/a")
     public String insert(){
-        int qty = service.count("HR_EMPLOYEE");
+        long qty = service.count("HR_EMPLOYEE");
         try {
             DataRow row = new DataRow();
             row.put("NM", BasicUtil.getRandomString(10));
@@ -27,7 +27,7 @@ public class EmployeeController extends AnylineController {
         }catch (Exception e){
             e.printStackTrace();
         }
-        int cnt = eservice.count("HR_EMPLOYEE");
+        long cnt = eservice.count("HR_EMPLOYEE");
         return success("insert前后行数:"+qty+">"+cnt);
     }
 
@@ -37,7 +37,7 @@ public class EmployeeController extends AnylineController {
     //以下这样不行
     @RequestMapping("/a1")
     public String insert1(){
-        int qty = service.count("HR_EMPLOYEE");
+        long qty = service.count("HR_EMPLOYEE");
         try {
             DataRow row = new DataRow();
             row.put("NM", BasicUtil.getRandomString(10));
@@ -45,7 +45,7 @@ public class EmployeeController extends AnylineController {
         }catch (Exception e){
             e.printStackTrace();
         }
-        int cnt = eservice.count("HR_EMPLOYEE");
+        long cnt = eservice.count("HR_EMPLOYEE");
         return success("insert前后行数:"+qty+">"+cnt);
     }
 
