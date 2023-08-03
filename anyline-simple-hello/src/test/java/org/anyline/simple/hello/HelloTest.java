@@ -61,7 +61,7 @@ public class HelloTest {
         set = service.querys("crm_user", service.condition().and("ID", "1,2,3".split(",")));
         System.out.println(set);
         //合计行数 与查询的参数一样只是返回值不一样
-        int qty = service.count("crm_user", "id>1");
+        long qty = service.count("crm_user", "id>1");
         System.out.println(qty);
         qty = service.count("crm_user(distinct id)", "id>1");
         System.out.println(qty);
