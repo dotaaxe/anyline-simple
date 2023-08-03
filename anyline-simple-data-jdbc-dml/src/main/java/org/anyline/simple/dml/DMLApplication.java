@@ -169,7 +169,7 @@ public class DMLApplication {
 		//经常继承AnylineController 调用其中的里的condition()生成ConfigStore condition约定格式参考 http://doc.anyline.org/s?id=1059
 		ConfigStore configs = new DefaultConfigStore();
 		//查询总行数
-		int qty = service.count("CRM_USER");
+		long qty = service.count("CRM_USER");
 
 		//查询全部
 		DataSet set = service.querys("CRM_USER");
