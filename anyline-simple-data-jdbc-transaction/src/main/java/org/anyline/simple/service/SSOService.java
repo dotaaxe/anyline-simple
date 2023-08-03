@@ -26,7 +26,7 @@ public class SSOService {
         }
         throw new RuntimeException("test exception");
     }
-    public int count(String table){
+    public long count(String table){
         return service.count(table);
     }
 }
