@@ -1,10 +1,10 @@
 package org.anyline.simple.listener;
 
-import org.anyline.data.jdbc.ds.JDBCRuntime;
 import org.anyline.data.listener.DMListener;
 import org.anyline.data.param.ConfigStore;
 import org.anyline.data.prepare.RunPrepare;
 import org.anyline.data.run.Run;
+import org.anyline.data.runtime.DataRuntime;
 import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
 import org.anyline.metadata.ACTION.SWITCH;
@@ -29,7 +29,7 @@ public class DefaultListener implements DMListener {
      * @return 如果返回false 则中断执行
      */
     @Override
-    public SWITCH prepareInsert(JDBCRuntime runtime, String random, String dest, Object obj, boolean checkPrimary, List<String> columns){
+    public SWITCH prepareInsert(DataRuntime runtime, String random, String dest, Object obj, boolean checkPrimary, List<String> columns){
         if(obj instanceof DataRow){
             DataRow row = (DataRow)obj;
             row.put("REG_TIME", DateUtil.format());
@@ -47,7 +47,7 @@ public class DefaultListener implements DMListener {
      * @return 如果返回false 则中断执行
      */
     @Override
-    public SWITCH prepareQuery(JDBCRuntime runtime, String random, RunPrepare prepare, ConfigStore configs, String... conditions) {
+    public SWITCH prepareQuery(DataRuntime runtime, String random, RunPrepare prepare, ConfigStore configs, String... conditions) {
         configs.and("ID > 1");
         return SWITCH.CONTINUE;
     }
@@ -64,7 +64,7 @@ public class DefaultListener implements DMListener {
      * @return 如果返回false 则中断执行
      */
     @Override
-    public SWITCH prepareUpdate(JDBCRuntime runtime, String random, String dest, Object obj, ConfigStore configs, boolean checkPrimary, List<String> columns) {
+    public SWITCH prepareUpdate(DataRuntime runtime, String random, String dest, Object obj, ConfigStore configs, boolean checkPrimary, List<String> columns) {
         if(obj instanceof DataRow){
             DataRow row = (DataRow)obj;
             row.put("UPT_TIME", DateUtil.format());
@@ -84,7 +84,7 @@ public class DefaultListener implements DMListener {
      * @return 如果返回false 则中断执行
      */
     @Override
-    public SWITCH prepareDelete(JDBCRuntime runtime, String random, String dest, Object obj, String ... columns){
+    public SWITCH prepareDelete(DataRuntime runtime, String random, String dest, Object obj, String ... columns){
         if(obj instanceof DataRow){
             DataRow row = (DataRow)obj;
             row.put("UPT_TIME", DateUtil.format());
@@ -107,7 +107,7 @@ public class DefaultListener implements DMListener {
      * @return 如果返回false 则中断执行
      */
     @Override
-    public SWITCH prepareDelete(JDBCRuntime runtime, String random, String table, String key, Object values){
+    public SWITCH prepareDelete(DataRuntime runtime, String random, String table, String key, Object values){
         return SWITCH.CONTINUE;
     }
 
@@ -121,7 +121,7 @@ public class DefaultListener implements DMListener {
      * @param millis 耗时(毫秒)
      */
     @Override
-    public SWITCH afterQuery(JDBCRuntime runtime, String random, Run run, boolean success,  DataSet set, long millis) {
+    public SWITCH afterQuery(DataRuntime runtime, String random, Run run, boolean success,  DataSet set, long millis) {
         System.out.println(run.getFinalQuery());
         System.out.println(run.getValues());
         return SWITCH.CONTINUE;
