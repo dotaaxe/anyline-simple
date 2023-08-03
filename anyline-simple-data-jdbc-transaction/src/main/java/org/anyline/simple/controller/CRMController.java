@@ -16,7 +16,7 @@ public class CRMController extends AnylineController {
     private CRMService service;
     @RequestMapping("a")
     public String add(){
-        int qty = service.count("<crm>crm_customer");
+        long qty = service.count("<crm>crm_customer");
         try {
             DataRow row = new DataRow();
             row.put("NM", BasicUtil.getRandomString(10));
@@ -24,7 +24,7 @@ public class CRMController extends AnylineController {
         }catch (Exception e){
             e.printStackTrace();
         }
-        int cnt = service.count("<crm>crm_customer");
+        long cnt = service.count("<crm>crm_customer");
         return success("insert前后行数:"+qty+">"+cnt);
     }
 }
