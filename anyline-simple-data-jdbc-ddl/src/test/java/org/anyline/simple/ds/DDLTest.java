@@ -1,13 +1,13 @@
 package org.anyline.simple.ds;
 
 import com.zaxxer.hikari.HikariDataSource;
+import org.anyline.data.adapter.DriverAdapter;
 import org.anyline.data.adapter.JDBCAdapter;
 import org.anyline.data.jdbc.ds.DataSourceHolder;
-import org.anyline.data.jdbc.ds.JDBCRuntime;
-import org.anyline.data.jdbc.ds.RuntimeHolder;
 import org.anyline.data.jdbc.oracle.OracleAdapter;
-import org.anyline.data.jdbc.util.SQLAdapterUtil;
+import org.anyline.data.jdbc.runtime.JdbcRuntimeHolder;
 import org.anyline.data.run.Run;
+import org.anyline.data.runtime.DataRuntime;
 import org.anyline.entity.DataRow;
 import org.anyline.metadata.*;
 import org.anyline.service.AnylineService;
@@ -42,16 +42,16 @@ public class DDLTest {
         if(null != ds) {
             DataSourceHolder.setDataSource(ds);
         }
-        //check();
-        //type();
-        //table();
-        //view();
-        //column();
-        //index();
-        //exception();
-        //foreign();
-        //trigger();
-        //clear();
+        check();
+        type();
+        table();
+        view();
+        column();
+        index();
+        exception();
+        foreign();
+        trigger();
+        clear();
         all();
         System.out.println("\n=============================== END " + title + "=========================================\n");
     }
@@ -251,7 +251,7 @@ public class DDLTest {
         table.addColumn("ID", "int").setAutoIncrement(true).setPrimaryKey(true);
         table.addColumn("CODE", "VARCHAR(10)").setDefaultValue("ABC");
         //如果确定数据库类型直接创建adapter实例
-        JDBCAdapter adapter = new OracleAdapter();
+        DriverAdapter adapter = new OracleAdapter();
         List<Run> sqls = adapter.buildCreateRunSQL(table);
         for(Run sql:sqls){
             System.out.println(sql.getFinalUpdate());
@@ -259,8 +259,8 @@ public class DDLTest {
 
         //如果在运行时有多个数据库可以通过SQLAdapterUtil辅助确定数据库类型
         //为什么需要两个参数，getAdapter调用非常频繁,解析过程中需要与数据库建立连接比较耗时，第一个参数是用于缓存，第一次成功解析数据库类型后会缓存起来，后续不再解析
-        JDBCRuntime runtime = RuntimeHolder.getRuntime();
-        adapter = SQLAdapterUtil.getAdapter(runtime.datasource(), runtime.getTemplate());
+        DataRuntime runtime = JdbcRuntimeHolder.getRuntime();
+        adapter = runtime.getAdapter();
 
         sqls = adapter.buildCreateRunSQL(table);
         for(Run sql:sqls){
