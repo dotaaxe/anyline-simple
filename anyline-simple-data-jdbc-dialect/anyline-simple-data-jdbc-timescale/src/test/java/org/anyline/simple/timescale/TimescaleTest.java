@@ -79,7 +79,7 @@ public class TimescaleTest {
             row.put("NAME", "N"+i);
             set.add(row);
         }
-        int qty = service.insert(table, set);
+        long qty = service.insert(table, set);
         log.warn(LogUtil.format("[批量插入][影响行数:{}][生成主键:{}]", 36), qty, set.getStrings("ID"));
         Assertions.assertEquals(qty , 9);
 
