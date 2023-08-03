@@ -62,8 +62,8 @@ public class HelpApplication {
 		}*/
 	}
 	public static void memory(){
-		int total = service.count("A_TEST_Q");
-		int page = (total -1)/ 2000;
+		long total = service.count("A_TEST_Q");
+		long page = (total -1)/ 2000;
 		for(int p=0; p<page; p++){
 			service.maps("A_TEST_Q", new DefaultPageNavi(p, 2000).setLazy(100000000));
 			System.out.println("可用内存:"+LogUtil.format(Runtime.getRuntime().freeMemory()/1024/1024, 31));
