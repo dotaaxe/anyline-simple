@@ -31,7 +31,7 @@ public class ApplicationAware implements ApplicationListener<ApplicationReadyEve
     }
 
     private void init(){
-        int qty = service.count("HR_SALARY");
+        long qty = service.count("HR_SALARY");
         if(qty ==0) {
             int yyyy = BasicUtil.parseInt(DateUtil.format("yyyy"),0);
             DataSet employees = service.querys("HR_EMPLOYEE");
