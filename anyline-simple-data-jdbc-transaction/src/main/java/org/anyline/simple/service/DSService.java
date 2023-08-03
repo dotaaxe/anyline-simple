@@ -41,7 +41,7 @@ public class DSService {
             DataSourceHolder.rollback(status);
         }
     }
-    public int count(String table){
+    public long count(String table){
         return service.count(table);
     }
 }
