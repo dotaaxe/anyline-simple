@@ -80,7 +80,7 @@ public class TdengineApplication {
         service.insert("s_table_user", set);
 
 
-        int total = service.count("s_table_user");
+        long total = service.count("s_table_user");
         log.warn(LogUtil.format("统计数量:"+total,34));
         PageNavi navi = new DefaultPageNavi();
         navi.setTotalRow(total);
