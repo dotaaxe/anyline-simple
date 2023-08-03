@@ -91,7 +91,7 @@ public class OracleTest {
     }
     @Test
     public void dml() throws Exception{
-        int qty = 0;
+        long qty = 0;
         ConfigTable.IS_AUTO_CHECK_METADATA = true;
         DataSet set = null;
         DataRow row = null;
