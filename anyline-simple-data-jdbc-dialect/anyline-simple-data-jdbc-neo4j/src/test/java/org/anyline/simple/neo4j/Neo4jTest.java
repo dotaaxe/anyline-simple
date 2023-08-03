@@ -113,7 +113,7 @@ public class Neo4jTest {
         Assertions.assertEquals(qty, users.size());
 
         //合计
-        int total = service.count("Dept","leader:张三");
+        long total = service.count("Dept","leader:张三");
         log.warn(LogUtil.format("[合计数量][total:{}]", 36), total);
 
         total = service.count("");
