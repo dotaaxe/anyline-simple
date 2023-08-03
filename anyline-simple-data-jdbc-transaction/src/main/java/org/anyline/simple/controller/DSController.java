@@ -20,7 +20,7 @@ public class DSController extends AnylineController {
     public String add(){
         String ds = "sso";
         DataSourceHolder.setDataSource(ds);
-        int qty = service.count("SSO_USER");
+        long qty = service.count("SSO_USER");
         try {
             DataRow row = new DataRow();
             row.put("NM", BasicUtil.getRandomString(10));
@@ -28,7 +28,7 @@ public class DSController extends AnylineController {
         }catch (Exception e){
             e.printStackTrace();
         }
-        int cnt = service.count("SSO_USER");
+        long cnt = service.count("SSO_USER");
         return success("insert前后行数:"+qty+">"+cnt);
     }
 }
