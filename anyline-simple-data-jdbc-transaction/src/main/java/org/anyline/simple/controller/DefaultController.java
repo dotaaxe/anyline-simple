@@ -16,7 +16,7 @@ public class DefaultController extends AnylineController {
     private DefaultService service;
     @RequestMapping("a")
     public String add(){
-        int qty = service.count("HR_EMPLOYEE");
+        long qty = service.count("HR_EMPLOYEE");
         try {
             DataRow row = new DataRow();
             row.put("NAME", BasicUtil.getRandomString(10));
@@ -24,7 +24,7 @@ public class DefaultController extends AnylineController {
         }catch (Exception e){
             e.printStackTrace();
         }
-        int cnt = service.count("HR_EMPLOYEE");
+        long cnt = service.count("HR_EMPLOYEE");
         return success("insert前后行数:"+qty+">"+cnt);
     }
 }
