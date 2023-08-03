@@ -19,7 +19,7 @@ public class SSOController extends AnylineController {
 
     @RequestMapping("a")
     public String add(HttpServletRequest request){
-        int qty = service.count("<sso>SSO_USER");
+        long qty = service.count("<sso>SSO_USER");
         try {
             DataRow row = new DataRow();
             row.put("NM", BasicUtil.getRandomString(10));
@@ -27,7 +27,7 @@ public class SSOController extends AnylineController {
         }catch (Exception e){
             e.printStackTrace();
         }
-        int cnt = service.count("<sso>SSO_USER");
+        long cnt = service.count("<sso>SSO_USER");
         return success("insert前后行数:"+qty+">"+cnt);
     }
 }
