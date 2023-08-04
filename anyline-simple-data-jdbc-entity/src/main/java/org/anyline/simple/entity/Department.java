@@ -1,10 +1,13 @@
 package org.anyline.simple.entity;
 
+import javax.persistence.GeneratedValue;
 import javax.persistence.Table;
 import java.time.LocalTime;
 
 @Table(name="HR_DEPARTMENT")
 public class Department {
+
+    @GeneratedValue(generator = "timestamp")
     private Long id;
     private String code;
     private String name;
