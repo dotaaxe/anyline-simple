@@ -13,6 +13,7 @@ import org.anyline.util.ConfigTable;
 import org.anyline.util.DateUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 
@@ -36,6 +37,7 @@ public class EntityApplication {
     }
 
     public static void main(String[] args) throws Exception{
+        ConfigTable.IS_PRINT_EXCEPTION_STACK_TRACE = true;
         ConfigTable.IS_AUTO_CHECK_METADATA = true;
         SpringApplication application = new SpringApplication(EntityApplication.class);
         ConfigurableApplicationContext context = application.run(args);
@@ -177,6 +179,10 @@ public class EntityApplication {
 
         //其他信息
         em.setOther("{\"爱好\":\"跑步\",\"籍贯\":\"山东\"}");
+        Map<String,String> m = new HashMap<>();
+        m.put("name","zhang");
+        JSONObject json = new JSONObject(m);
+        em.setOther(json);
         //工作地
         em.setWorkLocation(new Double[]{121.0,35.0});
         //家庭住址

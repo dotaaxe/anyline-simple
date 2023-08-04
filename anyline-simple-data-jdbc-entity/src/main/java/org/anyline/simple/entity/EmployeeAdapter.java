@@ -14,7 +14,7 @@ public class EmployeeAdapter implements EntityAdapter {
     }
     @Override
     public Column column(Class clazz, Field field, String... annotations) {
-        System.out.print("[class:"+clazz+"][field:"+field+"][在这里转换成列名]");
+        System.out.println("[class:"+clazz+"][field:"+field+"][在这里转换成列名]");
         return EntityAdapter.super.column(clazz, field, annotations);
     }
 
