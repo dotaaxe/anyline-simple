@@ -1,7 +1,6 @@
 package org.anyline.simple.help;
 
 
-import org.anyline.data.jdbc.ds.DataSourceHolder;
 import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
 import org.anyline.entity.DefaultPageNavi;
@@ -10,6 +9,7 @@ import org.anyline.metadata.Table;
 import org.anyline.service.AnylineService;
 import org.anyline.util.BasicUtil;
 import org.anyline.util.ClassUtil;
+import org.anyline.util.ConfigTable;
 import org.anyline.util.LogUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -47,19 +47,24 @@ public class HelpApplication {
 
 		service = (AnylineService)context.getBean("anyline.service");
 		jdbc = context.getBean(JdbcTemplate.class);
-		DataSourceHolder.setDataSource("dm8");
-		ds = jdbc.getDataSource();
-		con = DataSourceUtils.getConnection(ds);
+
+		json();
 		//td();
 		//tdtags();
 		//convert();
 		//type();
-		dm8();
+		//dm8();
 
 		//data(); //准备测试数据
 		/*for(int i=0; i<100; i++){
 			memory();
 		}*/
+	}
+	public static void json(){
+		ConfigTable.IS_AUTO_CHECK_METADATA = true;
+		DataSet set = service.querys("HR_EMPLOYEE(ID,TITLES)",0,0);
+		service.insert("HR_EMPLOYEE1", set);
+
 	}
 	public static void memory(){
 		long total = service.count("A_TEST_Q");
