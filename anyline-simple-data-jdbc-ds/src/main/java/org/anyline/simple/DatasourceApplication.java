@@ -61,7 +61,7 @@ public class DatasourceApplication extends SpringBootServletInitializer {
 	 * 临时数据源，用完后被GC自动回收，默认不支持事务
 	 */
 	public static  void temporary(){
-		String url = "jdbc:mysql://localhost:23306/simple?useUnicode=true&characterEncoding=UTF8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true";
+		String url = "jdbc:mysql://localhost:13306/simple?useUnicode=true&characterEncoding=UTF8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true";
 		DruidDataSource ds = new DruidDataSource();
 		ds.setUrl(url);
 		ds.setDriverClassName("com.mysql.cj.jdbc.Driver");
@@ -73,7 +73,6 @@ public class DatasourceApplication extends SpringBootServletInitializer {
 		ds.setMaxWait(30000);
 		AnylineService service = ServiceProxy.temporary(ds);
 		//AnylineService service = (AnylineService) SpringContextUtil.getBean("anyline.service");
-
 		LinkedHashMap<String, Table> tables = service.metadata().tables();
 		//测试有没有泄漏 没有发现
 		for(String key:tables.keySet()){
