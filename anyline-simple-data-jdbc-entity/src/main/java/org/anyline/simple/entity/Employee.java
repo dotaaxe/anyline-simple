@@ -11,8 +11,8 @@ import java.util.Map;
 @Table(name="HR_EMPLOYEE")
 public class Employee extends BaseEntity{
 
+    @GeneratedValue(generator = "disable") //不在java中生成主键
     private Long id;
-
     @Column(name = "NAME", length = 10)
     private String nm;
 
@@ -77,6 +77,7 @@ public class Employee extends BaseEntity{
     @JoinTable(name = "HR_EMPLOYEE_DEPARTMENT"                          //中间关联表
             , joinColumns = @JoinColumn(name="EMPLOYEE_ID")             //关联表中与当前表关联的外键
             , inverseJoinColumns = @JoinColumn(name="DEPARTMENT_ID"))   //关联表中与当前表关联的外键
+    @GeneratedValue(generator = "timestamp")                            //HR_EMPLOYEE_DEPARTMENT表的主键生成器
     private List<Department> departments;//查部门完整信息
 
 
@@ -84,7 +85,7 @@ public class Employee extends BaseEntity{
     @JoinTable(name = "HR_EMPLOYEE_DEPARTMENT"                          //中间关联表
             , joinColumns = @JoinColumn(name="EMPLOYEE_ID")             //关联表中与当前表关联的外键
             , inverseJoinColumns = @JoinColumn(name="DEPARTMENT_ID"))   //关联表中与当前表关联的外键
-    @Transient
+    @Transient                                                          //Transient表示不保存到数据库
     private List<Long> departmentIds;//只查部门主键
 
 
