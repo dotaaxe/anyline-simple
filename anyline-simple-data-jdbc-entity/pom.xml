@@ -26,6 +26,10 @@
             <artifactId>hibernate-core</artifactId>
             <version>5.3.10.Final</version>
         </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+        </dependency>
     </dependencies>
 
 </project>
