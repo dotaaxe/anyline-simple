@@ -275,7 +275,7 @@ public class InitTest {
         set.add(row);
 
         service.insert("SIMPLE.BS_DICT", set);
-        int size = service.count("SIMPLE.BS_DICT");
+        long size = service.count("SIMPLE.BS_DICT");
         Assertions.assertEquals(set.size(), size);
 
         //部门
