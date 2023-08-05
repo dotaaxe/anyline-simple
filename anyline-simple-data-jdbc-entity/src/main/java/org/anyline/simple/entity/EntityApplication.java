@@ -42,6 +42,7 @@ public class EntityApplication {
         SpringApplication application = new SpringApplication(EntityApplication.class);
         ConfigurableApplicationContext context = application.run(args);
         service = (AnylineService)context.getBean("anyline.service");
+        test1();
         init();
         test();
         dependency();
@@ -55,6 +56,20 @@ public class EntityApplication {
         camel();
         metadata();
         System.exit(0);
+    }
+    public static void test1(){
+        Employee em = new Employee();
+        //头衔
+        List<String> titles = new ArrayList<>();
+        titles.add("先进工作者");
+        titles.add("劳动模范");
+        em.setTitles(titles);
+        em.setCtitles(titles);
+        //标签
+        String[] labels = new String[]{"好人","工作积极"};
+        em.setLabels(labels);
+        em.setClabels(labels);
+        service.insert(em);
     }
     public static void metadata(){
         ConfigTable.IS_AUTO_CHECK_METADATA = true;
