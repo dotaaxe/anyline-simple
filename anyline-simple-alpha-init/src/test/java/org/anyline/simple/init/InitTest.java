@@ -1,6 +1,6 @@
 package org.anyline.simple.init;
 
-import org.anyline.data.adapter.JDBCAdapter;
+import org.anyline.data.jdbc.adapter.JDBCAdapter;
 import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
 import org.anyline.metadata.Table;

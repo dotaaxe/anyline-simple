@@ -5,6 +5,7 @@ import com.alibaba.druid.pool.DruidDataSource;
 import org.anyline.data.jdbc.ds.DataSourceHolder;
 import org.anyline.data.jdbc.util.DataSourceUtil;
 import org.anyline.entity.DataRow;
+import org.anyline.entity.DataSet;
 import org.anyline.metadata.Column;
 import org.anyline.metadata.Table;
 import org.anyline.proxy.ServiceProxy;
@@ -31,7 +32,7 @@ import java.util.Map;
 @ComponentScan(basePackages = {"org.anyline"})
 //
 public class DatasourceApplication extends SpringBootServletInitializer {
-
+	private static AnylineService service = null;
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 
@@ -45,22 +46,34 @@ public class DatasourceApplication extends SpringBootServletInitializer {
                 有没有切换成功参考dao输出的日志[SQL:*][thread:*][ds:crm]
      *********************************************************************************************************************************************************/
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception{
 		//ConfigTable.IS_MULTIPLE_SERVICE = false;
 		SpringApplication application = new SpringApplication(DatasourceApplication.class);
 
 		ConfigTable.IS_PRINT_EXCEPTION_STACK_TRACE = true;
 		ConfigurableApplicationContext context = application.run(args);
-		AnylineService service = (AnylineService)context.getBean("anyline.service");
+		service = (AnylineService)context.getBean("anyline.service");
 		//切换数据源
 		//ds(service);
-		temporary();
+		//temporary();
+		mongo();
+	}
+	public static void mongo(){
+		DataSourceHolder.setDataSource("mg");
+		for(int i=0; i<10; i++){
+			DataRow row = new DataRow();
+			row.put("id", System.currentTimeMillis());
+			row.put("NM", "NM:"+System.currentTimeMillis());
+			service.insert("crm", row);
+		}
+		DataSet set = service.querys("crm",0,2,"ID:1");
+		System.out.println(set);
 	}
 
 	/**
 	 * 临时数据源，用完后被GC自动回收，默认不支持事务
 	 */
-	public static  void temporary(){
+	public static  void temporary() throws Exception{
 		String url = "jdbc:mysql://localhost:13306/simple?useUnicode=true&characterEncoding=UTF8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true";
 		DruidDataSource ds = new DruidDataSource();
 		ds.setUrl(url);

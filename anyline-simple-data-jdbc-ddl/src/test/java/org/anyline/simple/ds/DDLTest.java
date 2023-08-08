@@ -2,10 +2,10 @@ package org.anyline.simple.ds;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.anyline.data.adapter.DriverAdapter;
-import org.anyline.data.adapter.JDBCAdapter;
+import org.anyline.data.jdbc.adapter.JDBCAdapter;
 import org.anyline.data.jdbc.ds.DataSourceHolder;
 import org.anyline.data.jdbc.oracle.OracleAdapter;
-import org.anyline.data.jdbc.runtime.JdbcRuntimeHolder;
+import org.anyline.data.jdbc.runtime.JDBCRuntimeHolder;
 import org.anyline.data.run.Run;
 import org.anyline.data.runtime.DataRuntime;
 import org.anyline.entity.DataRow;
@@ -252,17 +252,17 @@ public class DDLTest {
         table.addColumn("CODE", "VARCHAR(10)").setDefaultValue("ABC");
         //如果确定数据库类型直接创建adapter实例
         DriverAdapter adapter = new OracleAdapter();
-        List<Run> sqls = adapter.buildCreateRunSQL(table);
+        List<Run> sqls = adapter.buildCreateRun(table);
         for(Run sql:sqls){
             System.out.println(sql.getFinalUpdate());
         }
 
         //如果在运行时有多个数据库可以通过SQLAdapterUtil辅助确定数据库类型
         //为什么需要两个参数，getAdapter调用非常频繁,解析过程中需要与数据库建立连接比较耗时，第一个参数是用于缓存，第一次成功解析数据库类型后会缓存起来，后续不再解析
-        DataRuntime runtime = JdbcRuntimeHolder.getRuntime();
+        DataRuntime runtime = JDBCRuntimeHolder.getRuntime();
         adapter = runtime.getAdapter();
 
-        sqls = adapter.buildCreateRunSQL(table);
+        sqls = adapter.buildCreateRun(table);
         for(Run sql:sqls){
             System.out.println(sql.getFinalUpdate());
         }

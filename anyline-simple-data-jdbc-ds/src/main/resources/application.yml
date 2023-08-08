@@ -7,22 +7,27 @@ spring:
     url: jdbc:mysql://localhost:13306/simple?useUnicode=true&characterEncoding=UTF8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
     user-name: root
     password: root
-    list: crm,erp,sso
+anyline:
+  datasource-list: crm,erp,sso,mg
+  datasource:
     crm:
       #type: com.alibaba.druid.pool.DruidDataSource
       driver-class-name: com.mysql.cj.jdbc.Driver
       url: jdbc:mysql://localhost:13306/simple_crm?useUnicode=true&characterEncoding=UTF8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
-      user-name: root
+      username: root
       password: root
     erp:
       driver-class-name: com.mysql.cj.jdbc.Driver
       url: jdbc:mysql://localhost:13306/simple_erp?useUnicode=true&characterEncoding=UTF8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
-      user-name: root
+      username: root
       password: root
     sso:
       driver-class-name: com.mysql.cj.jdbc.Driver
       url: jdbc:mysql://localhost:13306/simple_sso?useUnicode=true&characterEncoding=UTF8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
-      user-name: root
+      username: root
       password: root
-anyline:
+    mg:
+      url: mongodb://localhost:27017
+      database: test
+
   sql-delimiter-open: true

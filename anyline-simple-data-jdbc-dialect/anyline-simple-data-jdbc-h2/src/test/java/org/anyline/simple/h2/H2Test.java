@@ -1,7 +1,7 @@
 package org.anyline.simple.h2;
 
 import org.anyline.entity.*;
-import org.anyline.data.adapter.JDBCAdapter;
+import org.anyline.data.jdbc.adapter.JDBCAdapter;
 import org.anyline.metadata.Table;
 import org.anyline.data.param.ConfigStore;
 import org.anyline.data.param.init.DefaultConfigStore;

@@ -1,7 +1,7 @@
 package org.anyline.simple.oscar;
 
 
-import org.anyline.data.adapter.JDBCAdapter;
+import org.anyline.data.jdbc.adapter.JDBCAdapter;
 import org.anyline.metadata.Index;
 import org.anyline.metadata.Table;
 import org.anyline.service.AnylineService;

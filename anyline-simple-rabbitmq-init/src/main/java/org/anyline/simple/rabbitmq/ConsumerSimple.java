@@ -1,7 +1,7 @@
 package org.anyline.simple.rabbitmq;
 
 import com.rabbitmq.client.*;
-import org.anyline.data.adapter.JDBCAdapter;
+import org.anyline.data.jdbc.adapter.JDBCAdapter;
 import org.anyline.entity.DataRow;
 import org.anyline.metadata.Table;
 import org.anyline.service.AnylineService;

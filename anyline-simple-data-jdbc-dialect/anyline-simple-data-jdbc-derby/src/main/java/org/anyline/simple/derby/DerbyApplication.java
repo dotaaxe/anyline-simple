@@ -5,7 +5,7 @@ import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
 import org.anyline.entity.PageNavi;
 import org.anyline.entity.DefaultPageNavi;
-import org.anyline.data.adapter.JDBCAdapter;
+import org.anyline.data.jdbc.adapter.JDBCAdapter;
 import org.anyline.metadata.Table;
 import org.anyline.service.AnylineService;
 import org.anyline.util.BasicUtil;
