@@ -4,8 +4,9 @@ package org.anyline.simple;
 import com.alibaba.druid.pool.DruidDataSource;
 import org.anyline.data.jdbc.ds.DataSourceHolder;
 import org.anyline.data.jdbc.util.DataSourceUtil;
-import org.anyline.entity.DataRow;
-import org.anyline.entity.DataSet;
+import org.anyline.data.param.ConfigStore;
+import org.anyline.data.param.init.DefaultConfigStore;
+import org.anyline.entity.*;
 import org.anyline.metadata.Column;
 import org.anyline.metadata.Table;
 import org.anyline.proxy.ServiceProxy;
@@ -55,8 +56,8 @@ public class DatasourceApplication extends SpringBootServletInitializer {
 		service = (AnylineService)context.getBean("anyline.service");
 		//切换数据源
 		//ds(service);
-		//temporary();
-		mongo();
+		temporary();
+		//mongo();
 	}
 	public static void mongo(){
 		DataSourceHolder.setDataSource("mg");
@@ -74,6 +75,9 @@ public class DatasourceApplication extends SpringBootServletInitializer {
 	 * 临时数据源，用完后被GC自动回收，默认不支持事务
 	 */
 	public static  void temporary() throws Exception{
+		ConfigTable.IS_AUTO_CHECK_METADATA = true;
+		Long[] ids = {1L,2L,3L};
+		ServiceProxy.deletes("CRM_USER","id", ids);
 		String url = "jdbc:mysql://localhost:13306/simple?useUnicode=true&characterEncoding=UTF8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true";
 		DruidDataSource ds = new DruidDataSource();
 		ds.setUrl(url);
@@ -84,7 +88,16 @@ public class DatasourceApplication extends SpringBootServletInitializer {
 		ds.setBreakAfterAcquireFailure(true);
 		ds.setConnectTimeout(3000);
 		ds.setMaxWait(30000);
-		AnylineService service = ServiceProxy.temporary(ds);
+		service = ServiceProxy.temporary(ds);
+		PageNavi navi = new DefaultPageNavi( 0, 100);
+		ConfigStore configs = new DefaultConfigStore();
+		configs.setPageNavi(navi);
+		//DataSet sorts = service.querys("sys_dict_data", configs);
+		//System.out.println(sorts);
+		DataSet users = service.querys("CRM_USER", configs, "ID>1");
+		System.out.println(users);
+		long total = service.count("CRM_USER", configs, "ID>1");
+		  total = service.count("SELECT * FROM CRM_USER");
 		//AnylineService service = (AnylineService) SpringContextUtil.getBean("anyline.service");
 		LinkedHashMap<String, Table> tables = service.metadata().tables();
 		//测试有没有泄漏 没有发现
@@ -112,10 +125,19 @@ public class DatasourceApplication extends SpringBootServletInitializer {
 		dstm.commit(status);
 
 
+
+		ConfigStore condition = new DefaultConfigStore(1,20);
+		condition.and("tenant_id", 1);
+		condition.order("ID" ,"DESC").or("CODE", "ASC");
+		condition.and(Compare.GREAT_EQUAL, "id", 1);
+		DataSet set = service.querys("",  condition);
+		System.out.println(set.size());
+
+
 	}
 	//切换数据源 以及动态注册数据源
 	public static void ds(AnylineService service){
-		ConfigTable.IS_AUTO_CHECK_METADATA = true;
+		ConfigTable.IS_AUTO_CHECK_METADATA = false;
 		DataSourceHolder.setDataSource("sso");
 		DataRow row = service.query("sso_user");
 		row = new DataRow();
