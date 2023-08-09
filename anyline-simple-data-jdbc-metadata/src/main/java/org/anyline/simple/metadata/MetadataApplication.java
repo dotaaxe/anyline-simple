@@ -34,12 +34,12 @@ public class MetadataApplication extends SpringBootServletInitializer {
 		ConfigTable.IS_METADATA_AUTO_CHECK_COLUMN_PRIMARY = true;
 
 		service = (AnylineService)context.getBean("anyline.service");
-		//check(null, "MySQL");
+		check(null, "MySQL");
 		//check("hive", "Apache Hive");
 		//check("hana", "SAP HANA");
 		//check("pg", "PostgreSQL");
 		//check("ms", "SQL Server");
-		check("oracle", "Oracle 11G");
+		//check("oracle", "Oracle 11G");
 
 		//check("td", "TDengine");
 		//check("db2", "DB2"); nlolkoi
