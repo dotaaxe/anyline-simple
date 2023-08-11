@@ -99,7 +99,7 @@ public class MySQLTest {
         set = service.querys(table);
         log.warn(LogUtil.format("[query result][查询数量:{}]", 36), set.size());
         log.warn("[多行查询数据]:{}",set.toJSON());
-        Assertions.assertEquals(set.size() , 10);
+        Assertions.assertEquals(10, set.size());
 
         //只查一行
         row = service.query(table);
@@ -242,6 +242,7 @@ public class MySQLTest {
     @Test
     public void geometry() throws Exception{
         ConfigTable.IS_PRINT_EXCEPTION_STACK_TRACE = true;
+        ConfigTable.IS_AUTO_CHECK_METADATA = true;
         Table table = service.metadata().table("bs_geometry");
         if(null != table){
             service.ddl().drop(table);
