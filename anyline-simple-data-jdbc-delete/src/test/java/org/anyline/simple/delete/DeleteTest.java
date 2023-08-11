@@ -95,7 +95,7 @@ public class DeleteTest {
             //整表删除请调用service.execute("DELETE FROM HR_EMPLOYEE");
             service.deletes("HR_EMPLOYEE", "ID"); //这里少了values
         }catch (Exception e){
-            e.printStackTrace();
+            log.warn("为了避免整表删除,values必须提供否则会抛出异常:"+e.toString());
         }
         //SQL:DELETE FROM HR_EMPLOYEE WHERE ID = ?(100)
         service.deletes("HR_EMPLOYEE", "ID", "100");
@@ -113,9 +113,9 @@ public class DeleteTest {
         //根据多列条件删除
         DataRow row = new DataRow();
         row.put("ID","1");
-        row.put("NM", "ZH");
-        //SQL:DELETE FROM HR_EMPLOYEE WHERE ID = ?(1) AND NM = ?(ZH)
-        service.delete("HR_EMPLOYEE", row, "ID", "NM");
+        row.put("NAME", "ZH");
+        //SQL:DELETE FROM HR_EMPLOYEE WHERE ID = ?(1) AND NAME = ?(ZH)
+        service.delete("HR_EMPLOYEE", row, "ID", "NAME");
 
         //SQL:DELETE FROM HR_EMPLOYEE WHERE ID = ?(1) AND CODE = ?(20)
         service.delete("HR_EMPLOYEE","ID","1", "CODE:20");
