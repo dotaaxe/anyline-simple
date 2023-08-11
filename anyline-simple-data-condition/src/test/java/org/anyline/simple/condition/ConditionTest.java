@@ -20,7 +20,7 @@ public class ConditionTest {
         configs.and("ID", "1");
         configs.and("ID","2");
         configs.and("ID","3");
-        service.query("crm_user", configs);
+        service.query("CRM_USER", configs);
         //WHERE(ID = 1 AND  ID = 2 AND ID = 3)
 
         // overCondition 覆盖key相同并且运行符相同的条件,true在现有条件基础上修改(多个相同key的条件只留下第一个),false:添加新条件
@@ -29,7 +29,7 @@ public class ConditionTest {
         configs.and("ID", "1");
         configs.and("ID", "2");
         configs.and("ID","3", true, true);
-        service.query("crm_user", configs);
+        service.query("CRM_USER", configs);
         //WHERE(ID = 3)
         //因为最后一步要覆盖相同的条件,也就是相同的条件中只留下第一个，并且用3覆盖原有的值（这里留哪个没影响，因为他的值最后都会被3覆盖）
 
@@ -37,26 +37,26 @@ public class ConditionTest {
         configs.and("ID", "1");
         configs.and("ID", "2");
         configs.and("ID","3", true, false);
-        service.query("crm_user", configs);
+        service.query("CRM_USER", configs);
         //WHERE(ID = 1)
         //因为最后一步要覆盖相同的条件，也就是相同的条件中只留下第一个，但并不覆盖值，所以并没有用3覆盖1
 
 
         configs = new DefaultConfigStore();
         configs.and("ID", "1,2".split(","));
-        service.query("crm_user", configs);
+        service.query("CRM_USER", configs);
         //WHERE ID IN(1,2)
 
         configs = new DefaultConfigStore();
         configs.and("ID", "1,2".split(",")); //这里会生成like
         configs.and("ID","3", true, true); //因为运算符不一致所以不会覆盖
-        service.query("crm_user", configs);
+        service.query("CRM_USER", configs);
         //WHERE(ID IN (1,2) AND  ID = 3)
 
         configs = new DefaultConfigStore();
         configs.and("ID", "1,2".split(",")); //这里会生成like
         configs.and(Compare.IN, "ID","3", true, true); //因为KEY和运算符都一致所以会覆盖
-        service.query("crm_user", configs);
+        service.query("CRM_USER", configs);
         //WHERE(ID IN (3))
 
 
@@ -71,7 +71,7 @@ public class ConditionTest {
         configs = new DefaultConfigStore();
         configs.and("ID", "1,2".split(",")); //这里会生成like
         configs.and(Compare.IN, "ID","3", true, false);
-        service.query("crm_user", configs);
+        service.query("CRM_USER", configs);
         //WHERE(ID IN (1,2,3))
     }
     @Test
@@ -79,34 +79,34 @@ public class ConditionTest {
         ConfigStore configs = new DefaultConfigStore();
         configs.and("ID", "1");
         configs.or("ID","2").or("ID","3").or("ID","6");
-        service.query("crm_user", configs);
+        service.query("CRM_USER", configs);
         //WHERE(ID = 1 OR  ID = 2 OR  ID = 3 OR  ID = 6)
 
         configs = new DefaultConfigStore();
         configs.and("ID", "1");
         configs.or("ID","2").or("ID","3").or("ID","6", true, true);
-        service.query("crm_user", configs);
+        service.query("CRM_USER", configs);
         //WHERE(ID = 6)
         //因为最后一步要覆盖相同的条件,也就是相同的条件中只留下第一个，并且用6覆盖原有的值（这里留哪个没影响，因为他的值最后都会被6覆盖）
 
         configs = new DefaultConfigStore();
         configs.and("ID", "1");
         configs.or("ID","2").or("ID","3").or("ID","6", true, false);
-        service.query("crm_user", configs);
+        service.query("CRM_USER", configs);
         //WHERE(ID = 1)
         //因为最后一步要覆盖相同的条件，也就是相同的条件中只留下第一个，但并不覆盖值，所以并没有用6覆盖1
 
         configs = new DefaultConfigStore();
         configs.and("ID", "11,22".split(","));
         configs.or("ID","2,3".split(",")).or(Compare.IN,"ID","6", true, false);
-        service.query("crm_user", configs);
+        service.query("CRM_USER", configs);
         //WHERE(ID = IN(11,22, 6)
         //相同条件只留下第一个11，22值虽然不覆盖但因为IN可以接收多个值所以会追加成11,22,6
 
         configs = new DefaultConfigStore();
         configs.and("ID", "11,22".split(","));
         configs.or("ID","3").or(Compare.IN,"ID","6", true, false);
-        service.query("crm_user", configs);
+        service.query("CRM_USER", configs);
         //WHERE(ID = IN(11,22, 6) AND ID = 3
         //因为运算符不一致所以ID=3不会覆盖
 
@@ -115,7 +115,7 @@ public class ConditionTest {
          */
         configs = new DefaultConfigStore();
         configs.and("ID", "1").and("ID", "2").or("ID", "3").and("ID", "6");
-        service.query("crm_user", configs);
+        service.query("CRM_USER", configs);
         //WHERE ID = 1 AND (ID = 2 OR  ID = 3) AND  ID = 6
 
         /**
@@ -124,7 +124,7 @@ public class ConditionTest {
         configs = new DefaultConfigStore();
         configs.and("ID", "1");
         configs.and("ID","2").ors("ID","3");
-        service.query("crm_user", configs);
+        service.query("CRM_USER", configs);
         //WHERE((ID = 1 AND  ID = 2) OR  ID = 3)
 
         //(反例  反例 反例)
@@ -132,20 +132,20 @@ public class ConditionTest {
         configs = new DefaultConfigStore();
         configs.and("ID", "1");
         configs.ors("ID","2").ors("ID","3").ors("ID","6");
-        service.query("crm_user", configs);
+        service.query("CRM_USER", configs);
         //WHERE((((ID = 1) OR  ID = 2) OR  ID = 3) OR  ID = 6) //是不是很乱
 
         configs = new DefaultConfigStore();
         configs.and("ID", "1");
         configs.ors("ID","2").ors("ID","3").ors("ID","6", true, true);
-        service.query("crm_user", configs);
+        service.query("CRM_USER", configs);
         //WHERE(ID = 6)
         //因为最后一步要覆盖相同的条件,也就是相同的条件中只留下第一个，并且用6覆盖原有的值（这里留哪个没影响，因为他的值最后都会被6覆盖）
 
         configs = new DefaultConfigStore();
         configs.and("ID", "1");
         configs.ors("ID","2").ors("ID","3").ors("ID","6", true, false);
-        service.query("crm_user", configs);
+        service.query("CRM_USER", configs);
         //WHERE(ID = 1)
         //因为最后一步要覆盖相同的条件，也就是相同的条件中只留下第一个，但并不覆盖值，所以并没有用6覆盖1
 
@@ -162,7 +162,7 @@ public class ConditionTest {
         c1.and("ID", "1").or("ID", "2");
         c2.and("ID", "11").or("ID", "22").or("ID", "33");
         c.and(c1).and(c2);
-        service.query("crm_user", c);
+        service.query("CRM_USER", c);
         //WHERE(ID = 1 OR  ID = 2) AND (ID = 11 OR  ID = 22 OR ID = 33)
 
 
@@ -173,7 +173,7 @@ public class ConditionTest {
         c1.and("ID", "1").and("ID", "2");
         c2.and("ID", "11").and("ID", "22").and("ID","33");
         c.and(c1).or(c2);
-        service.query("crm_user", c);
+        service.query("CRM_USER", c);
         //WHERE(ID = 1 AND  ID = 2) OR (ID = 11 AND ID = 22 AND ID = 33)
     }
 }
