@@ -36,6 +36,49 @@ public class SQLTest {
      *
      ************************************************************************************************************/
     @Test
+    public void condition(){
+        ConfigStore configs = new DefaultConfigStore();
+        configs.and(Compare.GREAT, "ID", "1");
+        configs.and(Compare.LESS, "ID", "5");
+        String sql = "SELECT * FROM CRM_USER";
+        service.querys(sql, configs);
+        // SELECT * FROM CRM_USER WHERE ID > 1 AND ID < 5
+    }
+    @Test
+    public void over(){
+        String sql = "SELECT * FROM CRM_USER";
+        ConfigStore configs = new DefaultConfigStore();
+        configs.and(Compare.GREAT, "ID", "1");
+        configs.and(Compare.LESS, "ID", "5", true, true);
+        //相同列，但比较符不同所以不覆盖
+        service.querys(sql, configs);
+        // SELECT * FROM CRM_USER WHERE ID > 1 AND ID < 5
+
+        configs = new DefaultConfigStore();
+        configs.and(Compare.GREAT, "ID", "1");
+        configs.and(Compare.GREAT, "ID", "5", true, true);
+        //相同列，相同比较符的可以覆盖
+        service.querys(sql, configs);
+        // SELECT * FROM CRM_USER WHERE ID > 5
+
+
+        configs = new DefaultConfigStore();
+        configs.and(Compare.GREAT, "ID", "1");
+        configs.and(Compare.GREAT, "ID", "5", true, false);
+        //相同列，相同比较符的可以覆盖,值没有覆盖生成了数组[1,5] 但GREAT只能接收一个值
+        service.querys(sql, configs);
+        // SELECT * FROM CRM_USER WHERE ID > 1
+
+
+        configs = new DefaultConfigStore();
+        configs.and(Compare.IN, "ID", "1");
+        configs.and(Compare.IN, "ID", "5", true, false);
+        //相同列，相同比较符的可以覆盖,值没有覆盖生成了数组[1,5]  IN可以接收多个值
+        service.querys(sql, configs);
+        // SELECT * FROM CRM_USER WHERE ID IN(1,5)
+
+    }
+    @Test
     public void init() throws Exception{
         service.query("CRM_USER", "++ID:");
         service.exists("CRM_USER", "++ID:");
@@ -47,10 +90,15 @@ public class SQLTest {
         conditions.param("CODES","1,2,3".split(","));
         sql = "SELECT * FROM CRM_USER WHERE 1=1 AND CODE='in:1' AND id in (SELECT id from CRM_USER WHERE CODE in (:CODES))";
         service.query(sql, conditions);
+        //SELECT * FROM CRM_USER WHERE id in (SELECT id from CRM_USER WHERE CODE in (1,2,3)) LIMIT 0,1
+
         sql = "SELECT * FROM CRM_USER WHERE 1=1 AND id in (SELECT id from CRM_USER WHERE CODE in (${CODES}))";
         service.query(sql, conditions);
+        //SELECT * FROM CRM_USER WHERE id in (SELECT id from CRM_USER WHERE CODE in (1,2,3)) LIMIT 0,1
+
         sql = "SELECT * FROM CRM_USER WHERE 1=1 AND id in (SELECT id from CRM_USER WHERE CODE in(#{CODES}))";
         service.query(sql, conditions);
+        //SELECT * FROM CRM_USER WHERE id in (SELECT id from CRM_USER WHERE CODE in(?,?,?)) LIMIT 0,1
 
         ConfigStore configs = new DefaultConfigStore();
         configs.and(Compare.GREAT, "ID", "1");
