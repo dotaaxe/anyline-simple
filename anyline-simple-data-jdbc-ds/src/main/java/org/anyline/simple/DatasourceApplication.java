@@ -56,8 +56,30 @@ public class DatasourceApplication extends SpringBootServletInitializer {
 		service = (AnylineService)context.getBean("anyline.service");
 		//切换数据源
 		//ds(service);
-		temporary();
+		//temporary();
 		//mongo();
+		druid();
+		System.exit(0);
+	}
+	public static void druid(){
+		com.alibaba.druid.pool.DruidDataSource ds;
+		try {
+			String url = "jdbc:mysql://localhost:13306/simple_sso?useUnicode=true&characterEncoding=UTF8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true";
+			DataSourceHolder.reg("sso", "com.alibaba.druid.pool.DruidDataSource", "com.mysql.cj.jdbc.Driver", url, "root", "root");
+
+			DataSourceHolder.setDataSource("sso");
+			LinkedHashMap<String,Table> tables = service.metadata().tables(true);
+			for(String table:tables.keySet()){
+				Table t = service.metadata().table(true, table, true);
+				System.out.println(t);
+			}
+			Long[] ids = new Long[]{1L,3L};
+			//service.deletes("crm_user","id", ids);
+			ServiceProxy.deletes("crm_user","id", ids);
+			DataRow row = service.query("sso_user");
+		}catch (Exception e){
+			e.printStackTrace();
+		}
 	}
 	public static void mongo(){
 		DataSourceHolder.setDataSource("mg");
@@ -214,7 +236,6 @@ public class DatasourceApplication extends SpringBootServletInitializer {
 		}catch (Exception e){
 			e.printStackTrace();
 		}
-
 		//注意这里的sso实际已经指向了simple_crm数据库了
 		service.query("<sso>crm_customer");
 		try {
