@@ -3,10 +3,7 @@ package org.anyline.simple.metadata;
 import org.anyline.data.jdbc.ds.DataSourceHolder;
 import org.anyline.entity.DataRow;
 import org.anyline.entity.DataSet;
-import org.anyline.metadata.Column;
-import org.anyline.metadata.Index;
-import org.anyline.metadata.Table;
-import org.anyline.metadata.View;
+import org.anyline.metadata.*;
 import org.anyline.service.AnylineService;
 import org.anyline.util.ConfigTable;
 import org.slf4j.Logger;
@@ -60,7 +57,10 @@ public class MetadataApplication extends SpringBootServletInitializer {
 
 			service.execute(sql);
 		}
-		//view();
+		DataSet set = service.querys("show DATABASES like 'simple'");
+		LinkedHashMap<String, Database> dbs = service.metadata().databases();
+		Database db  = service.metadata().database("hive");
+		view();
 		table();
 		tables();
 		column();
@@ -203,7 +203,7 @@ public class MetadataApplication extends SpringBootServletInitializer {
 			service.ddl().drop(view);
 		}
 		view = new View("v_hr_department");
-		view.setDefinition("SELECT * FROM hr_department");
+		view.setDefinition("SELECT * FROM HR_DEPARTMENT");
 		view.setComment("视图备注");
 		service.ddl().create(view);
 		Map<String,View> views = service.metadata().views();
