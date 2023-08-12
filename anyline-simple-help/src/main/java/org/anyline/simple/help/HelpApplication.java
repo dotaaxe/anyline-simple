@@ -20,10 +20,7 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -48,7 +45,7 @@ public class HelpApplication {
 		service = (AnylineService)context.getBean("anyline.service");
 		jdbc = context.getBean(JdbcTemplate.class);
 
-		json();
+		//json();
 		//td();
 		//tdtags();
 		//convert();
@@ -59,6 +56,17 @@ public class HelpApplication {
 		/*for(int i=0; i<100; i++){
 			memory();
 		}*/
+		placeholder();
+	}
+	public static void placeholder() throws Exception{
+		String sql = "SELECT ? FROM HR_EMPLOYEE ";
+		Connection con = jdbc.getDataSource().getConnection();
+		PreparedStatement pstmt = con.prepareStatement(sql);
+ 		pstmt.setString (0,"ID"); //ID 当成了值，没有当成列处理
+		ResultSet result = pstmt.executeQuery();
+		while (result.next()){
+			System.out.println(result.getString(1));
+		}
 	}
 	public static void json(){
 		ConfigTable.IS_AUTO_CHECK_METADATA = true;
