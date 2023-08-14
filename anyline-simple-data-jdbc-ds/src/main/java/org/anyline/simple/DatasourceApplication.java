@@ -6,7 +6,11 @@ import org.anyline.data.jdbc.ds.DataSourceHolder;
 import org.anyline.data.jdbc.util.DataSourceUtil;
 import org.anyline.data.param.ConfigStore;
 import org.anyline.data.param.init.DefaultConfigStore;
-import org.anyline.entity.*;
+import org.anyline.data.runtime.RuntimeHolder;
+import org.anyline.entity.DataRow;
+import org.anyline.entity.DataSet;
+import org.anyline.entity.DefaultPageNavi;
+import org.anyline.entity.PageNavi;
 import org.anyline.metadata.Column;
 import org.anyline.metadata.Table;
 import org.anyline.proxy.ServiceProxy;
@@ -18,10 +22,6 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.transaction.TransactionDefinition;
-import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import javax.sql.DataSource;
 import java.time.LocalTime;
@@ -56,10 +56,39 @@ public class DatasourceApplication extends SpringBootServletInitializer {
 		service = (AnylineService)context.getBean("anyline.service");
 		//切换数据源
 		//ds(service);
+
+		while (true) {
+			temporary();
+		}
 		//temporary();
 		//mongo();
-		druid();
-		System.exit(0);
+		//druid();
+/*
+		while (true) {
+			test();
+		}*/
+	}
+	public static void test() throws Exception{
+		try{
+			String url = "jdbc:mysql://localhost:13306/simple?useUnicode=true&characterEncoding=UTF8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true";
+			DataSource temporaryDatasource = DataSourceUtil.build("com.zaxxer.hikari.HikariDataSource",
+					"com.mysql.cj.jdbc.Driver", url,"root","root");
+			DataSourceHolder.reg("temp", temporaryDatasource);
+
+			url = "jdbc:mysql://localhost:13306/simple?useUnicode=true&characterEncoding=UTF8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true";
+			DataSourceHolder.reg("temp", "com.alibaba.druid.pool.DruidDataSource", "com.mysql.cj.jdbc.Driver", url, "root", "root");
+
+			AnylineService service = ServiceProxy.service("temp");
+			service.metadata().tables();
+
+		}catch (Exception e){
+			e.printStackTrace();
+		}finally {
+
+			RuntimeHolder.destroy("temp");
+
+		}
+
 	}
 	public static void druid(){
 		com.alibaba.druid.pool.DruidDataSource ds;
@@ -98,8 +127,6 @@ public class DatasourceApplication extends SpringBootServletInitializer {
 	 */
 	public static  void temporary() throws Exception{
 		ConfigTable.IS_AUTO_CHECK_METADATA = true;
-		Long[] ids = {1L,2L,3L};
-		ServiceProxy.deletes("CRM_USER","id", ids);
 		String url = "jdbc:mysql://localhost:13306/simple?useUnicode=true&characterEncoding=UTF8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true";
 		DruidDataSource ds = new DruidDataSource();
 		ds.setUrl(url);
@@ -123,9 +150,9 @@ public class DatasourceApplication extends SpringBootServletInitializer {
 		//AnylineService service = (AnylineService) SpringContextUtil.getBean("anyline.service");
 		LinkedHashMap<String, Table> tables = service.metadata().tables();
 		//测试有没有泄漏 没有发现
-		for(String key:tables.keySet()){
+		/*for(String key:tables.keySet()){
 			System.out.println(key);
-			for(int i=0; i<100;i++){
+			for(int i=0; i<10;i++){
 				service.query(key);
 			}
 			service.metadata().table(key);
@@ -153,7 +180,7 @@ public class DatasourceApplication extends SpringBootServletInitializer {
 		condition.order("ID" ,"DESC").or("CODE", "ASC");
 		condition.and(Compare.GREAT_EQUAL, "id", 1);
 		DataSet set = service.querys("",  condition);
-		System.out.println(set.size());
+		System.out.println(set.size());*/
 
 
 	}

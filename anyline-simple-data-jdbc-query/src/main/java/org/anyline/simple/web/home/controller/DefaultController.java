@@ -166,4 +166,10 @@ public class DefaultController extends BasicController {
         DataSet set = service.querys("HR_EMPLOYEE", condition("[CODE]:split(code)"));
         return success(set);
     }
+    @RequestMapping("k")
+    @ResponseBody
+    public String key() {
+        DataSet set = service.querys("HR_EMPLOYEE", condition("${col}:code"));
+        return success(set);
+    }
 }
